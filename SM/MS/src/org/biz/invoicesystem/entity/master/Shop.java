@@ -13,5 +13,7 @@ import org.biz.invoicesystem.entity.BusObj;
  */
 @Entity
 public class Shop extends BusObj{
-    
+    public static void main(String[] args) {
+        System.out.println("hop "+Shop.class);
+    }
 }

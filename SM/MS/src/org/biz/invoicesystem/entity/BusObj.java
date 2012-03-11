@@ -17,8 +17,20 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class BusObj implements Serializable{
+
+    public BusObj() {
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     
 }
