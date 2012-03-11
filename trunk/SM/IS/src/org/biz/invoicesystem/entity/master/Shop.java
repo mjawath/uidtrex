@@ -13,5 +13,9 @@ import org.biz.invoicesystem.entity.BusObj;
  */
 @Entity
 public class Shop extends BusObj{
+
+    public Shop() {
+    super();
+    }
     
 }
