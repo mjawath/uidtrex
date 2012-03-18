@@ -10,16 +10,24 @@
  */
 package invoicingsystem;
 
+import com.components.custom.ActionTask;
+import com.components.custom.CInputVerifier;
+import app.utils.MathUtil;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
+import org.components.util.ComponentFactory;
 
 /**
  *
@@ -55,21 +63,37 @@ public class SalesLineItemPanel extends LineItemPanel {
 
         }
 
-        tunit.addKeyListener(new KeyAdapter() {
-
-            @Override
+        tprice.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
                     action();
                     titemcode.requestFocus();
 //                rowToEty();
                     e.consume();
                 }
-
             }
         });
         
+//        titemcode.addActionListener(new ActionTask(tdescription));
+//        tdescription.addActionListener(new ActionTask(tdescription));
+        //order of tabbing
+        
+//        Object [][] xx=new Object[][]{{titemcode,new ActionTask()},{tdescription},{tqty}};
+        
+//        titemcode.addKeyListener(new KeyAdapter() {
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                super.keyPressed(e);
+//            }
+//        
+//        });        
+        titemcode.addFocusListener(new FocusAdapter() {
+
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+            }        
+        });
         }
     /** Creates new form LineItemPanel */
     public SalesLineItemPanel() {
@@ -111,6 +135,35 @@ public class SalesLineItemPanel extends LineItemPanel {
 
             }
         });
+        
+//               Object[][] xx = {{titemcode, tblInvoice}, {tsalesman, ttax}, {ttax, tsubtotal}
+//        };
+//        ComponentFactory.addKeyAction(xx);
+        titemcode.addKeyListener(new KeyAdapter() {            
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+            }        
+        });
+        titemcode.setInputVerifier(new CInputVerifier(tdescription));
+        tdescription.setInputVerifier(new CInputVerifier(tqty));
+        tqty.setInputVerifier(new CInputVerifier(tprice));
+        
+        
+        
+    }
+    
+    public void lineItemLogic(){
+        SalesInvoiceLineItem sl=panelToEty();
+        if(sl.getItem()!=null){
+            if(tunit.hasFocus()){
+                sl.getSalesPrice();                
+            }            
+            sl.setLineAmount(MathUtil.multiply(sl.getQty(), sl.getPrice()));           
+            
+        }
+    
+        
+        
     }
 
     public void moveNextFocus() {
@@ -119,7 +172,7 @@ public class SalesLineItemPanel extends LineItemPanel {
             int id = al.indexOf(com);
             if (id > - 1 && id < al.size() - 1) {
                 Component comp = (Component) al.get(++id);
-                comp.requestFocus();
+//                comp.requestFocus();
             }
         }
     }
@@ -215,6 +268,7 @@ public class SalesLineItemPanel extends LineItemPanel {
     
     }
 
+    
     public void action() {
         
     }

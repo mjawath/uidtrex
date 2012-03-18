@@ -30,16 +30,16 @@ public class SalesInvoice extends BusObj implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @ManyToOne
-     private Customer customer;
+    private Customer customer;
     @ManyToOne
-     private Staff staff;
+    private Staff staff;
     @JoinColumn(name = "sales_invoice_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-     private List<SalesInvoiceLineItem> lineItems;
+    private List<SalesInvoiceLineItem> lineItems;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-     private Date docdate;
+    private Date docdate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-     private Date saveddate;
+    private Date saveddate;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     Date editeddate;
     @OneToOne
@@ -51,6 +51,15 @@ public class SalesInvoice extends BusObj implements Serializable {
     private String invNo;
     private String Remarks;
     private String notes;
+    private Double total ;
+    private Double subTotal ;
+    private Double discount ;
+    private Double discountPer ;
+    private Double texPer ;
+    private Double texAmount ;
+    private Double cashRecieveds ;
+    
+    
     
 
     public Customer getCustomer() {
@@ -156,6 +165,62 @@ public class SalesInvoice extends BusObj implements Serializable {
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
     }
+
+    public Double getCashRecieveds() {
+        return cashRecieveds;
+    }
+
+    public void setCashRecieveds(Double cashRecieveds) {
+        this.cashRecieveds = cashRecieveds;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Double getDiscountPer() {
+        return discountPer;
+    }
+
+    public void setDiscountPer(Double discountPer) {
+        this.discountPer = discountPer;
+    }
+
+    public Double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(Double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public Double getTexAmount() {
+        return texAmount;
+    }
+
+    public void setTexAmount(Double texAmount) {
+        this.texAmount = texAmount;
+    }
+
+    public Double getTexPer() {
+        return texPer;
+    }
+
+    public void setTexPer(Double texPer) {
+        this.texPer = texPer;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
     
 
     static public SalesInvoice createNewInvoice() {
@@ -163,4 +228,5 @@ public class SalesInvoice extends BusObj implements Serializable {
         sl.setLineItems(new ArrayList<SalesInvoiceLineItem>());
         return sl;
     }
+    
 }

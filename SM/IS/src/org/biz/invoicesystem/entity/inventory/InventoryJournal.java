@@ -29,6 +29,7 @@ public class InventoryJournal  extends BusObj implements Serializable {
    
     private String code;
     private String documentType;//invoice //transferorder//begbalance//adjestments
+    private String documentClass;//classs type of document
     private String refCode;//reference document ids
     @JoinColumn(name = "inv_id")    
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true)
@@ -65,6 +66,46 @@ public class InventoryJournal  extends BusObj implements Serializable {
 
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
+    }
+
+    public String getDocRefNo() {
+        return docRefNo;
+    }
+
+    public void setDocRefNo(String docRefNo) {
+        this.docRefNo = docRefNo;
+    }
+
+    public String getDocType() {
+        return docType;
+    }
+
+    public void setDocType(String docType) {
+        this.docType = docType;
+    }
+
+    public String getDocumentClass() {
+        return documentClass;
+    }
+
+    public void setDocumentClass(String documentClass) {
+        this.documentClass = documentClass;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
  
 
@@ -143,6 +184,8 @@ public class InventoryJournal  extends BusObj implements Serializable {
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {
