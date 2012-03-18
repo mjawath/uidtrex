@@ -5,7 +5,6 @@
 package org.biz.invoicesystem.entity.master;
 
 import javax.persistence.Entity;
-import org.biz.dao.service.GenericDAO;
 import org.biz.invoicesystem.entity.BusObj;
 
 /**
@@ -16,5 +15,11 @@ import org.biz.invoicesystem.entity.BusObj;
 public class Shop extends BusObj{
     public static void main(String[] args) {
         
+    }
+    
+    public static Shop getDefaultShop(){
+    Shop s= new Shop();
+    s.setId("1");            
+    return s;
     }
 }
