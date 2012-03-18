@@ -117,6 +117,19 @@ public class SalesInvoiceLineItem extends BusObj implements Serializable  {
         this.itemMark = itemMark;
     }
 
+    public Double getSalesPrice() {
+        if(unit!=null){
+        if(unit.equals(item.getUnitOne()))
+        setPrice(item.getUnit1SalesPrice());
+        
+        if(unit.equals(item.getUnitTwo()))
+        setPrice(item.getUnit2SalesPrice());
+        
+        }
+        
+        return price;
+    }
+
     
     
 }

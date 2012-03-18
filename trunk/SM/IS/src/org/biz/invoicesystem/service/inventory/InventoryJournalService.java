@@ -5,8 +5,13 @@
 
 package org.biz.invoicesystem.service.inventory;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.biz.dao.service.Service;
 import org.biz.invoicesystem.dao.inventory.InventoryJournalDAO;
+import org.biz.invoicesystem.entity.inventory.InventoryJournal;
+import org.biz.invoicesystem.entity.inventory.InventoryJournalLine;
+import org.biz.invoicesystem.entity.inventory.StockModel;
 
 /**
  *
@@ -14,6 +19,7 @@ import org.biz.invoicesystem.dao.inventory.InventoryJournalDAO;
  */
 public class InventoryJournalService extends Service {
     InventoryJournalDAO dao;
+    List<InventoryJournal>  ijs;
 
     public InventoryJournalService() {
         dao = new InventoryJournalDAO();
@@ -23,5 +29,21 @@ public class InventoryJournalService extends Service {
     public InventoryJournalDAO getDao() {
         return dao;
     }
+    
+    public  List<StockModel> getStockModel(){
+        //here can we optimise query and get InventoryJournalLine with join InventoryJournal?? 
+        ijs=dao.getAll();
+        
+        List<StockModel> stockModels=new ArrayList<StockModel>();
+        
+        for (InventoryJournal inventoryJournal : ijs) {
+            for (InventoryJournalLine jl : inventoryJournal.getLines()) {//
+                
+            }
+        }
+    
+        return null;
+    }
+    
 
 }

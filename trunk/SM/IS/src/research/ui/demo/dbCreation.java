@@ -10,6 +10,7 @@ import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
 
@@ -20,11 +21,10 @@ import org.biz.invoicesystem.entity.master.Supplier;
 public class dbCreation {
     
     public static void main(String[] args) {
-      Customer c=new Customer();
-      c.setId("xsd");
-      Item it=new Item();
-      it.setId("u");
-      new GenericDAO().save(c,it);
+      System.out.println("hop "+Shop.class);
+        Shop s=new Shop();
+        s.setId("fdf5");
+        new GenericDAO().save(s);
         
     }
     public void createmster(){
