@@ -13,6 +13,10 @@ import javax.swing.JComponent;
  *
  * @author nnjj
  */
+/*
+ * A custom Action task which will execute some actions before 
+ * pass the focus to next component
+ */
 public class ActionTask extends AbstractAction{
     
     
@@ -43,7 +47,7 @@ public class ActionTask extends AbstractAction{
         return;
         };
         System.out.println("sdfasfasfas");
-        //goto next focus
+        
         if(nextToFocus!=null){
         nextToFocus.requestFocus();
         }
