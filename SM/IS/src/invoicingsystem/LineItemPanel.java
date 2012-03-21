@@ -143,7 +143,6 @@ public class LineItemPanel extends javax.swing.JDialog {
 
                 if (!e.getValueIsAdjusting()) {
                     showLineItemPanel();
-                    System.out.println("selection changed");
                 }
             }
         });
@@ -164,7 +163,6 @@ public class LineItemPanel extends javax.swing.JDialog {
             @Override
             public void windowLostFocus(WindowEvent e) {
                         LineItemPanel.this.setVisible(false);
-                        System.out.println("window foucs lost changed");
             }
        
        });
