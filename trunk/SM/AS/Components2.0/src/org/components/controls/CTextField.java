@@ -11,10 +11,13 @@
 package org.components.controls;
 
 import com.components.custom.ActionTask;
+import com.components.custom.CInputVerifier;
+import com.components.custom.IContainer;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.InputVerifier;
 import javax.swing.SwingUtilities;
 import org.components.parent.controls.PTextField;
 
@@ -24,6 +27,7 @@ import org.components.parent.controls.PTextField;
  */
 public class CTextField extends PTextField {
 
+    IContainer container;
     @Override
     protected void processFocusEvent(FocusEvent e) {
         super.processFocusEvent(e);
@@ -67,11 +71,16 @@ public class CTextField extends PTextField {
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                    
+                    if(container !=null){
+                    container.callBackAction();
+                    }
                     postActionEvent();
+                    // just change the focus 
                 }
             }        
-        });               
+        }); 
+        
+//        setInputVerifier(new CInputVerifier());
     }
     
 
@@ -94,6 +103,11 @@ public class CTextField extends PTextField {
 //            return;
 //        }
         super.processKeyEvent(e);        
+    }
+    
+    public void setInputVerifier(CInputVerifier inputVerifier) {
+//        addActionListener(inputVerifier);
+        super.setInputVerifier(inputVerifier);
     }
     
     

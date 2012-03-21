@@ -14,13 +14,20 @@ import javax.swing.JComponent;
  * @author nnjj
  */
 public class CInputVerifier extends javax.swing.InputVerifier implements ActionListener{
- Component nextToFocus;
+ 
+    Component nextToFocus;
 
     public CInputVerifier(Component nextToFocus) {
         this.nextToFocus = nextToFocus;
     }
+
+ 
+ 
+    public CInputVerifier() {
+    }
  
     public boolean validate(){
+        
     return true;
     }
     public boolean action(){
@@ -30,21 +37,29 @@ public class CInputVerifier extends javax.swing.InputVerifier implements ActionL
              
         if(! validate()){
         return false;
-        };
+        }
         
         if(! action()){
         return false;
-        };
-        //goto next focus
-        if(nextToFocus!=null){
-        nextToFocus.requestFocus();
         }
+        //goto next focus
+//        if(nextToFocus!=null){
+//        nextToFocus.requestFocus();
+//        }
         return true;
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
-     action();
+      if(nextToFocus!=null){
+        nextToFocus.requestFocus();
+        }
     }
+
+        public void actionPerformed() {
+            if(nextToFocus!=null){
+        nextToFocus.requestFocus();
+        }
+    }
+
     
 }
