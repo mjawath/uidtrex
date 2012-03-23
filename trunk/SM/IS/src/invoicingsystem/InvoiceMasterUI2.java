@@ -8,6 +8,7 @@ package invoicingsystem;
 
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -400,7 +401,28 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 }
             }
         });
+       jTextField1.addActionListener(new ActionListener() {
+
+           
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("action   per");
+            }
+        });
+        jTextField1.addActionListener(new ActionListener() {
+
+           
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("action   per2222222");
+            }
+        });
+       jTextField1.addKeyListener(new KeyAdapter() {
+
+           
+            public void keyPressed(KeyEvent e) {
+                System.out.println("key action ");
+            }
        
+       });
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
@@ -555,6 +577,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tremark = new org.components.controls.CTextArea();
         cLabel1 = new org.components.controls.CLabel();
         cComboBox1 = new org.components.controls.CComboBox();
+        jTextField1 = new javax.swing.JTextField();
 
         setLayout(null);
 
@@ -821,6 +844,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "sss", "sfsf", "sfsf", "werghwer", "eheh", "123" }));
         add(cComboBox1);
         cComboBox1.setBounds(470, 130, 120, 23);
+
+        jTextField1.setText("jTextField1");
+        add(jTextField1);
+        jTextField1.setBounds(270, 140, 90, 20);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
@@ -919,6 +946,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextField1;
     private org.components.controls.TableEditable tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
     private org.components.controls.CTextField tcus;

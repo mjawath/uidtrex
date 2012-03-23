@@ -133,10 +133,19 @@ public class SalesLineItemPanel extends LineItemPanel {
 //               Object[][] xx = {{titemcode, tblInvoice}, {tsalesman, ttax}, {ttax, tsubtotal}
 //        };
 //        ComponentFactory.addKeyAction(xx);
+        titemcode.addaction(4, new ActionTask(){
+
+                    @Override
+                    public boolean action() {
+                        System.out.println("ddddddddddffffddddddddddd");
+                    return true;
+                    }
+                
+                } );
         titemcode.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
+               
             }
         });
 
