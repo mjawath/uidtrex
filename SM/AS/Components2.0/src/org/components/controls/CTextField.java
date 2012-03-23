@@ -13,11 +13,11 @@ package org.components.controls;
 import com.components.custom.ActionTask;
 import com.components.custom.CInputVerifier;
 import com.components.custom.IContainer;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.InputVerifier;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.SwingUtilities;
 import org.components.parent.controls.PTextField;
 
@@ -28,6 +28,8 @@ import org.components.parent.controls.PTextField;
 public class CTextField extends PTextField {
 
     IContainer container;
+    List actions;
+    
     @Override
     protected void processFocusEvent(FocusEvent e) {
         super.processFocusEvent(e);
@@ -68,11 +70,13 @@ public class CTextField extends PTextField {
     /** Creates new form BeanForm */
     public CTextField() {
         initComponents();
+        actions =new ArrayList();
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_ENTER){
                     if(container !=null){
-                    container.callBackAction();
+                    
+                        container.callBackAction();
                     }
                     postActionEvent();
                     // just change the focus 
@@ -83,6 +87,9 @@ public class CTextField extends PTextField {
 //        setInputVerifier(new CInputVerifier());
     }
     
+    public void  addaction(int idx,ActionTask action){
+    actions.add(idx, action);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
