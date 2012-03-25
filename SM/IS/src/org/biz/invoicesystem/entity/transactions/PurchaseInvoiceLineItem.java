@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.Warehouse;
 
 /**
  *
@@ -25,6 +27,19 @@ public class PurchaseInvoiceLineItem implements Serializable  {
     private String unit;
     private Double price;
     private Double lineAmount;
+    @OneToOne
+    Warehouse warehouse;
+    @OneToOne
+    Shop shop;
+    private String itemMark;
+
+    public String getItemMark() {
+        return itemMark;
+    }
+
+    public void setItemMark(String itemMark) {
+        this.itemMark = itemMark;
+    }
 
     public Double getQty() {
         return qty;
@@ -63,6 +78,22 @@ public class PurchaseInvoiceLineItem implements Serializable  {
 
     public Double getLineAmount() {
         return lineAmount;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 
     public void setLineAmount(Double lineAmount) {
