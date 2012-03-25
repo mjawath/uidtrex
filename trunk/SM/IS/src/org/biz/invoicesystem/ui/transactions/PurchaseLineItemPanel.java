@@ -8,11 +8,11 @@
  *
  * Created on Feb 23, 2012, 10:21:43 PM
  */
-package invoicingsystem;
+package org.biz.invoicesystem.ui.transactions;
 
-import com.components.custom.CInputVerifier;
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
+import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JComboBox;
@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
-import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.controls.CTextField;
 
 /**

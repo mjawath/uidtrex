@@ -11,8 +11,6 @@
 package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.PagedPopUpPanel;
-import invoicingsystem.InvoiceMasterUI2;
-import invoicingsystem.PurchaseLineItemPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -48,7 +46,6 @@ public class PurchaseMasterUi extends TabPanelUI {
     List<PurchaseInvoiceLineItem> lineItems;
     PurchaseInvoiceService purService;
     List<Supplier> supplierlst;
-    List<Item> itemlst;
     PagedPopUpPanel popUpComponent;
     SupplierService supplierService;
     ItemService itemService;
@@ -75,7 +72,8 @@ public class PurchaseMasterUi extends TabPanelUI {
         purService = new PurchaseInvoiceService();
 
         supplierlst = new ArrayList<Supplier>();
-        itemlst = new ArrayList<Item>();
+        listItem = new ArrayList<Item>();
+           listItem = itemService.getDao().getAll();
 
         invoice = new PurchaseInvoice();
         lineItems = new ArrayList<PurchaseInvoiceLineItem>();
@@ -116,8 +114,6 @@ public class PurchaseMasterUi extends TabPanelUI {
             }
         };
 
-
-
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
@@ -137,9 +133,6 @@ public class PurchaseMasterUi extends TabPanelUI {
             }
         }, KeyEvent.VK_DELETE);
 
-
-
-
         setnewrow();
 
         initPopups();
@@ -147,18 +140,13 @@ public class PurchaseMasterUi extends TabPanelUI {
 
     public void initPopups() {
         JFrame jf = (JFrame) Sessions.getObj("mainui");
+        
         lineItemPanel = new PurchaseLineItemPanel(jf) {
 
             @Override
             public PurchaseInvoiceLineItem panelToEty() {
                 PurchaseInvoiceLineItem sl = super.panelToEty();
-                //validated line
-                //update table row
-                //add to list
                 addsales(sl);
-                //replace selected row
-                //                addToTable(lineItems);
-
                 return sl;
             }
 
@@ -198,7 +186,6 @@ public class PurchaseMasterUi extends TabPanelUI {
 
             public void search(String qry) {
                 try {
-
                     itemSelectionPopup.setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -221,7 +208,7 @@ public class PurchaseMasterUi extends TabPanelUI {
                 PurchaseInvoiceLineItem lineItem = lineItemPanel.panelToEty();
                 lineItem.setItem(item);
                 addsales(lineItem);
-                lineItemPanel.lineItemLogic();
+//                lineItemPanel.lineItemLogic();
             }
 
             public Object[] data(Object item) {

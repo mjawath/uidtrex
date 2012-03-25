@@ -4,14 +4,11 @@
  *
  * Created on Dec 2, 2011, 10:27:21 AM
  */
-package invoicingsystem;
+package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
