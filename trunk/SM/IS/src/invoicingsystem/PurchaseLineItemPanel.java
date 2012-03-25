@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.controls.CTextField;
 
@@ -27,12 +28,12 @@ import org.components.controls.CTextField;
  *
  * @author nnjj
  */
-public class SalesLineItemPanel extends LineItemPanel {
+public class PurchaseLineItemPanel extends LineItemPanel {
 
     
-    SalesInvoiceLineItem salesline;
+    public PurchaseInvoiceLineItem salesline;
 
-    public SalesLineItemPanel(JFrame jf) {
+    public PurchaseLineItemPanel(JFrame jf) {
         super(jf);
         initComponents();
 
@@ -130,7 +131,7 @@ public class SalesLineItemPanel extends LineItemPanel {
     }
 
     /** Creates new form LineItemPanel */
-    public SalesLineItemPanel() {
+    public PurchaseLineItemPanel() {
         super();
         initComponents();
 
@@ -180,7 +181,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         salesline= panelToEty();
         if (salesline.getItem() != null) {
             if (tunit.hasFocus()) {
-                salesline.getSalesPrice();
+//                salesline.getSalesPrice();
             }
             salesline.setLineAmount(MathUtil.multiply(salesline.getQty(), salesline.getPrice()));
         }
@@ -254,7 +255,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         return tunit;
     }
 
-    public SalesInvoiceLineItem panelToEty() {
+    public PurchaseInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
@@ -268,7 +269,7 @@ public class SalesLineItemPanel extends LineItemPanel {
 
     public void getLineItem() {
 
-        salesline = (SalesInvoiceLineItem) lineitem;
+        salesline = (PurchaseInvoiceLineItem) lineitem;
 
     }
 
