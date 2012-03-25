@@ -10,8 +10,9 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
-import com.components.custom.DropDownPopUpPanel;
 import com.components.custom.PagedPopUpPanel;
+import invoicingsystem.InvoiceMasterUI2;
+import invoicingsystem.PurchaseLineItemPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
@@ -27,15 +30,12 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoice;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
+import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.SupplierService;
 import org.biz.invoicesystem.service.transactions.PurchaseInvoiceService;
 import org.components.parent.controls.editors.ComboBoxCellEditor;
-import org.components.parent.controls.editors.DoubleCellEditor;
-import org.components.parent.controls.editors.StringCellEditor;
-import org.components.parent.controls.editors.TableColumnAction;
-import org.components.parent.controls.editors.TablePopUpCellEditor;
-import org.components.parent.controls.editors.TableActions;
+import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -55,6 +55,9 @@ public class PurchaseMasterUi extends TabPanelUI {
     PagedPopUpPanel suplierPopUpPanel;
     PurchaseInvoiceLineItem seil;
     ComboBoxCellEditor ce;
+    PurchaseLineItemPanel lineItemPanel;
+    PagedPopUpPanel itemSelectionPopup;
+    List<Item> listItem;
 
     /** Creates new form InvoiceMasterUi */
     public PurchaseMasterUi() {
@@ -64,6 +67,8 @@ public class PurchaseMasterUi extends TabPanelUI {
 
     @Override
     public void init() {
+
+
 
         supplierService = new SupplierService();
         itemService = new ItemService();
@@ -111,8 +116,8 @@ public class PurchaseMasterUi extends TabPanelUI {
             }
         };
 
-        ce=new ComboBoxCellEditor(tblInvoice);
-        
+
+
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
@@ -125,153 +130,129 @@ public class PurchaseMasterUi extends TabPanelUI {
                 TableUtil.removerow(tblInvoice, sr);
                 for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
                     PurchaseInvoiceLineItem salesInvoiceLineItem = it.next();
-                    if (id.equals( salesInvoiceLineItem.getId())) {
+                    if (id.equals(salesInvoiceLineItem.getId())) {
                         it.remove();
                     }
                 }
             }
         }, KeyEvent.VK_DELETE);
 
-        TablePopUpCellEditor tb = new TablePopUpCellEditor(tblInvoice);
 
-        popUpComponent = new PagedPopUpPanel(tblInvoice, tb) {
+
+
+        setnewrow();
+
+        initPopups();
+    }
+
+    public void initPopups() {
+        JFrame jf = (JFrame) Sessions.getObj("mainui");
+        lineItemPanel = new PurchaseLineItemPanel(jf) {
 
             @Override
+            public PurchaseInvoiceLineItem panelToEty() {
+                PurchaseInvoiceLineItem sl = super.panelToEty();
+                //validated line
+                //update table row
+                //add to list
+                addsales(sl);
+                //replace selected row
+                //                addToTable(lineItems);
+
+                return sl;
+            }
+
+            public void selectEty() {
+                PurchaseInvoiceLineItem sl = PurchaseMasterUi.this.getSelectedLine();
+                if (sl == null) {
+                    return;
+                }
+                salesline = sl;
+//                loadUnit(sl.getItem());
+                itemSelectionPopup.setPopDesable(true);
+                etyToPanel();
+                itemSelectionPopup.setPopDesable(false);
+
+            }
+
+            @Override
+            public void action() {
+                PurchaseInvoiceLineItem sl = super.panelToEty();
+                Object id = sl.getId();
+                if (id == null) {
+                    sl.setId(System.currentTimeMillis() + "tt");
+                }
+                etyToRow(sl);
+
+                if (id == null) {
+                    setnewrow();
+
+                }
+
+            }
+        };
+        lineItemPanel.setTable(tblInvoice);
+        lineItemPanel.setcTextField1(lineItemPanel.getItemFiled());
+
+        itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
+
             public void search(String qry) {
                 try {
 
-                    itemlst=itemService.getDao().byCode(qry);
-                    popUpComponent.setList(itemlst);
+                    itemSelectionPopup.setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            
-            
-            @Override
             public void action() {
-
-                String ob = popUpComponent.getSelectedID();
+                super.action();
+                String ob = itemSelectionPopup.getSelectedID();
                 Item item = null;
                 //find Item
-                for (Item it : itemlst) {
+                for (Item it : listItem) {
                     if (ob.equals(it.getId())) {
-                        popUpComponent.setSelectedObject(it);
+                        itemSelectionPopup.setSelectedObject(it);
                         item = it;
                         break;
                     }
                 }
-                int sr = tblInvoice.getSelectedRow();
-                PurchaseInvoiceLineItem lineItem = rowToEty();
-                //if current row valid 
+//                loadUnit(item);
+                PurchaseInvoiceLineItem lineItem = lineItemPanel.panelToEty();
                 lineItem.setItem(item);
-                loadUnit(item);
-                lineItem.setDescription(item.getDescription()) ;
-                //set row values
-                tblInvoice.setValueAt(item.getDescription(), sr, 2) ;
-                
-                //replace row
-                addRowToLst(lineItem);
-                
-
+                addsales(lineItem);
+                lineItemPanel.lineItemLogic();
             }
 
-            @Override
             public Object[] data(Object item) {
                 Item it = (Item) item;
                 return new Object[]{it.getId(), it.getCode(), it.getDescription()};
             }
-        };        
-        
-      
-           popUpComponent.setModel();
-
-        
-
-        TableUtil.setColumnEditor(tblInvoice, 1, tb);
-        
-        TableUtil.setColumnEditor(tblInvoice, 2, new StringCellEditor(tblInvoice) {
-
-            @Override
-            public boolean isCellValid() {
-                return super.isCellValid();
-            }
-        
-        });        
-        TableUtil.setColumnEditor(tblInvoice, 3, new DoubleCellEditor(tblInvoice));
-        
-        
-        JComboBox jc= new JComboBox(new Object[]{150,250,302});
-        jc.setEditable(true);
-        TablePopUpCellEditor tp=new TablePopUpCellEditor(tblInvoice);
-        DropDownPopUpPanel pp=new DropDownPopUpPanel(tblInvoice, tp) {
-
-            
-            
-            @Override
-            public void action() {
-                super.action();
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                
-                return new Object[]{item};
-            }
-            
-        
         };
-        ArrayList al=new ArrayList(3);
-        al.add(1500);
-        al.add(1300);
-        al.add(6553);
-        
-       pp.setList(al);
-        TableUtil.setColumnEditor(tblInvoice, 4,tp);
-        
-        TableUtil.setColumnEditor(tblInvoice, 5, new DoubleCellEditor(tblInvoice));
-        
-        TableUtil.setColumnEditor(tblInvoice, 6, new DoubleCellEditor(tblInvoice));
-        
-        setnewrow();
 
+    }
 
-        TableActions taacti = new TableActions() {
+    private void etyToRow(PurchaseInvoiceLineItem line) {
 
-            @Override
-            public boolean rowValid() {
-                return validateRow();
+        String it = line.getItem() == null ? null : line.getItem().getCode();
+        String itdes = line.getItem() == null ? null : line.getItem().getDescription();
+        TableUtil.replacerowValues(tblInvoice, new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()}, tblInvoice.getSelectedRow());
+
+    }
+
+    public PurchaseInvoiceLineItem getSelectedLine() {
+
+        String bt = uiEty.colToStrE(tblInvoice, 0);
+        SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
+
+        for (PurchaseInvoiceLineItem sli : lineItems) {
+            //
+            if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null) && bt.equals(sli.getId())) {
+                return sli;
+
             }
-
-            @Override
-            public void newRowAdded() {
-                System.out.println("new row added");
-                PurchaseInvoiceLineItem si = new PurchaseInvoiceLineItem();
-                lineItems.add(si);
-            }
-        };
-        tblInvoice.setTableAction(taacti); taacti.setUnSelectableColumns(new Integer[]{3,4});
-        taacti.setUnSelectableColumns(new Integer[]{2,4});
-        TableColumnAction tca = new TableColumnAction() {
-
-            @Override
-            public int actionPerformed() {
-                validateRow();
-                return TableActions.nextcol;
-            }
-        };
-        taacti.addColumnAction(3, tca);
-        TableColumnAction tca5 = new TableColumnAction() {
-
-            @Override
-            public int actionPerformed() {
-                validateAddRow();
-                return TableActions.newrow;
-            }
-        };
-        taacti.addColumnAction(5, tca5);
-
+        }
+        return null;
     }
 
     public void setnewrow() {
@@ -281,78 +262,15 @@ public class PurchaseMasterUi extends TabPanelUI {
         lineItems.add(si);
     }
 
-    private void loadUnit(Item it){        
-         String st=it.getUnitOne();
-         String st2=it.getUnitTwo();
-         String [] stx= new String[]{st,st2,"d","Y"};         
-         uiEty.cmbModelWithoutNull(stx, (JComboBox)ce.getComponent());
-        
-    }
-    
-    private void rowLogic() {
-        int sr = tblInvoice.getSelectedRow();
-        seil = rowToEty();
-        //validate the lineitem
-        addRowToLst(seil);
+    private void loadUnit(Item it) {
+        String st = it.getUnitOne();
+        String st2 = it.getUnitTwo();
+        String[] stx = new String[]{st, st2, "d", "Y"};
+        uiEty.cmbModelWithoutNull(stx, (JComboBox) ce.getComponent());
 
-        if (seil != null && seil.getId() == null) {
-            String va = TableUtil.getNewRowId();
-            tblInvoice.setValueAt(va, sr, 0);
-            seil.setId(va);
-        }
-        Double qty = seil.getQty() == null ? 0 : seil.getQty();
-        Double price = seil.getPrice() == null ? 0 : seil.getPrice();
-        seil.setLineAmount(qty * price);
-        tblInvoice.setValueAt(uiEty.getPlainDouble(seil.getLineAmount()), sr, 6);
-        tblInvoice.setValueAt(seil.getPrice(), sr, 5);
-    }
-    
-    private boolean validateRow() {
-
-
-        int sr = tblInvoice.getSelectedRow();
-
-      PurchaseInvoiceLineItem  lit = rowToEty();
-        //validate the lineitem
-        addRowToLst(lit);
-
-        Double qty = lit.getQty() == null ? 0 : lit.getQty();
-        Double price = lit.getPrice() == null ? 0 : lit.getPrice();
-        lit.setLineAmount(qty * price);
-        
-        //validate current row before row selection changes
-        tblInvoice.setValueAt(uiEty.getPlainDouble(lit.getLineAmount()), sr, 6);
-        tblInvoice.setValueAt(lit.getPrice(), sr, 5);
-        for (PurchaseInvoiceLineItem Item : lineItems) {
-            Item it = Item.getItem();
-            System.out.println("line  **** " + Item.getId() + " item ** " + (it == null ? " - print null" : Item.getItem().getId()));
-        }
-        return true;
     }
 
-    private boolean validateAddRow() {
-
-
-        int sr = tblInvoice.getSelectedRow();
-
-        seil = rowToEty();
-        //validate the lineitem
-        addRowToLst(seil);
-        if (seil != null && seil.getId() == null) {
-            String va = TableUtil.getNewRowId();
-            tblInvoice.setValueAt(va, sr, 0);
-            seil.setId(va);
-        }
-        Double qty = seil.getQty() == null ? 0 : seil.getQty();
-        Double price = seil.getPrice() == null ? 0 : seil.getPrice();
-        seil.setLineAmount(qty * price);
-        tblInvoice.setValueAt(uiEty.getPlainDouble(seil.getLineAmount()), sr, 6);
-        tblInvoice.setValueAt(seil.getPrice(), sr, 5);
-       
-        return true;
-    }
-
-    private PurchaseInvoiceLineItem addRowToLst(PurchaseInvoiceLineItem lineItem) {
+    private PurchaseInvoiceLineItem addsales(PurchaseInvoiceLineItem lineItem) {
         PurchaseInvoiceLineItem sl = null;
         int sx = -1;
         int x = -1;
@@ -411,14 +329,15 @@ public class PurchaseMasterUi extends TabPanelUI {
         cLabel2 = new org.components.controls.CLabel();
         cComboBox2 = new org.components.controls.CComboBox();
         cTextField2 = new org.components.controls.CTextField();
-        cPanel2 = new org.components.containers.CPanel();
-        cLabel3 = new org.components.controls.CLabel();
-        tsup = new org.components.controls.CTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        cTextArea2 = new org.components.controls.CTextArea();
-        cCheckBox2 = new org.components.controls.CCheckBox();
         cDatePicker1 = new org.components.controls.CDatePicker();
         cLabel4 = new org.components.controls.CLabel();
+        cLabel16 = new org.components.controls.CLabel();
+        cTextField12 = new org.components.controls.CTextField();
+        cTextField7 = new org.components.controls.CTextField();
+        cLabel17 = new org.components.controls.CLabel();
+        cButton1 = new org.components.controls.CButton();
+        cdelete = new org.components.controls.CButton();
+        cclear = new org.components.controls.CButton();
         cPanel3 = new org.components.containers.CPanel();
         cLabel6 = new org.components.controls.CLabel();
         cLabel12 = new org.components.controls.CLabel();
@@ -428,15 +347,14 @@ public class PurchaseMasterUi extends TabPanelUI {
         cTextField9 = new org.components.controls.CTextField();
         cTextField10 = new org.components.controls.CTextField();
         cLabel11 = new org.components.controls.CLabel();
-        cLabel16 = new org.components.controls.CLabel();
-        cTextField12 = new org.components.controls.CTextField();
-        cTextField7 = new org.components.controls.CTextField();
-        cLabel17 = new org.components.controls.CLabel();
+        cPanel2 = new org.components.containers.CPanel();
+        cLabel3 = new org.components.controls.CLabel();
+        tsup = new org.components.controls.CTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        cTextArea2 = new org.components.controls.CTextArea();
+        cCheckBox2 = new org.components.controls.CCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
-        cButton1 = new org.components.controls.CButton();
-        cdelete = new org.components.controls.CButton();
-        cclear = new org.components.controls.CButton();
 
         setLayout(null);
 
@@ -518,29 +436,6 @@ public class PurchaseMasterUi extends TabPanelUI {
         });
         add(cTextField2);
         cTextField2.setBounds(830, 40, 130, 25);
-
-        cPanel2.setLayout(null);
-
-        cLabel3.setText("Supplier Details");
-        cLabel3.setFont(new java.awt.Font("Tahoma", 1, 10));
-        cPanel2.add(cLabel3);
-        cLabel3.setBounds(10, 0, 130, 20);
-        cPanel2.add(tsup);
-        tsup.setBounds(10, 20, 210, 20);
-
-        cTextArea2.setColumns(20);
-        cTextArea2.setRows(10);
-        jScrollPane3.setViewportView(cTextArea2);
-
-        cPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 40, 210, 70);
-
-        cCheckBox2.setText("Type");
-        cPanel2.add(cCheckBox2);
-        cCheckBox2.setBounds(10, 110, 140, 20);
-
-        add(cPanel2);
-        cPanel2.setBounds(0, 10, 230, 140);
         add(cDatePicker1);
         cDatePicker1.setBounds(830, 100, 130, 22);
 
@@ -548,6 +443,60 @@ public class PurchaseMasterUi extends TabPanelUI {
         cLabel4.setFont(new java.awt.Font("Tahoma", 0, 12));
         add(cLabel4);
         cLabel4.setBounds(780, 40, 60, 25);
+
+        cLabel16.setText("Date");
+        cLabel16.setFont(new java.awt.Font("Tahoma", 0, 12));
+        add(cLabel16);
+        cLabel16.setBounds(780, 100, 60, 25);
+
+        cTextField12.setText("Purch no manually");
+        cTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cTextField12ActionPerformed(evt);
+            }
+        });
+        add(cTextField12);
+        cTextField12.setBounds(830, 10, 130, 25);
+
+        cTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cTextField7ActionPerformed(evt);
+            }
+        });
+        add(cTextField7);
+        cTextField7.setBounds(830, 70, 130, 25);
+
+        cLabel17.setText("GRN No");
+        cLabel17.setFont(new java.awt.Font("Tahoma", 0, 12));
+        add(cLabel17);
+        cLabel17.setBounds(780, 70, 50, 25);
+
+        cButton1.setText("Save");
+        cButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cButton1ActionPerformed(evt);
+            }
+        });
+        add(cButton1);
+        cButton1.setBounds(410, 400, 57, 30);
+
+        cdelete.setText("Delete");
+        cdelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cdeleteActionPerformed(evt);
+            }
+        });
+        add(cdelete);
+        cdelete.setBounds(540, 400, 70, 30);
+
+        cclear.setText("Clear");
+        cclear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cclearActionPerformed(evt);
+            }
+        });
+        add(cclear);
+        cclear.setBounds(470, 400, 70, 30);
 
         cPanel3.setLayout(null);
 
@@ -591,37 +540,33 @@ public class PurchaseMasterUi extends TabPanelUI {
         cLabel11.setText("Sales Last 3 month of  selected supplier's product");
         cLabel11.setFont(new java.awt.Font("Tahoma", 0, 10));
         cPanel3.add(cLabel11);
-        cLabel11.setBounds(0, 0, 310, 20);
+        cLabel11.setBounds(10, 0, 310, 20);
 
         add(cPanel3);
-        cPanel3.setBounds(20, 390, 320, 70);
+        cPanel3.setBounds(40, 430, 320, 70);
 
-        cLabel16.setText("Date");
-        cLabel16.setFont(new java.awt.Font("Tahoma", 0, 12));
-        add(cLabel16);
-        cLabel16.setBounds(780, 100, 60, 25);
+        cPanel2.setLayout(null);
 
-        cTextField12.setText("Purch no manually");
-        cTextField12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cTextField12ActionPerformed(evt);
-            }
-        });
-        add(cTextField12);
-        cTextField12.setBounds(830, 10, 130, 25);
+        cLabel3.setText("Supplier Details");
+        cLabel3.setFont(new java.awt.Font("Tahoma", 1, 10));
+        cPanel2.add(cLabel3);
+        cLabel3.setBounds(10, 0, 130, 20);
+        cPanel2.add(tsup);
+        tsup.setBounds(10, 20, 210, 20);
 
-        cTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cTextField7ActionPerformed(evt);
-            }
-        });
-        add(cTextField7);
-        cTextField7.setBounds(830, 70, 130, 25);
+        cTextArea2.setColumns(20);
+        cTextArea2.setRows(10);
+        jScrollPane3.setViewportView(cTextArea2);
 
-        cLabel17.setText("GRN No");
-        cLabel17.setFont(new java.awt.Font("Tahoma", 0, 12));
-        add(cLabel17);
-        cLabel17.setBounds(780, 70, 50, 25);
+        cPanel2.add(jScrollPane3);
+        jScrollPane3.setBounds(10, 40, 210, 70);
+
+        cCheckBox2.setText("Type");
+        cPanel2.add(cCheckBox2);
+        cCheckBox2.setBounds(10, 110, 140, 20);
+
+        add(cPanel2);
+        cPanel2.setBounds(10, 0, 380, 140);
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -634,42 +579,29 @@ public class PurchaseMasterUi extends TabPanelUI {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(tblInvoice);
+        tblInvoice.getColumnModel().getColumn(0).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(1).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(2).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(3).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(4).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(5).setResizable(false);
+        tblInvoice.getColumnModel().getColumn(6).setResizable(false);
 
         add(jScrollPane2);
-        jScrollPane2.setBounds(20, 170, 940, 180);
-
-        cButton1.setText("Save");
-        cButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cButton1ActionPerformed(evt);
-            }
-        });
-        add(cButton1);
-        cButton1.setBounds(410, 400, 57, 30);
-
-        cdelete.setText("Delete");
-        cdelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cdeleteActionPerformed(evt);
-            }
-        });
-        add(cdelete);
-        cdelete.setBounds(540, 400, 70, 30);
-
-        cclear.setText("Clear");
-        cclear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cclearActionPerformed(evt);
-            }
-        });
-        add(cclear);
-        cclear.setBounds(470, 400, 70, 30);
+        jScrollPane2.setBounds(10, 150, 940, 190);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField2ActionPerformed
@@ -678,35 +610,31 @@ public class PurchaseMasterUi extends TabPanelUI {
     private void cTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField12ActionPerformed
     }//GEN-LAST:event_cTextField12ActionPerformed
 
-    private void cTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField9ActionPerformed
-    }//GEN-LAST:event_cTextField9ActionPerformed
-
     private void cTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField7ActionPerformed
     }//GEN-LAST:event_cTextField7ActionPerformed
 
-    public void uiety(PurchaseInvoice pi){
-
-        
+    public void uiety(PurchaseInvoice pi) {
     }
-    
-    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
 
-        invoice.setId(EntityService.getKeys());
-        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
-            PurchaseInvoiceLineItem si = it.next();
-            if (si.getId() == null || si.getId().isEmpty()) {
-                it.remove();
-            }
-        }
-        purService.getDao().save(invoice);
-        invoice = PurchaseInvoice.createNewInvoice();
-        lineItems = invoice.getLineItems();
-        addToTable(lineItems);
-        setnewrow();
-        System.out.println("saved.....");
-        
-        
-        
+    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
+//        cPanel2.setBounds(200, 75, 200, 200);
+//        this.setComponentZOrder(tblInvoice, 1);
+//        this.setComponentZOrder(cPanel2, 0);
+//        invoice.setId(EntityService.getKeys());
+//        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+//            PurchaseInvoiceLineItem si = it.next();
+//            if (si.getId() == null || si.getId().isEmpty()) {
+//                it.remove();
+//            }
+//        }
+//        purService.getDao().save(invoice);
+//        invoice = PurchaseInvoice.createNewInvoice();
+//        lineItems = invoice.getLineItems();
+////        addToTable(lineItems);
+//        setnewrow();
+//        System.out.println("saved.....");
+//
+//
     }//GEN-LAST:event_cButton1ActionPerformed
 
     private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
@@ -721,19 +649,8 @@ public class PurchaseMasterUi extends TabPanelUI {
         // TODO add your handling code here:
     }//GEN-LAST:event_cComboBox2ActionPerformed
 
-    public void addToTable(List<PurchaseInvoiceLineItem> items) {
-        TableUtil.cleardata(tblInvoice);
-        if (items == null || items.isEmpty()) {
-            return;
-        }
-        for (PurchaseInvoiceLineItem item : items) {
-            TableUtil.addrowSR(tblInvoice, new Object[]{item.getId(), item.getItem().getCode(), item.getQty()
-                    });
-        }
-
-        TableUtil.addrowSR(tblInvoice, new Object[]{});
-    }
-    Object xx;
+    private void cTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField9ActionPerformed
+}//GEN-LAST:event_cTextField9ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CCheckBox cCheckBox2;
