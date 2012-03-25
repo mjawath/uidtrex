@@ -18,6 +18,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import org.components.parent.controls.PTextField;
 
@@ -28,9 +30,10 @@ import org.components.parent.controls.PTextField;
 public class CTextField extends PTextField {
 
     IContainer container;
-    List actions;
-    
-    @Override
+    JComponent nextFocusableComponent;
+    List<ActionTask> actionTasks;
+    boolean moveTonextcom = true;
+
     protected void processFocusEvent(FocusEvent e) {
         super.processFocusEvent(e);
         if (e.isTemporary()) {
@@ -66,29 +69,46 @@ public class CTextField extends PTextField {
 
     }
 
- 
     /** Creates new form BeanForm */
     public CTextField() {
         initComponents();
-        actions =new ArrayList();
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                    if(container !=null){
-                    
-                        container.callBackAction();
-                    }
-                    postActionEvent();
-                    // just change the focus 
-                }
-            }        
-        }); 
-        
+        init();
 //        setInputVerifier(new CInputVerifier());
     }
-    
-    public void  addaction(int idx,ActionTask action){
-    actions.add(idx, action);
+
+    public void init() {
+
+
+        actionTasks = new ArrayList<ActionTask>();
+
+        addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (actionTasks != null || !actionTasks.isEmpty()) {
+
+                        for (ActionTask actionTask : actionTasks) {
+                            actionTask.action();
+                        }
+                    }
+                    if (nextFocusableComponent != null && moveTonextcom) {
+                        nextFocusableComponent.requestFocus();
+                    }
+                    // just change the focus 
+                }
+            }
+        });
+
+
+    }
+
+    public void addaction(int idx, ActionTask action) {
+        int c= actionTasks.size();
+        
+        if(c-1 < idx){
+        actionTasks.add(action);return;
+        }
+        actionTasks.add(idx, action);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,24 +121,28 @@ public class CTextField extends PTextField {
     public void setActionTask(ActionTask actionTask) {
         addActionListener(actionTask);
     }
-   
-    
+
     @Override
     protected void processKeyEvent(KeyEvent e) {
 //        if(e.getKeyCode()==KeyEvent.VK_ENTER){
 //            postActionEvent();
 //            return;
 //        }
-        super.processKeyEvent(e);        
+        super.processKeyEvent(e);
     }
-    
+
     public void setInputVerifier(CInputVerifier inputVerifier) {
 //        addActionListener(inputVerifier);
         super.setInputVerifier(inputVerifier);
     }
-    
-    
-    
+
+    public JComponent nextFocusableComponent() {
+        return nextFocusableComponent;
+    }
+
+    public void nextFocusableComponent(JComponent nextFocusableComponent) {
+        this.nextFocusableComponent = nextFocusableComponent;
+    }
     private String formater;
 
     /**

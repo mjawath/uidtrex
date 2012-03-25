@@ -11,13 +11,18 @@
 package com.components.custom;
 
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -25,6 +30,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.biz.app.ui.util.TableUtil;
 import org.components.controls.CPopupMenu;
+import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
 
 /**
@@ -34,7 +40,7 @@ import org.components.parent.controls.editors.TablePopUpCellEditor;
 public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     JTable tbl;
-    JTextField textField;
+    CTextField textField;
     TablePopUpCellEditor editor;
     int selectedColumn = 0;
     Object selectedObject ;
@@ -42,7 +48,10 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     String pageKey;
     List list;
     Boolean popupDisabled=false;
-
+    JComponent nextFocusableComponent;
+      
+    boolean moveTonextcom=true;
+    List<ActionTask> actionTasks;
     
     
     public int getSelectedColumn() {
@@ -77,11 +86,11 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         this.tbl = tbl;
     }
 
-    public JTextField getTextField() {
+    public CTextField getTextField() {
         return textField;
     }
 
-    public void setTextField(JTextField textField) {
+    public void setTextField(CTextField textField) {
         this.textField = textField;
     }
 
@@ -90,7 +99,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         initComponents();
         tbl = tb;
         editor = field;
-        textField = field.getComponent();
+        textField = (CTextField) field.getComponent();
         editor.setMasterTbl(tbl);
         init();
     }
@@ -105,7 +114,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         this.list = list;
     }
 
-    public PagedPopUpPanel(JTextField field) {
+    public PagedPopUpPanel(CTextField field) {
         initComponents();
         textField = field;
 
@@ -145,7 +154,17 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     }
 
     public void init() {
+        actionTasks = new ArrayList<ActionTask>();
+        textField.addaction(0,new ActionTask(){
 
+            @Override
+            public boolean action() {
+                System.out.println("====----***action task one **----====");
+                getSeletedValue();
+                return super.action();
+            }
+        
+        });
         jpm = new CPopupMenu();
         this.setSize(600, 300);
         jpm.add(this);        
@@ -153,6 +172,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 //        this.requestFocusInWindow();
 //        cTextField1.requestFocus();
         jpm.setFocusable(false);
+        
         textField.addFocusListener(new FocusAdapter() {
 
             @Override
@@ -160,7 +180,8 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
                 closePopup();
             }
-        });
+        });        
+        
         cxTable1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -169,20 +190,25 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
                  editor.getComponent().postActionEvent();
             }        
         });
+
+        
+//        textField.setInputVerifier(new InputVerifier() {
+//
+//            @Override
+//            public boolean verify(JComponent input) {
+//                System.out.println("===------==action with some thing elselistner==-------==");
+//                  for (ActionTask actionTask : actionTasks) {
+//                        actionTask.action();
+//                    }
+//                return true;
+//            }
+//        });
         textField.addKeyListener(new KeyAdapter() {
 
             @Override
             public void keyPressed(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    getSeletedValue();
-                    if (editor != null) {
-                        editor.getComponent().postActionEvent();
-                    }
-                    //move table selection
-
-                    e.consume();
-                }
+         
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     if (jpm.isVisible()) {
                     KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
@@ -251,6 +277,16 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
         Object.class, String.class, String.class,Double.class,Double.class,Double.class,Double.class,Double.class
     });
     }
+
+    public JComponent getNextFocusableComponent() {
+        return nextFocusableComponent;
+    }
+
+    public void setNextFocusableComponent(JComponent nextFocusableComponent) {
+        this.nextFocusableComponent = nextFocusableComponent;
+    }
+    
+    
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -396,6 +432,9 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
         System.out.println("action implemented ......");
     }
 
+    public void addaction(ActionTask action){
+    actionTasks.add(action);
+    }
         
         
     public void setObjectToTable(List lst) {
