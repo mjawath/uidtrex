@@ -604,24 +604,20 @@ public class PurchaseMasterUi extends TabPanelUI {
     }
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
-//        cPanel2.setBounds(200, 75, 200, 200);
-//        this.setComponentZOrder(tblInvoice, 1);
-//        this.setComponentZOrder(cPanel2, 0);
-//        invoice.setId(EntityService.getKeys());
-//        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
-//            PurchaseInvoiceLineItem si = it.next();
-//            if (si.getId() == null || si.getId().isEmpty()) {
-//                it.remove();
-//            }
-//        }
-//        purService.getDao().save(invoice);
-//        invoice = PurchaseInvoice.createNewInvoice();
-//        lineItems = invoice.getLineItems();
-////        addToTable(lineItems);
-//        setnewrow();
-//        System.out.println("saved.....");
-//
-//
+        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+            PurchaseInvoiceLineItem si = it.next();
+            if (si.getId() == null) {
+                it.remove();
+            }
+        }
+        
+
+        purService.createInventoryJournal(invoice);
+        invoice = PurchaseInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+        clear();
     }//GEN-LAST:event_cButton1ActionPerformed
 
     private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
@@ -636,6 +632,46 @@ public class PurchaseMasterUi extends TabPanelUI {
         // TODO add your handling code here:
     }//GEN-LAST:event_cComboBox2ActionPerformed
 
+    public void addToTable(List<PurchaseInvoiceLineItem> items) {
+        TableUtil.cleardata(tblInvoice);
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+        for (PurchaseInvoiceLineItem line : items) {
+
+
+            String it = line.getItem() == null ? null : line.getItem().getCode();
+            String itdes = line.getItem() == null ? null : line.getItem().getDescription();
+
+            TableUtil.addrow(tblInvoice, new Object[]{new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()
+                        }});
+        }
+        TableUtil.addrow(tblInvoice, new Object[]{});
+
+
+    }
+
+    public void clear() {
+
+        invoice = PurchaseInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+
+//        tcus.setText("");
+//        tsalesman.setText("");
+//        ttax.setText("");
+//        tsubtotal.setText("");
+//        tcashrecieved.setText("");
+//        tfinaltotle.setText("");
+//        tinvoiceManualNo.setText("");
+//        tdis.setText("");
+//        tsalesman.setText("");
+        setnewrow();
+        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
+        
+
+    }
     private void cTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField9ActionPerformed
 }//GEN-LAST:event_cTextField9ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
