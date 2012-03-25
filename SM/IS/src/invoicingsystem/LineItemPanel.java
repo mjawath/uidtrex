@@ -38,7 +38,7 @@ import org.biz.app.ui.util.uiEty;
  */
 public class LineItemPanel extends javax.swing.JDialog {
 
-    Object lineitem;
+    protected  Object lineitem;
 
     public LineItemPanel(JFrame jf) {
         super(jf, true);

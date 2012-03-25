@@ -10,6 +10,7 @@ package invoicingsystem;
  *
  * Created on Dec 13, 2010, 10:16:22 PM
  */
+import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JDialog;
@@ -114,7 +115,7 @@ public class MainAppWindow extends app.AppMainWindow {
         events();
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
-//        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
+        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
     System.gc();
     }
  

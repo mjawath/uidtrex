@@ -8,11 +8,12 @@
  *
  * Created on Feb 23, 2012, 10:21:43 PM
  */
-package invoicingsystem;
+package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.CInputVerifier;
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
+import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JComboBox;
