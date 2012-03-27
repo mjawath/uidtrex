@@ -8,7 +8,7 @@ package org.biz.invoicesystem.service.inventory;
 import java.util.ArrayList;
 import java.util.List;
 import org.biz.dao.service.Service;
-import org.biz.invoicesystem.dao.inventory.InventoryJournalDAO;
+import org.biz.erp.inventory.dao.InventoryJournalDAO;
 import org.biz.invoicesystem.entity.inventory.InventoryJournal;
 import org.biz.invoicesystem.entity.inventory.InventoryJournalLine;
 import org.biz.invoicesystem.entity.inventory.StockModel;

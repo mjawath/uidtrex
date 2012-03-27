@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.biz.invoicesystem.dao.inventory;
+package org.biz.erp.inventory.dao;
 
 import java.util.Date;
 import java.util.List;
