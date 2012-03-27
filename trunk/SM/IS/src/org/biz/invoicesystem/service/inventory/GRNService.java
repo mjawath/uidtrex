@@ -6,7 +6,7 @@
 package org.biz.invoicesystem.service.inventory;
 
 import org.biz.dao.service.Service;
-import org.biz.invoicesystem.dao.inventory.GRNDAO;
+import org.biz.erp.inventory.dao.GRNDAO;
 
 /**
  *

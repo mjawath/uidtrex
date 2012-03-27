@@ -527,7 +527,7 @@ public class PurchaseMasterUi extends TabPanelUI {
         cLabel11.setText("Sales Last 3 month of  selected supplier's product");
         cLabel11.setFont(new java.awt.Font("Tahoma", 0, 10));
         cPanel3.add(cLabel11);
-        cLabel11.setBounds(10, 0, 310, 20);
+        cLabel11.setBounds(10, 0, 240, 20);
 
         add(cPanel3);
         cPanel3.setBounds(40, 430, 320, 70);

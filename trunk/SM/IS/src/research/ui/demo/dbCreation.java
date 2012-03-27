@@ -54,7 +54,7 @@ public class dbCreation {
             cus.setDescription(EntityService.getKeyStr());
             lst22.add(cus);
         }
-        new GenericDAO<Item>().saveList(lst);
+        new GenericDAO<Item>().saveList(lst22);
         List lst2 = new ArrayList();
         for (int i = 0; i < 1500; i++) {
             Staff cus = new Staff();
