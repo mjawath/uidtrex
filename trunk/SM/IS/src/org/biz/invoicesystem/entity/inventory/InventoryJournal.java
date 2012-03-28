@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 import org.biz.invoicesystem.entity.master.Warehouse;
 import org.biz.invoicesystem.entity.master.Shop;
 

@@ -4,7 +4,7 @@
  */
 package org.biz.invoicesystem.entity.transactions;
 
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

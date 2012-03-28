@@ -10,7 +10,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.UOM;
 

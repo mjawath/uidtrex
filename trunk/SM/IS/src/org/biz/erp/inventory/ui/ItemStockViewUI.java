@@ -8,7 +8,7 @@
  *
  * Created on Mar 13, 2012, 6:42:40 AM
  */
-package org.biz.invoicesystem.ui.transactions;
+package org.biz.erp.inventory.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +60,6 @@ public class ItemStockViewUI extends TabPanelUI {
         
     }
     
-    
-
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
