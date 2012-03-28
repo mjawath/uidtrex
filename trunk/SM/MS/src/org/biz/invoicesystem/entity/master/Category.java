@@ -12,7 +12,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 
 /**
  *
