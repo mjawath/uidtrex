@@ -8,7 +8,7 @@ package org.biz.invoicesystem.entity.inventory;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.UOM;
 

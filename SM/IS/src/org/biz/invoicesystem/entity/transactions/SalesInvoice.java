@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Warehouse;
@@ -98,21 +98,7 @@ public class SalesInvoice extends BusObj implements Serializable {
         return id;
     }
 
-    public Date getEditeddate() {
-        return editeddate;
-    }
-
-    public void setEditeddate(Date editeddate) {
-        this.editeddate = editeddate;
-    }
-
-    public Date getSaveddate() {
-        return saveddate;
-    }
-
-    public void setSaveddate(Date saveddate) {
-        this.saveddate = saveddate;
-    }
+   
 
     public void setId(String id) {
         this.id = id;
