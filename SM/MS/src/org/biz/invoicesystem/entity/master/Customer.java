@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 
 /**
  *

@@ -6,7 +6,7 @@ package org.biz.invoicesystem.entity.contacts;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 
 /**
  *

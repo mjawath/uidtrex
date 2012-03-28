@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import org.biz.invoicesystem.entity.BusObj;
+import org.biz.entity.BusObj;
 
 /**
  *
