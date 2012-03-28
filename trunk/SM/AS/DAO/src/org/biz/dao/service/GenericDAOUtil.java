@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import org.biz.dao.util.EntityService;
+import org.biz.entity.BusObj;
 import org.dao.util.JPAUtil;
 
 /**
@@ -182,9 +183,17 @@ public class GenericDAOUtil<T> {
     public  static <T> void save(T ob) {
         EntityManager em = null;
         try {
+            
+            
             em = createEmNew();
             em.getTransaction().begin();
+             if(ob instanceof BusObj){
+                BusObj bb= (BusObj)ob;
+//                bb.setEditeddate(null);
+//                bb.setSaveddate(null);//get server date
+            }
             persist(em, ob);
+           
             em.getTransaction().commit();
 
         } catch (Exception e) {
