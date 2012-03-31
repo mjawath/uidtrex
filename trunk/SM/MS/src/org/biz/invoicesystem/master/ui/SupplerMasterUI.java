@@ -21,12 +21,13 @@ public class SupplerMasterUI extends TabPanelUI {
     
     
     public SupplerMasterUI() {
-        initComponents();
-        init();
+        
+//        init();
         
     }
 public void init(){
     try {
+        initComponents();
         supplierService=new SupplierService();
         
     

@@ -1,4 +1,3 @@
- 
 package org.biz.invoicesystem.master.ui;
 
 import java.util.List;
@@ -9,42 +8,41 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
 
- 
 public class ItemMasterTab extends TabPanelUI {
 
-public static String ListUiTabName="List";
-public static String FormUiTabName="Form";
-
+    public static String ListUiTabName = "List";
+    public static String FormUiTabName = "Form";
     List<Item> items;
     ItemService itemService;
- //   EntityService es;
- //   ItemPopUp ipu;
+    //   EntityService es;
+    //   ItemPopUp ipu;
 //   Item selectedItem;
-      public ItemMasterTab() {
+
+    public ItemMasterTab() {
         initComponents();
-   init();
-   
-   itemListUi1.setMastertab(this);
-   itemMasterUI21.setMastertab(this);
-   itemListUi1.setFormUi(itemMasterUI21);
-   itemMasterUI21.setListUi(itemListUi1);
-   
-      }
-      
-      
-      
-      ////////////////////////
-      
+        init();
+
+
+
+    }
+
+    ////////////////////////
     @Override
-       public void init() {
+    public void init() {
         try {
-     itemService=new ItemService();       
+            itemService = new ItemService();
+            itemListUi1.init();
+            itemListUi1.setMastertab(this);
+            itemMasterUI21.setMastertab(this);
+            itemListUi1.setFormUi(itemMasterUI21);
+            itemMasterUI21.setListUi(itemListUi1);
+            itemMasterUI21.init();
         } catch (Exception e) {
-      e.printStackTrace();
-        }   
+            e.printStackTrace();
+        }
     }
 ///////////////////////////////////////
-    
+
 //    public void callItemByCode(String itemid){
 //    
 //        try {
@@ -55,16 +53,15 @@ public static String FormUiTabName="Form";
 //    
 //    }
 //    
-   //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
     @Override
     public void updateEntityUI() {
-        
+
         getItemTabPane().setSelectedIndex(getItemTabPane().indexOfTab("List"));
-      itemListUi1.loadItemList2Tbl(0,itemListUi1.getDynamicQuery());
+        itemListUi1.loadItemList2Tbl(0, itemListUi1.getDynamicQuery());
     }
-      
-      
- ///////////////////////     
+
+    ///////////////////////     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -81,14 +78,15 @@ public static String FormUiTabName="Form";
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(itemTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(itemTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(itemTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.biz.invoicesystem.master.ui.ItemListUi itemListUi1;
     private org.biz.invoicesystem.master.ui.ItemMasterUI2 itemMasterUI21;

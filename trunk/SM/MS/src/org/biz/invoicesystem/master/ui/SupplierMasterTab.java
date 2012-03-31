@@ -17,7 +17,8 @@ public class SupplierMasterTab extends TabPanelUI {
     public void init() {
   
         try {
-    
+    supplerMasterUI1.init();
+    supplierListUi1.init();
         } catch (Exception e) {
         e.printStackTrace();
         }
