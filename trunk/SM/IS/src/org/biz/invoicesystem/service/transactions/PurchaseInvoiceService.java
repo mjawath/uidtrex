@@ -33,6 +33,8 @@ public class PurchaseInvoiceService extends Service {
        invoice.setId(EntityService.getKeys());
         //inventory journal 
         InventoryJournal ij=new InventoryJournal();
+        ij.setDocType("PurchaseInvoice");
+        ij.setDocumentClass(PurchaseInvoice.class.toString());        
         ij.setId(   EntityService.getKeys()) ;
         for (PurchaseInvoiceLineItem sl : invoice.getLineItems()) {
             InventoryJournalLine ijl=new InventoryJournalLine();

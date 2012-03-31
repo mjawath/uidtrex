@@ -21,10 +21,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
+import org.biz.dao.service.GenericDAO;
+import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
+import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.CustomerService;
@@ -921,15 +924,15 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         Object c = null;
         Object c2 = null;
         System.out.println("r " + c + 25 + " ff " + c2);
-//        List lst = new ArrayList();
-//        for (int i = 0; i < 1500; i++) {
-//            Supplier cus = new Supplier();
-//            cus.setId( EntityService.getKeyStr());
-//            cus.setCode( EntityService.getKeyStr());
-//            cus.setName(EntityService.getKeyStr());
-//            lst.add(cus);
-//        }
-//        new GenericDAO<Supplier>().saveList(lst);
+        List lst = new ArrayList();
+        for (int i = 0; i < 1500; i++) {
+            Supplier cus = new Supplier();
+            cus.setId( EntityService.getKeyStr());
+            cus.setCode( EntityService.getKeyStr());
+            cus.setName(EntityService.getKeyStr());
+            lst.add(cus);
+        }
+        new GenericDAO<Supplier>().saveList(lst);
 //        List lst = new ArrayList();
 //        for (int i = 0; i < 1500; i++) {
 //            Customer cus = new Customer();
