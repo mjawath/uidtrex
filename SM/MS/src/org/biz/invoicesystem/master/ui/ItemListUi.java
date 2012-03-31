@@ -1,7 +1,7 @@
-
 package org.biz.invoicesystem.master.ui;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,129 +15,129 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
 
- 
-public class ItemListUi extends TabPanelUI   {
+public class ItemListUi extends TabPanelUI {
 
     private ItemService itemService;
     private ItemMasterTab mastertab;
     private ItemMasterUI2 formUi;
-    
-     int currentPageNo=0;
+    int currentPageNo = 0;
+    List<Item> items;
+
     public ItemListUi() {
-        initComponents();
-    init();
+//        
+//    init();
     }
 
     @Override
     public void init() {
-     itemService=new ItemService();
-     
-     callVeryFirstPage();
-     
+        initComponents();
+        itemService = new ItemService();
+        items=new ArrayList<Item>();
+        callVeryFirstPage();
+
     }
 
-    public void callVeryFirstPage(){
-    
+    public void callVeryFirstPage() {
+
         try {
-           currentPageNo=0; 
-       loadItemList2Tbl(currentPageNo,getDynamicQuery());  
-        cPageCount.setText(""+currentPageNo+" OF "+pageCount());
+            currentPageNo = 0;
+            loadItemList2Tbl(currentPageNo, getDynamicQuery());
+            cPageCount.setText("" + currentPageNo + " OF " + pageCount());
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
-    public int pageCount(){
-    int x=0;
+
+    public int pageCount() {
+        int x = 0;
         try {
-      x=itemService.getDao().getListSize()%FormMaster.GRID_LIST_SIZE;      
+            x = itemService.getDao().getListSize() % FormMaster.GRID_LIST_SIZE;
         } catch (Exception e) {
-        e.printStackTrace();}
+            e.printStackTrace();
+        }
         return x;
     }
-    
-    public String getDynamicQuery(){
-    String qq="";
-    
-    if(uiEty.tcToStr(cItmDescription)==null ||uiEty.tcToStr(cItmDescription).trim().equals("")){
-    
-        qq="SELECT e FROM Item e  order by e.id asc";
-    }else{
-qq="SELECT e FROM Item e Where e.description LIKE '%"+uiEty.tcToStr(cItmDescription)+"%'  order by e.id asc";
+
+    public String getDynamicQuery() {
+        String qq = "";
+
+        if (uiEty.tcToStr(cItmDescription) == null || uiEty.tcToStr(cItmDescription).trim().equals("")) {
+
+            qq = "SELECT e FROM Item e  order by e.id asc";
+        } else {
+            qq = "SELECT e FROM Item e Where e.description LIKE '%" + uiEty.tcToStr(cItmDescription) + "%'  order by e.id asc";
+        }
+
+
+        return qq;
     }
-    
-    
-    return qq;
-    }
-    
-    public void loadItemList2Tbl(final int currentPageNo,final String dynamicQuery){
-     
-        SwingWorker<List<Item>,Object> sw=new SwingWorker<List<Item>,Object>() {
+
+    public void loadItemList2Tbl(final int currentPageNo, final String dynamicQuery) {
+
+        SwingWorker<List<Item>, Object> sw = new SwingWorker<List<Item>, Object>() {
 
             @Override
             protected List<Item> doInBackground() throws Exception {
-        //     List<Item> items=getItemService().getDao().selectAll();
-                
-             List<Item> items=getItemService().getDao().getPaginatedData(currentPageNo,dynamicQuery);
+                //     List<Item> items=getItemService().getDao().selectAll();
+
+                List<Item> items = getItemService().getDao().getPaginatedData(currentPageNo, dynamicQuery);
                 return items;
             }
 
             @Override
             protected void done() {
-                try {
-                    TableUtil.cleardata(tblItemList);
-                   if(get()==null){
-                   return;
-                   } 
-            List<Item> items=get();   
-                    for (Item i : items) {
-                    TableUtil.addrowSR(tblItemList,new Object[]{i.getCode(),i.getDescription(),i.getCost(),i.getUnit1SalesPrice(),i.getWholesalePrice()});                            
-         
-                    }
-                           
-                } catch (Exception e) {
-            e.printStackTrace();
+                if (loadTable()) {
+                    return;
                 }
             }
-            
-            
         };
-        
+
         sw.execute();
-                
-    
-    } 
-    
-    public void callFormUi(){
-        try {
-  
-   getMastertab().getItemTabPane().setSelectedIndex(getMastertab().getItemTabPane().indexOfTab(ItemMasterTab.FormUiTabName));
-           
-        } catch (Exception e) {
-        e.printStackTrace();}
+
+
     }
-  ////////////////////////////////////////////////
-  //when user double click on item row in table...bring him to form view the particular item... 
-  public void callItemByCode(String itemCode){
-  
-      try {
-   Item item=itemService.getDao().findItemByCode(itemCode);
-  formUi.clearMaster();
-   formUi.entity2Ui(item);
-   callFormUi();
-      } catch (Exception e) {
-      e.printStackTrace();
-      }
-  
-  }
-      
- ///////////////////////////////////////////////    
-    
-    
+
+    private boolean loadTable() {
+        try {
+            TableUtil.cleardata(tblItemList);
+
+            for (Item i : items) {
+                TableUtil.addrowSR(tblItemList, new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getUnit1SalesPrice(), i.getWholesalePrice()});
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void callFormUi() {
+        try {
+
+            getMastertab().getItemTabPane().setSelectedIndex(getMastertab().getItemTabPane().indexOfTab(ItemMasterTab.FormUiTabName));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    ////////////////////////////////////////////////
+    //when user double click on item row in table...bring him to form view the particular item... 
+
+    public void callItemByCode(String itemCode) {
+
+        try {
+            Item item = itemService.getDao().findItemByCode(itemCode);
+            formUi.clearMaster();
+            formUi.entity2Ui(item);
+            callFormUi();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    ///////////////////////////////////////////////    
     ///////////////////////////////////////////
-    
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -315,181 +315,184 @@ qq="SELECT e FROM Item e Where e.description LIKE '%"+uiEty.tcToStr(cItmDescript
 
     private void cRefreshItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cRefreshItemActionPerformed
         //refresh the item list and reinsert item tabl list...
-         try {
-        loadItemList2Tbl(0,getDynamicQuery());  
+        try {
+            loadItemList2Tbl(0, getDynamicQuery());
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cRefreshItemActionPerformed
 
     private void cDeleteItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDeleteItemBtnActionPerformed
         //call item master form with selected item to delete the item...
-         try {
-      String itemid=(String) tblItemList.getValueAt(tblItemList.getSelectedRow(),0);
-          if(itemid==null || itemid.equals("")){
-           MessageBoxes.wrnmsg(null,"Please Select an Item.","Empty Item");                 
+        try {
+            String itemid = (String) tblItemList.getValueAt(tblItemList.getSelectedRow(), 0);
+            if (itemid == null || itemid.equals("")) {
+                MessageBoxes.wrnmsg(null, "Please Select an Item.", "Empty Item");
                 return;
-            }  
-      Item exist=itemService.getDao().findItemByCode(itemid);
-       if(exist==null || exist.getCode().equals("")){
-           MessageBoxes.wrnmsg(null,"No Item Found.","Empty Item");                 
+            }
+            Item exist = itemService.getDao().findItemByCode(itemid);
+            if (exist == null || exist.getCode().equals("")) {
+                MessageBoxes.wrnmsg(null, "No Item Found.", "Empty Item");
                 return;
-            }         
-    String[] ObjButtons = { "Yes", "No" };
-  int PromptResult = JOptionPane.showOptionDialog(null, "Are you want to delete ?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
-     
-      
-     if(PromptResult==0){ 
-  itemService.getDao().delete(exist);
- 
-     }
+            }
+            String[] ObjButtons = {"Yes", "No"};
+            int PromptResult = JOptionPane.showOptionDialog(null, "Are you want to delete ?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
+
+
+            if (PromptResult == 0) {
+                itemService.getDao().delete(exist);
+
+            }
         } catch (Exception e) {
-        e.printStackTrace();
-        MessageBoxes.errormsg(null, e.getMessage(), "Error");
+            e.printStackTrace();
+            MessageBoxes.errormsg(null, e.getMessage(), "Error");
         }
     }//GEN-LAST:event_cDeleteItemBtnActionPerformed
 
     private void cCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cCloseActionPerformed
         // close this form...
-            try {
+        try {
 //      String itemid=(String) tblItemList.getValueAt(tblItemList.getSelectedRow(),0);
 //          if(itemid==null || itemid.equals("")){
 //           MessageBoxes.wrnmsg(null,"Please Select an Item.","Empty Item");                 
 //                return;
 //            }  
-            
-   
         } catch (Exception e) {
-        e.printStackTrace();
-        MessageBoxes.errormsg(null, e.getMessage(), "Error");
+            e.printStackTrace();
+            MessageBoxes.errormsg(null, e.getMessage(), "Error");
         }
     }//GEN-LAST:event_cCloseActionPerformed
 
     private void cItmDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cItmDescriptionActionPerformed
-        // TODO add your handling code here:
-         try {
-          
+        String qry = cItmDescription.getText();
+
+        try {
+            items = itemService.getDao().byCode(qry);
+             loadTable();
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cItmDescriptionActionPerformed
 
     private void cNewItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cNewItemBtnActionPerformed
-      //calling item master form...
-         try {
-    callFormUi();      
+        //calling item master form...
+        try {
+            callFormUi();
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cNewItemBtnActionPerformed
 
     private void tblItemListKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblItemListKeyTyped
-      if(evt.getKeyChar()==KeyEvent.VK_ENTER){
-      
-   String itemCode=(String) tblItemList.getValueAt(tblItemList.getSelectedRow(),0);
-   callItemByCode(itemCode);
-   
-      }
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+
+            String itemCode = (String) tblItemList.getValueAt(tblItemList.getSelectedRow(), 0);
+            callItemByCode(itemCode);
+
+        }
     }//GEN-LAST:event_tblItemListKeyTyped
 
     private void cCopyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cCopyItemActionPerformed
-            try {
-                if(tblItemList.getRowCount()==0){
+        try {
+            if (tblItemList.getRowCount() == 0) {
                 return;
-                }
-      String itemid=(String) tblItemList.getValueAt(tblItemList.getSelectedRow(),0);
-          if(itemid==null || itemid.equals("")){
-           MessageBoxes.wrnmsg(null,"Please Select an Item.","Empty Item");                 
-           return;
-            }  
-      Item exist=itemService.getDao().findItemByCode(itemid);
-       if(exist==null || exist.getCode().equals("")){
-           MessageBoxes.wrnmsg(null,"No Item Found.","Empty Item");                 
+            }
+            String itemid = (String) tblItemList.getValueAt(tblItemList.getSelectedRow(), 0);
+            if (itemid == null || itemid.equals("")) {
+                MessageBoxes.wrnmsg(null, "Please Select an Item.", "Empty Item");
                 return;
-            }       
-  String[] ObjButtons = { "Yes", "No" };
-  int PromptResult = JOptionPane.showOptionDialog(null, "Are you want to Copy this Item ?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
-     
-      
-     if(PromptResult==0){    
-      exist.setId(EntityService.getEntityService().getKey(""));                
-        String oldCode=exist.getCode();
-     exist.setCode("Copy "+oldCode);                 
-     
-    
-     itemService.getDao().save(exist);    
-     getFormUi().entity2Ui(exist);
-   callFormUi();  
-     }
-      
+            }
+            Item exist = itemService.getDao().findItemByCode(itemid);
+            if (exist == null || exist.getCode().equals("")) {
+                MessageBoxes.wrnmsg(null, "No Item Found.", "Empty Item");
+                return;
+            }
+            String[] ObjButtons = {"Yes", "No"};
+            int PromptResult = JOptionPane.showOptionDialog(null, "Are you want to Copy this Item ?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
+
+
+            if (PromptResult == 0) {
+                exist.setId(EntityService.getEntityService().getKey(""));
+                String oldCode = exist.getCode();
+                exist.setCode("Copy " + oldCode);
+
+
+                itemService.getDao().save(exist);
+                getFormUi().entity2Ui(exist);
+                callFormUi();
+            }
+
         } catch (Exception e) {
-        e.printStackTrace();
-        MessageBoxes.errormsg(null, e.getMessage(), "Error");
+            e.printStackTrace();
+            MessageBoxes.errormsg(null, e.getMessage(), "Error");
         }
     }//GEN-LAST:event_cCopyItemActionPerformed
 
     private void cButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton4ActionPerformed
-     
-       TableUtil.cleardata(tblItemList); 
-   currentPageNo+=1;  
-   
-   
-   if(currentPageNo>pageCount()){
-  currentPageNo=pageCount();
-        
-   }
-        loadItemList2Tbl(currentPageNo,getDynamicQuery());
-          cPageCount.setText(""+currentPageNo+" OF "+pageCount());
+
+        TableUtil.cleardata(tblItemList);
+        currentPageNo += 1;
+
+
+        if (currentPageNo > pageCount()) {
+            currentPageNo = pageCount();
+
+        }
+        loadItemList2Tbl(currentPageNo, getDynamicQuery());
+        cPageCount.setText("" + currentPageNo + " OF " + pageCount());
     }//GEN-LAST:event_cButton4ActionPerformed
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
-      TableUtil.cleardata(tblItemList); 
-   currentPageNo-=1; 
-   
-   if(currentPageNo<0){
-  currentPageNo=0;
-        
-   }
-   
-        loadItemList2Tbl(currentPageNo,getDynamicQuery());
-          cPageCount.setText(""+currentPageNo+" OF "+pageCount());
+        TableUtil.cleardata(tblItemList);
+        currentPageNo -= 1;
+
+        if (currentPageNo < 0) {
+            currentPageNo = 0;
+
+        }
+
+        loadItemList2Tbl(currentPageNo, getDynamicQuery());
+        cPageCount.setText("" + currentPageNo + " OF " + pageCount());
     }//GEN-LAST:event_cButton1ActionPerformed
 
     private void cButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton3ActionPerformed
-      
-     TableUtil.cleardata(tblItemList); 
-   currentPageNo=pageCount();      
-        loadItemList2Tbl(currentPageNo,getDynamicQuery());
-          cPageCount.setText(""+currentPageNo+" OF "+pageCount());
+
+        TableUtil.cleardata(tblItemList);
+        currentPageNo = pageCount();
+        loadItemList2Tbl(currentPageNo, getDynamicQuery());
+        cPageCount.setText("" + currentPageNo + " OF " + pageCount());
     }//GEN-LAST:event_cButton3ActionPerformed
 
     private void cButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton2ActionPerformed
-    
-     TableUtil.cleardata(tblItemList); 
-   currentPageNo=0;      
-        loadItemList2Tbl(currentPageNo,getDynamicQuery());
-          cPageCount.setText(""+currentPageNo+" OF "+pageCount());
+
+        TableUtil.cleardata(tblItemList);
+        currentPageNo = 0;
+        loadItemList2Tbl(currentPageNo, getDynamicQuery());
+        cPageCount.setText("" + currentPageNo + " OF " + pageCount());
     }//GEN-LAST:event_cButton2ActionPerformed
 
     private void cItmDescriptionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cItmDescriptionKeyTyped
-        
-               loadItemList2Tbl(currentPageNo,getDynamicQuery());
-
+        //loadItemList2Tbl(currentPageNo,getDynamicQuery());
+        //get query string with filters 
+        //---if queryed goto page or next page
+        //execute query 
+        //return list - dont return whole no point return only first page and totel count
+        //list should be paged 
+        //pagination buttons should be ready 
     }//GEN-LAST:event_cItmDescriptionKeyTyped
 
     private void tblItemListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemListMouseClicked
         try {
-         if(evt.getClickCount()==2){  
-             
-   String itemCode=(String) tblItemList.getValueAt(tblItemList.getSelectedRow(),0);
-   callItemByCode(itemCode);
-        
-         }
+            if (evt.getClickCount() == 2) {
+
+                String itemCode = (String) tblItemList.getValueAt(tblItemList.getSelectedRow(), 0);
+                callItemByCode(itemCode);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tblItemListMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CButton cButton2;
@@ -510,13 +513,13 @@ qq="SELECT e FROM Item e Where e.description LIKE '%"+uiEty.tcToStr(cItmDescript
 
     @Override
     public String getTabName() {
-       return "Customer List";
+        return "Customer List";
     }
 
     @Override
     public JPanel getJPanel() {
-    
-        return this;    
+
+        return this;
     }
 
     /**

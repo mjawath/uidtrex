@@ -19,7 +19,8 @@ public class StaffMasterTab extends TabPanelUI {
   
         try {
            
-   
+   staffListUi1.init();
+   staffMasterUI1.init();
    
         } catch (Exception e) {
         e.printStackTrace();

@@ -73,46 +73,45 @@ public class ItemMasterUI2 extends TabPanelUI {
     private ItemListUi listUi;
     private String copiedItemId;  //this is not item code...keep in mind purpose of updating copied item
     JFileChooser chooser;
-    List<File> images=new ArrayList<File>();
-    
+    List<File> images = new ArrayList<File>();
+
     public ItemMasterUI2() {
         initComponents();
-        keyListeners();
-        init();
+//        keyListeners();
+//        init();
     }
 
-    
     /////////////////////////////////////
-    public void loadComboData(){
+    public void loadComboData() {
         try {
-       //c.category , c.unitOne , c.unitTwo c.location      
-     List<Object[]> lst=itemService.getDao().loadComboItems();
-    
-     Set<String> catz=new TreeSet<String>();
-     Set<String> un1z=new TreeSet<String>();
-     Set<String> un2z=new TreeSet<String>();
-     Set<String> locz=new TreeSet<String>();
-     
+            //c.category , c.unitOne , c.unitTwo c.location      
+            List<Object[]> lst = itemService.getDao().loadComboItems();
+
+            Set<String> catz = new TreeSet<String>();
+            Set<String> un1z = new TreeSet<String>();
+            Set<String> un2z = new TreeSet<String>();
+            Set<String> locz = new TreeSet<String>();
+
             for (Object[] ss : lst) {
-            String category= (String) ss[0];
-            catz.add(category);
-            String un1= (String) ss[1];
-            un1z.add(un1);
-            String un2= (String) ss[2];
-            un2z.add(un2);
-            String location= (String) ss[3];
-          locz.add(location);  
-          
+                String category = (String) ss[0];
+                catz.add(category);
+                String un1 = (String) ss[1];
+                un1z.add(un1);
+                String un2 = (String) ss[2];
+                un2z.add(un2);
+                String location = (String) ss[3];
+                locz.add(location);
+
             }
-     uiEty.loadcombo(tItemCategory, catz);               
-     
-        
+            uiEty.loadcombo(tItemCategory, catz);
+
+
         } catch (Exception e) {
-       e.printStackTrace(); }
+            e.printStackTrace();
+        }
     }
-    
+
     ////////////////////////////
-     
     public void keyListeners() {
 
         try {
@@ -124,18 +123,18 @@ public class ItemMasterUI2 extends TabPanelUI {
                     if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
                         try {
-        Item item=itemService.getDao().findItemByCode(uiEty.tcToStr(tItemcode));
-            if(item!=null){ 
-        entity2Ui(item);
-           
-            }
-                 tItemDescription.requestFocus();
-         
+                            Item item = itemService.getDao().findItemByCode(uiEty.tcToStr(tItemcode));
+                            if (item != null) {
+                                entity2Ui(item);
+
+                            }
+                            tItemDescription.requestFocus();
+
                         } catch (Exception exx) {
                             exx.printStackTrace();
-                        tItemcode.requestFocus();    
+                            tItemcode.requestFocus();
                         }
-              
+
                     }
 
                 }
@@ -510,7 +509,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                 }
             });
             ////////////////////////////////////////////////////////////////////////////
-         ////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////
             tItemReOrder.addKeyListener(new KeyAdapter() {
 
                 @Override
@@ -525,15 +524,15 @@ public class ItemMasterUI2 extends TabPanelUI {
 
                 @Override
                 public void keyPressed(KeyEvent e) {
-           if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    if (e.getKeyCode() == KeyEvent.VK_UP) {
 
-                   tItemMinimumStock.requestFocus();
+                        tItemMinimumStock.requestFocus();
 
                     }
                 }
             });
             ////////////////////////////////////////////////////////////////////////////
-     
+
             tItemTrakSerial.addKeyListener(new KeyAdapter() {
 
                 @Override
@@ -804,14 +803,14 @@ public class ItemMasterUI2 extends TabPanelUI {
             TableUtil.cleardata(tblVariation);
             TableUtil.cleardata(tblPriceRanges);
             TableUtil.cleardata(tblBarcode);
-             
+
             tType.setText("");
             tItemBarcode.setText("");
             entity2Ui(new Item());
-            
+
             cPanel4.removeAll();
             cPanel4.revalidate();
-            
+
             images.clear();
         } catch (Exception e) {
         }
@@ -1339,7 +1338,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel2.add(tItemTrakExpiry);
-        tItemTrakExpiry.setBounds(110, 0, 71, 60);
+        tItemTrakExpiry.setBounds(111, 0, 70, 60);
 
         tItemTrakNonStockItem.setText("Non Stock Item");
         tItemTrakNonStockItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1462,7 +1461,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
             i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
             i.setCarton(uiEty.tcToDble0(tCartonItem)); //
-            System.out.println("uiEty.cmbtostr(tUnitItem1) "+uiEty.cmbtostr(tUnitItem1));
+            System.out.println("uiEty.cmbtostr(tUnitItem1) " + uiEty.cmbtostr(tUnitItem1));
             i.setUnitOne(uiEty.cmbtostr(tUnitItem1));//      combo
             i.setDifferent(uiEty.tcToInt(tDifferentPerUnit));//tDifferentPerUnit
             i.setUnitTwo(uiEty.cmbtostr(tUnitItem2));//tUnitItem2       combo
@@ -1635,7 +1634,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             itemVariation2Ui(i.getVariations());//uiEty.objToUi(//   i.setVariations(ui2ItemVariation(tblVariation));            
             extraSalesPrice2Ui(i.getExtrasalespriceCollection());//uiEty.objToUi(//   i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges));
             //        
-loadImagesToPanel(i.getCode());
+            loadImagesToPanel(i.getCode());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1719,58 +1718,58 @@ loadImagesToPanel(i.getCode());
                 MessageBoxes.wrnmsg(null, "Please Type Item Code", "Empty Item Code");
                 return;
             }
-            
-            if(getSupplier(uiEty.cmbtostr(tSupplierItem))==null){
-          
-        MessageBoxes.wrnmsg(null, "No Supplier Found For This Item.", "Empty");
-      //  Sessions.getObj("");     
-                return;
-            }
-            
+
+//            if (getSupplier(uiEty.cmbtostr(tSupplierItem)) == null) {
+//
+//                MessageBoxes.wrnmsg(null, "No Supplier Found For This Item.", "Empty");
+//                //  Sessions.getObj("");     
+//                return;
+//            }
+
             //if customer copy item and edit item here..
             //copieditemId will nt be empty it carries copied item id.
 
 
             Item item = uiToEntity(new Item());
             //if item coming from list view only this if condition works
-            if (getCopiedItemId() != null) {
-                if (pasteItem(item, getCopiedItemId())) {
-                      saveImages(item.getCode(),images);
-                    clearMaster();
-                    listUi.callVeryFirstPage();
-                   // MessageBoxes.okmsg(null, "Updated.", "Item");
-                  
-                    return; //return is very important..to exit the method ...
-                    
-
-                }
-
-            }
+//            if (getCopiedItemId() != null) {
+//                if (pasteItem(item, getCopiedItemId())) {
+//                    saveImages(item.getCode(), images);
+//                    clearMaster();
+//                    listUi.callVeryFirstPage();
+//                    // MessageBoxes.okmsg(null, "Updated.", "Item");
+//
+//                    return; //return is very important..to exit the method ...
+//
+//
+//                }
+//
+//            }
 
 
             Item exist = itemService.getDao().findItemByCode(item.getCode());
             if (exist == null) {
                 itemService.getDao().save(item);
 
-                saveImages(item.getCode(),images);
+                saveImages(item.getCode(), images);
             } else {
                 //item exist so ask user to update ...
                 String[] ObjButtons = {"Yes", "No"};
                 int PromptResult = JOptionPane.showOptionDialog(null, "Item Already Exist Do You Want to Update it?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
 
                 if (PromptResult == 0) {
-                    
-                    
+
+
                     item.setId(exist.getId());
                     itemService.getDao().update(item);
-                    
-                  deleteImages(item.getCode());
-                  saveImages(item.getCode(),images);
-                  
-                    
-                }else{
-          return;
-      }
+
+                    deleteImages(item.getCode());
+                    saveImages(item.getCode(), images);
+
+
+                } else {
+                    return;
+                }
 
             }
             // addToTable(items);
@@ -1784,100 +1783,101 @@ loadImagesToPanel(i.getCode());
 
     }//GEN-LAST:event_cSaveBtnActionPerformed
 
-    public void saveImages(String itemid,List<File> images){
-        try {int x=1;
+    public void saveImages(String itemid, List<File> images) {
+        try {
+            int x = 1;
             for (File img : images) {
-                System.out.println("img is "+img.getAbsolutePath());                          
-     new File(FormMaster.ITEM_IMAGE_PATH).mkdirs();
-     
-       String newImagePath = FormMaster.ITEM_IMAGE_PATH+x+"-"+itemid +"-"+ img.getName().substring(img.getName().lastIndexOf("."),img.getName().length());       
-        x++;
-        
-    File imgout1 = new File(newImagePath);
- 
-      imgout1.mkdirs();         
-    boolean d = ImageIO.write(ImageIO.read(img), getExtension(img), imgout1);         
-            
+                System.out.println("img is " + img.getAbsolutePath());
+                new File(FormMaster.ITEM_IMAGE_PATH).mkdirs();
+
+                String newImagePath = FormMaster.ITEM_IMAGE_PATH + x + "-" + itemid + "-" + img.getName().substring(img.getName().lastIndexOf("."), img.getName().length());
+                x++;
+
+                File imgout1 = new File(newImagePath);
+
+                imgout1.mkdirs();
+                boolean d = ImageIO.write(ImageIO.read(img), getExtension(img), imgout1);
+
             }
-     // this.images.clear();            
+            // this.images.clear();            
         } catch (Exception e) {
-        e.printStackTrace();}
-        
+            e.printStackTrace();
+        }
+
     }
     //////////////////////////////////////
-    public void deleteImages(String itemid){
+
+    public void deleteImages(String itemid) {
         try {
-    File f=new File(FormMaster.ITEM_IMAGE_PATH);
-    File[] ff=f.listFiles(); 
-   
-    if(ff!=null){
-        for (File file : ff) {
- boolean b=Pattern.compile(Pattern.quote("-"+itemid +"-"), Pattern.CASE_INSENSITIVE).matcher(file.getName()).find();      
-     if(b){
-     file.delete();
-  
-     }
-        
-        }
-         
-    }
+            File f = new File(FormMaster.ITEM_IMAGE_PATH);
+            File[] ff = f.listFiles();
+
+            if (ff != null) {
+                for (File file : ff) {
+                    boolean b = Pattern.compile(Pattern.quote("-" + itemid + "-"), Pattern.CASE_INSENSITIVE).matcher(file.getName()).find();
+                    if (b) {
+                        file.delete();
+
+                    }
+
+                }
+
+            }
         } catch (Exception e) {
-       e.printStackTrace();
+            e.printStackTrace();
         }
     }
     ///////////////////////////////////
 
-      //////////////////////////////////////
-    public void loadImagesToPanel(String itemid){
-        
+    //////////////////////////////////////
+    public void loadImagesToPanel(String itemid) {
+
         try {
-    File f=new File(FormMaster.ITEM_IMAGE_PATH);
-    File[] ff=f.listFiles(); 
-   List<File> itemImages=new ArrayList<File>();  
-    
-    if(ff!=null){
-        for (final File image : ff) {
- boolean b=Pattern.compile(Pattern.quote("-"+itemid +"-"), Pattern.CASE_INSENSITIVE).matcher(image.getName()).find();      
-     if(b){
-     //load images to the panel 
-    final JLabel jl = new JLabel();
+            File f = new File(FormMaster.ITEM_IMAGE_PATH);
+            File[] ff = f.listFiles();
+            List<File> itemImages = new ArrayList<File>();
 
-                jl.addMouseListener(new MouseAdapter() {
+            if (ff != null) {
+                for (final File image : ff) {
+                    boolean b = Pattern.compile(Pattern.quote("-" + itemid + "-"), Pattern.CASE_INSENSITIVE).matcher(image.getName()).find();
+                    if (b) {
+                        //load images to the panel 
+                        final JLabel jl = new JLabel();
 
-                    JPopupMenu p = null;
+                        jl.addMouseListener(new MouseAdapter() {
 
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        p = viewLargeImg(jl,image);
+                            JPopupMenu p = null;
+
+                            @Override
+                            public void mouseEntered(MouseEvent e) {
+                                p = viewLargeImg(jl, image);
+                            }
+
+                            @Override
+                            public void mouseExited(MouseEvent e) {
+                                if (p != null) {
+                                    p.setVisible(false);
+                                }
+                            }
+                        });
+
+                        cPanel4.add(imagesloadresize(image.getAbsolutePath(), jl));
+
+                        cPanel4.add(imagesloadresize(image.getAbsolutePath(), jl));
+                        cPanel4.revalidate();
+
+
                     }
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        if (p != null) {
-                            p.setVisible(false);
-                        }
-                    }
-                });
+                }
 
-                cPanel4.add(imagesloadresize(image.getAbsolutePath(), jl));
-
-     cPanel4.add(imagesloadresize(image.getAbsolutePath(),jl));
-  cPanel4.revalidate();
-     
-     
-     }
-        
-        }
-         
-    }
+            }
         } catch (Exception e) {
-       e.printStackTrace();
+            e.printStackTrace();
         }
     }
-    
-///////////////////////////////////////////////////////////////////////
 
-    
+///////////////////////////////////////////////////////////////////////
     public boolean pasteItem(Item i, String itemid) throws Exception {
         boolean b = false;
         try {
@@ -1892,22 +1892,20 @@ loadImagesToPanel(i.getCode());
         }
         return b;
     }
-    
-    ////////////////////////////////////////////
-public String getExtension(File f)
-      throws Exception
-    {
-   String extension = f.getName();
-      int i = extension.lastIndexOf('.');
 
-      if ((i > 0) && (i < extension.length() - 1)) {
-    extension = extension.substring(i + 1).toLowerCase();
-     }
-     return extension;
-   }
+    ////////////////////////////////////////////
+    public String getExtension(File f)
+            throws Exception {
+        String extension = f.getName();
+        int i = extension.lastIndexOf('.');
+
+        if ((i > 0) && (i < extension.length() - 1)) {
+            extension = extension.substring(i + 1).toLowerCase();
+        }
+        return extension;
+    }
 
 //////////////////////////////////
-
     private void tItemTrakExpiryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemTrakExpiryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tItemTrakExpiryActionPerformed
@@ -2077,7 +2075,7 @@ public String getExtension(File f)
 
                 if (PromptResult == 0) {
                     itemService.getDao().delete(exist);
- deleteImages(exist.getCode());   
+                    deleteImages(exist.getCode());
                 }
 
             } else {
@@ -2142,9 +2140,9 @@ public String getExtension(File f)
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
         try {
-        //    loadImagesToPanel("1000");
-   //  deleteImages("1000");                            
-       //     jPanel4.removeAll();
+            //    loadImagesToPanel("1000");
+            //  deleteImages("1000");                            
+            //     jPanel4.removeAll();
             chooser.showOpenDialog(null);
             File[] files = chooser.getSelectedFiles();
 //      JPanel panel = new JPanel(new FlowLayout());
@@ -2153,9 +2151,9 @@ public String getExtension(File f)
 //   JPopupMenu p=new JPopupMenu("imagepanel");
             //  cScrollPane1.add(panel);     
             for (final File image : files) {
-                
-       images.add(image);
-                 System.out.println("addedd image");
+
+                images.add(image);
+                System.out.println("addedd image");
 //    ImagePanel ii=new ImagePanel(new ImageIcon(image.getCanonicalPath()).getImage(),1);
 //ImagePanel ii2=new ImagePanel(new ImageIcon("C:/Documents and Settings/Administrator/Desktop/mazari.jpg").getImage(),1);
 
@@ -2184,7 +2182,7 @@ public String getExtension(File f)
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        p = viewLargeImg(jl,image);
+                        p = viewLargeImg(jl, image);
                     }
 
                     @Override
@@ -2198,12 +2196,12 @@ public String getExtension(File f)
                 cPanel4.add(jl);
 
 
-             cPanel4.add(imagesloadresize(image.getAbsolutePath(), jl));
+                cPanel4.add(imagesloadresize(image.getAbsolutePath(), jl));
 
             }
             cPanel4.revalidate();
-  
-MessageBoxes.okmsg(null,"ok","title");
+
+            MessageBoxes.okmsg(null, "ok", "title");
 //    panel.setVisible(true);  
 //   p.add(panel);
 //   p.show(this,10, 100);
@@ -2216,24 +2214,24 @@ MessageBoxes.okmsg(null,"ok","title");
         }
 
     }//GEN-LAST:event_cButton1ActionPerformed
-    public JPopupMenu viewLargeImg(JLabel lbl,File image) {
-      //  System.out.println("viewlargeImg Methd image name is "+image.getAbsolutePath());
+    public JPopupMenu viewLargeImg(JLabel lbl, File image) {
+        //  System.out.println("viewlargeImg Methd image name is "+image.getAbsolutePath());
         JPopupMenu p = new JPopupMenu("imagepanel");
         try {
             JPanel panel = new JPanel(new FlowLayout());
-         //      panel.add(new JLabel(new ImageIcon("C:/Documents and Settings/Administrator/Desktop/mazari.jpg")));           
+            //      panel.add(new JLabel(new ImageIcon("C:/Documents and Settings/Administrator/Desktop/mazari.jpg")));           
             Icon i = lbl.getIcon();
-        //    ImagePanel ii = new ImagePanel(iconToImage(i), 50);
-        //    ImagePanel ii = new ImagePanel(image, 1);
-         //   panel.add(imagesloadresize( , lbl));
-          JLabel jj=new JLabel();   
-          jj.setIcon(new ImageIcon( iconToImage(i).getScaledInstance(250, 250,0)));
+            //    ImagePanel ii = new ImagePanel(iconToImage(i), 50);
+            //    ImagePanel ii = new ImagePanel(image, 1);
+            //   panel.add(imagesloadresize( , lbl));
+            JLabel jj = new JLabel();
+            jj.setIcon(new ImageIcon(iconToImage(i).getScaledInstance(250, 250, 0)));
             panel.add(jj);
             panel.setVisible(true);
             panel.revalidate();
             p.add(panel);
-           
-            p.show(this, Toolkit.getDefaultToolkit().getScreenSize().width/2, 0);
+
+            p.show(this, Toolkit.getDefaultToolkit().getScreenSize().width / 2, 0);
             p.setVisible(true);
 
 
@@ -2253,8 +2251,8 @@ MessageBoxes.okmsg(null,"ok","title");
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice gd = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gd.getDefaultConfiguration();
-      //      BufferedImage image = gc.createCompatibleImage(w, h);
-           BufferedImage image = gc.createCompatibleImage(500,500);
+            //      BufferedImage image = gc.createCompatibleImage(w, h);
+            BufferedImage image = gc.createCompatibleImage(500, 500);
             Graphics2D g = image.createGraphics();
             icon.paintIcon(null, g, 0, 0);
             g.dispose();
@@ -2374,11 +2372,11 @@ MessageBoxes.okmsg(null,"ok","title");
     public Supplier getSupplier(String typedName) throws Exception {
         Supplier s = null;
         try {
-         
-        s=new SupplierDAO().findSupplierByCode(typedName);
-        
-        
-            
+
+            s = new SupplierDAO().findSupplierByCode(typedName);
+
+
+
         } catch (Exception e) {
 
             e.printStackTrace();
