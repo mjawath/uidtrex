@@ -187,7 +187,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                  getSeletedValue();
 
-                 editor.getComponent().postActionEvent();
+//                 editor.getComponent().postActionEvent();
             }        
         });
 
