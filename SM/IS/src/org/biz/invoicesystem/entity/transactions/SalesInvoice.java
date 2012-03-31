@@ -58,6 +58,22 @@ public class SalesInvoice extends BusObj implements Serializable {
     private Double texPer ;
     private Double texAmount ;
     private Double cashRecieveds ;
+
+    public Date getEditeddate() {
+        return editeddate;
+    }
+
+    public void setEditeddate(Date editeddate) {
+        this.editeddate = editeddate;
+    }
+
+    public Date getSaveddate() {
+        return saveddate;
+    }
+
+    public void setSaveddate(Date saveddate) {
+        this.saveddate = saveddate;
+    }
     
     
     

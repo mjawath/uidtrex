@@ -19,6 +19,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+import org.biz.invoicesystem.master.ui.ItemMasterTab;
+import org.biz.invoicesystem.master.ui.ItemMasterUI2;
+import org.biz.invoicesystem.ui.transactions.PosInvoiceUI;
 import org.biz.invoicesystem.ui.transactions.PurchaseMasterUi;
 
 import org.components.util.Sessions;
@@ -101,7 +104,7 @@ public class MainAppWindow extends app.AppMainWindow {
 
         setjTabbedPane1(jTabbedPane1);
        
-//        (new ItemMasterUI2(), "Item master");
+        addToTabpanelToUI(new ItemMasterTab(), "Item master");
 //       addToTabpanelToUI(new InvoiceTestUI2() , "Invoice test");
 //        addToTabpanelToUI(new AccountsCreationUI(), "acoouts master");
 //        addToTabpanelToUI(new SalesInvoiceUI(), "Invoice master");
@@ -116,6 +119,7 @@ public class MainAppWindow extends app.AppMainWindow {
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
         addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
+        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
     System.gc();
     }
  

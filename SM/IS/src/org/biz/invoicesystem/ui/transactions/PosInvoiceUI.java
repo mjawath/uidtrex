@@ -15,11 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.AbstractAction;
-import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableCellEditor;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.dao.util.EntityService;
@@ -32,11 +31,7 @@ import org.biz.invoicesystem.service.master.CustomerService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
-import org.components.parent.controls.editors.ComboBoxCellEditor;
-import org.components.parent.controls.editors.DoubleCellEditor;
-import org.components.parent.controls.editors.StringCellEditor;
-import org.components.parent.controls.editors.TableColumnAction;
-import org.components.parent.controls.editors.TableActions;
+import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
 /*
@@ -51,8 +46,9 @@ public class PosInvoiceUI extends TabPanelUI {
     SalesInvoice invoice;
     List<SalesInvoiceLineItem> lineItems;
     SalesInvoiceService servicedao;
-    PagedPopUpPanel popUpComponent;
-    ComboBoxCellEditor ce;
+    PagedPopUpPanel itemSelectionPopup;
+    SalesLineItemPanel lineItemPanel;
+
     /** Creates new form InvoiceMasterUi */
     public PosInvoiceUI() {
         initComponents();
@@ -61,35 +57,94 @@ public class PosInvoiceUI extends TabPanelUI {
     }
 
     public static void main(String[] args) {
-        Object c=null;
-        Object c2=null;
-        System.out.println("r "+c+25+" ff "+c2);
-//        List lst = new ArrayList();
-//        for (int i = 0; i < 1500; i++) {
-//            Supplier cus = new Supplier();
-//            cus.setId( EntityService.getKeyStr());
-//            cus.setCode( EntityService.getKeyStr());
-//            cus.setName(EntityService.getKeyStr());
-//            lst.add(cus);
-//        }
-//        new GenericDAO<Supplier>().saveList(lst);
-//        List lst = new ArrayList();
-//        for (int i = 0; i < 1500; i++) {
-//            Customer cus = new Customer();
-//            cus.setId("" + i + "" + System.currentTimeMillis());
-//            cus.setCode("" + i + "" + System.currentTimeMillis() + "" + i);
-//            cus.setCustomerName("" + i + "" + System.currentTimeMillis() + "" + i);
-//            lst.add(cus);
-//        }
-//        new GenericDAO<Customer>().saveList(lst);
+        Object c = null;
+        Object c2 = null;
+        System.out.println("r " + c + 25 + " ff " + c2);
     }
 
     @Override
     public void init() {
-            
-        TablePopUpCellEditor ed;
 
-        uiEty.setKeyAction(tblInvoice,new AbstractAction() {
+        JFrame jf = (JFrame) Sessions.getObj("mainui");
+        
+        lineItemPanel = new SalesLineItemPanel(jf) {
+
+            public SalesInvoiceLineItem panelToEty() {
+                SalesInvoiceLineItem sl = super.panelToEty();
+                addsales(sl);
+                return sl;
+            }
+
+            public void selectEty() {
+                SalesInvoiceLineItem sl = PosInvoiceUI.this.getSelectedLine();
+                if (sl == null) {
+                    return;
+                }
+                salesline = sl;
+//                loadUnit(sl.getItem());
+                itemSelectionPopup.setPopDesable(true);
+                etyToPanel();
+                itemSelectionPopup.setPopDesable(false);
+            }
+
+            public void action() {
+                SalesInvoiceLineItem sl = super.panelToEty();
+                Object id = sl.getId();
+                if (id == null) {
+                    sl.setId(System.currentTimeMillis() + "tt");
+                }
+                etyToRow(sl);
+                if (id == null) {
+                    setnewrow();
+
+                }
+            }
+        };
+
+        lineItemPanel.setTable(tblInvoice);
+        lineItemPanel.setcTextField1(lineItemPanel.getItemFiled());
+
+        itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
+
+            public void search(String qry) {
+                try {
+
+                    itemSelectionPopup.setList(itemService.getDao().byCode(qry));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void action() {
+                super.action();
+                String ob = itemSelectionPopup.getSelectedID();
+                Item item = null;
+                //find Item
+                for (Item it : listItem) {
+                    if (ob.equals(it.getId())) {
+                        itemSelectionPopup.setSelectedObject(it);
+                        item = it;
+                        break;
+                    }
+                }
+                int sr = tblInvoice.getSelectedRow();
+                loadUnit(item);
+                SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty();
+                lineItem.setItem(item);
+                addsales(lineItem);
+
+                lineItemPanel.lineItemLogic();
+            }
+
+            public Object[] data(Object item) {
+                Item it = (Item) item;
+                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
+            }
+        };
+
+
+        uiEty.setKeyAction(tblInvoice, new AbstractAction() {
+
             public void actionPerformed(ActionEvent e) {
                 System.out.println("delete action .......");
                 int sr = tblInvoice.getSelectedRow();
@@ -105,8 +160,8 @@ public class PosInvoiceUI extends TabPanelUI {
                     }
                 }
             }
-        },KeyEvent.VK_DELETE);
-        
+        }, KeyEvent.VK_DELETE);
+
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
@@ -116,213 +171,14 @@ public class PosInvoiceUI extends TabPanelUI {
         servicedao = new SalesInvoiceService();
         itemService = new ItemService();
 
-
-        TablePopUpCellEditor tb = new TablePopUpCellEditor(tblInvoice) {
-
-            public boolean action() {
-                return false;
-            }
-        };
-        TableActions taacti = new TableActions() {
-
-            @Override
-            public boolean rowValid() {
-                return validateAndRow();
-            }
-
-            @Override
-            public void newRowAdded() {
-                System.out.println("new row added");
-                SalesInvoiceLineItem si = new SalesInvoiceLineItem();
-                si.setId(TableUtil.newRowID);
-                lineItems.add(si);
-            }
-        };
-        tblInvoice.setTableAction(taacti);
-        tblInvoice.getTableSelection().addColumnAction(5, new TableColumnAction(){
-
-            
-          public   int actionPerformed() {
-                return -1;
-            }
-
-           
-            
-        });
-        popUpComponent = new PagedPopUpPanel(tblInvoice, tb) {
-            @Override
-            public void search(String qry) {
-                try {
-
-                    popUpComponent.setList(itemService.getDao().byCode(qry));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void action() {
-
-                String ob = popUpComponent.getSelectedID();
-                Item item = null;
-                //find Item
-                for (Item it : listItem) {
-                    if (ob.equals(it.getId())) {
-                        popUpComponent.setSelectedObject(it);
-                        item = it;
-                        break;
-                    }
-                }
-                int sr = tblInvoice.getSelectedRow();
-//                loadUnit(item);
-                SalesInvoiceLineItem lineItem = rowToEty();
-                //if current row valid 
-                lineItem.setItem(item);
-                //replace row
-                addsales(lineItem);
-
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                Item it = (Item) item;
-                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
-            }
-        };
-        popUpComponent.setSelectedColumn(1);
-
-        tblInvoice.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                    System.out.println("delete");
-                }
-            }
-        });
-        ce=new ComboBoxCellEditor(tblInvoice);
-//        tblInvoice.getColumnModel().getColumn(2).setCellEditor(tb);      
-        TableUtil.setColumnEditor(tblInvoice, 1, tb);
-        TableUtil.setColumnEditor(tblInvoice, 2, new StringCellEditor(tblInvoice));
-        TableUtil.setColumnEditor(tblInvoice, 3, new DoubleCellEditor(tblInvoice));
-        TableUtil.setColumnEditor(tblInvoice, 4, ce);
-        TableUtil.setColumnEditor(tblInvoice, 5, new DoubleCellEditor(tblInvoice) {
-
-            public boolean isCellValid() {
-                int sr = tblInvoice.getSelectedRow();
-
-                SalesInvoiceLineItem lineItem = rowToEty();
-
-                if (lineItem != null && lineItem.getPrice() != null && lineItem.getPrice() >= 150) {
-                    System.out.println("row is valid so move to next if  e");
-                    //if ot last row row is valid so move
-                    // to next if  exist or or creat new row                                                             
-                    //tblInvoice.setCurrentRowValid(true);
-                    return true;
-                } else {
-//                    tblInvoice.setCurrentRowValid(false);
-                    return false;
-                }
-            }
-        });
-
-        DoubleCellEditor dce = new DoubleCellEditor(tblInvoice) {
-        };
-
-        TableUtil.setColumnEditor(tblInvoice, 6, dce);
-
-
-
         custService = new CustomerService();
         listCust = custService.getDao().getAll();
-//                //ADD this list to popup
 
-        
-        
+        staffService = new StaffService();
+        listStaff = new ArrayList<Staff>();
 
-        cuspop = new PagedPopUpPanel(tcus) {
 
-            @Override
-            public Object[] data(Object item) {
-                Customer customer = (Customer) item;
-                return new Object[]{customer.getId(), customer.getCode(), customer.getCustomerName()};
-            }
 
-            @Override
-            public void action() {
-
-                String ob = cuspop.getSelectedID();
-                Customer item = null;
-                //find Item
-                for (Customer it : listCust) {
-                    if (ob.equals(it.getId())) {
-                        cuspop.setSelectedObject(it);
-                        item = it;
-                        invoice.setCustomer(item);
-                        uiEty.objToUi(cTextArea2, item.getAddress());
-                        break;
-                    }
-                }
-
-            }
-
-            @Override
-            public void search(String qry) {
-                try {
-                    listCust = custService.getDao().byCode(qry);
-                    cuspop.setObjectToTable(listCust);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        
-        cuspop.setObjectToTable(listCust);
-        cuspop.setSelectedColumn(1);
-        
-        
-        staffService =new StaffService();
-        listStaff=new ArrayList<Staff>();
-        salesPopup =new PagedPopUpPanel(tsalesman) {
-        
-            @Override
-            public Object[] data(Object item) {
-                Staff st = (Staff) item;
-                return new Object[]{st.getId(), st.getCode(), st.getName()};
-            }
-
-            @Override
-            public void action() {
-
-                String ob = salesPopup.getSelectedID();
-                Staff item = null;
-                //find Item
-                for (Staff it : listStaff) {
-                    if (ob.equals(it.getId())) {
-                        salesPopup.setSelectedObject(it);
-
-                        item = it;
-                        invoice.setStaff(it);
-//                        uiEty.objToUi(cTextArea2, item.getMobile());
-                        break;
-                    }
-                }
-
-            }
-
-            @Override
-            public void search(String qry) {
-                try {
-                    listStaff = staffService.getDao().byCode(qry);
-                    salesPopup.setObjectToTable(listStaff);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        
-        
-        popUpComponent.setObjectToTable(listItem);
         tblInvoice.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
@@ -334,18 +190,38 @@ public class PosInvoiceUI extends TabPanelUI {
                         //if new row create new line item add to 
                         //or selecet the correct model frfom list and select current 
                     } catch (Exception ee) {
-                    
                     }
                 }
             }
         });
         setnewrow();
-        
-        
+
+
     }
-    TableCellEditor de;
+
+    private void etyToRow(SalesInvoiceLineItem line) {
+
+        String it = line.getItem() == null ? null : line.getItem().getCode();
+        String itdes = line.getItem() == null ? null : line.getItem().getDescription();
+        TableUtil.replacerowValues(tblInvoice, new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()}, tblInvoice.getSelectedRow());
+
+    }
+
+    public SalesInvoiceLineItem getSelectedLine() {
+
+        String bt = uiEty.colToStrE(tblInvoice, 0);
+        SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
+
+        for (SalesInvoiceLineItem sli : lineItems) {
+            //
+            if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null) && bt.equals(sli.getId())) {
+                return sli;
+
+            }
+        }
+        return null;
+    }
 //    DoubleCellEditor de;
-    PagedPopUpPanel cuspop;
     PagedPopUpPanel salesPopup;
     CustomerService custService;
     ItemService itemService;
@@ -354,32 +230,7 @@ public class PosInvoiceUI extends TabPanelUI {
     List<Staff> listStaff;
     StaffService staffService;
     Item currentItem;
-    SalesInvoiceLineItem seil ;
-
-    private boolean validateAndRow() {
-
-
-        int sr = tblInvoice.getSelectedRow();
-
-        seil= rowToEty();
-        //validate the lineitem
-        addsales(seil);
-        if (seil != null && TableUtil.newRowID.equals(seil.getId())) {
-            String va = TableUtil.getNewRowId();
-            tblInvoice.setValueAt(va, sr, 0);
-            seil.setId(va);
-        }
-        Double qty=seil.getQty()==null?0:seil.getQty();
-        Double price=seil.getPrice()==null? 0:seil.getPrice();
-        seil.setLineAmount(qty* price);        
-        tblInvoice.setValueAt(uiEty.getPlainDouble(seil.getLineAmount()) , sr, 6);
-        tblInvoice.setValueAt(seil.getPrice(), sr, 5);
-        for (SalesInvoiceLineItem Item : lineItems) {
-            Item it = Item.getItem();
-            System.out.println("ite " + Item.getId() + " item " + (it == null ? " - print null" : Item.getItem().getId()));
-        }
-        return true;
-    }
+    SalesInvoiceLineItem seil;
 
     private SalesInvoiceLineItem addsales(SalesInvoiceLineItem lineItem) {
         SalesInvoiceLineItem sl = null;
@@ -423,23 +274,18 @@ public class PosInvoiceUI extends TabPanelUI {
 
     }
 
-    
-    private void loadUnit(Item it){        
-         String st=it.getUnitOne();
-         String st2=it.getUnitOne();
-         String [] stx= st2==null?new String[]{st}:new String[]{st,st2};         
-         uiEty.setcombomodel(stx, (JComboBox)ce.getComponent());
-        
+    private void loadUnit(Item it) {
+        String st = it.getUnitOne();
+        String st2 = it.getUnitOne();
+        String[] stx = st2 == null ? new String[]{st} : new String[]{st, st2};
+
     }
-    
-    private void calculateAndSetValues(){
-    
+
+    private void calculateAndSetValues() {
     }
-    
-    
+
     public void setnewrow() {
         TableUtil.addrow(tblInvoice, new Object[]{TableUtil.newRowID});
-        System.out.println("new row added");
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();
         si.setId(TableUtil.newRowID);
         lineItems.add(si);
@@ -454,7 +300,6 @@ public class PosInvoiceUI extends TabPanelUI {
             TableUtil.addrow(tblInvoice, new Object[]{item.getId(), item.getItem().getCode(), item.getQty()
                     });
         }
-
         TableUtil.addrow(tblInvoice, new Object[]{TableUtil.newRowID});
     }
 
@@ -474,41 +319,11 @@ public class PosInvoiceUI extends TabPanelUI {
         cTextField6 = new org.components.controls.CTextField();
         cTextField11 = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
-        cLabel2 = new org.components.controls.CLabel();
-        cComboBox2 = new org.components.controls.CComboBox();
-        cTextField2 = new org.components.controls.CTextField();
-        cPanel2 = new org.components.containers.CPanel();
-        cLabel3 = new org.components.controls.CLabel();
-        tcus = new org.components.controls.CTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        cTextArea2 = new org.components.controls.CTextArea();
-        cCheckBox2 = new org.components.controls.CCheckBox();
-        cDatePicker1 = new org.components.controls.CDatePicker();
-        cPanel4 = new org.components.containers.CPanel();
-        cLabel4 = new org.components.controls.CLabel();
-        cPanel3 = new org.components.containers.CPanel();
-        cLabel6 = new org.components.controls.CLabel();
-        cLabel11 = new org.components.controls.CLabel();
-        cLabel12 = new org.components.controls.CLabel();
-        cLabel13 = new org.components.controls.CLabel();
-        cTextField9 = new org.components.controls.CTextField();
-        cTextField10 = new org.components.controls.CTextField();
-        cPanel5 = new org.components.containers.CPanel();
-        cLabel16 = new org.components.controls.CLabel();
-        cLabel17 = new org.components.controls.CLabel();
-        cLabel18 = new org.components.controls.CLabel();
-        cLabel19 = new org.components.controls.CLabel();
-        cLabel20 = new org.components.controls.CLabel();
-        cTextField12 = new org.components.controls.CTextField();
-        cTextField13 = new org.components.controls.CTextField();
-        cTextField14 = new org.components.controls.CTextField();
-        cTextField15 = new org.components.controls.CTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
         cButton1 = new org.components.controls.CButton();
         cdelete = new org.components.controls.CButton();
         cclear = new org.components.controls.CButton();
-        tsalesman = new org.components.controls.CTextField();
 
         setLayout(null);
 
@@ -567,132 +382,6 @@ public class PosInvoiceUI extends TabPanelUI {
         add(cPanel1);
         cPanel1.setBounds(680, 360, 260, 160);
 
-        cLabel2.setText("Salesman");
-        cLabel2.setFont(new java.awt.Font("Tahoma", 0, 12));
-        add(cLabel2);
-        cLabel2.setBounds(720, 70, 60, 25);
-
-        cComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Invoice", "Quotation", "Credit Note", "Consignment Out" }));
-        add(cComboBox2);
-        cComboBox2.setBounds(680, 10, 150, 23);
-
-        cTextField2.setText("Inv No manually");
-        add(cTextField2);
-        cTextField2.setBounds(830, 10, 110, 25);
-
-        cPanel2.setLayout(null);
-
-        cLabel3.setText("Customer");
-        cLabel3.setFont(new java.awt.Font("Tahoma", 1, 10));
-        cPanel2.add(cLabel3);
-        cLabel3.setBounds(10, 0, 60, 20);
-        cPanel2.add(tcus);
-        tcus.setBounds(60, 0, 150, 20);
-
-        cTextArea2.setColumns(20);
-        cTextArea2.setRows(10);
-        jScrollPane3.setViewportView(cTextArea2);
-
-        cPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 30, 230, 60);
-
-        cCheckBox2.setText("Type");
-        cPanel2.add(cCheckBox2);
-        cCheckBox2.setBounds(10, 93, 60, 20);
-
-        add(cPanel2);
-        cPanel2.setBounds(0, 11, 240, 120);
-        add(cDatePicker1);
-        cDatePicker1.setBounds(830, 40, 110, 22);
-
-        cPanel4.setLayout(null);
-        add(cPanel4);
-        cPanel4.setBounds(10, 380, 230, 120);
-
-        cLabel4.setText("Date");
-        cLabel4.setFont(new java.awt.Font("Tahoma", 0, 12));
-        add(cLabel4);
-        cLabel4.setBounds(780, 40, 60, 25);
-
-        cPanel3.setLayout(null);
-
-        cLabel6.setText("Salesman");
-        cLabel6.setFont(new java.awt.Font("Tahoma", 0, 12));
-        cPanel3.add(cLabel6);
-        cLabel6.setBounds(800, 70, 60, 25);
-
-        cLabel11.setText("Last Invoice");
-        cLabel11.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel3.add(cLabel11);
-        cLabel11.setBounds(60, 0, 70, 20);
-
-        cLabel12.setText("Invoice Date");
-        cLabel12.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel3.add(cLabel12);
-        cLabel12.setBounds(10, 20, 70, 20);
-
-        cLabel13.setText("Invoice Total");
-        cLabel13.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel3.add(cLabel13);
-        cLabel13.setBounds(10, 60, 70, 20);
-
-        cTextField9.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel3.add(cTextField9);
-        cTextField9.setBounds(10, 40, 150, 20);
-
-        cTextField10.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel3.add(cTextField10);
-        cTextField10.setBounds(10, 80, 150, 20);
-
-        add(cPanel3);
-        cPanel3.setBounds(500, 10, 170, 110);
-
-        cPanel5.setLayout(null);
-
-        cLabel16.setText("Salesman");
-        cLabel16.setFont(new java.awt.Font("Tahoma", 0, 12));
-        cPanel5.add(cLabel16);
-        cLabel16.setBounds(800, 70, 60, 25);
-
-        cLabel17.setText("Credit Limit");
-        cLabel17.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cLabel17);
-        cLabel17.setBounds(10, 10, 70, 20);
-
-        cLabel18.setText("Total Dues");
-        cLabel18.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cLabel18);
-        cLabel18.setBounds(10, 40, 70, 20);
-
-        cLabel19.setText("PD Chqs");
-        cLabel19.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cLabel19);
-        cLabel19.setBounds(10, 60, 70, 20);
-
-        cLabel20.setText("Bounced Chqs");
-        cLabel20.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cLabel20);
-        cLabel20.setBounds(10, 80, 70, 20);
-
-        cTextField12.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cTextField12);
-        cTextField12.setBounds(90, 80, 150, 20);
-
-        cTextField13.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cTextField13);
-        cTextField13.setBounds(90, 10, 150, 20);
-
-        cTextField14.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cTextField14);
-        cTextField14.setBounds(90, 40, 150, 20);
-
-        cTextField15.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel5.add(cTextField15);
-        cTextField15.setBounds(90, 60, 150, 20);
-
-        add(cPanel5);
-        cPanel5.setBounds(240, 10, 250, 110);
-
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -712,7 +401,7 @@ public class PosInvoiceUI extends TabPanelUI {
         jScrollPane2.setViewportView(tblInvoice);
 
         add(jScrollPane2);
-        jScrollPane2.setBounds(10, 170, 900, 180);
+        jScrollPane2.setBounds(10, 80, 900, 240);
 
         cButton1.setText("Save");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -740,8 +429,6 @@ public class PosInvoiceUI extends TabPanelUI {
         });
         add(cclear);
         cclear.setBounds(470, 400, 70, 30);
-        add(tsalesman);
-        tsalesman.setBounds(780, 70, 130, 25);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
@@ -749,16 +436,14 @@ public class PosInvoiceUI extends TabPanelUI {
         invoice.setId(EntityService.getKeys());
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
-            if(si.getId().equals(TableUtil.newRowID)){
-            it.remove();
+            if (si.getId().equals(TableUtil.newRowID)) {
+                it.remove();
             }
         }
         servicedao.getDao().save(invoice);
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);
-        System.out.println("saved.....");
-
 
     }//GEN-LAST:event_cButton1ActionPerformed
 
@@ -766,65 +451,28 @@ public class PosInvoiceUI extends TabPanelUI {
     }//GEN-LAST:event_cdeleteActionPerformed
 
     private void cclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cclearActionPerformed
-
-        
-        
     }//GEN-LAST:event_cclearActionPerformed
 
-    
-    
     public void clear() {
-        //clear the gui
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
-    private org.components.controls.CCheckBox cCheckBox2;
-    private org.components.controls.CComboBox cComboBox2;
-    private org.components.controls.CDatePicker cDatePicker1;
     private org.components.controls.CLabel cLabel10;
-    private org.components.controls.CLabel cLabel11;
-    private org.components.controls.CLabel cLabel12;
-    private org.components.controls.CLabel cLabel13;
     private org.components.controls.CLabel cLabel15;
-    private org.components.controls.CLabel cLabel16;
-    private org.components.controls.CLabel cLabel17;
-    private org.components.controls.CLabel cLabel18;
-    private org.components.controls.CLabel cLabel19;
-    private org.components.controls.CLabel cLabel2;
-    private org.components.controls.CLabel cLabel20;
-    private org.components.controls.CLabel cLabel3;
-    private org.components.controls.CLabel cLabel4;
     private org.components.controls.CLabel cLabel5;
-    private org.components.controls.CLabel cLabel6;
     private org.components.controls.CLabel cLabel7;
     private org.components.controls.CLabel cLabel8;
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
-    private org.components.containers.CPanel cPanel2;
-    private org.components.containers.CPanel cPanel3;
-    private org.components.containers.CPanel cPanel4;
-    private org.components.containers.CPanel cPanel5;
-    private org.components.controls.CTextArea cTextArea2;
     private org.components.controls.CTextField cTextField1;
-    private org.components.controls.CTextField cTextField10;
     private org.components.controls.CTextField cTextField11;
-    private org.components.controls.CTextField cTextField12;
-    private org.components.controls.CTextField cTextField13;
-    private org.components.controls.CTextField cTextField14;
-    private org.components.controls.CTextField cTextField15;
-    private org.components.controls.CTextField cTextField2;
     private org.components.controls.CTextField cTextField4;
     private org.components.controls.CTextField cTextField5;
     private org.components.controls.CTextField cTextField6;
-    private org.components.controls.CTextField cTextField9;
     private org.components.controls.CButton cclear;
     private org.components.controls.CButton cdelete;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private org.components.controls.TableEditable tblInvoice;
-    private org.components.controls.CTextField tcus;
-    private org.components.controls.CTextField tsalesman;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -840,9 +488,7 @@ public class PosInvoiceUI extends TabPanelUI {
     public JPanel getJPanel() {
         return this;
     }
-
 }
-
 //        cxTable2.getColumnModel().getColumn(2).setCellEditor(new editor(popUpComponent, tblInvoice));
 //        dialog = new ItemPopUp(cTextField1, lineItems)
 //        /*     KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
