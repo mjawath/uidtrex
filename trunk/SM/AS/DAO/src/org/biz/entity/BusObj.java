@@ -26,10 +26,10 @@ public class BusObj implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected String id;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date saveddate;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    Date editeddate;
+//    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+//    private Date saveddate;
+//    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+//    Date editeddate;
     public String getId() {
         return id;
     }
@@ -38,20 +38,20 @@ public class BusObj implements Serializable{
         this.id = id;
     }
     
-     public Date getEditeddate() {
-        return editeddate;
-    }
-
-    public void setEditeddate(Date editeddate) {
-        this.editeddate = editeddate;
-    }
-
-    public Date getSaveddate() {
-        return saveddate;
-    }
-
-    public void setSaveddate(Date saveddate) {
-        this.saveddate = saveddate;
-    }
+//     public Date getEditeddate() {
+//        return editeddate;
+//    }
+//
+//    public void setEditeddate(Date editeddate) {
+//        this.editeddate = editeddate;
+//    }
+//
+//    public Date getSaveddate() {
+//        return saveddate;
+//    }
+//
+//    public void setSaveddate(Date saveddate) {
+//        this.saveddate = saveddate;
+//    }
     
 }
