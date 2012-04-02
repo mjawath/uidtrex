@@ -156,8 +156,13 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 if (id == null) {
                     sl.setId(System.currentTimeMillis() + "tt");
                 }
+                
+         
                 etyToRow(sl);
-
+                uiety();
+                invoice.setTotal(); 
+                sTotalToUI();
+                
                 //check lineittem id is null then if its need a new row insert a new row  
                 //or move to next row
 
@@ -194,7 +199,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                         break;
                     }
                 }
-                int sr = tblInvoice.getSelectedRow();
                 loadUnit(item);
                 SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty();
                 //                if current row valid 
@@ -265,7 +269,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
             @Override
             public boolean action() {
-                System.out.println("action task form out side 222222222");
 //                cuspop.mo
                 return super.action();
             }
@@ -315,29 +318,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     
     public void events() {
         
-        tsubtotal.addActionListener(new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("sub action "+System.currentTimeMillis());
-                //should valildate 
-                // should call action
-                //if both return true 
-                //this should leave focus
-//                ttax.requestFocus();
-                throw new RuntimeException();
-            }
-        });
-        
-        tsubtotal.setInputVerifier(new InputVerifier() {
-
-         
-            public boolean verify(JComponent input) {
-//                throw new RuntimeException("Not supported yet.");
-                System.out.println("input verified "+System.currentTimeMillis());
-                return true;
-            }
-        });
         
         
 
@@ -474,13 +454,22 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         invoice.setShop(Shop.getDefaultShop());
         invoice.setDocRefNo(uiEty.tcToStr(tdocref));
         invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
-        invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
+        invoice.setTexAmount(uiEty.tcToDouble(ttax));
+        invoice.setDiscount(uiEty.tcToDouble(tdis));
+        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
         invoice.setRemarks(uiEty.tcToStr(tremark));
         invoice.setEditeddate(SystemUtil.getSystemDate());
         invoice.setSaveddate(SystemUtil.getSystemDate());
-        invoice.setLineItems(lineItems);
+//        invoice.setLineItems(lineItems);
         
     }
+    
+    public void sTotalToUI(){
+    uiEty.objToUi(tsubtotal, invoice.getSubTotal());
+    uiEty.objToUi(tfinaltotle, invoice.getTotal());
+    uiEty.objToUi(tbal, invoice.setTotal());
+    }
+            
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -535,6 +524,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         jScrollPane1 = new javax.swing.JScrollPane();
         tremark = new org.components.controls.CTextArea();
         cLabel1 = new org.components.controls.CLabel();
+        tbal = new org.components.controls.CLabel();
+        cLabel21 = new org.components.controls.CLabel();
 
         setLayout(null);
 
@@ -797,6 +788,14 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cLabel1.setText("Remarks");
         add(cLabel1);
         cLabel1.setBounds(110, 360, 104, 20);
+
+        tbal.setText("");
+        add(tbal);
+        tbal.setBounds(240, 470, 190, 40);
+
+        cLabel21.setText("Total :");
+        add(cLabel21);
+        cLabel21.setBounds(110, 480, 104, 25);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
@@ -871,6 +870,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private org.components.controls.CLabel cLabel19;
     private org.components.controls.CLabel cLabel2;
     private org.components.controls.CLabel cLabel20;
+    private org.components.controls.CLabel cLabel21;
     private org.components.controls.CLabel cLabel3;
     private org.components.controls.CLabel cLabel4;
     private org.components.controls.CLabel cLabel5;
@@ -894,6 +894,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private org.components.controls.CLabel tbal;
     private org.components.controls.TableEditable tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
     private org.components.controls.CTextField tcus;

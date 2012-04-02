@@ -57,7 +57,7 @@ public class ItemMasterTab extends TabPanelUI {
     @Override
     public void updateEntityUI() {
 
-        getItemTabPane().setSelectedIndex(getItemTabPane().indexOfTab("List"));
+        getItemTabPane().setSelectedIndex(1);//getItemTabPane().indexOfTab("List")
         itemListUi1.loadItemList2Tbl(0, itemListUi1.getDynamicQuery());
     }
 

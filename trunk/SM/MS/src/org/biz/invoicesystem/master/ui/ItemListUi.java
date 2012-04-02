@@ -114,7 +114,8 @@ public class ItemListUi extends TabPanelUI {
     public void callFormUi() {
         try {
 
-            getMastertab().getItemTabPane().setSelectedIndex(getMastertab().getItemTabPane().indexOfTab(ItemMasterTab.FormUiTabName));
+//            getMastertab().getItemTabPane().setSelectedIndex(getMastertab().getItemTabPane().indexOfTab(ItemMasterTab.FormUiTabName));
+            getMastertab().getItemTabPane().setSelectedIndex( 0);
 
         } catch (Exception e) {
             e.printStackTrace();
