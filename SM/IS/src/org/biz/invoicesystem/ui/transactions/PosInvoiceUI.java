@@ -8,9 +8,7 @@ package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import org.components.parent.controls.editors.TablePopUpCellEditor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +19,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Staff;
@@ -56,12 +53,7 @@ public class PosInvoiceUI extends TabPanelUI {
         init();
     }
 
-    public static void main(String[] args) {
-        Object c = null;
-        Object c2 = null;
-        System.out.println("r " + c + 25 + " ff " + c2);
-    }
-
+    
     @Override
     public void init() {
 
@@ -186,10 +178,10 @@ public class PosInvoiceUI extends TabPanelUI {
                     try {
                         int sr = tblInvoice.getSelectedRow();
                         SalesInvoiceLineItem seil = rowToEty();
-                        System.out.println("sales + " + seil.getId());
                         //if new row create new line item add to 
                         //or selecet the correct model frfom list and select current 
                     } catch (Exception ee) {
+                    ee.printStackTrace();
                     }
                 }
             }
@@ -238,7 +230,7 @@ public class PosInvoiceUI extends TabPanelUI {
         int x = -1;
         for (SalesInvoiceLineItem sil : lineItems) {
             x++;
-            if (lineItem.getId().equals(sil.getId())) {
+            if ((lineItem.getId() == null && sil.getId() == null) || lineItem.getId() != null && sil.getId() != null && lineItem.getId().equals(sil.getId())) {
                 sx = x;
                 sl = sil;
                 break;
@@ -250,6 +242,7 @@ public class PosInvoiceUI extends TabPanelUI {
         }
         return sl;
     }
+
 
     public SalesInvoiceLineItem rowToEty() {
 
@@ -281,13 +274,10 @@ public class PosInvoiceUI extends TabPanelUI {
 
     }
 
-    private void calculateAndSetValues() {
-    }
-
+    
     public void setnewrow() {
-        TableUtil.addrow(tblInvoice, new Object[]{TableUtil.newRowID});
+        TableUtil.addrow(tblInvoice, new Object[]{});
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();
-        si.setId(TableUtil.newRowID);
         lineItems.add(si);
     }
 
@@ -380,7 +370,7 @@ public class PosInvoiceUI extends TabPanelUI {
         cLabel15.setBounds(10, 120, 70, 20);
 
         add(cPanel1);
-        cPanel1.setBounds(680, 360, 260, 160);
+        cPanel1.setBounds(640, 360, 270, 160);
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +391,7 @@ public class PosInvoiceUI extends TabPanelUI {
         jScrollPane2.setViewportView(tblInvoice);
 
         add(jScrollPane2);
-        jScrollPane2.setBounds(10, 80, 900, 240);
+        jScrollPane2.setBounds(10, 80, 900, 270);
 
         cButton1.setText("Save");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -433,17 +423,22 @@ public class PosInvoiceUI extends TabPanelUI {
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
 
-        invoice.setId(EntityService.getKeys());
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
-            if (si.getId().equals(TableUtil.newRowID)) {
+            if (si.getId() == null) {
                 it.remove();
             }
         }
-        servicedao.getDao().save(invoice);
+        
+
+        servicedao.createInventoryJournal(invoice);
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);
+
+        clear();
+
+        
 
     }//GEN-LAST:event_cButton1ActionPerformed
 
@@ -454,6 +449,15 @@ public class PosInvoiceUI extends TabPanelUI {
     }//GEN-LAST:event_cclearActionPerformed
 
     public void clear() {
+        
+        invoice = SalesInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+
+        setnewrow();
+        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;

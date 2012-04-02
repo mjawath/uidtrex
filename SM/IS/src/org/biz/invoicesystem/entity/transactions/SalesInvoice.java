@@ -4,6 +4,7 @@
  */
 package org.biz.invoicesystem.entity.transactions;
 
+import app.utils.MathUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,19 +46,18 @@ public class SalesInvoice extends BusObj implements Serializable {
     @OneToOne
     private Shop shop;
     @OneToOne
-    private Warehouse warehouse;        
-    
+    private Warehouse warehouse;
     String docRefNo;
     private String invNo;
     private String Remarks;
     private String notes;
-    private Double total ;
-    private Double subTotal ;
-    private Double discount ;
-    private Double discountPer ;
-    private Double texPer ;
-    private Double texAmount ;
-    private Double cashRecieveds ;
+    private Double total;
+    private Double subTotal;
+    private Double discount;
+    private Double discountPer;
+    private Double texPer;
+    private Double texAmount;
+    private Double cashRecieveds;
 
     public Date getEditeddate() {
         return editeddate;
@@ -74,9 +74,6 @@ public class SalesInvoice extends BusObj implements Serializable {
     public void setSaveddate(Date saveddate) {
         this.saveddate = saveddate;
     }
-    
-    
-    
 
     public Customer getCustomer() {
         return customer;
@@ -113,8 +110,6 @@ public class SalesInvoice extends BusObj implements Serializable {
     public String getId() {
         return id;
     }
-
-   
 
     public void setId(String id) {
         this.id = id;
@@ -223,12 +218,30 @@ public class SalesInvoice extends BusObj implements Serializable {
     public void setTotal(Double total) {
         this.total = total;
     }
-    
 
     static public SalesInvoice createNewInvoice() {
         SalesInvoice sl = new SalesInvoice();
         sl.setLineItems(new ArrayList<SalesInvoiceLineItem>());
         return sl;
     }
-    
+
+    public Double setTotal() {
+        Double db = 0d;
+        for (SalesInvoiceLineItem sl : lineItems) {
+            db= MathUtil.add(db, sl.getLineAmount());
+        }
+        setSubTotal(db);
+
+        
+        db=MathUtil.sub(db, getTexAmount());        
+        db=MathUtil.sub(db, getDiscount());
+        
+        
+        setTotal(db);
+        Double bal=db;
+        bal=MathUtil.sub(bal, getCashRecieveds());        
+        System.out.println("totel  " + bal);
+        return bal;
+
+    }
 }
