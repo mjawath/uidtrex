@@ -28,7 +28,7 @@ public class Popupdirect extends javax.swing.JFrame {
 
         p1.setBackground(new java.awt.Color(255, 153, 204));
         p1.setLayout(null);
-        getContentPane().add(p1,0);
+        getLayeredPane().add(p1,1);
         p1.setBounds(40, 20, 380, 120);
 
 
@@ -50,7 +50,7 @@ public class Popupdirect extends javax.swing.JFrame {
 
         p2.add(jScrollPane1);
         jScrollPane1.setBounds(30, 20, 380, 275);
-        getContentPane().add(p2,1);
+        getLayeredPane().add(p2,0);
         p2.setBounds(140, 70, 440, 220);
 
         pack();
