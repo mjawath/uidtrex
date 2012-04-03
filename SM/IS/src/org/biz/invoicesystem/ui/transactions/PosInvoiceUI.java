@@ -391,7 +391,7 @@ public class PosInvoiceUI extends TabPanelUI {
         jScrollPane2.setViewportView(tblInvoice);
 
         add(jScrollPane2);
-        jScrollPane2.setBounds(10, 80, 900, 270);
+        jScrollPane2.setBounds(20, 20, 900, 270);
 
         cButton1.setText("Save");
         cButton1.addActionListener(new java.awt.event.ActionListener() {

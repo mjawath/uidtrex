@@ -112,7 +112,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         getContentPane().add(jLayeredPane1);
-        jLayeredPane1.setBounds(0, 30, 380, 310);
+        jLayeredPane1.setBounds(80, 60, 380, 310);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
