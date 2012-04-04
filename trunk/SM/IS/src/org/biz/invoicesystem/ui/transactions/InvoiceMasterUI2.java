@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.AbstractAction;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
@@ -835,12 +833,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     }//GEN-LAST:event_ttypeActionPerformed
 
     public void clear() {
-
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);
-
-
         tcus.setText("");
         tsalesman.setText("");
         ttax.setText("");
@@ -851,10 +846,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tdis.setText("");
         tsalesman.setText("");
         setnewrow();
-        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
-        
+        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());       
 
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CCheckBox cCheckBox2;

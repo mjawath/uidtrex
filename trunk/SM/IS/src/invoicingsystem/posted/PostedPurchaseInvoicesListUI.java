@@ -24,6 +24,7 @@ public class PostedPurchaseInvoicesListUI extends javax.swing.JPanel {
     /** Creates new form PostedInvoicesListUI */
     public PostedPurchaseInvoicesListUI() {
         initComponents();
+        
     }
 
     

@@ -10,6 +10,7 @@ package invoicingsystem;
  *
  * Created on Dec 13, 2010, 10:16:22 PM
  */
+import invoicingsystem.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
 import java.awt.Container;
@@ -20,7 +21,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
-import org.biz.invoicesystem.master.ui.ItemMasterUI2;
 import org.biz.invoicesystem.ui.transactions.PosInvoiceUI;
 import org.biz.invoicesystem.ui.transactions.PurchaseMasterUi;
 
@@ -120,6 +120,7 @@ public class MainAppWindow extends app.AppMainWindow {
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
         addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
         addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
+        addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
     System.gc();
     }
  
