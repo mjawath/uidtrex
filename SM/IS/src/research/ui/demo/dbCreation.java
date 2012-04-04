@@ -13,6 +13,8 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
+import org.biz.invoicesystem.entity.transactions.SalesInvoice;
+import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 
 /**
  *
@@ -21,10 +23,15 @@ import org.biz.invoicesystem.entity.master.Supplier;
 public class dbCreation {
     
     public static void main(String[] args) {
-      System.out.println("hop "+Shop.class);
-        Shop s=new Shop();
-        s.setId("fdf5");
-        new GenericDAO().save(s);
+      
+        List s=new SalesInvoiceService().getDao().getAll();
+        for (Object object : s) {
+            SalesInvoice sl=(SalesInvoice)object;
+            Object x=sl.getLineItems();
+            if(x!=null){
+                System.out.println(x);
+            }
+        }
         
     }
     public void createmster(){

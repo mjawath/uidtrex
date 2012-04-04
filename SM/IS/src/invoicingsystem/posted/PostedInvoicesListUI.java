@@ -11,14 +11,16 @@
 package invoicingsystem.posted;
 
 import java.util.List;
+import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
+import org.components.windows.TabPanelUI;
 
 /**
  *
  * @author nnjj
  */
-public class PostedInvoicesListUI extends javax.swing.JPanel {
+public class PostedInvoicesListUI extends TabPanelUI {
 
     /** Creates new form PostedInvoicesListUI */
     public PostedInvoicesListUI() {
@@ -93,4 +95,14 @@ public class PostedInvoicesListUI extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CxTable tblInvoice;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public String getTabName() {
+        return " psoterd dfd ";
+    }
+
+    @Override
+    public JPanel getJPanel() {
+        return this;
+    }
 }

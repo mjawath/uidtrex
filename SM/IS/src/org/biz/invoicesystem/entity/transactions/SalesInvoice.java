@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,12 +31,12 @@ import org.biz.invoicesystem.entity.master.Shop;
 public class SalesInvoice extends BusObj implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.LAZY)
     private Customer customer;
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.LAZY)
     private Staff staff;
     @JoinColumn(name = "sales_invoice_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch= FetchType.LAZY)
     private List<SalesInvoiceLineItem> lineItems;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date docdate;
