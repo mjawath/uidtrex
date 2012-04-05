@@ -10,7 +10,7 @@ package invoicingsystem;
  *
  * Created on Dec 13, 2010, 10:16:22 PM
  */
-import invoicingsystem.posted.PostedInvoicesListUI;
+import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
 import java.awt.Container;

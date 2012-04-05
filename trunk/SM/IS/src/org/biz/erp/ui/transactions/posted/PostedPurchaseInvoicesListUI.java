@@ -8,7 +8,7 @@
  *
  * Created on Feb 8, 2012, 10:57:40 PM
  */
-package invoicingsystem.posted;
+package org.biz.erp.ui.transactions.posted;
 
 import java.util.List;
 import org.biz.app.ui.util.TableUtil;
