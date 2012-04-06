@@ -5,11 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.biz.dao.service.GenericDAO;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.master.ui.FormMaster;
 import org.dao.util.JPAUtil;
-import org.eclipse.persistence.queries.ScrollableCursor;
 
 /**
  *
@@ -21,6 +19,15 @@ public class ItemDAO extends GenericDAO<Item> {
         setCls(Item.class);
     }
 
+    
+     public  List<Item> findItemListByCode(String itemcode) {
+  
+        List<Item> lst = pagedData(" Where c.code like '%" + itemcode + "'",1);
+//
+
+        return lst;
+    }
+     
     public Item findItemByCode(String itemcode) {
         Item i = null;
 //        try { 
@@ -146,6 +153,8 @@ public class ItemDAO extends GenericDAO<Item> {
     }
     //////////////////////////////////////////////////////
 
+    
+    
     public static void main(String[] args) {
 
         ItemDAO i = new ItemDAO();
