@@ -46,7 +46,7 @@ public class CPaginatedPanel extends javax.swing.JPanel {
     }
 
     public void getNextPage() {
-        service.moveToNextPage(qryName, 0);
+        service.getNextPage(qryName, 0);
     }
 
     public void getPreviousePage() {
