@@ -32,8 +32,9 @@ public class ItemListUi extends TabPanelUI {
     public void init() {
         initComponents();
         itemService = new ItemService();
-        items=new ArrayList<Item>();
+        items = new ArrayList<Item>();
         callVeryFirstPage();
+        cPaginatedPanel1.setService(itemService);
 
     }
 
@@ -115,7 +116,7 @@ public class ItemListUi extends TabPanelUI {
         try {
 
 //            getMastertab().getItemTabPane().setSelectedIndex(getMastertab().getItemTabPane().indexOfTab(ItemMasterTab.FormUiTabName));
-            getMastertab().getItemTabPane().setSelectedIndex( 0);
+            getMastertab().getItemTabPane().setSelectedIndex(0);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,9 +156,11 @@ public class ItemListUi extends TabPanelUI {
         cButton1 = new org.components.controls.CButton();
         cButton2 = new org.components.controls.CButton();
         cButton3 = new org.components.controls.CButton();
-        cButton4 = new org.components.controls.CButton();
+        tnextpage = new org.components.controls.CButton();
         cPageCount = new org.components.controls.CTextFieldPopUp();
         cCopyItem = new org.components.controls.CButton();
+        cButton5 = new org.components.controls.CButton();
+        cPaginatedPanel1 = new org.biz.app.ui.util.CPaginatedPanel();
 
         setLayout(null);
 
@@ -225,7 +228,7 @@ public class ItemListUi extends TabPanelUI {
         tblItemList.getColumnModel().getColumn(1).setMaxWidth(200);
 
         cPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 90, 760, 278);
+        jScrollPane1.setBounds(20, 98, 760, 270);
 
         cRefreshItem.setText("Refresh");
         cRefreshItem.addActionListener(new java.awt.event.ActionListener() {
@@ -270,7 +273,7 @@ public class ItemListUi extends TabPanelUI {
             }
         });
         cPanel1.add(cButton1);
-        cButton1.setBounds(280, 60, 41, 23);
+        cButton1.setBounds(100, 60, 41, 23);
 
         cButton2.setText("<<");
         cButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +282,7 @@ public class ItemListUi extends TabPanelUI {
             }
         });
         cPanel1.add(cButton2);
-        cButton2.setBounds(220, 60, 49, 23);
+        cButton2.setBounds(40, 60, 49, 23);
 
         cButton3.setText(">>");
         cButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -288,18 +291,18 @@ public class ItemListUi extends TabPanelUI {
             }
         });
         cPanel1.add(cButton3);
-        cButton3.setBounds(480, 60, 49, 23);
+        cButton3.setBounds(300, 60, 49, 23);
 
-        cButton4.setText(">");
-        cButton4.addActionListener(new java.awt.event.ActionListener() {
+        tnextpage.setText(">");
+        tnextpage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cButton4ActionPerformed(evt);
+                tnextpageActionPerformed(evt);
             }
         });
-        cPanel1.add(cButton4);
-        cButton4.setBounds(430, 60, 41, 23);
+        cPanel1.add(tnextpage);
+        tnextpage.setBounds(250, 60, 41, 23);
         cPanel1.add(cPageCount);
-        cPageCount.setBounds(330, 60, 90, 20);
+        cPageCount.setBounds(150, 60, 90, 20);
 
         cCopyItem.setText("Copy");
         cCopyItem.addActionListener(new java.awt.event.ActionListener() {
@@ -310,8 +313,19 @@ public class ItemListUi extends TabPanelUI {
         cPanel1.add(cCopyItem);
         cCopyItem.setBounds(500, 380, 110, 50);
 
+        cButton5.setText("Find");
+        cButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cButton5ActionPerformed(evt);
+            }
+        });
+        cPanel1.add(cButton5);
+        cButton5.setBounds(650, 30, 53, 23);
+        cPanel1.add(cPaginatedPanel1);
+        cPaginatedPanel1.setBounds(410, 60, 280, 30);
+
         add(cPanel1);
-        cPanel1.setBounds(0, 0, 790, 480);
+        cPanel1.setBounds(0, 10, 790, 480);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cRefreshItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cRefreshItemActionPerformed
@@ -369,7 +383,7 @@ public class ItemListUi extends TabPanelUI {
 
         try {
             items = itemService.getDao().byCode(qry);
-             loadTable();
+            loadTable();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -429,19 +443,35 @@ public class ItemListUi extends TabPanelUI {
         }
     }//GEN-LAST:event_cCopyItemActionPerformed
 
-    private void cButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton4ActionPerformed
+    private void tnextpageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tnextpageActionPerformed
 
-        TableUtil.cleardata(tblItemList);
+
+        if (true) {//pagination applicable
+            int nextpage = currentPageNo + 1;
+
+            itemService.moveToNextPage(ItemService.qryName, currentPageNo);
+
+            //rel;oad list 
+            // reload pagenation cxomponent
+
+        }
+
+
+
+
+        /*TableUtil.cleardata(tblItemList);
         currentPageNo += 1;
-
-
+        
+        
         if (currentPageNo > pageCount()) {
-            currentPageNo = pageCount();
-
+        currentPageNo = pageCount();
+        
         }
         loadItemList2Tbl(currentPageNo, getDynamicQuery());
         cPageCount.setText("" + currentPageNo + " OF " + pageCount());
-    }//GEN-LAST:event_cButton4ActionPerformed
+         * 
+         */
+    }//GEN-LAST:event_tnextpageActionPerformed
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
         TableUtil.cleardata(tblItemList);
@@ -494,22 +524,34 @@ public class ItemListUi extends TabPanelUI {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tblItemListMouseClicked
+
+    private void cButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton5ActionPerformed
+
+
+        String qry = cItmDescription.getText();
+        items = itemService.getDao().findItemListByCode(qry);
+        loadTable();
+
+
+    }//GEN-LAST:event_cButton5ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CButton cButton2;
     private org.components.controls.CButton cButton3;
-    private org.components.controls.CButton cButton4;
+    private org.components.controls.CButton cButton5;
     private org.components.controls.CButton cClose;
     private org.components.controls.CButton cCopyItem;
     private org.components.controls.CButton cDeleteItemBtn;
     private org.components.controls.CTextField cItmDescription;
     private org.components.controls.CButton cNewItemBtn;
     private org.components.controls.CTextFieldPopUp cPageCount;
+    private org.biz.app.ui.util.CPaginatedPanel cPaginatedPanel1;
     private org.components.containers.CPanel cPanel1;
     private org.components.controls.CButton cRefreshItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CxTable tblItemList;
+    private org.components.controls.CButton tnextpage;
     // End of variables declaration//GEN-END:variables
 
     @Override

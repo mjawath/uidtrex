@@ -1,5 +1,5 @@
-
-/*
+//GEN-FIRST:event_cdeleteActionPerformed
+/*//GEN-LAST:event_cdeleteActionPerformed
  * InvoiceMasterUi.java
  *
  * Created on Dec 2, 2011, 10:27:21 AM
@@ -478,7 +478,7 @@ public class InvoiceMasterUi extends TabPanelUI {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         cPanel1 = new org.components.containers.CPanel();
@@ -761,9 +761,9 @@ public class InvoiceMasterUi extends TabPanelUI {
         cclear.setBounds(470, 400, 70, 30);
         add(tsalesman);
         tsalesman.setBounds(780, 70, 130, 25);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
+    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 
         invoice.setId(EntityService.getKeys());
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
@@ -779,16 +779,16 @@ public class InvoiceMasterUi extends TabPanelUI {
         System.out.println("saved.....");
 
 
-    }//GEN-LAST:event_cButton1ActionPerformed
+    }                                        
 
-    private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
-    }//GEN-LAST:event_cdeleteActionPerformed
+    private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    }                                       
 
-    private void cclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cclearActionPerformed
+    private void cclearActionPerformed(java.awt.event.ActionEvent evt) {                                       
 
         
         
-    }//GEN-LAST:event_cclearActionPerformed
+    }                                      
 
     
     
@@ -796,7 +796,7 @@ public class InvoiceMasterUi extends TabPanelUI {
         //clear the gui
     }
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private org.components.controls.CButton cButton1;
     private org.components.controls.CCheckBox cCheckBox2;
     private org.components.controls.CComboBox cComboBox2;
@@ -844,7 +844,7 @@ public class InvoiceMasterUi extends TabPanelUI {
     private org.components.controls.TableEditable tblInvoice;
     private org.components.controls.CTextField tcus;
     private org.components.controls.CTextField tsalesman;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
     @Override
     public void updateEntityUI() {

@@ -1,7 +1,5 @@
 package org.biz.dao.service;
 
-
-
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -15,10 +13,7 @@ import org.eclipse.persistence.queries.ScrollableCursor;
 public class GenericDAO<T> {
 
     public static void main(String[] args) {
-       
-
     }
-
     private EntityManager em;
     String classname;
     Class<T> cls;
@@ -32,7 +27,7 @@ public class GenericDAO<T> {
     public GenericDAO() {
         em = JPAUtil.getEntityManager();
         cache = new Cache();
-        
+
     }
 
     public Cache getCache() {
@@ -43,8 +38,6 @@ public class GenericDAO<T> {
         this.cache = cache;
     }
 
-    
-    
     public void setCls(Class<T> cls) {
         this.cls = cls;
         this.classname = cls.getSimpleName();
@@ -155,12 +148,12 @@ public class GenericDAO<T> {
     //use  this to execute the query  string
     //@param query object is a string of jpql
     public List<T> ExecuteQuery(String qryString) {
-        
+
         return GenericDAOUtil.ExecuteQuery(qryString, cls);
     }
-   
+
     public List<Object[]> ExecuteNativeQuery(String qryString) {
-        
+
         return GenericDAOUtil.ExecuteNativeQuery(qryString);
     }
 
@@ -173,52 +166,60 @@ public class GenericDAO<T> {
 
         return GenericDAOUtil.ExecuteQuerySR(qryString, cls);
     }
-      
-    
-    public   T deatach(Object c, Object key) {
-      
-        T cc = (T)GenericDAOUtil.deatach(c, key);
+
+    public T deatach(Object c, Object key) {
+
+        T cc = (T) GenericDAOUtil.deatach(c, key);
         return cc;
     }
-    
-    
-    public List pagedData(String qry,int pageNo){    
-        String sq=createSelect();
-        sq+=qry;
-        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
-        if(lst!=null && !lst.isEmpty()){
-            System.out.println("dddddddddf");
-            return lst;
-        }
-        Query qu=GenericDAOUtil.getQuery(sq);
-        int noofrows=1000;
-        int fr=(pageNo-1) * noofrows;
+
+    public List pagedData(String qry, int pageNo) {
+        String sq = createSelect();
+        sq += qry;
+//        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
+//        if(lst!=null && !lst.isEmpty()){
+//            System.out.println("dddddddddf");
+//            return lst;
+//        }
+        Query qu = GenericDAOUtil.getQuery(sq);
+        int noofrows = 1000;
+        int fr = (pageNo - 1) * noofrows;
         qu.setFirstResult(fr);//firstresult
         qu.setMaxResults(noofrows); //max result = noofrows+ 0
         return ExecuteQuery(qu);
     }
-    
-    public List pagedDataScr(String qryKey,String qry,int pageNo){
-    Query qu=GenericDAOUtil.getQuery(qry);
-    ScrollableCursor scrollableCursor = (ScrollableCursor)qu.getSingleResult();
-        
+
+    public List pagedData(String qry) {
+        String sq = createSelect();
+        sq += qry;
+//        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
+//        if(lst!=null && !lst.isEmpty()){
+//            System.out.println("dddddddddf");
+//            return lst;
+//        }
+        Query qu = GenericDAOUtil.getQuery(sq);
+        int noofrows = 1000;
+        int fr = (2 - 1) * noofrows;
+        qu.setFirstResult(fr);//firstresult
+        qu.setMaxResults(noofrows); //max result = noofrows+ 0
+        return ExecuteQuery(qu);
+    }
+
+    public List pagedDataScr(String qryKey, String qry, int pageNo) {
+        Query qu = GenericDAOUtil.getQuery(qry);
+        ScrollableCursor scrollableCursor = (ScrollableCursor) qu.getSingleResult();
+
         return ExecuteQuery(qry);
     }
-    
-    
-    
-   public String createSelect(){
-   return "select c from  "+classname+" c ";
-   } 
-   
 
-   
-   public String createWhere(String whr){   
-       
-       return " from  ";
-   }
-   
-    
+    public String createSelect() {
+        return "select c from  " + classname + " c ";
+    }
+
+    public String createWhere(String whr) {
+
+        return " from  ";
+    }
     /*
     ///////////////
     //

@@ -4,62 +4,64 @@
  */
 
 /*
- * CustomerListUI.java
+ * PostedInvoicesListUI.java
  *
- * Created on May 25, 2011, 10:58:17 PM
+ * Created on Feb 8, 2012, 10:57:40 PM
  */
-package invoicingsystem.master.list;
+package invoicingsystem.posted;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.invoicesystem.entity.master.Customer;
-import org.biz.invoicesystem.entity.master.Supplier;
-import org.biz.invoicesystem.service.master.SupplierService;
-import org.components.windows.TabPanelUI;
+import org.biz.invoicesystem.entity.transactions.PurchaseInvoice;
+import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 
 /**
  *
- * @author jawath
+ * @author nnjj
  */
-public class SupplierListUI extends TabPanelUI {
+public class PostedPurchaseInvoicesListUI extends javax.swing.JPanel {
 
-    List<Supplier> suppliers;
-    Supplier selectedSupplier;
-    SupplierService service;
-
-    public SupplierListUI() {
+    /** Creates new form PostedInvoicesListUI */
+    public PostedPurchaseInvoicesListUI() {
         initComponents();
+        
     }
 
-    @Override
-    public void init() {
-        suppliers = new ArrayList<Supplier>();
-        service = new SupplierService();
+    
+    public void addToTable(List<PurchaseInvoice> items) {
+        TableUtil.cleardata(tblInvoice);
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+        for (PurchaseInvoice item : items) {
+            TableUtil.addrow(tblInvoice, new Object[]{item.getId(),item.getDocdate(), item.getSupplier().getCode()
+                    });
+        }
 
+        TableUtil.addrow(tblInvoice, new Object[]{TableUtil.newRowID});
     }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        cxTable1 = new org.components.controls.CxTable();
+        tblInvoice = new org.components.controls.CxTable();
 
-        cxTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Code", "Name"
+                "id", "code", "Invoice No", "Customer"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -70,10 +72,7 @@ public class SupplierListUI extends TabPanelUI {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(cxTable1);
-        cxTable1.getColumnModel().getColumn(0).setResizable(false);
-        cxTable1.getColumnModel().getColumn(1).setResizable(false);
-        cxTable1.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane1.setViewportView(tblInvoice);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -86,31 +85,14 @@ public class SupplierListUI extends TabPanelUI {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    @Override
-    public String getTabName() {
-        return "Customer List ";
-    }
-
-    @Override
-    public JPanel getJPanel() {
-        return this;
-    }
-
-    public void addToTable() {
-        TableUtil.cleardata(cxTable1);
-        for (Supplier supplier : suppliers) {
-            TableUtil.addrow(cxTable1, new Object[]{supplier.getId(), supplier.getCode(), supplier.getName()});
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CxTable tblInvoice;
     // End of variables declaration//GEN-END:variables
 }
