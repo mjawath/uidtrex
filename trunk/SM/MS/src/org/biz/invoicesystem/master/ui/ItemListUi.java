@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingWorker;
 import org.biz.app.ui.util.MessageBoxes;
+import org.biz.app.ui.util.PagedListUI;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.dao.util.EntityService;
+import org.biz.invoicesystem.dao.master.ItemDAO;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
 
-public class ItemListUi extends TabPanelUI {
+public class ItemListUi extends TabPanelUI implements PagedListUI {
 
     private ItemService itemService;
     private ItemMasterTab mastertab;
@@ -35,6 +36,8 @@ public class ItemListUi extends TabPanelUI {
         items = new ArrayList<Item>();
         callVeryFirstPage();
         cPaginatedPanel1.setService(itemService);
+        cPaginatedPanel1.setQryName(ItemDAO.findItemListByCode);
+        cPaginatedPanel1.setListUI(this);
 
     }
 
@@ -322,7 +325,7 @@ public class ItemListUi extends TabPanelUI {
         cPanel1.add(cButton5);
         cButton5.setBounds(650, 30, 53, 23);
         cPanel1.add(cPaginatedPanel1);
-        cPaginatedPanel1.setBounds(410, 60, 280, 30);
+        cPaginatedPanel1.setBounds(410, 60, 330, 30);
 
         add(cPanel1);
         cPanel1.setBounds(0, 10, 790, 480);
@@ -605,5 +608,11 @@ public class ItemListUi extends TabPanelUI {
      */
     public void setFormUi(ItemMasterUI2 formUi) {
         this.formUi = formUi;
+    }
+
+    @Override
+    public void loadDataWithList(List list) {
+        this.items = list;
+        loadTable();
     }
 }
