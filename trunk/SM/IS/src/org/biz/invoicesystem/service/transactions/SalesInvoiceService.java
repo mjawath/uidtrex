@@ -52,4 +52,5 @@ public class SalesInvoiceService extends Service {
         dao.save(invoice,ij);
     }
 
+    
 }

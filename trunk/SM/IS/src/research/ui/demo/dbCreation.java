@@ -6,6 +6,7 @@ package research.ui.demo;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
 import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
@@ -24,14 +25,23 @@ public class dbCreation {
     
     public static void main(String[] args) {
       
-        List s=new SalesInvoiceService().getDao().getAll();
-        for (Object object : s) {
-            SalesInvoice sl=(SalesInvoice)object;
-            Object x=sl.getLineItems();
-            if(x!=null){
-                System.out.println(x);
-            }
-        }
+      Query e=  new SalesInvoiceService().getDao().createQuery("select c from Item c");
+        System.out.println("exe cuting one........");
+        e.getResultList();
+        
+        System.out.println("exe cuting twoooo22...");
+        e.getResultList();
+        System.out.println("don e.................");
+        
+        
+//        List s=new SalesInvoiceService().getDao().getAll();
+//        for (Object object : s) {
+//            SalesInvoice sl=(SalesInvoice)object;
+//            Object x=sl.getLineItems();
+//            if(x!=null){
+//                System.out.println(x);
+//            }
+//        }
         
     }
     public void createmster(){
