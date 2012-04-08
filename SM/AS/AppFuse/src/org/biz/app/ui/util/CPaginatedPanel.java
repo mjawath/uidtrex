@@ -10,6 +10,7 @@
  */
 package org.biz.app.ui.util;
 
+import java.util.List;
 import org.biz.dao.service.Service;
 
 /**
@@ -27,6 +28,19 @@ public class CPaginatedPanel extends javax.swing.JPanel {
     }
     private String qryName = "";
     private Service service;
+    PagedListUI listUI;
+
+    public void setQryName(String qryName) {
+        this.qryName = qryName;
+    }
+
+    public PagedListUI getListUI() {
+        return listUI;
+    }
+
+    public void setListUI(PagedListUI listUI) {
+        this.listUI = listUI;
+    }
 
     public void setService(Service service) {
         this.service = service;
@@ -46,19 +60,31 @@ public class CPaginatedPanel extends javax.swing.JPanel {
     }
 
     public void getNextPage() {
-        service.getNextPage(qryName, 0);
+        service.getNextPage(qryName);
+        loadDataWithList();
     }
 
     public void getPreviousePage() {
         service.getPreviousePage(qryName, 0);
+        loadDataWithList();
     }
 
     public void getLastPage() {
         service.getLastPage(qryName);
+        loadDataWithList();
     }
 
     public void getFirstPage() {
         service.getFirstPage(qryName);
+        loadDataWithList();
+    }
+
+    public void loadDataWithList() {
+        if (listUI != null) {// safty null check sould be imlemented !!
+            List s = service.getCache().getbyQueryName(qryName).getList();
+            listUI.loadDataWithList(s);
+            System.out.println(s.size());
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

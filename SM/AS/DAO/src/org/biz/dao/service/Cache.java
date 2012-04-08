@@ -4,6 +4,7 @@
  */
 package org.biz.dao.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,16 @@ public class Cache {
 String key;
 String specialKey;
 int CurrentPage ;
+Long count;
 List list;
-Map<String,Cache> map;
+String query;
+
+    Map<String,Cache> map;
+    public Cache() {
+          map = new HashMap();
+    }
+
+
 
     public int getCurrentPage() {
         return CurrentPage;
@@ -58,9 +67,30 @@ Map<String,Cache> map;
         this.specialKey = specialKey;
     }
     
-    public List getbySpecialKey(String key,String spclkey ,int pageno){
-//         list=getMap().get(key).0;
-         return list; 
+    public Cache getbyQueryName(String spclkey ){
+         return getMap().get(spclkey);
+    }
+    
+    public String getQuery(){
+    return query;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    
+    
+    public void createAndAddCache(String key,String query,int page, Long count,List ob){
+      Cache ch = new Cache();
+      ch.setCurrentPage(page);
+      ch.count = count;
+      ch.list = ob;
+      ch.setQuery(query);
+        map.put(key, ch);
     }
     
 }
