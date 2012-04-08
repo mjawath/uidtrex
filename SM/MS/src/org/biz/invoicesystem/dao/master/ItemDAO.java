@@ -15,6 +15,7 @@ import org.dao.util.JPAUtil;
  */
 public class ItemDAO extends GenericDAO<Item> {
 
+    public static  String findItemListByCode="findItemListByCode";
     public ItemDAO() {
         setCls(Item.class);
     }
@@ -22,9 +23,9 @@ public class ItemDAO extends GenericDAO<Item> {
     
      public  List<Item> findItemListByCode(String itemcode) {
   
-        List<Item> lst = pagedData(" Where c.code like '%" + itemcode + "'",1);
+        List<Item> lst = pagedData(" Where c.code like '%" + itemcode + "'",0);
 //
-
+        getCache().createAndAddCache(findItemListByCode," Where c.code like '" + itemcode + "%' ", 0, 0l, lst);
         return lst;
     }
      
