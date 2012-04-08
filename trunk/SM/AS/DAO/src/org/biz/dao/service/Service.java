@@ -4,6 +4,7 @@
  */
 package org.biz.dao.service;
 
+import java.util.List;
 import org.biz.dao.util.EntityService;
 
 /**
@@ -30,27 +31,47 @@ public class Service {
     }
 
     public Cache getCache() {
-        return dao.getCache();
+        return getDao().getCache();
     }
 
     public void moveToNextPage(String queryname, int currentpage) {
-        dao.pagedData(queryname, currentpage);
+        getDao().pagedData(queryname, currentpage);
 
     }
 
-    public void getNextPage(String qry, int page) {
-        dao.pagedData(qry, page);
+    public void getNextPage(String qryname) {
+       //current page ??
+         //get count 1650
+        //get rowsperpage  100      --> 17 pages
+//        dao.getpagedDetail(qry);
+        
+        // get query string  by query name == > 
+        // get current page from page panel r page object 
+        // if can navigate goto  next page 
+//        String s =dao.getqry(qry);
+//        int page = dao.getCache().getbySpecialKey(qry, s, pageSize).getCurrentpage(qry);
+//        if(possilbe ){
+//        goto next page(s,page);
+//        }
+////                
+//        String qry = getDao().getquery(qryname);
+//        int cpageno=getDao().getCupage(qryname);
+//        getDao().getcount(qry);        
+//        getDao().pagedData(qry, cpageno);
+        
+         getDao().getNextPage(qryname);
     }
 
     public void getPreviousePage(String qry, int page) {
-        dao.pagedData(qry, page);
+        //get last page
+         getDao().getPreviousPage(qry);
     }
 
     public void getLastPage(String qry) {
-        dao.pagedData(qry);
+         getDao().lastPage(qry);
     }
 
     public void getFirstPage(String qry) {
-        dao.pagedData(qry);
+       getDao().firstPage(qry);
     }
 }

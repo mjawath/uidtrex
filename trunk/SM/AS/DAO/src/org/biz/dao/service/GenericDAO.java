@@ -18,7 +18,8 @@ public class GenericDAO<T> {
     String classname;
     Class<T> cls;
     String orderby = "";
-    Cache cache;
+    protected Cache cache;
+    int noofrows = 100;
 
     public GenericDAO(EntityManager em) {
         this.em = em;
@@ -182,13 +183,85 @@ public class GenericDAO<T> {
 //            return lst;
 //        }
         Query qu = GenericDAOUtil.getQuery(sq);
-        int noofrows = 1000;
-        int fr = (pageNo - 1) * noofrows;
+
+        if (pageNo == -1) {
+        }
+        int fr = pageNo == 0 ? 0 : pageNo * noofrows;
         qu.setFirstResult(fr);//firstresult
         qu.setMaxResults(noofrows); //max result = noofrows+ 0
         return ExecuteQuery(qu);
     }
 
+    public List getPagedData(String qryname, int pageNo) {
+
+        String qry = getquery(qryname);
+        int cpageno = getCupage(qryname);
+        Long count = getcount(qry);
+
+        Cache ch = getCache().getbyQueryName(qryname);
+        ch.setCount(count);
+        ch.setCurrentPage(cpageno);
+        ch.list = pagedData(qry, cpageno);
+
+        return ch.list;
+
+    }
+
+    public void getNextPage(String qryname) {
+        String qry = getquery(qryname);
+        int cpageno = getCupage(qryname);
+        Long count = getcount(qry);
+        int pages = (int) Math.floor(count / noofrows);
+        if (pages <= cpageno) {
+            cpageno = pages;
+        } else {
+            cpageno++;
+        }
+        Cache ch = getCache().getbyQueryName(qryname);
+        ch.setCount(count);
+        ch.setCurrentPage(cpageno);
+        ch.list = pagedData(qry, cpageno);
+        System.out.println("size "+cpageno);
+    }
+
+    public void getPreviousPage(String qryname) {
+        String qry = getquery(qryname);
+        int cpageno = getCupage(qryname);
+        if (cpageno <= 0) {
+            return;
+        }
+        Long count = getcount(qry);
+
+        Cache ch = getCache().getbyQueryName(qryname);
+        ch.setCount(count);
+        ch.setCurrentPage(cpageno - 1);
+        ch.list = pagedData(qry, cpageno - 1);
+System.out.println("size "+cpageno);
+    }
+
+    public void firstPage(String qryname){
+        String qry = getquery(qryname);
+        Long count = getcount(qry);
+        Cache ch = getCache().getbyQueryName(qryname);
+        ch.setCount(count);
+        ch.setCurrentPage(0);
+        ch.list = pagedData(qry,0);
+    System.out.println("size "+0);
+    }
+    
+    public void lastPage(String qryname){
+        String qry = getquery(qryname);
+        Long count = getcount(qry);
+        int pages = (int) Math.floor(count / noofrows);        
+        Cache ch = getCache().getbyQueryName(qryname);
+        ch.setCount(count);
+        ch.setCurrentPage(pages);
+        ch.list = pagedData(qry,pages);
+    System.out.println("size "+pages);
+    }
+    
+    
+    
     public List pagedData(String qry) {
         String sq = createSelect();
         sq += qry;
@@ -216,6 +289,10 @@ public class GenericDAO<T> {
         return "select c from  " + classname + " c ";
     }
 
+    public String createCount() {
+        return "select count(c.id) from  " + classname + " c ";
+    }
+
     public String createWhere(String whr) {
 
         return " from  ";
@@ -229,4 +306,23 @@ public class GenericDAO<T> {
     /////////
      * 
      */
+
+    public Query createQuery(String qry) {
+        Query qu = GenericDAOUtil.getQuery(qry);
+        return qu;
+    }
+
+    public long getcount(String qry) {
+
+        qry = createCount() + qry;
+        return (Long) ExecuteQueryOb(qry);
+    }
+
+    String getquery(String qryname) {
+        return getCache().getbyQueryName(qryname).getQuery();
+    }
+
+    int getCupage(String qryname) {
+        return getCache().getbyQueryName(qryname).getCurrentPage();
+    }
 }
