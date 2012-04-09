@@ -48,7 +48,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     SalesInvoice invoice;
     List<SalesInvoiceLineItem> lineItems;
     SalesInvoiceService servicedao;
-    PagedPopUpPanel popUpComponent;    
+    PagedPopUpPanel popUpComponent;
     SalesLineItemPanel lineItemPanel;
 //    DoubleCellEditor de;
     PagedPopUpPanel cuspop;
@@ -73,7 +73,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     public void init() {
 
         initPopups();
-        
+
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
@@ -105,20 +105,20 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
 //         }.start();
 
+        controlPanel1.setCrudController(this);
         super.init();
 
     }
 
-
     public void initPopups() {
-       JFrame jf = (JFrame) Sessions.getObj("mainui");
+        JFrame jf = (JFrame) Sessions.getObj("mainui");
 //       JDialog jd = new JDialog(jf,false);
 ////       jd.setModal(false);
 //       jd.setSize(300,300);
 //       jd.setVisible(true);
         //
         lineItemPanel = new SalesLineItemPanel(jf) {
-            
+
             public SalesInvoiceLineItem panelToEty() {
                 SalesInvoiceLineItem sl = super.panelToEty();
                 //validated line
@@ -147,20 +147,19 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
             }
 
-           
             public void action() {
                 SalesInvoiceLineItem sl = super.panelToEty();
                 Object id = sl.getId();
                 if (id == null) {
                     sl.setId(System.currentTimeMillis() + "tt");
                 }
-                
-         
+
+
                 etyToRow(sl);
                 uiety();
-                invoice.setTotal(); 
+                invoice.setTotal();
                 sTotalToUI();
-                
+
                 //check lineittem id is null then if its need a new row insert a new row  
                 //or move to next row
 
@@ -173,7 +172,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         lineItemPanel.setTable(tblInvoice);
         lineItemPanel.setcTextField1(lineItemPanel.getItemFiled());
-        
+
         itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
 
             public void search(String qry) {
@@ -212,7 +211,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 //                    }
                 //                });
 
-        lineItemPanel.lineItemLogic();
+                lineItemPanel.lineItemLogic();
             }
 
             public Object[] data(Object item) {
@@ -220,7 +219,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 return new Object[]{it.getId(), it.getCode(), it.getDescription()};
             }
         };
-          
+
         cuspop = new PagedPopUpPanel(tcus) {
 
             @Override
@@ -260,20 +259,19 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         };
         cuspop.setObjectToTable(listCust);
         cuspop.setSelectedColumn(1);
-        cuspop.setNextFocusableComponent(tblInvoice);        
-       
-        
-        cuspop.addaction(new ActionTask(){
+        cuspop.setNextFocusableComponent(tblInvoice);
+
+
+        cuspop.addaction(new ActionTask() {
 
             @Override
             public boolean action() {
 //                cuspop.mo
                 return super.action();
             }
-        
-        });    
-       
-        
+        });
+
+
         salesPopup = new PagedPopUpPanel(tsalesman) {
 
             @Override
@@ -311,21 +309,21 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 }
             }
         };
- 
+
     }
-    
+
     public void events() {
-        
-        
-        
+
+
+
 
 //        Object[][] xx = {{tcus, tblInvoice}, {tsalesman, ttax}, {ttax, tsubtotal}
 //        };
 //        ComponentFactory.addKeyAction(xx);
-        
 
 
-        
+
+
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
@@ -344,22 +342,40 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 }
             }
         }, KeyEvent.VK_DELETE);
-        
-        
-        tcus.addKeyListener(new KeyAdapter() {        
-            public void keyPressed(KeyEvent e) {             
-                if(e.getKeyCode()==KeyEvent.VK_ENTER){
+
+
+        tcus.addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     System.out.println("|--|");
                     //if table not selected pls select a row 
-                    if(tblInvoice.getSelectedRow()<0){
-                    tblInvoice.getSelectionModel().setSelectionInterval(0,0);
+                    if (tblInvoice.getSelectedRow() < 0) {
+                        tblInvoice.getSelectionModel().setSelectionInterval(0, 0);
                     }
                     lineItemPanel.showLineItemPanel();
                     lineItemPanel.getItemFiled().requestFocus();
                 }
             }
-        });      
-      
+        });
+
+    }
+
+    public void save() {
+        for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+            SalesInvoiceLineItem si = it.next();
+            if (si.getId() == null) {
+                it.remove();
+            }
+        }
+
+
+        servicedao.createInventoryJournal(invoice);
+        invoice = SalesInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+        clear();
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
@@ -408,14 +424,14 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     }
 
     private void loadUnit(Item it) {
-        if(it!=null){
-        String st = it.getUnitOne();
-        String st2 = it.getUnitTwo();
-        String[] stx = st2 == null ? new String[]{"",st} : new String[]{"", st, st2};
-        uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
-        }else{
-            String[] stx =new String[]{"no","nop","ppp"};
-        uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
+        if (it != null) {
+            String st = it.getUnitOne();
+            String st2 = it.getUnitTwo();
+            String[] stx = st2 == null ? new String[]{"", st} : new String[]{"", st, st2};
+            uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
+        } else {
+            String[] stx = new String[]{"no", "nop", "ppp"};
+            uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
         }
 
     }
@@ -446,7 +462,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     }
 
     public void uiety() {
-        
+
         invoice.setDocdate(tdate.getDate());
         invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
         invoice.setShop(Shop.getDefaultShop());
@@ -459,15 +475,14 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         invoice.setEditeddate(SystemUtil.getSystemDate());
         invoice.setSaveddate(SystemUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
-        
+
     }
-    
-    public void sTotalToUI(){
-    uiEty.objToUi(tsubtotal, invoice.getSubTotal());
-    uiEty.objToUi(tfinaltotle, invoice.getTotal());
-    uiEty.objToUi(tbal, invoice.setTotal());
+
+    public void sTotalToUI() {
+        uiEty.objToUi(tsubtotal, invoice.getSubTotal());
+        uiEty.objToUi(tfinaltotle, invoice.getTotal());
+        uiEty.objToUi(tbal, invoice.setTotal());
     }
-            
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -514,9 +529,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cTextField15 = new org.components.controls.CTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
-        cButton1 = new org.components.controls.CButton();
-        cdelete = new org.components.controls.CButton();
-        cclear = new org.components.controls.CButton();
         tsalesman = new org.components.controls.CTextField();
         tdocref = new org.components.controls.CTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -524,6 +536,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cLabel1 = new org.components.controls.CLabel();
         tbal = new org.components.controls.CLabel();
         cLabel21 = new org.components.controls.CLabel();
+        controlPanel1 = new com.components.custom.ControlPanel();
 
         setLayout(null);
 
@@ -744,33 +757,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         add(jScrollPane2);
         jScrollPane2.setBounds(10, 170, 930, 180);
-
-        cButton1.setText("Save");
-        cButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cButton1ActionPerformed(evt);
-            }
-        });
-        add(cButton1);
-        cButton1.setBounds(410, 400, 57, 30);
-
-        cdelete.setText("Delete");
-        cdelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cdeleteActionPerformed(evt);
-            }
-        });
-        add(cdelete);
-        cdelete.setBounds(540, 400, 70, 30);
-
-        cclear.setText("Clear");
-        cclear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cclearActionPerformed(evt);
-            }
-        });
-        add(cclear);
-        cclear.setBounds(470, 400, 70, 30);
         add(tsalesman);
         tsalesman.setBounds(770, 90, 130, 25);
         add(tdocref);
@@ -789,47 +775,20 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         tbal.setText("");
         add(tbal);
-        tbal.setBounds(240, 470, 190, 40);
+        tbal.setBounds(160, 480, 190, 40);
 
         cLabel21.setText("Total :");
         add(cLabel21);
         cLabel21.setBounds(110, 480, 104, 25);
+        add(controlPanel1);
+        controlPanel1.setBounds(290, 430, 390, 50);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
-
-
-
-
-        for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
-            SalesInvoiceLineItem si = it.next();
-            if (si.getId() == null) {
-                it.remove();
-            }
-        }
-        
-
-        servicedao.createInventoryJournal(invoice);
-        invoice = SalesInvoice.createNewInvoice();
-        lineItems = invoice.getLineItems();
-        addToTable(lineItems);
-
-        clear();
-
-    }//GEN-LAST:event_cButton1ActionPerformed
-
-    private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
-    }//GEN-LAST:event_cdeleteActionPerformed
-
-    private void cclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cclearActionPerformed
-        clear();
-    }//GEN-LAST:event_cclearActionPerformed
 
     private void ttypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttypeActionPerformed
 
-        System.out.println("evt "+evt);
-        
-        
+        System.out.println("evt " + evt);
+
+
     }//GEN-LAST:event_ttypeActionPerformed
 
     public void clear() {
@@ -846,12 +805,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tdis.setText("");
         tsalesman.setText("");
         setnewrow();
-        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());       
+        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
 
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CButton cButton1;
     private org.components.controls.CCheckBox cCheckBox2;
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel10;
@@ -884,8 +841,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private org.components.controls.CTextField cTextField14;
     private org.components.controls.CTextField cTextField15;
     private org.components.controls.CTextField cTextField9;
-    private org.components.controls.CButton cclear;
-    private org.components.controls.CButton cdelete;
+    private com.components.custom.ControlPanel controlPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -923,8 +879,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         List lst = new ArrayList();
         for (int i = 0; i < 1500; i++) {
             Supplier cus = new Supplier();
-            cus.setId( EntityService.getKeyStr());
-            cus.setCode( EntityService.getKeyStr());
+            cus.setId(EntityService.getKeyStr());
+            cus.setCode(EntityService.getKeyStr());
             cus.setName(EntityService.getKeyStr());
             lst.add(cus);
         }

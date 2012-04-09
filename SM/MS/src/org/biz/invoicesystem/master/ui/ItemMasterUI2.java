@@ -22,10 +22,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -59,7 +57,6 @@ import org.biz.invoicesystem.entity.master.ItemBarcode;
 import org.biz.invoicesystem.entity.master.ItemVariation;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.service.master.ItemService;
-import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
 public class ItemMasterUI2 extends TabPanelUI {
@@ -704,7 +701,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                         }
                         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
-                            cSaveBtn.requestFocus();
+//                            cSaveBtn.requestFocus();
 
                         }
                     } catch (Exception exx) {
@@ -729,23 +726,13 @@ public class ItemMasterUI2 extends TabPanelUI {
                     }
                 }
             });
-            /////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////
-
-            /////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////
-
-            /////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////
-
-            /////////////////////////////////////////////////////////////////////////////
+          
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void init() {
 
         try {
@@ -788,7 +775,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+//        crudcontrolPanel.set
     }
 
     public void clearMaster() {
@@ -832,15 +819,12 @@ public class ItemMasterUI2 extends TabPanelUI {
         tItemCommissionValue = new org.components.controls.CTextField();
         tDifferentPerUnit = new org.components.controls.CTextField();
         tSupplierItem = new org.components.controls.CComboBox();
-        cClose = new org.components.controls.CButton();
         tItemDescription = new org.components.controls.CTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        cDeleteBtn = new org.components.controls.CButton();
         jLabel23 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         cButton1 = new org.components.controls.CButton();
-        cClear = new org.components.controls.CButton();
         tItemdiscount = new org.components.controls.CTextField();
         tItemSalesPriceUnit1 = new org.components.controls.CTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -853,7 +837,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         tItemSalesPriceUnit2 = new org.components.controls.CTextField();
         tUnitItem2 = new org.components.controls.CComboBox();
         jLabel15 = new javax.swing.JLabel();
-        cSaveBtn = new org.components.controls.CButton();
         jLabel21 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         cPanel1 = new org.components.containers.CPanel();
@@ -908,6 +891,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel6 = new javax.swing.JLabel();
         tItemCategory = new org.components.controls.CComboBox();
         jLabel1 = new javax.swing.JLabel();
+        crudcontrolPanel = new com.components.custom.ControlPanel();
 
         setLayout(null);
 
@@ -947,14 +931,11 @@ public class ItemMasterUI2 extends TabPanelUI {
         cPanel5.add(tSupplierItem);
         tSupplierItem.setBounds(60, 110, 210, 20);
 
-        cClose.setText("Goto List ");
-        cClose.addActionListener(new java.awt.event.ActionListener() {
+        tItemDescription.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cCloseActionPerformed(evt);
+                tItemDescriptionActionPerformed(evt);
             }
         });
-        cPanel5.add(cClose);
-        cClose.setBounds(620, 430, 90, 50);
         cPanel5.add(tItemDescription);
         tItemDescription.setBounds(60, 50, 210, 25);
 
@@ -965,15 +946,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel10.setText("%");
         cPanel5.add(jLabel10);
         jLabel10.setBounds(50, 330, 20, 20);
-
-        cDeleteBtn.setText("Delete");
-        cDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cDeleteBtnActionPerformed(evt);
-            }
-        });
-        cPanel5.add(cDeleteBtn);
-        cDeleteBtn.setBounds(530, 430, 80, 50);
 
         jLabel23.setText("Val");
         cPanel5.add(jLabel23);
@@ -991,15 +963,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         });
         cPanel5.add(cButton1);
         cButton1.setBounds(290, 390, 80, 20);
-
-        cClear.setText("Clear");
-        cClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cClearActionPerformed(evt);
-            }
-        });
-        cPanel5.add(cClear);
-        cClear.setBounds(440, 430, 80, 50);
 
         tItemdiscount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1057,15 +1020,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel15.setText("Location");
         cPanel5.add(jLabel15);
         jLabel15.setBounds(10, 390, 60, 20);
-
-        cSaveBtn.setText("Save");
-        cSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cSaveBtnActionPerformed(evt);
-            }
-        });
-        cPanel5.add(cSaveBtn);
-        cSaveBtn.setBounds(350, 430, 80, 50);
 
         jLabel21.setText("Supplier");
         cPanel5.add(jLabel21);
@@ -1327,7 +1281,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel2.add(tItemTrakSerial);
-        tItemTrakSerial.setBounds(10, 10, 110, 50);
+        tItemTrakSerial.setBounds(0, 0, 110, 40);
 
         tItemTrakExpiry.setText("Track Expiry ");
         tItemTrakExpiry.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1338,7 +1292,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel2.add(tItemTrakExpiry);
-        tItemTrakExpiry.setBounds(111, 0, 70, 60);
+        tItemTrakExpiry.setBounds(111, 0, 70, 40);
 
         tItemTrakNonStockItem.setText("Non Stock Item");
         tItemTrakNonStockItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1349,19 +1303,19 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel2.add(tItemTrakNonStockItem);
-        tItemTrakNonStockItem.setBounds(180, 0, 90, 60);
+        tItemTrakNonStockItem.setBounds(180, 0, 90, 40);
 
         tItemTrakInactive.setText("Inactive");
         tItemTrakInactive.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tItemTrakInactive.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cPanel2.add(tItemTrakInactive);
-        tItemTrakInactive.setBounds(270, 0, 60, 60);
+        tItemTrakInactive.setBounds(270, 0, 60, 40);
 
         tItemTrakManfctringItem.setText("Manufacturing Item");
         tItemTrakManfctringItem.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tItemTrakManfctringItem.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cPanel2.add(tItemTrakManfctringItem);
-        tItemTrakManfctringItem.setBounds(330, 0, 110, 60);
+        tItemTrakManfctringItem.setBounds(330, 0, 110, 40);
 
         cPanel5.add(cPanel2);
         cPanel2.setBounds(290, 240, 440, 60);
@@ -1384,6 +1338,12 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel12.setText("Discount ");
         cPanel5.add(jLabel12);
         jLabel12.setBounds(10, 330, 60, 20);
+
+        tItemcode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tItemcodeActionPerformed(evt);
+            }
+        });
         cPanel5.add(tItemcode);
         tItemcode.setBounds(60, 20, 210, 25);
 
@@ -1398,9 +1358,11 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel1.setText("Item Code");
         cPanel5.add(jLabel1);
         jLabel1.setBounds(10, 20, 50, 20);
+        cPanel5.add(crudcontrolPanel);
+        crudcontrolPanel.setBounds(290, 430, 470, 40);
 
         add(cPanel5);
-        cPanel5.setBounds(20, 40, 780, 510);
+        cPanel5.setBounds(20, 40, 780, 540);
     }// </editor-fold>//GEN-END:initComponents
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1705,7 +1667,7 @@ public class ItemMasterUI2 extends TabPanelUI {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    private void cSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cSaveBtnActionPerformed
+    public void save() {
 
 
         try {
@@ -1781,7 +1743,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
 
 
-    }//GEN-LAST:event_cSaveBtnActionPerformed
+    }
 
     public void saveImages(String itemid, List<File> images) {
         try {
@@ -2052,11 +2014,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
     }//GEN-LAST:event_tVariationPrice2KeyTyped
 
-    private void cClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cClearActionPerformed
-        clearMaster();
-    }//GEN-LAST:event_cClearActionPerformed
-
-    private void cDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDeleteBtnActionPerformed
+    public void delete() {
         try {
 
             if (uiEty.tcToStr(tItemcode) == null || uiEty.tcToStr(tItemcode).equals("")) {
@@ -2089,14 +2047,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             MessageBoxes.errormsg(null, e.getMessage(), getTabName());
         }
 
-    }//GEN-LAST:event_cDeleteBtnActionPerformed
-
-    private void cCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cCloseActionPerformed
-        //cal item list form....
-        //hide this form
-        callListTab();
-
-    }//GEN-LAST:event_cCloseActionPerformed
+    }
 
     private void tTypeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tTypeKeyTyped
         try {
@@ -2214,6 +2165,14 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
 
     }//GEN-LAST:event_cButton1ActionPerformed
+
+    private void tItemcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemcodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tItemcodeActionPerformed
+
+    private void tItemDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemDescriptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tItemDescriptionActionPerformed
     public JPopupMenu viewLargeImg(JLabel lbl, File image) {
         //  System.out.println("viewlargeImg Methd image name is "+image.getAbsolutePath());
         JPopupMenu p = new JPopupMenu("imagepanel");
@@ -2270,9 +2229,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
-    private org.components.controls.CButton cClear;
-    private org.components.controls.CButton cClose;
-    private org.components.controls.CButton cDeleteBtn;
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel2;
     private org.components.controls.CLabel cLabel3;
@@ -2285,9 +2241,9 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.containers.CPanel cPanel3;
     private org.components.containers.CPanel cPanel4;
     private org.components.containers.CPanel cPanel5;
-    private org.components.controls.CButton cSaveBtn;
     private org.components.controls.CScrollPane cScrollPane1;
     private org.components.util.ComponentFactory componentFactory1;
+    private com.components.custom.ControlPanel crudcontrolPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
