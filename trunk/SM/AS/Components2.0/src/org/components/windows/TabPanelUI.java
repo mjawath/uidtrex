@@ -10,6 +10,7 @@ package org.components.windows;
  *
  * Created on Nov 22, 2010, 1:58:08 PM
  */
+import com.components.custom.CrudControl;
 import java.awt.AWTEvent;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
  *
  * @author mjawath
  */
-public abstract class TabPanelUI extends javax.swing.JPanel implements TabChildUI {
+public abstract class TabPanelUI extends javax.swing.JPanel implements TabChildUI,CrudControl {
 
     /** Creates new form TabPanelUI */
     public TabPanelUI() {
@@ -64,7 +65,33 @@ public abstract class TabPanelUI extends javax.swing.JPanel implements TabChildU
         
     }
 
+    
+    public void save() {
+    
+    }
+
+    
+    public void delete() {
+    
+    }
+
+    
+    public void clear() {
+    
+    }
+
+    
+    public void update() {
+    
+    }
+    
    
+    public void gotoList() {
+   
+    }
+
+   
+    
 
     public void setobj(Object obj) {
     }

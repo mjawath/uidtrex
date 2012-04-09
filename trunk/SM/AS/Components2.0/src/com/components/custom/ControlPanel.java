@@ -1,5 +1,3 @@
-
-
 /*
  * ControlPanel.java
  *
@@ -17,39 +15,80 @@ public class ControlPanel extends javax.swing.JPanel {
     public ControlPanel() {
         initComponents();
     }
+    CrudControl control;
 
+    public void setCrudController(CrudControl control) {
+        this.control = control;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btsave = new javax.swing.JButton();
+        btdelete = new javax.swing.JButton();
+        btclear = new javax.swing.JButton();
+        btgrid = new javax.swing.JButton();
 
         setLayout(null);
 
-        jButton1.setText("Save");
-        add(jButton1);
-        jButton1.setBounds(0, 0, 104, 39);
+        btsave.setText("Save");
+        btsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btsaveActionPerformed(evt);
+            }
+        });
+        add(btsave);
+        btsave.setBounds(0, 0, 104, 39);
 
-        jButton2.setText("Delete");
-        add(jButton2);
-        jButton2.setBounds(110, 0, 104, 42);
+        btdelete.setText("Delete");
+        btdelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btdeleteActionPerformed(evt);
+            }
+        });
+        add(btdelete);
+        btdelete.setBounds(110, 0, 104, 42);
 
-        jButton3.setText("Clear");
-        add(jButton3);
-        jButton3.setBounds(220, 0, 104, 42);
+        btclear.setText("Clear");
+        btclear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btclearActionPerformed(evt);
+            }
+        });
+        add(btclear);
+        btclear.setBounds(220, 0, 104, 42);
 
-        jButton4.setText("Goto Grid View >>");
-        add(jButton4);
-        jButton4.setBounds(330, 0, 130, 42);
+        btgrid.setText("Goto Grid View >>");
+        btgrid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btgridActionPerformed(evt);
+            }
+        });
+        add(btgrid);
+        btgrid.setBounds(330, 0, 130, 42);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsaveActionPerformed
+
+        control.save();
+    }//GEN-LAST:event_btsaveActionPerformed
+
+    private void btdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btdeleteActionPerformed
+        control.delete();        // TODO add your handling code here:
+    }//GEN-LAST:event_btdeleteActionPerformed
+
+    private void btclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btclearActionPerformed
+        control.clear();
+    }//GEN-LAST:event_btclearActionPerformed
+
+    private void btgridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgridActionPerformed
+        control.gotoList();        // TODO add your handling code here:
+    }//GEN-LAST:event_btgridActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btclear;
+    private javax.swing.JButton btdelete;
+    private javax.swing.JButton btgrid;
+    private javax.swing.JButton btsave;
     // End of variables declaration//GEN-END:variables
 }
