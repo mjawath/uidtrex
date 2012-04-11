@@ -4,7 +4,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.dao.util.JPAUtil;
+import org.eclipse.persistence.internal.jpa.EJBQueryImpl;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.queries.DatabaseQuery;
 import org.eclipse.persistence.queries.ScrollableCursor;
+import org.eclipse.persistence.sessions.DatabaseRecord;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -325,4 +330,14 @@ System.out.println("size "+cpageno);
     int getCupage(String qryname) {
         return getCache().getbyQueryName(qryname).getCurrentPage();
     }
+    
+   public void getGeneratedQuery(){
+//   Session session =  getEm().unwrap(JpaEntityManager.class).getActiveSession();
+//DatabaseQuery databaseQuery = ((EJBQueryImpl)Query).getDatabaseQuery();
+//databaseQuery.prepareCall(session, new DatabaseRecord());
+//String sqlString = databaseQuery.getSQLString();
+//       System.out.println("exe cuting twoooo22..."+sqlString); 
+   } 
+    
+    
 }
