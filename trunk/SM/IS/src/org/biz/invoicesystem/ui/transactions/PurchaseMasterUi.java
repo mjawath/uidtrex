@@ -10,6 +10,7 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
+import com.components.custom.CrudControl;
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -40,7 +41,7 @@ import org.components.windows.TabPanelUI;
  *
  * @author Administrator
  */
-public class PurchaseMasterUi extends TabPanelUI {
+public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 
     PurchaseInvoice invoice;
     List<PurchaseInvoiceLineItem> lineItems;
@@ -72,47 +73,16 @@ public class PurchaseMasterUi extends TabPanelUI {
         purService = new PurchaseInvoiceService();
 
         supplierlst = new ArrayList<Supplier>();
-        listItem = new ArrayList<Item>();
-           listItem = itemService.getDao().getAll();
+        supplierlst =supplierService.getDao().getAll();
+        
+        listItem = new ArrayList<Item>();           
+        listItem = itemService.getDao().getAll();
 
         invoice = new PurchaseInvoice();
         lineItems = new ArrayList<PurchaseInvoiceLineItem>();
         invoice.setLineItems(lineItems);
 
-        suplierPopUpPanel = new PagedPopUpPanel(tsup) {
-
-            @Override
-            public void action() {
-                String ob = suplierPopUpPanel.getSelectedID();
-                Supplier item = null;
-                //find Item
-                for (Supplier it : supplierlst) {
-                    if (ob.equals(it.getId())) {
-                        suplierPopUpPanel.setSelectedObject(it);
-                        item = it;
-                        invoice.setSupplier(item);
-                        uiEty.objToUi(cTextArea2, item.getAddress1());
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void search(String qry) {
-                try {
-                    supplierlst = supplierService.getDao().byCode(qry);
-                    suplierPopUpPanel.setObjectToTable(supplierlst);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                Supplier it = (Supplier) item;
-                return new Object[]{it.getId(), it.getCode(), it.getName()};
-            }
-        };
+        
 
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
@@ -217,6 +187,58 @@ public class PurchaseMasterUi extends TabPanelUI {
             }
         };
 
+        
+        suplierPopUpPanel = new PagedPopUpPanel(tsup) {
+
+            @Override
+            public void action() {
+                String ob = suplierPopUpPanel.getSelectedID();
+                Supplier item = null;
+                //find Item
+                for (Supplier it : supplierlst) {
+                    if (ob.equals(it.getId())) {
+                        suplierPopUpPanel.setSelectedObject(it);
+                        item = it;
+                        invoice.setSupplier(item);
+                        uiEty.objToUi(cTextArea2, item.getAddress1());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void search(String qry) {
+                try {
+                    supplierlst = supplierService.getDao().byCode(qry);
+                    suplierPopUpPanel.setObjectToTable(supplierlst);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                Supplier it = (Supplier) item;
+                return new Object[]{it.getId(), it.getCode(), it.getName()};
+            }
+        };
+    }
+
+    public void save() {
+        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+            PurchaseInvoiceLineItem si = it.next();
+            if (si.getId() == null) {
+                it.remove();
+            }
+        }
+        
+
+        purService.createInventoryJournal(invoice);
+        invoice = PurchaseInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+        clear();
     }
 
     private void etyToRow(PurchaseInvoiceLineItem line) {
@@ -322,9 +344,6 @@ public class PurchaseMasterUi extends TabPanelUI {
         cTextField12 = new org.components.controls.CTextField();
         cTextField7 = new org.components.controls.CTextField();
         cLabel17 = new org.components.controls.CLabel();
-        cButton1 = new org.components.controls.CButton();
-        cdelete = new org.components.controls.CButton();
-        cclear = new org.components.controls.CButton();
         cPanel3 = new org.components.containers.CPanel();
         cLabel6 = new org.components.controls.CLabel();
         cLabel12 = new org.components.controls.CLabel();
@@ -339,7 +358,6 @@ public class PurchaseMasterUi extends TabPanelUI {
         tsup = new org.components.controls.CTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         cTextArea2 = new org.components.controls.CTextArea();
-        cCheckBox2 = new org.components.controls.CCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
 
@@ -414,7 +432,7 @@ public class PurchaseMasterUi extends TabPanelUI {
             }
         });
         add(cComboBox2);
-        cComboBox2.setBounds(670, 10, 160, 23);
+        cComboBox2.setBounds(650, 10, 160, 23);
 
         cTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,33 +475,6 @@ public class PurchaseMasterUi extends TabPanelUI {
         cLabel17.setFont(new java.awt.Font("Tahoma", 0, 12));
         add(cLabel17);
         cLabel17.setBounds(780, 70, 50, 25);
-
-        cButton1.setText("Save");
-        cButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cButton1ActionPerformed(evt);
-            }
-        });
-        add(cButton1);
-        cButton1.setBounds(410, 400, 57, 30);
-
-        cdelete.setText("Delete");
-        cdelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cdeleteActionPerformed(evt);
-            }
-        });
-        add(cdelete);
-        cdelete.setBounds(540, 400, 70, 30);
-
-        cclear.setText("Clear");
-        cclear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cclearActionPerformed(evt);
-            }
-        });
-        add(cclear);
-        cclear.setBounds(470, 400, 70, 30);
 
         cPanel3.setLayout(null);
 
@@ -548,10 +539,6 @@ public class PurchaseMasterUi extends TabPanelUI {
         cPanel2.add(jScrollPane3);
         jScrollPane3.setBounds(10, 40, 210, 70);
 
-        cCheckBox2.setText("Type");
-        cPanel2.add(cCheckBox2);
-        cCheckBox2.setBounds(10, 110, 140, 20);
-
         add(cPanel2);
         cPanel2.setBounds(10, 0, 380, 140);
 
@@ -603,31 +590,6 @@ public class PurchaseMasterUi extends TabPanelUI {
     public void uiety(PurchaseInvoice pi) {
     }
 
-    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
-        for (Iterator<PurchaseInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
-            PurchaseInvoiceLineItem si = it.next();
-            if (si.getId() == null) {
-                it.remove();
-            }
-        }
-        
-
-        purService.createInventoryJournal(invoice);
-        invoice = PurchaseInvoice.createNewInvoice();
-        lineItems = invoice.getLineItems();
-        addToTable(lineItems);
-
-        clear();
-    }//GEN-LAST:event_cButton1ActionPerformed
-
-    private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
-}//GEN-LAST:event_cdeleteActionPerformed
-
-    private void cclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cclearActionPerformed
-        tblInvoice.editCellAt(0, 4);
-
-    }//GEN-LAST:event_cclearActionPerformed
-
     private void cComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cComboBox2ActionPerformed
@@ -675,8 +637,6 @@ public class PurchaseMasterUi extends TabPanelUI {
     private void cTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField9ActionPerformed
 }//GEN-LAST:event_cTextField9ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CButton cButton1;
-    private org.components.controls.CCheckBox cCheckBox2;
     private org.components.controls.CComboBox cComboBox1;
     private org.components.controls.CComboBox cComboBox2;
     private org.components.controls.CDatePicker cDatePicker1;
@@ -711,8 +671,6 @@ public class PurchaseMasterUi extends TabPanelUI {
     private org.components.controls.CTextField cTextField7;
     private org.components.controls.CTextField cTextField8;
     private org.components.controls.CTextField cTextField9;
-    private org.components.controls.CButton cclear;
-    private org.components.controls.CButton cdelete;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private org.components.controls.TableEditable tblInvoice;

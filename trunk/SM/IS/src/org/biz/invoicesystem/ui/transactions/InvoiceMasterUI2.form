@@ -250,7 +250,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="30" width="230" height="60"/>
+              <AbsoluteConstraints x="10" y="30" width="230" height="80"/>
             </Constraint>
           </Constraints>
 
@@ -264,16 +264,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="org.components.controls.CCheckBox" name="cCheckBox2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Type"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="93" width="60" height="20"/>
-            </Constraint>
-          </Constraints>
-        </Component>
       </SubComponents>
     </Container>
     <Component class="org.components.controls.CDatePicker" name="tdate">
@@ -602,7 +592,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="90" y="380" width="190" height="60"/>
+          <AbsoluteConstraints x="10" y="380" width="190" height="30"/>
         </Constraint>
       </Constraints>
 
@@ -649,7 +639,7 @@
     <Component class="com.components.custom.ControlPanel" name="controlPanel1">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="290" y="430" width="390" height="50"/>
+          <AbsoluteConstraints x="110" y="420" width="480" height="50"/>
         </Constraint>
       </Constraints>
     </Component>

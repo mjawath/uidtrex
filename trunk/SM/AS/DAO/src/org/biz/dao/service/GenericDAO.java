@@ -189,8 +189,7 @@ public class GenericDAO<T> {
 //        }
         Query qu = GenericDAOUtil.getQuery(sq);
 
-        if (pageNo == -1) {
-        }
+      
         int fr = pageNo == 0 ? 0 : pageNo * noofrows;
         qu.setFirstResult(fr);//firstresult
         qu.setMaxResults(noofrows); //max result = noofrows+ 0
