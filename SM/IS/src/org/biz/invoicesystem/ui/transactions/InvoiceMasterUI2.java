@@ -507,7 +507,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tcus = new org.components.controls.CTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         cTextArea2 = new org.components.controls.CTextArea();
-        cCheckBox2 = new org.components.controls.CCheckBox();
         tdate = new org.components.controls.CDatePicker();
         cLabel4 = new org.components.controls.CLabel();
         cPanel3 = new org.components.containers.CPanel();
@@ -628,11 +627,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         jScrollPane3.setViewportView(cTextArea2);
 
         cPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 30, 230, 60);
-
-        cCheckBox2.setText("Type");
-        cPanel2.add(cCheckBox2);
-        cCheckBox2.setBounds(10, 93, 60, 20);
+        jScrollPane3.setBounds(10, 30, 230, 80);
 
         add(cPanel2);
         cPanel2.setBounds(0, 11, 240, 120);
@@ -767,7 +762,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         jScrollPane1.setViewportView(tremark);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(90, 380, 190, 60);
+        jScrollPane1.setBounds(10, 380, 190, 30);
 
         cLabel1.setText("Remarks");
         add(cLabel1);
@@ -781,7 +776,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         add(cLabel21);
         cLabel21.setBounds(110, 480, 104, 25);
         add(controlPanel1);
-        controlPanel1.setBounds(290, 430, 390, 50);
+        controlPanel1.setBounds(110, 420, 480, 50);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ttypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttypeActionPerformed
@@ -809,7 +804,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CCheckBox cCheckBox2;
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel10;
     private org.components.controls.CLabel cLabel11;
