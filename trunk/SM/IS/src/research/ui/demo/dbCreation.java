@@ -11,11 +11,14 @@ import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
-import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
-import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
+import org.eclipse.persistence.internal.jpa.EJBQueryImpl;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.queries.DatabaseQuery;
+import org.eclipse.persistence.sessions.DatabaseRecord;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -32,8 +35,7 @@ public class dbCreation {
         System.out.println("exe cuting twoooo22...");
         e.getResultList();
         System.out.println("don e.................");
-        
-        
+
 //        List s=new SalesInvoiceService().getDao().getAll();
 //        for (Object object : s) {
 //            SalesInvoice sl=(SalesInvoice)object;
