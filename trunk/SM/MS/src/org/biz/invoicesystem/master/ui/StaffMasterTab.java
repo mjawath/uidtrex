@@ -50,7 +50,7 @@ public class StaffMasterTab extends TabPanelUI {
 
         tItemDescription = new org.components.controls.CTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        staffListUi1 = new org.biz.invoicesystem.master.ui.StaffListUi();
+        staffListUi1 = new org.biz.invoicesystem.ui.list.master.StaffListUi();
         staffMasterUI1 = new org.biz.invoicesystem.master.ui.StaffMasterUI();
 
         jTabbedPane1.addTab("List", staffListUi1);
@@ -70,7 +70,7 @@ public class StaffMasterTab extends TabPanelUI {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane jTabbedPane1;
-    private org.biz.invoicesystem.master.ui.StaffListUi staffListUi1;
+    private org.biz.invoicesystem.ui.list.master.StaffListUi staffListUi1;
     private org.biz.invoicesystem.master.ui.StaffMasterUI staffMasterUI1;
     private org.components.controls.CTextField tItemDescription;
     // End of variables declaration//GEN-END:variables

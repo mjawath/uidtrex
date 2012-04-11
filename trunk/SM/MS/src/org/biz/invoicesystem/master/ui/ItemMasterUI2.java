@@ -1,5 +1,6 @@
 package org.biz.invoicesystem.master.ui;
 
+import org.biz.invoicesystem.ui.list.master.ItemListUi;
 import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -809,7 +810,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private void initComponents() {
 
         componentFactory1 = new org.components.util.ComponentFactory();
-        cPanel5 = new org.components.containers.CPanel();
         tItemCostPrice = new org.components.controls.CTextField();
         tItemMinimumStock = new org.components.controls.CTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -894,66 +894,64 @@ public class ItemMasterUI2 extends TabPanelUI {
         crudcontrolPanel = new com.components.custom.ControlPanel();
 
         setLayout(null);
-
-        cPanel5.setLayout(null);
-        cPanel5.add(tItemCostPrice);
-        tItemCostPrice.setBounds(60, 270, 90, 25);
-        cPanel5.add(tItemMinimumStock);
-        tItemMinimumStock.setBounds(60, 420, 210, 25);
+        add(tItemCostPrice);
+        tItemCostPrice.setBounds(70, 270, 90, 25);
+        add(tItemMinimumStock);
+        tItemMinimumStock.setBounds(70, 420, 210, 25);
 
         jLabel9.setText("Min.Price");
-        cPanel5.add(jLabel9);
-        jLabel9.setBounds(10, 300, 60, 20);
+        add(jLabel9);
+        jLabel9.setBounds(20, 300, 60, 20);
 
         jLabel3.setText("Carton ");
-        cPanel5.add(jLabel3);
-        jLabel3.setBounds(10, 140, 60, 20);
+        add(jLabel3);
+        jLabel3.setBounds(20, 140, 60, 20);
 
         jLabel8.setText("Unit 2");
-        cPanel5.add(jLabel8);
-        jLabel8.setBounds(190, 170, 60, 20);
+        add(jLabel8);
+        jLabel8.setBounds(200, 170, 60, 20);
 
         jLabel22.setText("Cost Price");
-        cPanel5.add(jLabel22);
-        jLabel22.setBounds(10, 270, 60, 20);
+        add(jLabel22);
+        jLabel22.setBounds(20, 270, 60, 20);
 
         tItemCommissionValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemCommissionValueActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemCommissionValue);
-        tItemCommissionValue.setBounds(180, 360, 90, 25);
-        cPanel5.add(tDifferentPerUnit);
-        tDifferentPerUnit.setBounds(140, 190, 50, 20);
+        add(tItemCommissionValue);
+        tItemCommissionValue.setBounds(190, 360, 90, 25);
+        add(tDifferentPerUnit);
+        tDifferentPerUnit.setBounds(150, 190, 50, 20);
 
         tSupplierItem.setEditable(true);
-        cPanel5.add(tSupplierItem);
-        tSupplierItem.setBounds(60, 110, 210, 20);
+        add(tSupplierItem);
+        tSupplierItem.setBounds(70, 110, 210, 20);
 
         tItemDescription.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemDescriptionActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemDescription);
-        tItemDescription.setBounds(60, 50, 210, 25);
+        add(tItemDescription);
+        tItemDescription.setBounds(70, 50, 210, 25);
 
         jLabel17.setText("Min.Stock");
-        cPanel5.add(jLabel17);
-        jLabel17.setBounds(10, 420, 60, 20);
+        add(jLabel17);
+        jLabel17.setBounds(20, 420, 60, 20);
 
         jLabel10.setText("%");
-        cPanel5.add(jLabel10);
-        jLabel10.setBounds(50, 330, 20, 20);
+        add(jLabel10);
+        jLabel10.setBounds(60, 330, 20, 20);
 
         jLabel23.setText("Val");
-        cPanel5.add(jLabel23);
-        jLabel23.setBounds(160, 350, 20, 40);
+        add(jLabel23);
+        jLabel23.setBounds(170, 350, 20, 40);
 
         jLabel16.setText("Commission");
-        cPanel5.add(jLabel16);
-        jLabel16.setBounds(10, 360, 60, 20);
+        add(jLabel16);
+        jLabel16.setBounds(20, 360, 60, 20);
 
         cButton1.setText("Browse");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -961,69 +959,69 @@ public class ItemMasterUI2 extends TabPanelUI {
                 cButton1ActionPerformed(evt);
             }
         });
-        cPanel5.add(cButton1);
-        cButton1.setBounds(290, 390, 80, 20);
+        add(cButton1);
+        cButton1.setBounds(300, 390, 80, 20);
 
         tItemdiscount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemdiscountActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemdiscount);
-        tItemdiscount.setBounds(60, 330, 90, 25);
+        add(tItemdiscount);
+        tItemdiscount.setBounds(70, 330, 90, 25);
 
         tItemSalesPriceUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemSalesPriceUnit1ActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemSalesPriceUnit1);
-        tItemSalesPriceUnit1.setBounds(60, 210, 80, 20);
+        add(tItemSalesPriceUnit1);
+        tItemSalesPriceUnit1.setBounds(70, 210, 80, 20);
 
         jLabel2.setText("Description ");
-        cPanel5.add(jLabel2);
-        jLabel2.setBounds(10, 50, 60, 20);
-        cPanel5.add(tItemLandingCost);
-        tItemLandingCost.setBounds(180, 270, 90, 25);
+        add(jLabel2);
+        jLabel2.setBounds(20, 50, 60, 20);
+        add(tItemLandingCost);
+        tItemLandingCost.setBounds(190, 270, 90, 25);
 
         jLabel18.setText("Diff");
-        cPanel5.add(jLabel18);
-        jLabel18.setBounds(140, 170, 50, 20);
+        add(jLabel18);
+        jLabel18.setBounds(150, 170, 50, 20);
 
         jLabel20.setText("Unit 1");
-        cPanel5.add(jLabel20);
-        jLabel20.setBounds(60, 170, 50, 20);
+        add(jLabel20);
+        jLabel20.setBounds(70, 170, 50, 20);
 
         cScrollPane1.setAutoscrolls(true);
         cScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cScrollPane1.setViewportView(cPanel4);
 
-        cPanel5.add(cScrollPane1);
-        cScrollPane1.setBounds(290, 300, 460, 90);
+        add(cScrollPane1);
+        cScrollPane1.setBounds(300, 300, 460, 90);
 
         cLabel7.setText("You Can Select More than one Product Image");
-        cPanel5.add(cLabel7);
-        cLabel7.setBounds(380, 390, 370, 25);
+        add(cLabel7);
+        cLabel7.setBounds(390, 390, 370, 25);
 
         tItemSalesPriceUnit2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemSalesPriceUnit2ActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemSalesPriceUnit2);
-        tItemSalesPriceUnit2.setBounds(190, 210, 80, 20);
+        add(tItemSalesPriceUnit2);
+        tItemSalesPriceUnit2.setBounds(200, 210, 80, 20);
 
         tUnitItem2.setEditable(true);
-        cPanel5.add(tUnitItem2);
-        tUnitItem2.setBounds(190, 190, 80, 23);
+        add(tUnitItem2);
+        tUnitItem2.setBounds(200, 190, 80, 23);
 
         jLabel15.setText("Location");
-        cPanel5.add(jLabel15);
-        jLabel15.setBounds(10, 390, 60, 20);
+        add(jLabel15);
+        jLabel15.setBounds(20, 390, 60, 20);
 
         jLabel21.setText("Supplier");
-        cPanel5.add(jLabel21);
-        jLabel21.setBounds(10, 110, 60, 20);
+        add(jLabel21);
+        jLabel21.setBounds(20, 110, 60, 20);
 
         cPanel1.setLayout(null);
 
@@ -1222,50 +1220,50 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         jTabbedPane1.addTab("Meta Details ", cPanel3);
 
-        cPanel5.add(jTabbedPane1);
-        jTabbedPane1.setBounds(280, 20, 470, 220);
+        add(jTabbedPane1);
+        jTabbedPane1.setBounds(290, 20, 470, 220);
 
         jLabel13.setText("$");
-        cPanel5.add(jLabel13);
-        jLabel13.setBounds(170, 270, 10, 20);
-        cPanel5.add(tItemMinimumPrice);
-        tItemMinimumPrice.setBounds(60, 300, 90, 25);
+        add(jLabel13);
+        jLabel13.setBounds(180, 270, 10, 20);
+        add(tItemMinimumPrice);
+        tItemMinimumPrice.setBounds(70, 300, 90, 25);
 
         tItemLocation.setEditable(true);
-        cPanel5.add(tItemLocation);
-        tItemLocation.setBounds(60, 390, 210, 23);
+        add(tItemLocation);
+        tItemLocation.setBounds(70, 390, 210, 23);
 
         tItemdiscValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemdiscValueActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemdiscValue);
-        tItemdiscValue.setBounds(180, 330, 90, 25);
+        add(tItemdiscValue);
+        tItemdiscValue.setBounds(190, 330, 90, 25);
 
         tItemCommission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemCommissionActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemCommission);
-        tItemCommission.setBounds(60, 360, 90, 20);
-        cPanel5.add(jPanel2);
-        jPanel2.setBounds(290, 210, 10, 10);
+        add(tItemCommission);
+        tItemCommission.setBounds(70, 360, 90, 20);
+        add(jPanel2);
+        jPanel2.setBounds(300, 210, 10, 10);
 
         jLabel4.setText("Category");
-        cPanel5.add(jLabel4);
-        jLabel4.setBounds(10, 80, 60, 14);
-        cPanel5.add(tItemReOrder);
-        tItemReOrder.setBounds(60, 450, 210, 25);
+        add(jLabel4);
+        jLabel4.setBounds(20, 80, 60, 14);
+        add(tItemReOrder);
+        tItemReOrder.setBounds(70, 450, 210, 25);
 
         jLabel14.setText("Val");
-        cPanel5.add(jLabel14);
-        jLabel14.setBounds(160, 330, 20, 30);
+        add(jLabel14);
+        jLabel14.setBounds(170, 330, 20, 30);
 
         jLabel11.setText("Sales Price");
-        cPanel5.add(jLabel11);
-        jLabel11.setBounds(10, 210, 60, 30);
+        add(jLabel11);
+        jLabel11.setBounds(20, 210, 60, 30);
 
         cPanel2.setLayout(null);
 
@@ -1317,10 +1315,10 @@ public class ItemMasterUI2 extends TabPanelUI {
         cPanel2.add(tItemTrakManfctringItem);
         tItemTrakManfctringItem.setBounds(330, 0, 110, 40);
 
-        cPanel5.add(cPanel2);
-        cPanel2.setBounds(290, 240, 440, 60);
-        cPanel5.add(tCartonItem);
-        tCartonItem.setBounds(60, 140, 210, 25);
+        add(cPanel2);
+        cPanel2.setBounds(300, 240, 440, 60);
+        add(tCartonItem);
+        tCartonItem.setBounds(70, 140, 210, 25);
 
         tUnitItem1.setEditable(true);
         tUnitItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -1328,41 +1326,38 @@ public class ItemMasterUI2 extends TabPanelUI {
                 tUnitItem1ActionPerformed(evt);
             }
         });
-        cPanel5.add(tUnitItem1);
-        tUnitItem1.setBounds(60, 190, 80, 23);
+        add(tUnitItem1);
+        tUnitItem1.setBounds(70, 190, 80, 23);
 
         jLabel19.setText("Re Order");
-        cPanel5.add(jLabel19);
-        jLabel19.setBounds(10, 450, 60, 20);
+        add(jLabel19);
+        jLabel19.setBounds(20, 450, 60, 20);
 
         jLabel12.setText("Discount ");
-        cPanel5.add(jLabel12);
-        jLabel12.setBounds(10, 330, 60, 20);
+        add(jLabel12);
+        jLabel12.setBounds(20, 330, 60, 20);
 
         tItemcode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tItemcodeActionPerformed(evt);
             }
         });
-        cPanel5.add(tItemcode);
-        tItemcode.setBounds(60, 20, 210, 25);
+        add(tItemcode);
+        tItemcode.setBounds(70, 20, 210, 25);
 
         jLabel6.setText("Landing Cost");
-        cPanel5.add(jLabel6);
-        jLabel6.setBounds(180, 250, 80, 20);
+        add(jLabel6);
+        jLabel6.setBounds(190, 250, 80, 20);
 
         tItemCategory.setEditable(true);
-        cPanel5.add(tItemCategory);
-        tItemCategory.setBounds(60, 80, 210, 23);
+        add(tItemCategory);
+        tItemCategory.setBounds(70, 80, 210, 23);
 
         jLabel1.setText("Item Code");
-        cPanel5.add(jLabel1);
-        jLabel1.setBounds(10, 20, 50, 20);
-        cPanel5.add(crudcontrolPanel);
-        crudcontrolPanel.setBounds(290, 430, 470, 40);
-
-        add(cPanel5);
-        cPanel5.setBounds(20, 40, 780, 540);
+        add(jLabel1);
+        jLabel1.setBounds(20, 20, 50, 20);
+        add(crudcontrolPanel);
+        crudcontrolPanel.setBounds(300, 430, 470, 50);
     }// </editor-fold>//GEN-END:initComponents
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2240,7 +2235,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
     private org.components.containers.CPanel cPanel4;
-    private org.components.containers.CPanel cPanel5;
     private org.components.controls.CScrollPane cScrollPane1;
     private org.components.util.ComponentFactory componentFactory1;
     private com.components.custom.ControlPanel crudcontrolPanel;
