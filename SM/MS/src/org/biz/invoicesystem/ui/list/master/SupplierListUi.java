@@ -8,7 +8,7 @@
  *
  * Created on Dec 3, 2011, 4:54:01 PM
  */
-package org.biz.invoicesystem.master.ui;
+package org.biz.invoicesystem.ui.list.master;
 
 import javax.swing.JPanel;
 import org.components.windows.TabPanelUI;

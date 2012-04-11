@@ -1,5 +1,5 @@
  
-package org.biz.invoicesystem.master.ui;
+package org.biz.invoicesystem.ui.list.master;
 
 import javax.swing.JPanel;
 import org.components.windows.TabPanelUI;

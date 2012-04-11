@@ -6,49 +6,44 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
-
 @Entity
 public class Item implements Serializable {
- //   private static final long serialVersionUID = 1L;
+    //   private static final long serialVersionUID = 1L;
+
     @Id
-     private String id; //default table id...for 
+    private String id; //default table id...for 
     private String code;//unique item code...
- //   private String name;
+    //   private String name;
 //    @OneToOne
 //    private Product product;
     private String description; //item description ....
-   // private String inventoryType;
-
-    private String category; 
-    
+    // private String inventoryType;
+    private String category;
     private String unitOne; //like bags...dozens...boxes..
-    
     private Integer different; //unit diferents like 50packets=1 bag...
-            
     private String unitTwo; //like pcs ..packets...
     //item has many mariation
     //variation has name value --colur = red/colur = yellow , size = 15 ,size = 20 
-    
-  //  private String itemID;
-  //  private String warehouse;   
- //   private String extraCategory;
+    //  private String itemID;
+    //  private String warehouse;   
+    //   private String extraCategory;
     private String supplierId;
     private Double cost;
     private Double salesPrice;
     private Double unit1SalesPrice;
     private Double unit2SalesPrice;
-    
     private String type;
- //   private String sections;
+    //   private String sections;
     private Double minSalesPrice;
     private Double discount;
     private Double discountValue;
- //   private Double difference;
+    //   private Double difference;
     private Double minStock;
     private String location;
     private Boolean manufactItem;
@@ -56,10 +51,9 @@ public class Item implements Serializable {
     private String pic1;
 //    private String pic2;
 //    private String pic3;
-   
 //    private Double salesPrice2;
     private Double landCost;
- //   private Double avgCost;
+    //   private Double avgCost;
     private Double wholesalePrice;
     private Double commission;
     private Double commissionValue;
@@ -71,26 +65,20 @@ public class Item implements Serializable {
     private Boolean trackingItem;
     private Boolean trackSerial;
     private Boolean trackExpiry;
-
     String metaInfo; //extra description about item ..we need this some time when we upload this 
-                     // item to online....so must be good desc..
-    
+    // item to online....so must be good desc..
 //      @OneToMany(cascade={javax.persistence.CascadeType.ALL}, mappedBy="item")
 //    private List<ItemTex> itemtexCollection;
+    @JoinColumn(name = "Item_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE}, orphanRemoval = true)
+    private List<ExtraSalesPrice> extrasalespriceCollection;
+    @JoinColumn(name = "Item_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE}, orphanRemoval = true)
+    private List<ItemVariation> variations;
+    @JoinColumn(name = "Item_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE}, orphanRemoval = true)
+    private List<ItemBarcode> barcodes;
 
-   @JoinColumn(name="Item_id")
-/*     */   @OneToMany(cascade={javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE},orphanRemoval=true)
-/*     */     private List<ExtraSalesPrice> extrasalespriceCollection;
-
-   @JoinColumn(name="Item_id")
-/*     */   @OneToMany(cascade={javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE},orphanRemoval=true)
-/*     */    private List<ItemVariation> variations;
- 
-    @JoinColumn(name="Item_id")
-/*     */   @OneToMany(cascade={javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE},orphanRemoval=true)
-/*     */    private List<ItemBarcode> barcodes;
- 
-   
     public String getId() {
         return id;
     }
@@ -98,18 +86,14 @@ public class Item implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-            
-     @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.DATE)
     Date crDate;
 //    private Boolean isSentToMaster;
     private Boolean isDeleted;
 //    private String loggedinStaff;
 //    private List itemtexCollection;
-  //  private List extrasalespriceCollection;
+    //  private List extrasalespriceCollection;
 
-
-    
-    
     public static Item find(String code, List<Item> lst) {
 
 
@@ -132,10 +116,7 @@ public class Item implements Serializable {
             return null;
         }
     }
-    
-   
 
-    
     public void setCode(String code) {
         this.code = code;
     }
@@ -144,8 +125,6 @@ public class Item implements Serializable {
         return code;
     }
 
-    
-   
     public String getDescription() {
         return description;
     }
@@ -162,7 +141,6 @@ public class Item implements Serializable {
 //    public void setActive(Boolean active) {
 //        this.active = active;
 //    }
-
     public Double getCarton() {
         return carton;
     }
@@ -195,8 +173,6 @@ public class Item implements Serializable {
         this.crDate = crDate;
     }
 
-    
-
     public Boolean getIsDeleted() {
         return isDeleted;
     }
@@ -212,8 +188,6 @@ public class Item implements Serializable {
     public void setItemcol(Boolean itemcol) {
         this.itemcol = itemcol;
     }
-
-   
 
     public Double getLandCost() {
         return landCost;
@@ -279,8 +253,6 @@ public class Item implements Serializable {
         this.reOrder = reOrder;
     }
 
-   
-
     public Double getSalesPrice() {
         return salesPrice;
     }
@@ -321,8 +293,6 @@ public class Item implements Serializable {
         this.unitTwo = unitTwo;
     }
 
-     
-
     public Double getWholesalePrice() {
         return wholesalePrice;
     }
@@ -331,7 +301,6 @@ public class Item implements Serializable {
         this.wholesalePrice = wholesalePrice;
     }
 
-  
     public Double getCommission() {
         return commission;
     }
@@ -463,7 +432,4 @@ public class Item implements Serializable {
     public void setDifferent(Integer different) {
         this.different = different;
     }
- 
-    
-    
 }
