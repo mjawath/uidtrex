@@ -66,6 +66,9 @@ public class CPaginatedPanel extends javax.swing.JPanel {
 
     public void getPreviousePage() {
         service.getPreviousePage(qryName, 0);
+    //u should be able to retreive everything from database to 
+        //to be used in ui to show paginated infos like page number how amny pages 
+        //need and how many row returned ...totel count 
         loadDataWithList();
     }
 
