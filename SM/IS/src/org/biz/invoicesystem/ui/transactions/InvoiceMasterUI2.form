@@ -256,7 +256,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="org.components.controls.CTextArea" name="cTextArea2">
+            <Component class="org.components.controls.CTextArea" name="taddress">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="10"/>
