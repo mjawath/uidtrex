@@ -381,10 +381,11 @@ public class GenericDAOUtil<T> {
             ts = (T) query.getSingleResult();
 
         } catch (Exception e) {
-            if (e instanceof NoResultException) {
+          
+              if (e instanceof NoResultException) {             
                 return null;
             }
-
+    e.printStackTrace();
         }
         return ts;
     }

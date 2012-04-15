@@ -473,5 +473,11 @@ public class uiEty {
         BigDecimal b2=new BigDecimal(d1==null?0:d2);
         return b1.multiply(b2).doubleValue();
     }
+    
+    
+    //ui validation 
+    public static boolean isTxtFieldNullOrEmpty(JTextComponent txt){
+        return Validator.isEmptyOrNull(txt.getText());    
+    }
 
 }

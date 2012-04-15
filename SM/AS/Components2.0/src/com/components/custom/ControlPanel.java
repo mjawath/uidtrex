@@ -39,7 +39,7 @@ public class ControlPanel extends javax.swing.JPanel {
             }
         });
         add(btsave);
-        btsave.setBounds(0, 0, 104, 39);
+        btsave.setBounds(0, 0, 57, 30);
 
         btdelete.setText("Delete");
         btdelete.addActionListener(new java.awt.event.ActionListener() {
@@ -48,7 +48,7 @@ public class ControlPanel extends javax.swing.JPanel {
             }
         });
         add(btdelete);
-        btdelete.setBounds(110, 0, 104, 42);
+        btdelete.setBounds(60, 0, 63, 30);
 
         btclear.setText("Clear");
         btclear.addActionListener(new java.awt.event.ActionListener() {
@@ -57,7 +57,7 @@ public class ControlPanel extends javax.swing.JPanel {
             }
         });
         add(btclear);
-        btclear.setBounds(220, 0, 104, 42);
+        btclear.setBounds(130, 0, 70, 30);
 
         btgrid.setText("Goto Grid View >>");
         btgrid.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +66,7 @@ public class ControlPanel extends javax.swing.JPanel {
             }
         });
         add(btgrid);
-        btgrid.setBounds(330, 0, 130, 42);
+        btgrid.setBounds(210, 0, 130, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsaveActionPerformed
