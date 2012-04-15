@@ -48,6 +48,7 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import org.biz.app.ui.util.MessageBoxes;
+import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.Validator;
 import org.biz.app.ui.util.uiEty;
@@ -1630,6 +1631,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     public void save() {
 
+//        ReflectionUtility.executeOnSW(this, "xx", "yy");
 
         try {
             //validate vendor..
@@ -1680,6 +1682,17 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }
 
+    
+    
+    public Object[] xx(){
+        System.out.println("xxx");
+        return new Object[]{"asss",new Object()};
+    }
+    
+    public void yy(Object[] ob){
+        System.out.println("yyy");
+    }
+    
     AbstractAction ab= new AbstractAction() {
 
         @Override
