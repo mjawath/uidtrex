@@ -239,7 +239,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                         cuspop.setSelectedObject(it);
                         item = it;
                         invoice.setCustomer(item);
-                        uiEty.objToUi(cTextArea2, item.getAddress());
+                        uiEty.objToUi(taddress, item.getAddress());
                         tblInvoice.requestFocus();
                         break;
                     }
@@ -347,9 +347,21 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tcus.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
+                         || e.getKeyCode() == KeyEvent.VK_TAB) {
+                    taddress.requestFocus();
                     System.out.println("|--|");
                     //if table not selected pls select a row 
+                    
+                }
+            }
+        });
+        
+        taddress.addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
+                         || e.getKeyCode() == KeyEvent.VK_TAB) {
                     if (tblInvoice.getSelectedRow() < 0) {
                         tblInvoice.getSelectionModel().setSelectionInterval(0, 0);
                     }
@@ -358,6 +370,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 }
             }
         });
+        
 
     }
 
@@ -506,7 +519,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cLabel3 = new org.components.controls.CLabel();
         tcus = new org.components.controls.CTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        cTextArea2 = new org.components.controls.CTextArea();
+        taddress = new org.components.controls.CTextArea();
         tdate = new org.components.controls.CDatePicker();
         cLabel4 = new org.components.controls.CLabel();
         cPanel3 = new org.components.containers.CPanel();
@@ -622,9 +635,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cPanel2.add(tcus);
         tcus.setBounds(60, 0, 150, 20);
 
-        cTextArea2.setColumns(20);
-        cTextArea2.setRows(10);
-        jScrollPane3.setViewportView(cTextArea2);
+        taddress.setColumns(20);
+        taddress.setRows(10);
+        jScrollPane3.setViewportView(taddress);
 
         cPanel2.add(jScrollPane3);
         jScrollPane3.setBounds(10, 30, 230, 80);
@@ -828,7 +841,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
     private org.components.containers.CPanel cPanel5;
-    private org.components.controls.CTextArea cTextArea2;
     private org.components.controls.CTextField cTextField10;
     private org.components.controls.CTextField cTextField12;
     private org.components.controls.CTextField cTextField13;
@@ -839,6 +851,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private org.components.controls.CTextArea taddress;
     private org.components.controls.CLabel tbal;
     private org.components.controls.TableEditable tblInvoice;
     private org.components.controls.CTextField tcashrecieved;

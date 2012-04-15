@@ -4,6 +4,7 @@
  */
 package org.biz.invoicesystem.entity.transactions;
 
+import app.utils.MathUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
 
@@ -39,6 +42,9 @@ public class PurchaseInvoice implements Serializable {
     Staff staff;
     String salesMan;
     String salesManager;
+    @OneToOne
+    Shop shop;
+    
 
     public Double getAmountRecieved() {
         return amountRecieved;
@@ -176,6 +182,7 @@ public class PurchaseInvoice implements Serializable {
     Double taxpctge;
     Byte type;//should hv final decaltration
     Byte status;//should hv final decaltration
+    String remark;
  
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     Date docdate;
@@ -215,11 +222,39 @@ public class PurchaseInvoice implements Serializable {
     public void setStaff(Staff staff) {
         this.staff = staff;
     }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
     
 
     static public PurchaseInvoice createNewInvoice() {
         PurchaseInvoice sl = new PurchaseInvoice();
         sl.setLineItems(new ArrayList<PurchaseInvoiceLineItem>());
         return sl;
+    }
+    
+     public Double setTotal() {
+        Double db = 0d;
+        for (PurchaseInvoiceLineItem sl : lineItems) {
+            db= MathUtil.add(db, sl.getLineAmount());
+        }
+        setSubTotal(db);
+
+        
+//        db=MathUtil.sub(db, getTexAmount());        
+        db=MathUtil.sub(db, getDiscount());
+        
+        
+        setFinalTotal(db);
+        Double bal=db;
+        bal=MathUtil.sub(bal, 0d);        
+        System.out.println("totel  " + bal);
+        return bal;
+
     }
 }

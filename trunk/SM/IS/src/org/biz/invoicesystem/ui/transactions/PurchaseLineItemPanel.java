@@ -13,15 +13,19 @@ package org.biz.invoicesystem.ui.transactions;
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
 import invoicingsystem.LineItemPanel;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.JComboBox;
+import java.util.HashSet;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
 import org.components.controls.CTextField;
+import org.components.util.orgFocusTraversalPolicy;
 
 /**
  *
@@ -36,7 +40,16 @@ public class PurchaseLineItemPanel extends LineItemPanel {
         super(jf);
         initComponents();
 
+   titemcode.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                System.out.println(""+e);
+            }
+            }
    
+   });
         tprice.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
@@ -61,56 +74,30 @@ public class PurchaseLineItemPanel extends LineItemPanel {
                 }
             }
         });
-
-//        titemcode.addActionListener(new ActionTask(tdescription));
-//        tdescription.addActionListener(new ActionTask(tdescription));
-        //order of tabbing
-
-//        Object [][] xx=new Object[][]{{titemcode,new ActionTask()},{tdescription},{tqty}};
-
-//        titemcode.addKeyListener(new KeyAdapter() {
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                super.keyPressed(e);
-//            }
-//        
-//        });        
-
-
-
-      /*  tdescription.setInputVerifier(new CInputVerifier(tqty){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tqty.setInputVerifier(new CInputVerifier(tunit){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tprice.setInputVerifier(new CInputVerifier(tprice){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-*/
         
-        titemcode.nextFocusableComponent(tdescription);
-        tdescription.nextFocusableComponent(tqty);
-        tqty.nextFocusableComponent(tunit);
-        tunit.nextFocusableComponent(tprice);
+//        titemcode.nextFocusableComponent(tdescription);
+//        tdescription.nextFocusableComponent(tqty);
+//        tqty.nextFocusableComponent(tunit);
+//        tunit.nextFocusableComponent(tprice);
         
-        tprice.nextFocusableComponent(titemcode);
+//        tprice.nextFocusableComponent(titemcode);
+        Vector vc= new Vector();
+        vc.add(tdescription);
+        vc.add(titemcode);
+        vc.add(tprice);
+        vc.add(tunit.getTextField());
+        vc.add(tqty);
+       this.setFocusTraversalPolicy(new orgFocusTraversalPolicy(vc));
         titemcode.addaction(2, new ActionTask(){           
             public boolean action() {
                     lineItemLogic();
                 return super.action();
             }        
         });
+        HashSet hs= new HashSet();
+        hs.add(KeyStroke.getAWTKeyStroke(KeyEvent.VK_DOWN,0,true));
+        this.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, hs);
+        
         tqty.addaction(0, new ActionTask(){
 
             @Override
@@ -120,6 +107,7 @@ public class PurchaseLineItemPanel extends LineItemPanel {
             }
         
         });
+        
         tprice.addaction(0, new ActionTask(){
             public boolean action() {
                 lineItemLogic();
@@ -219,7 +207,7 @@ public class PurchaseLineItemPanel extends LineItemPanel {
         tqty = new org.components.controls.CTextField();
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
-        tunit = new org.components.controls.CComboBox();
+        tunit = new com.components.custom.DropDownWithButton();
 
         setBackground(new java.awt.Color(247, 230, 130));
         getContentPane().add(titemcode);
@@ -229,13 +217,11 @@ public class PurchaseLineItemPanel extends LineItemPanel {
         getContentPane().add(tqty);
         tqty.setBounds(320, 30, 122, 25);
         getContentPane().add(tprice);
-        tprice.setBounds(590, 30, 140, 25);
+        tprice.setBounds(610, 30, 120, 25);
         getContentPane().add(tlinetotal);
         tlinetotal.setBounds(740, 30, 140, 25);
-
-        tunit.setEditable(true);
         getContentPane().add(tunit);
-        tunit.setBounds(450, 30, 130, 23);
+        tunit.setBounds(450, 30, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -249,16 +235,16 @@ public class PurchaseLineItemPanel extends LineItemPanel {
         return tdescription;
     }
 
-    public JComboBox getUnitCombo() {
-
-        return tunit;
-    }
+//    public JComboBox getUnitCombo() {
+//
+//        return tunit;
+//    }
 
     public PurchaseInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
-        salesline.setUnit(uiEty.cmbtostr(tunit));
+        salesline.setUnit(tunit.getValue());
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
         salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
@@ -283,7 +269,7 @@ public class PurchaseLineItemPanel extends LineItemPanel {
         uiEty.objToUi(tqty, salesline.getQty());
         uiEty.objToUi(tdescription, salesline.getDescription());
         uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tunit, salesline.getUnit());
+        uiEty.objToUi(tunit.getTextField(), salesline.getUnit());
         uiEty.objToUi(tprice, salesline.getPrice());
 
     }
@@ -296,6 +282,6 @@ public class PurchaseLineItemPanel extends LineItemPanel {
     private org.components.controls.CTextField tlinetotal;
     private org.components.controls.CTextField tprice;
     private org.components.controls.CTextField tqty;
-    private org.components.controls.CComboBox tunit;
+    private com.components.custom.DropDownWithButton tunit;
     // End of variables declaration//GEN-END:variables
 }

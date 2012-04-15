@@ -17,15 +17,15 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoice;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
@@ -33,8 +33,10 @@ import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.SupplierService;
 import org.biz.invoicesystem.service.transactions.PurchaseInvoiceService;
+import org.biz.invoicesystem.system.SystemUtil;
 import org.components.parent.controls.editors.ComboBoxCellEditor;
 import org.components.util.Sessions;
+import org.components.util.orgFocusTraversalPolicy;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -106,6 +108,14 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         setnewrow();
 
         initPopups();
+        
+        
+             Vector vc= new Vector();
+        vc.add(tbal);
+        vc.add(tsubtotal);
+        vc.add(ttex);
+        vc.add(tfinaltotle);
+       cPanel1.setFocusTraversalPolicy(new orgFocusTraversalPolicy(vc));
     }
 
     public void initPopups() {
@@ -141,7 +151,9 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
                     sl.setId(System.currentTimeMillis() + "tt");
                 }
                 etyToRow(sl);
-
+                uiety();
+                invoice.setTotal();
+                sTotalToUI();
                 if (id == null) {
                     setnewrow();
 
@@ -249,6 +261,24 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 
     }
 
+    
+    
+    public void uiety() {
+
+//        invoice.setDocdate(tdate.getDate());
+//        invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
+        invoice.setShop(Shop.getDefaultShop());
+//        invoice.setDocRefNo(uiEty.tcToStr(tdocref));
+        invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
+//        invoice.setTexAmount(uiEty.tcToDouble(ttax));
+//        invoice.setDiscount(uiEty.tcToDouble(tdis));
+//        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
+//        invoice.setRemarks(uiEty.tcToStr(tremark));
+        invoice.setEditeddate(SystemUtil.getSystemDate());
+        invoice.setSaveddate(SystemUtil.getSystemDate());
+//        invoice.setLineItems(lineItems);
+
+    }
     public PurchaseInvoiceLineItem getSelectedLine() {
 
         String bt = uiEty.colToStrE(tblInvoice, 0);
@@ -319,6 +349,13 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 
     }
 
+    public void sTotalToUI() {
+        uiEty.objToUi(tsubtotal, invoice.getSubTotal());
+        uiEty.objToUi(tfinaltotle, invoice.getFinalTotal());
+        uiEty.objToUi(tbal, invoice.setTotal());
+    }
+    
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -328,11 +365,11 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         cLabel8 = new org.components.controls.CLabel();
         cLabel9 = new org.components.controls.CLabel();
         cLabel10 = new org.components.controls.CLabel();
-        cTextField1 = new org.components.controls.CTextField();
-        cTextField4 = new org.components.controls.CTextField();
-        cTextField5 = new org.components.controls.CTextField();
-        cTextField6 = new org.components.controls.CTextField();
-        cTextField11 = new org.components.controls.CTextField();
+        tfinaltotle = new org.components.controls.CTextField();
+        tsubtotal = new org.components.controls.CTextField();
+        ttex = new org.components.controls.CTextField();
+        tdis = new org.components.controls.CTextField();
+        tbal = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         cComboBox1 = new org.components.controls.CComboBox();
         cLabel2 = new org.components.controls.CLabel();
@@ -361,8 +398,10 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
 
+        setFocusTraversalPolicyProvider(true);
         setLayout(null);
 
+        cPanel1.setFocusTraversalPolicyProvider(true);
         cPanel1.setLayout(null);
 
         cLabel5.setText("Salesman");
@@ -390,25 +429,25 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         cPanel1.add(cLabel10);
         cLabel10.setBounds(10, 90, 70, 20);
 
-        cTextField1.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel1.add(cTextField1);
-        cTextField1.setBounds(90, 90, 150, 20);
+        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tfinaltotle);
+        tfinaltotle.setBounds(90, 90, 150, 20);
 
-        cTextField4.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel1.add(cTextField4);
-        cTextField4.setBounds(90, 10, 150, 20);
+        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tsubtotal);
+        tsubtotal.setBounds(90, 10, 150, 20);
 
-        cTextField5.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel1.add(cTextField5);
-        cTextField5.setBounds(90, 40, 150, 20);
+        ttex.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(ttex);
+        ttex.setBounds(90, 40, 150, 20);
 
-        cTextField6.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel1.add(cTextField6);
-        cTextField6.setBounds(90, 60, 150, 20);
+        tdis.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tdis);
+        tdis.setBounds(90, 60, 150, 20);
 
-        cTextField11.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cPanel1.add(cTextField11);
-        cTextField11.setBounds(90, 120, 150, 20);
+        tbal.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tbal);
+        tbal.setBounds(90, 120, 150, 20);
 
         cLabel15.setText("Recieved");
         cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12));
@@ -630,7 +669,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 //        tdis.setText("");
 //        tsalesman.setText("");
         setnewrow();
-        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
+//        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
         
 
     }
@@ -660,21 +699,21 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
     private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
     private org.components.controls.CTextArea cTextArea2;
-    private org.components.controls.CTextField cTextField1;
     private org.components.controls.CTextField cTextField10;
-    private org.components.controls.CTextField cTextField11;
     private org.components.controls.CTextField cTextField12;
     private org.components.controls.CTextField cTextField2;
-    private org.components.controls.CTextField cTextField4;
-    private org.components.controls.CTextField cTextField5;
-    private org.components.controls.CTextField cTextField6;
     private org.components.controls.CTextField cTextField7;
     private org.components.controls.CTextField cTextField8;
     private org.components.controls.CTextField cTextField9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private org.components.controls.CTextField tbal;
     private org.components.controls.TableEditable tblInvoice;
+    private org.components.controls.CTextField tdis;
+    private org.components.controls.CTextField tfinaltotle;
+    private org.components.controls.CTextField tsubtotal;
     private org.components.controls.CTextField tsup;
+    private org.components.controls.CTextField ttex;
     // End of variables declaration//GEN-END:variables
 
     @Override
