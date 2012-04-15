@@ -49,6 +49,7 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import org.biz.app.ui.util.MessageBoxes;
 import org.biz.app.ui.util.TableUtil;
+import org.biz.app.ui.util.Validator;
 import org.biz.app.ui.util.uiEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.dao.master.SupplierDAO;
@@ -110,7 +111,10 @@ public class ItemMasterUI2 extends TabPanelUI {
     }
 
     ////////////////////////////
-    public void keyListeners() {
+    public void events() {
+
+
+
 
         try {
             //item code listener
@@ -123,7 +127,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                         try {
                             Item item = itemService.getDao().findItemByCode(uiEty.tcToStr(tItemcode));
                             if (item != null) {
-                                entity2Ui(item);
+                                etyToUI(item);
 
                             }
                             tItemDescription.requestFocus();
@@ -701,9 +705,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                             tItemTrakManfctringItem.setSelected(tItemTrakManfctringItem.isSelected() ? true : false);
                         }
                         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-
 //                            cSaveBtn.requestFocus();
-
                         }
                     } catch (Exception exx) {
                         exx.printStackTrace();
@@ -727,7 +729,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                     }
                 }
             });
-          
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -740,7 +742,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             es = EntityService.getEntityService();
             itemService = new ItemService();
             items = itemService.getDao().getAll();
-
+            crudcontrolPanel.setCrudController(this);
             ///init filechooser and set filter
             ///////////////////////  
             chooser = new JFileChooser(new File("."));
@@ -771,7 +773,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                 }
             });
             chooser.setCurrentDirectory(null);
-
+            events();
             ////////////////////////////////////////
         } catch (Exception e) {
             e.printStackTrace();
@@ -779,7 +781,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 //        crudcontrolPanel.set
     }
 
-    public void clearMaster() {
+    public void clear() {
         try {
 
             tVariationName.setSelectedItem("");
@@ -794,7 +796,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
             tType.setText("");
             tItemBarcode.setText("");
-            entity2Ui(new Item());
+            etyToUI(new Item());
 
             cPanel4.removeAll();
             cPanel4.revalidate();
@@ -1410,7 +1412,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public Item uiToEntity(Item i) throws Exception {
+    public Item uiToEty(Item i) throws Exception {
         try {
             i.setId(EntityService.getEntityService().getKey(""));
             i.setCode(uiEty.tcToStr(tItemcode));
@@ -1418,7 +1420,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
             i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
             i.setCarton(uiEty.tcToDble0(tCartonItem)); //
-            System.out.println("uiEty.cmbtostr(tUnitItem1) " + uiEty.cmbtostr(tUnitItem1));
             i.setUnitOne(uiEty.cmbtostr(tUnitItem1));//      combo
             i.setDifferent(uiEty.tcToInt(tDifferentPerUnit));//tDifferentPerUnit
             i.setUnitTwo(uiEty.cmbtostr(tUnitItem2));//tUnitItem2       combo
@@ -1459,33 +1460,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             e.printStackTrace();
         }
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-//    public String idForDb(String shopName){
-//    String id="";
-//    
-//        try {
-//           
-//            id+=uiEty.nowTimesStamp()+shopName;
-//    //id must be first autonumber ,second timestamp (8 digits),third shopname;  
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    
-//    return id;
-//    }
-    //this method will get all the itemvariation details from 
-    //itemvariation table /grid.
     public List<ItemVariation> ui2ItemVariation(JTable tbl, String itemid) {
         List<ItemVariation> lstOfVariation = new ArrayList<ItemVariation>();
         try {
@@ -1553,44 +1528,41 @@ public class ItemMasterUI2 extends TabPanelUI {
     }
 
     ////////////////////////////
-    public void entity2Ui(Item i) {
+    public void etyToUI(Item i) {
 
         try {
 
-            setCopiedItemId(i.getId());
+            
             uiEty.objToUi(tItemcode, i.getCode());
-            uiEty.objToUi(tItemDescription, i.getDescription());// tItemDescription
-            uiEty.objToUi(tItemCategory, i.getCategory());//   i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
-            uiEty.objToUi(tSupplierItem, i.getSupplierId());//   i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
-            uiEty.objToUi(tCartonItem, i.getCarton());//   i.setCarton(uiEty.tcToDble0(tCartonItem)); //     
-            uiEty.objToUi(tUnitItem1, i.getUnitOne());//   i.setUnitOne(uiEty.cmbtostr(tUnitItem1));//      combo
-            uiEty.objToUi(tDifferentPerUnit, i.getDifferent());//  i.setDifferent(uiEty.tcToInt(tDifferentPerUnit));//tDifferentPerUnit
-            uiEty.objToUi(tUnitItem2, i.getUnitTwo());// i.setUnitTwo(uiEty.cmbtostr(tUnitItem2));//tUnitItem2       combo
-            uiEty.objToUi(tItemSalesPriceUnit1, i.getUnit1SalesPrice());//  i.setUnit1SalesPrice(uiEty.tcToDble0(tItemSalesPriceUnit1)); //tItemSalesPriceUnit1      
-            uiEty.objToUi(tItemSalesPriceUnit2, i.getUnit2SalesPrice());// i.setUnit2SalesPrice(uiEty.tcToDble0(tItemSalesPriceUnit2));//tItemSalesPriceUnit2
-            uiEty.objToUi(tItemCostPrice, i.getCost());//  i.setCost(uiEty.tcToDble0(tItemCostPrice));//tItemCostPrice
-            uiEty.objToUi(tItemLandingCost, i.getLandCost());//  i.setLandCost(uiEty.tcToDble0(tItemLandingCost)); //tItemLandingCost     
-            uiEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());//  i.setMinSalesPrice(uiEty.tcToDble0(tItemMinimumPrice)); //tItemMinimumPrice
-            uiEty.objToUi(tItemdiscount, i.getDiscount());//  i.setDicount(uiEty.tcToDble0(tItemdiscount));//tItemdiscount        
+            uiEty.objToUi(tItemDescription, i.getDescription());
+            uiEty.objToUi(tItemCategory, i.getCategory());
+            uiEty.objToUi(tSupplierItem, i.getSupplierId());
+            uiEty.objToUi(tCartonItem, i.getCarton());
+            uiEty.objToUi(tUnitItem1, i.getUnitOne());
+            uiEty.objToUi(tDifferentPerUnit, i.getDifferent());
+            uiEty.objToUi(tUnitItem2, i.getUnitTwo());
+            uiEty.objToUi(tItemSalesPriceUnit1, i.getUnit1SalesPrice());
+            uiEty.objToUi(tItemSalesPriceUnit2, i.getUnit2SalesPrice());
+            uiEty.objToUi(tItemCostPrice, i.getCost());
+            uiEty.objToUi(tItemLandingCost, i.getLandCost());
+            uiEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());
+            uiEty.objToUi(tItemdiscount, i.getDiscount());
+            uiEty.objToUi(tItemdiscValue, i.getDiscountValue());
+            uiEty.objToUi(tItemCommission, i.getCommission());
+            uiEty.objToUi(tItemCommissionValue, i.getCommission());
+            uiEty.objToUi(tItemLocation, i.getLocation());
+            uiEty.objToUi(tItemMinimumStock, i.getMinStock());
+            uiEty.objToUi(tItemReOrder, i.getReOrder());
+            uiEty.objToUi(tItemTrakSerial, i.getTrackSerial());
+            uiEty.objToUi(tItemTrakExpiry, i.getTrackExpiry());
+            uiEty.objToUi(tItemTrakNonStockItem, i.getNonStockItems());
+            uiEty.objToUi(tItemTrakManfctringItem, i.getManufactItem());
+            uiEty.objToUi(tItemTrakInactive, i.getInactive());
+            uiEty.objToUi(tWholesalePrice, i.getWholesalePrice());
+            uiEty.objToUi(tMetaInfo, i.getMetaInfo());
+            itemVariation2Ui(i.getVariations());
+            extraSalesPrice2Ui(i.getExtrasalespriceCollection());
 
-
-            uiEty.objToUi(tItemdiscValue, i.getDiscountValue());//   //tItemdiscValue       
-
-            uiEty.objToUi(tItemCommission, i.getCommission());//   i.setCommission(uiEty.tcToDble0(tItemCommission));//tItemCommission
-            uiEty.objToUi(tItemCommissionValue, i.getCommission());//  i.setCommissionValue(uiEty.tcToDble0(tItemCommissionValue));//tItemCommission
-            uiEty.objToUi(tItemLocation, i.getLocation());//   i.setLocation(uiEty.cmbtostr(tItemLocation));//tItemLocation   combo   
-            uiEty.objToUi(tItemMinimumStock, i.getMinStock());//   i.setMinStock(uiEty.tcToDble0(tItemMinimumStock));//tItemMinimumStock   
-            uiEty.objToUi(tItemReOrder, i.getReOrder());//   i.setReOrder(uiEty.tcToDble0(tItemReOrder)); //tItemReOrder
-            uiEty.objToUi(tItemTrakSerial, i.getTrackSerial());//   i.setTrackSerial(tItemTrakSerial.isSelected());  //tItemTrakSerial chk
-            uiEty.objToUi(tItemTrakExpiry, i.getTrackExpiry());//   i.setTrackExpiry(tItemTrakExpiry.isSelected());  //tItemTrakExpiry chk
-            uiEty.objToUi(tItemTrakNonStockItem, i.getNonStockItems());//   i.setNonStockItems(tItemTrakNonStockItem.isSelected());//tItemTrakNonStockItem chk
-            uiEty.objToUi(tItemTrakManfctringItem, i.getManufactItem());//   i.setManufactItem(tItemTrakManfctringItem.isSelected());//tItemTrakManfctringItem chk      
-            uiEty.objToUi(tItemTrakInactive, i.getInactive());//   i.setInactive(tItemTrakInactive.isSelected());//tItemTrakInactive chk      
-            uiEty.objToUi(tWholesalePrice, i.getWholesalePrice());//   i.setWholesalePrice(uiEty.tcToDble0(tWholesalePrice));//tWholesalePrice      
-            uiEty.objToUi(tMetaInfo, i.getMetaInfo());//   i.setMetaInfo(tMetaInfo.getText());  //tMetaInfo
-            itemVariation2Ui(i.getVariations());//uiEty.objToUi(//   i.setVariations(ui2ItemVariation(tblVariation));            
-            extraSalesPrice2Ui(i.getExtrasalespriceCollection());//uiEty.objToUi(//   i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges));
-            //        
             loadImagesToPanel(i.getCode());
         } catch (Exception e) {
             e.printStackTrace();
@@ -1636,9 +1608,6 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void barcode2Ui(List<ItemBarcode> lstOfBarcode) {
 
 
@@ -1659,9 +1628,6 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void save() {
 
 
@@ -1671,55 +1637,29 @@ public class ItemMasterUI2 extends TabPanelUI {
             //description
             //salesprice
 
-            if (uiEty.tcToStr(tItemcode) == null || uiEty.tcToStr(tItemcode).equals("")) {
+            if (uiEty.isTxtFieldNullOrEmpty(tItemcode)) {
                 MessageBoxes.wrnmsg(null, "Please Type Item Code", "Empty Item Code");
+                tItemcode.requestFocus();
                 return;
             }
 
-//            if (getSupplier(uiEty.cmbtostr(tSupplierItem)) == null) {
-//
-//                MessageBoxes.wrnmsg(null, "No Supplier Found For This Item.", "Empty");
-//                //  Sessions.getObj("");     
-//                return;
-//            }
 
-            //if customer copy item and edit item here..
-            //copieditemId will nt be empty it carries copied item id.
-
-
-            Item item = uiToEntity(new Item());
-            //if item coming from list view only this if condition works
-//            if (getCopiedItemId() != null) {
-//                if (pasteItem(item, getCopiedItemId())) {
-//                    saveImages(item.getCode(), images);
-//                    clearMaster();
-//                    listUi.callVeryFirstPage();
-//                    // MessageBoxes.okmsg(null, "Updated.", "Item");
-//
-//                    return; //return is very important..to exit the method ...
-//
-//
-//                }
-//
-//            }
+            Item item = uiToEty(new Item());
 
 
             Item exist = itemService.getDao().findItemByCode(item.getCode());
-            if (exist == null) {
+            if (exist == null && Validator.isEmptyOrNull(item.getId())) {
                 itemService.getDao().save(item);
-
                 saveImages(item.getCode(), images);
             } else {
                 //item exist so ask user to update ...
                 String[] ObjButtons = {"Yes", "No"};
                 int PromptResult = JOptionPane.showOptionDialog(null, "Item Already Exist Do You Want to Update it?", "Item Form", -1, 2, null, ObjButtons, ObjButtons[1]);
-
                 if (PromptResult == 0) {
-
-
                     item.setId(exist.getId());
                     itemService.getDao().update(item);
-
+                    
+                    //put to thread 
                     deleteImages(item.getCode());
                     saveImages(item.getCode(), images);
 
@@ -1731,7 +1671,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
             // addToTable(items);
 //        ipu.populateTable(items);
-            clearMaster();
+            clear();
         } catch (Exception e) {
             e.printStackTrace();
             MessageBoxes.errormsg(null, e.getMessage(), "Error");
@@ -1740,6 +1680,13 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }
 
+    AbstractAction ab= new AbstractAction() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    };
     public void saveImages(String itemid, List<File> images) {
         try {
             int x = 1;
@@ -1776,7 +1723,6 @@ public class ItemMasterUI2 extends TabPanelUI {
                         file.delete();
 
                     }
-
                 }
 
             }
@@ -2017,7 +1963,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                 return;
             }
 
-            Item item = uiToEntity(new Item());
+            Item item = uiToEty(new Item());
 
             Item exist = itemService.getDao().findItemByCode(item.getCode());
             if (exist != null) {
@@ -2036,7 +1982,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                 return;
 
             }
-            clearMaster();
+            clear();
         } catch (Exception e) {
 
             MessageBoxes.errormsg(null, e.getMessage(), getTabName());

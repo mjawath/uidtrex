@@ -22,24 +22,23 @@ public class ItemDAO extends GenericDAO<Item> {
 
     
      public  List<Item> findItemListByCode(String itemcode) {
-  
-        List<Item> lst = pagedData(" Where c.code like '%" + itemcode + "'",0);
+  String qry =" Where c.code like '" + itemcode + "%' ";
+        List<Item> lst = pagedData(qry,0);
 //
-        getCache().createAndAddCache(findItemListByCode," Where c.code like '" + itemcode + "%' ", 0, 0l, lst);
+        getCache().createAndAddCache(findItemListByCode,qry, 0, 0l, lst);
         return lst;
     }
      
     public Item findItemByCode(String itemcode) {
         Item i = null;
 //        try { 
-        List<Item> lst = ExecuteQuery("select i from Item i Where i.code='" + itemcode + "'");
+        String qry=" Where c.code='" + itemcode + "'";
+        Item lst = ExecuteQuerySR(qry);
 //   //EntityManager em=createEmNew();
 //  
 //    //        em.getTransaction().begin();
 // List<Item> lst=em.createQuery("select i from item Where i.code=?1").setParameter(1,itemcode).getResultList();
-        for (Item item : lst) {
-            i = item;
-        }
+        
 // 
 // em.getTransaction().commit();            
 //em.close();
@@ -49,8 +48,7 @@ public class ItemDAO extends GenericDAO<Item> {
 //        }finally{
 //   
 //        }
-
-        return i;
+        return lst;
     }
 
     public void deleteItemByid(String itemid) {
