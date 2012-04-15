@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.AbstractAction;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -28,6 +29,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.biz.app.ui.util.ComponentFactory;
 import org.biz.app.ui.util.TableUtil;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
@@ -203,6 +205,19 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 //                return true;
 //            }
 //        });
+        
+        ComponentFactory.setKeyAction(textField, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);  
+            }
+        },KeyEvent.VK_DOWN );
+        ComponentFactory.setKeyAction(textField, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);  
+            }
+        },KeyEvent.VK_UP );
         textField.addKeyListener(new KeyAdapter() {
 
             @Override

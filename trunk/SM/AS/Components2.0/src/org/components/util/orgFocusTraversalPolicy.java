@@ -20,6 +20,7 @@ public class orgFocusTraversalPolicy extends FocusTraversalPolicy {
     public orgFocusTraversalPolicy(Vector<Component> order) {
         this.order = new Vector<Component>(order.size());
         this.order.addAll(order);
+        
 
     }
 

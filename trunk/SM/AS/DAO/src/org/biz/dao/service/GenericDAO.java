@@ -164,7 +164,7 @@ public class GenericDAO<T> {
     }
 
     public T ExecuteQuerySR(String qryString) {
-
+        qryString=createSelect()+qryString;
         return GenericDAOUtil.ExecuteQuerySR(qryString, cls);
     }
 
@@ -215,8 +215,8 @@ public class GenericDAO<T> {
         String qry = getquery(qryname);
         int cpageno = getCupage(qryname);
         Long count = getcount(qry);
-        int pages = (int) Math.floor(count / noofrows);
-        if (pages <= cpageno) {
+        int pages = (int) Math.ceil(count / noofrows);
+        if (pages-1 <= cpageno) {
             cpageno = pages;
         } else {
             cpageno++;
