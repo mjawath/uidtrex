@@ -11,6 +11,7 @@
 package org.biz.app.ui.util;
 
 import java.util.List;
+import org.biz.app.ui.util.PagedListUI;
 import org.biz.dao.service.Service;
 
 /**
