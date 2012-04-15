@@ -132,8 +132,9 @@ public class ItemListUi extends TabPanelUI implements PagedListUI {
 
         try {
             Item item = itemService.getDao().findItemByCode(itemCode);
-            formUi.clearMaster();
-            formUi.entity2Ui(item);
+            formUi.clear();
+            formUi.setSelectedItem(item);
+            formUi.etyToUI(item);
             callFormUi();
         } catch (Exception e) {
             e.printStackTrace();
