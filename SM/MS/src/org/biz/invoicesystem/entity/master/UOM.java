@@ -30,6 +30,19 @@ public class UOM implements Serializable {
     @OneToOne
     private UOM guom;
     private Double multi;
+    private Double salesPrice;
+
+    public Double getSalesPrice() {
+        return salesPrice;
+    }
+
+    public void setSalesPrice(Double salesPrice) {
+        this.salesPrice = salesPrice;
+    }
+
+    
+    
+    
    public static UOM find(String code, List<UOM> lst) {
 
 
