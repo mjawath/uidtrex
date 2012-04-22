@@ -14,6 +14,7 @@ import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import org.biz.dao.util.EntityService;
 import org.biz.entity.BusObj;
+import org.dao.util.DAOException;
 import org.dao.util.JPAUtil;
 
 /**
@@ -285,13 +286,17 @@ public class GenericDAOUtil<T> {
             if (em != null) {
                 em.getTransaction().rollback();
             }
+            throw new DAOException(e);
         } finally {
             if (em != null) {
                 try {
                     em.clear();
                     em.close();
-                } catch (Exception e) {
+                } catch (Exception e) {                
+                throw new DAOException(e);
                 }
+                
+                
 
             }
         }
