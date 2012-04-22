@@ -1,9 +1,11 @@
 package org.biz.invoicesystem.entity.master;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import org.biz.invoicesystem.system.SystemUtil;
 
 @Entity
 public class Item implements Serializable {
@@ -32,7 +35,6 @@ public class Item implements Serializable {
     //variation has name value --colur = red/colur = yellow , size = 15 ,size = 20 
     //  private String itemID;
     //  private String warehouse;   
-    //   private String extraCategory;
     private String supplierId;
     private Double cost;
     private Double salesPrice;
@@ -78,6 +80,17 @@ public class Item implements Serializable {
     @JoinColumn(name = "Item_id")
     @OneToMany(fetch = FetchType.LAZY, cascade = {javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE}, orphanRemoval = true)
     private List<ItemBarcode> barcodes;
+    @JoinColumn(name = "Item_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {javax.persistence.CascadeType.ALL, javax.persistence.CascadeType.REMOVE}, orphanRemoval = true)
+    private List<UOM> uoms;
+
+    public List<UOM> getUoms() {
+        return uoms;
+    }
+
+    public void setUoms(List<UOM> uoms) {
+        this.uoms = uoms;
+    }
 
     public String getId() {
         return id;
@@ -431,5 +444,55 @@ public class Item implements Serializable {
      */
     public void setDifferent(Integer different) {
         this.different = different;
+    }
+
+    public void addUOM(UOM uom) {
+
+        if (uoms == null) {
+            uoms = new ArrayList<UOM>();
+        }
+        uoms.add(uom);
+
+    }
+
+    public void addUOMorUpdate(UOM uom) {
+
+        if (uoms == null) {
+            uoms = new ArrayList<UOM>();
+            uom.setId(SystemUtil.timeStampKey());
+            uoms.add(uom);
+            return;
+        }
+        if (uom.getId() == null) {
+            uom.setId(SystemUtil.timeStampKey());
+            uoms.add(uom);
+            return;
+        }
+
+
+        int it = -1;
+        for (UOM item : getUoms()) {
+            it++;
+            if (uom.getId() != null && uom.getId().equals(item.getId())) {
+//                 item=uom;//replace item
+                uoms.set(it, uom);
+                return;
+            }
+        }
+
+//        if(it>0){  uoms.set(it, uom);return;}
+
+
+
+    }
+
+    public String[] getUomSimbolList() {
+        ArrayList al = new ArrayList();
+        if (uoms != null) {
+            for (UOM uom : uoms) {
+                al.add(uom.getSimbol());
+            }
+        }
+        return (String[]) al.toArray();
     }
 }
