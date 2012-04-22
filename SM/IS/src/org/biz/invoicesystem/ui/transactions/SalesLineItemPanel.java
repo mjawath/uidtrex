@@ -10,7 +10,6 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
-import com.components.custom.CInputVerifier;
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
 import invoicingsystem.LineItemPanel;
@@ -51,17 +50,6 @@ public class SalesLineItemPanel extends LineItemPanel {
         });
 
 
-        tprice.addKeyListener(new KeyAdapter() {
-
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    action();
-                    titemcode.requestFocus();
-//                rowToEty();
-                    e.consume();
-                }
-            }
-        });
 
 //        titemcode.addActionListener(new ActionTask(tdescription));
 //        tdescription.addActionListener(new ActionTask(tdescription));
@@ -221,6 +209,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
         tunit = new org.components.controls.CComboBox();
+        dropDownWithButton1 = new com.components.custom.DropDownWithButton();
 
         setBackground(new java.awt.Color(247, 230, 130));
         getContentPane().add(titemcode);
@@ -237,6 +226,8 @@ public class SalesLineItemPanel extends LineItemPanel {
         tunit.setEditable(true);
         getContentPane().add(tunit);
         tunit.setBounds(450, 30, 130, 23);
+        getContentPane().add(dropDownWithButton1);
+        dropDownWithButton1.setBounds(450, 60, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -292,6 +283,7 @@ public class SalesLineItemPanel extends LineItemPanel {
     public void action() {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.components.custom.DropDownWithButton dropDownWithButton1;
     private org.components.controls.CTextField tdescription;
     private org.components.controls.CTextField titemcode;
     private org.components.controls.CTextField tlinetotal;
