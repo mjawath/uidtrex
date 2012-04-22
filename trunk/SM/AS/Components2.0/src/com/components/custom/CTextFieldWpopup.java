@@ -8,11 +8,8 @@
  *
  * Created on May 4, 2010, 7:39:59 PM
  */
-package org.components.controls;
+package com.components.custom;
 
-import com.components.custom.ActionTask;
-import com.components.custom.CInputVerifier;
-import com.components.custom.IContainer;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import org.components.parent.controls.PTextField;
+import org.components.controls.CTextField;
 
 /**
  *
  * @author nano
  */
-public class CTextField extends PTextField {
+public class CTextFieldWpopup extends CTextField {
 
     IContainer container;
     JComponent nextFocusableComponent;
@@ -52,7 +49,7 @@ public class CTextField extends PTextField {
                 });
                 break;
             case FocusEvent.FOCUS_LOST:
-                final CTextField org = (CTextField) e.getComponent();
+                final CTextFieldWpopup org = (CTextFieldWpopup) e.getComponent();
 
                 SwingUtilities.invokeLater(new Runnable() {
 
@@ -70,7 +67,7 @@ public class CTextField extends PTextField {
     }
 
     /** Creates new form BeanForm */
-    public CTextField() {
+    public CTextFieldWpopup() {
         initComponents();
         init();
 //        setInputVerifier(new CInputVerifier());
@@ -127,7 +124,7 @@ public class CTextField extends PTextField {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        setFont(new java.awt.Font("Tahoma", 1, 14));
         setPreferredSize(new java.awt.Dimension(6, 25));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,37 +190,6 @@ public class CTextField extends PTextField {
     public void setFormater(String formater) {
         this.formater = formater;
     }
-    
-    public  double getDoubleValue0() {
-
-        try {
-            String s = null;
-            if (this.getText() != null) {
-                s = this.getText().trim();
-
-            }
-            return Double.parseDouble(s);
-        } catch (Exception e) {
-            return 0.0;
-        }
-
-    }
-    
-        public  Double getDoubleValue() {
-
-        try {
-            String s = null;
-            if (this.getText() != null) {
-                s = this.getText().trim();
-
-            }
-            return Double.parseDouble(s);
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
