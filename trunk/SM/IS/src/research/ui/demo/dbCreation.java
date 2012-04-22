@@ -14,11 +14,6 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
-import org.eclipse.persistence.internal.jpa.EJBQueryImpl;
-import org.eclipse.persistence.jpa.JpaEntityManager;
-import org.eclipse.persistence.queries.DatabaseQuery;
-import org.eclipse.persistence.sessions.DatabaseRecord;
-import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -28,13 +23,13 @@ public class dbCreation {
     
     public static void main(String[] args) {
       
-      Query e=  new SalesInvoiceService().getDao().createQuery("select c from Item c");
-        System.out.println("exe cuting one........");
-        e.getResultList();
-        
-        System.out.println("exe cuting twoooo22...");
-        e.getResultList();
-        System.out.println("don e.................");
+//      Query e=  new SalesInvoiceService().getDao().createQuery("select c from Item c");
+//        System.out.println("exe cuting one........");
+//        e.getResultList();
+//        
+//        System.out.println("exe cuting twoooo22...");
+//        e.getResultList();
+//        System.out.println("don e.................");
 
 //        List s=new SalesInvoiceService().getDao().getAll();
 //        for (Object object : s) {
@@ -44,9 +39,9 @@ public class dbCreation {
 //                System.out.println(x);
 //            }
 //        }
-        
+        createmster();
     }
-    public void createmster(){
+    public static  void createmster(){
     List lst = new ArrayList();
         for (int i = 0; i < 1500; i++) {
             Supplier cus = new Supplier();

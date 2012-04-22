@@ -74,17 +74,14 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
-
-        jLayeredPane1.setBackground(new java.awt.Color(255, 102, 204));
-        jLayeredPane1.setOpaque(true);
 
         jPanel1.setLayout(null);
 
@@ -92,8 +89,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1.add(jButton1);
         jButton1.setBounds(95, 33, 73, 23);
 
-        jPanel1.setBounds(10, 20, 340, 0);
-        jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(400, 130, 340, 90);
+
+        jLayeredPane1.setBackground(new java.awt.Color(255, 102, 204));
+        jLayeredPane1.setOpaque(true);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,11 +108,11 @@ public class NewJFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jScrollPane1.setBounds(0, 60, 375, 200);
+        jScrollPane1.setBounds(70, 70, 375, 200);
         jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         getContentPane().add(jLayeredPane1);
-        jLayeredPane1.setBounds(80, 60, 380, 310);
+        jLayeredPane1.setBounds(40, 30, 520, 310);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

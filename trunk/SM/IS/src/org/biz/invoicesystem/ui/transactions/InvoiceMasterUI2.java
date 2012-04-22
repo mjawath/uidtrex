@@ -19,13 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
-import org.biz.dao.service.GenericDAO;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
-import org.biz.invoicesystem.entity.master.Supplier;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.CustomerService;
@@ -68,6 +66,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         initComponents();
 
         init();
+
     }
 
     public void init() {
@@ -165,8 +164,11 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
                 if (id == null) {
                     setnewrow();
+                    int row = tblInvoice.getRowCount();
+                    tblInvoice.getSelectionModel().setSelectionInterval(row - 1, row - 1);
 
                 }
+
             }
         };
 
@@ -178,7 +180,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             public void search(String qry) {
                 try {
 
-                    itemSelectionPopup.setList(itemService.getDao().byCode(qry));
+                    setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -186,12 +188,12 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
             public void action() {
                 super.action();
-                String ob = itemSelectionPopup.getSelectedID();
+                String ob = getSelectedID();
                 Item item = null;
                 //find Item
                 for (Item it : listItem) {
                     if (ob.equals(it.getId())) {
-                        itemSelectionPopup.setSelectedObject(it);
+                        setSelectedObject(it);
                         item = it;
                         break;
                     }
@@ -232,16 +234,17 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             public void action() {
 
                 String ob = cuspop.getSelectedID();
-                Customer item = null;
+                Customer cus = null;
                 //find Item
                 for (Customer it : listCust) {
                     if (ob.equals(it.getId())) {
                         cuspop.setSelectedObject(it);
-                        item = it;
-                        invoice.setCustomer(item);
-                        uiEty.objToUi(taddress, item.getAddress());
-                        tblInvoice.requestFocus();
-                        break;
+                        cus = it;
+                        invoice.setCustomer(cus);
+                        uiEty.objToUi(taddress, cus.getAddress());
+                        int row = tblInvoice.getRowCount();
+                        tblInvoice.getSelectionModel().setSelectionInterval(row - 1, row - 1);
+                        return;
                     }
                 }
 
@@ -250,6 +253,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             @Override
             public void search(String qry) {
                 try {
+                    // get the db results
+                    //update the ui later 
+
                     listCust = custService.getDao().byCode(qry);
                     cuspop.setObjectToTable(listCust);
                 } catch (Exception e) {
@@ -344,33 +350,33 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         }, KeyEvent.VK_DELETE);
 
 
-        tcus.addKeyListener(new KeyAdapter() {
+//        tcus.addKeyListener(new KeyAdapter() {
+//
+//            public void keyPressed(KeyEvent e) {
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
+//                         || e.getKeyCode() == KeyEvent.VK_TAB) {
+//                    taddress.requestFocus();
+//                    System.out.println("|--|");
+//                    //if table not selected pls select a row 
+//                    
+//                }
+//            }
+//        });
 
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
-                         || e.getKeyCode() == KeyEvent.VK_TAB) {
-                    taddress.requestFocus();
-                    System.out.println("|--|");
-                    //if table not selected pls select a row 
-                    
-                }
-            }
-        });
-        
-        taddress.addKeyListener(new KeyAdapter() {
-
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
-                         || e.getKeyCode() == KeyEvent.VK_TAB) {
-                    if (tblInvoice.getSelectedRow() < 0) {
-                        tblInvoice.getSelectionModel().setSelectionInterval(0, 0);
-                    }
-                    lineItemPanel.showLineItemPanel();
-                    lineItemPanel.getItemFiled().requestFocus();
-                }
-            }
-        });
-        
+//        taddress.addKeyListener(new KeyAdapter() {
+//
+//            public void keyPressed(KeyEvent e) {
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN 
+//                         || e.getKeyCode() == KeyEvent.VK_TAB) {
+//                    if (tblInvoice.getSelectedRow() < 0) {
+//                        tblInvoice.getSelectionModel().setSelectionInterval(0, 0);
+//                    }
+//                    lineItemPanel.showLineItemPanel();
+//                    lineItemPanel.getItemFiled().requestFocus();
+//                }
+//            }
+//        });
+//        
 
     }
 
@@ -438,12 +444,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     private void loadUnit(Item it) {
         if (it != null) {
-            String st = it.getUnitOne();
-            String st2 = it.getUnitTwo();
-            String[] stx = st2 == null ? new String[]{"", st} : new String[]{"", st, st2};
-            uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
+          uiEty.setcombomodel(it.getUomSimbolList(),lineItemPanel.getUnitCombo());         
+            
         } else {
-            String[] stx = new String[]{"no", "nop", "ppp"};
+            String[] stx = new String[]{};
             uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
         }
 
@@ -517,9 +521,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tinvoiceManualNo = new org.components.controls.CTextField();
         cPanel2 = new org.components.containers.CPanel();
         cLabel3 = new org.components.controls.CLabel();
-        tcus = new org.components.controls.CTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         taddress = new org.components.controls.CTextArea();
+        tcus = new com.components.custom.CTextFieldWpopup();
         tdate = new org.components.controls.CDatePicker();
         cLabel4 = new org.components.controls.CLabel();
         cPanel3 = new org.components.containers.CPanel();
@@ -541,7 +545,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cTextField15 = new org.components.controls.CTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
-        tsalesman = new org.components.controls.CTextField();
         tdocref = new org.components.controls.CTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tremark = new org.components.controls.CTextArea();
@@ -549,6 +552,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tbal = new org.components.controls.CLabel();
         cLabel21 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
+        tsalesman = new com.components.custom.CTextFieldWpopup();
 
         setLayout(null);
 
@@ -632,8 +636,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cLabel3.setFont(new java.awt.Font("Tahoma", 1, 10));
         cPanel2.add(cLabel3);
         cLabel3.setBounds(10, 0, 60, 20);
-        cPanel2.add(tcus);
-        tcus.setBounds(60, 0, 150, 20);
 
         taddress.setColumns(20);
         taddress.setRows(10);
@@ -641,6 +643,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         cPanel2.add(jScrollPane3);
         jScrollPane3.setBounds(10, 30, 230, 80);
+        cPanel2.add(tcus);
+        tcus.setBounds(66, 0, 150, 25);
 
         add(cPanel2);
         cPanel2.setBounds(0, 11, 240, 120);
@@ -765,8 +769,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         add(jScrollPane2);
         jScrollPane2.setBounds(10, 170, 930, 180);
-        add(tsalesman);
-        tsalesman.setBounds(770, 90, 130, 25);
         add(tdocref);
         tdocref.setBounds(710, 60, 70, 25);
 
@@ -790,6 +792,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cLabel21.setBounds(110, 480, 104, 25);
         add(controlPanel1);
         controlPanel1.setBounds(110, 420, 480, 50);
+        add(tsalesman);
+        tsalesman.setBounds(780, 100, 160, 25);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ttypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttypeActionPerformed
@@ -855,14 +859,14 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     private org.components.controls.CLabel tbal;
     private org.components.controls.TableEditable tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
-    private org.components.controls.CTextField tcus;
+    private com.components.custom.CTextFieldWpopup tcus;
     private org.components.controls.CDatePicker tdate;
     private org.components.controls.CTextField tdis;
     private org.components.controls.CTextField tdocref;
     private org.components.controls.CTextField tfinaltotle;
     private org.components.controls.CTextField tinvoiceManualNo;
     private org.components.controls.CTextArea tremark;
-    private org.components.controls.CTextField tsalesman;
+    private com.components.custom.CTextFieldWpopup tsalesman;
     private org.components.controls.CTextField tsubtotal;
     private org.components.controls.CTextField ttax;
     private org.components.controls.CComboBox ttype;
@@ -877,30 +881,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     public JPanel getJPanel() {
         return this;
-    }
-
-    public static void main(String[] args) {
-        Object c = null;
-        Object c2 = null;
-        System.out.println("r " + c + 25 + " ff " + c2);
-        List lst = new ArrayList();
-        for (int i = 0; i < 1500; i++) {
-            Supplier cus = new Supplier();
-            cus.setId(EntityService.getKeyStr());
-            cus.setCode(EntityService.getKeyStr());
-            cus.setName(EntityService.getKeyStr());
-            lst.add(cus);
-        }
-        new GenericDAO<Supplier>().saveList(lst);
-//        List lst = new ArrayList();
-//        for (int i = 0; i < 1500; i++) {
-//            Customer cus = new Customer();
-//            cus.setId("" + i + "" + System.currentTimeMillis());
-//            cus.setCode("" + i + "" + System.currentTimeMillis() + "" + i);
-//            cus.setCustomerName("" + i + "" + System.currentTimeMillis() + "" + i);
-//            lst.add(cus);
-//        }
-//        new GenericDAO<Customer>().saveList(lst);
     }
 }
 //        cxTable2.getColumnModel().getColumn(2).setCellEditor(new editor(popUpComponent, tblInvoice));

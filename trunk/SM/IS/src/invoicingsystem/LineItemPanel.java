@@ -38,7 +38,7 @@ import org.biz.app.ui.util.uiEty;
  */
 public class LineItemPanel extends javax.swing.JDialog {
 
-    protected  Object lineitem;
+    protected Object lineitem;
 
     public LineItemPanel(JFrame jf) {
         super(jf, true);
@@ -72,7 +72,7 @@ public class LineItemPanel extends javax.swing.JDialog {
 
     public void showLineItemPanel() {
 
-        
+
         int x = (int) jt.getLocationOnScreen().x;
         int y = (int) jt.getLocationOnScreen().y;
         int sr = jt.getSelectedRow();
@@ -89,8 +89,6 @@ public class LineItemPanel extends javax.swing.JDialog {
 //        setFocusableWindowState(true);
 //        setFocus();
     }
-
-   
     JTable jt;
 
     public void setTable(JTable tbl) {
@@ -146,7 +144,7 @@ public class LineItemPanel extends javax.swing.JDialog {
                 }
             }
         });
-       jt.addFocusListener(new FocusAdapter() {
+        jt.addFocusListener(new FocusAdapter() {
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -155,25 +153,22 @@ public class LineItemPanel extends javax.swing.JDialog {
 //                        LineItemPanel.this.setVisible(false);
 //                    }
 //                }
-                
             }
         });
-       addWindowFocusListener(new WindowAdapter() {
+        addWindowFocusListener(new WindowAdapter() {
 
             @Override
             public void windowLostFocus(WindowEvent e) {
-                        LineItemPanel.this.setVisible(false);
+                LineItemPanel.this.setVisible(false);
             }
-       
-       });
-       jt.addMouseListener(new MouseAdapter() {
+        });
+        jt.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-        showLineItemPanel();
+                showLineItemPanel();
             }
-       
-       });
+        });
 //        addw
 //        cTextField1.addKeyListener(new KeyAdapter() {
 //
@@ -210,13 +205,13 @@ public class LineItemPanel extends javax.swing.JDialog {
     }
 
     public void dispatchEventx(KeyEvent event) {
-        cTextField1.requestFocus();  
-        
-        System.out.println(" text 111||| "+cTextField1.getText());
-        System.out.println("selected text 111||| "+cTextField1.getSelectedText());
+        cTextField1.requestFocus();
+
+        System.out.println(" text 111||| " + cTextField1.getText());
+        System.out.println("selected text 111||| " + cTextField1.getSelectedText());
         KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cTextField1, event);
-        System.out.println("selected text 222||| "+cTextField1.getSelectedText());
-        
+        System.out.println("selected text 222||| " + cTextField1.getSelectedText());
+
 //        cTextField1.select(cTextField1.getText().length()-1, cTextField1.getText().length()-1);
 //        cTextField1.setCaretPosition(cTextField1.getText().length()-1);
 //        event.consume();

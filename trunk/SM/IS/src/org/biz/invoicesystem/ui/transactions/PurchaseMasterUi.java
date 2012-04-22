@@ -213,7 +213,8 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
                         item = it;
                         invoice.setSupplier(item);
                         uiEty.objToUi(cTextArea2, item.getAddress1());
-                        break;
+                        
+                        return;
                     }
                 }
             }
