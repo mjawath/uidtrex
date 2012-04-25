@@ -22,36 +22,31 @@ import org.dao.util.JPAUtil;
  */
 public class GenericDAOUtil<T> {
 
-  
     private EntityManager em;
     String classname;
     T cls;
     String orderby = "";
-    private  static   Cache cache;
-    
+    private static Cache cache;
+
     static {
-        if(cache==null){
-        cache=new Cache();   
-        
+        if (cache == null) {
+            cache = new Cache();
+
         }
     }
 
     public static Cache getCache() {
         return cache;
     }
-  
-    
 
 //    public void setCls(Class<T> cls) {
 //        this.cls = cls;
 //        this.classname = cls.getSimpleName();
 //    }
-
 //    public static<T> Class<T> getCls(String clss) {
 //        
 //        return cls.getClass();
 //    }
-
     public void setClassname(String classname) {
         this.classname = classname;
     }
@@ -72,39 +67,38 @@ public class GenericDAOUtil<T> {
 //        return (T) getEm().find(getCls(), key);
 //
 //    }
-
-    public static <T>  T getWhere(String property, Object key,Class cls) {
+    public static <T> T getWhere(String property, Object key, Class cls) {
 
         String qry = "select c from  " + cls.getSimpleName() + " c  where c." + property + " ='" + key + "'";
-        return ExecuteQuerySR(qry,cls);
+        return ExecuteQuerySR(qry, cls);
 
     }
 
-    public static <T> T getByPropertySR(String property, Number key,Class cls) {
+    public static <T> T getByPropertySR(String property, Number key, Class cls) {
 
-        String qry = "select c from  " + cls.getSimpleName()  + " c  where c." + property + " =" + key + "";
-        return ExecuteQuerySR(qry,cls);
-
-    }
-
-    public static <T> T getByPropertySR(String property, String key,Class cls) {
-
-        String qry = "select c from  " +cls.getSimpleName()  + " c  where c." + property + " ='" + key + "' ";
-        return ExecuteQuerySR(qry,cls);
+        String qry = "select c from  " + cls.getSimpleName() + " c  where c." + property + " =" + key + "";
+        return ExecuteQuerySR(qry, cls);
 
     }
 
-    public static <T> List<T>  getByProperty(String property, Number key,Class cls) {
+    public static <T> T getByPropertySR(String property, String key, Class cls) {
 
-        String qry = "select c from  " + cls.getSimpleName()  + " c  where c." + property + " =" + key + "";
-        return ExecuteQuery(qry,cls);
+        String qry = "select c from  " + cls.getSimpleName() + " c  where c." + property + " ='" + key + "' ";
+        return ExecuteQuerySR(qry, cls);
 
     }
 
-    public static <T> List<T> getByProperty(String property, String key,Class cls) {
+    public static <T> List<T> getByProperty(String property, Number key, Class cls) {
 
-        String qry = "select c from  " + cls.getSimpleName()  + " c  where c." + property + " = '" + key + "'";
-        return ExecuteQuery(qry,cls);
+        String qry = "select c from  " + cls.getSimpleName() + " c  where c." + property + " =" + key + "";
+        return ExecuteQuery(qry, cls);
+
+    }
+
+    public static <T> List<T> getByProperty(String property, String key, Class cls) {
+
+        String qry = "select c from  " + cls.getSimpleName() + " c  where c." + property + " = '" + key + "'";
+        return ExecuteQuery(qry, cls);
 
     }
 
@@ -117,8 +111,8 @@ public class GenericDAOUtil<T> {
         getEm().refresh(c);
     }
 
-    public static<T>  T deatach(Object c, Object key) {
-        EntityManager em=createEmNew();
+    public static <T> T deatach(Object c, Object key) {
+        EntityManager em = createEmNew();
         T cc = (T) em.find(c.getClass(), key);
         em.refresh(cc);
         em.detach(cc);
@@ -129,18 +123,17 @@ public class GenericDAOUtil<T> {
 //        em.find(T, key);
 //        return null;
 //    }
-    public static <T>  List<T> getAll(String orderby,Class cls) {
+    public static <T> List<T> getAll(String orderby, Class cls) {
 //        getEm().clear();
         String order = "";
         if (!orderby.isEmpty()) {
-            order = "order by item." + orderby + " ASC";
+            order = "order by c." + orderby + " ASC";
         }
-        Query query = createEmNew(). createQuery("select item from " + cls.getSimpleName() + " item   " + order);
+        Query query = createEmNew().createQuery("select c from " + cls.getSimpleName() + " c   " + order);
         query.setHint(QueryHints.REFRESH, HintValues.TRUE);
         return query.getResultList();
     }
 
-  
     public static <T> void persistob(EntityManager em, Object ob) {
         em.persist(ob);
     }
@@ -160,7 +153,7 @@ public class GenericDAOUtil<T> {
             for (Object object : ob) {
                 persist(em, object);
             }
-            
+
             em.getTransaction().commit();
 
         } catch (Exception e) {
@@ -181,20 +174,20 @@ public class GenericDAOUtil<T> {
 
     }
 
-    public  static <T> void save(T ob) {
+    public static <T> void save(T ob) {
         EntityManager em = null;
         try {
-            
-            
+
+
             em = createEmNew();
             em.getTransaction().begin();
-             if(ob instanceof BusObj){
-                BusObj bb= (BusObj)ob;
+            if (ob instanceof BusObj) {
+                BusObj bb = (BusObj) ob;
 //                bb.setEditeddate(null);
 //                bb.setSaveddate(null);//get server date
             }
             persist(em, ob);
-           
+
             em.getTransaction().commit();
 
         } catch (Exception e) {
@@ -214,7 +207,7 @@ public class GenericDAOUtil<T> {
         }
     }
 
-    public  static <T> void saveList(List<T> ob) {
+    public static <T> void saveList(List<T> ob) {
         EntityManager em = null;
         try {
             em = createEmNew();
@@ -245,11 +238,11 @@ public class GenericDAOUtil<T> {
 
     }
 
-    public  static <T> void remove(EntityManager em, T ob) {
+    public static <T> void remove(EntityManager em, T ob) {
         em.remove(em.merge(ob));
     }
 
-    public  static <T> void delete(T ob) {
+    public static <T> void delete(T ob) {
         EntityManager em = null;
         try {
             em = createEmNew();
@@ -274,7 +267,7 @@ public class GenericDAOUtil<T> {
 
     }
 
-    public  static <T> void update(T ob) {
+    public static <T> void update(T ob) {
         EntityManager em = null;
         try {
             em = createEmNew();
@@ -292,17 +285,17 @@ public class GenericDAOUtil<T> {
                 try {
                     em.clear();
                     em.close();
-                } catch (Exception e) {                
-                throw new DAOException(e);
+                } catch (Exception e) {
+                    throw new DAOException(e);
                 }
-                
-                
+
+
 
             }
         }
     }
 
-    public  static <T> void merge(EntityManager em, T ob) {
+    public static <T> void merge(EntityManager em, T ob) {
         em.merge(ob);
     }
 
@@ -315,11 +308,11 @@ public class GenericDAOUtil<T> {
     }
 
     public static <T> EntityManager createEmNew() {
-      EntityManager  em = JPAUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         return em;
     }
 
-    public  static <T> Query getQuery(String qryString, boolean ref) {
+    public static <T> Query getQuery(String qryString, boolean ref) {
         Query query = createEmNew().createQuery(qryString);
         if (ref) {
             refreshOn(query);
@@ -336,48 +329,49 @@ public class GenericDAOUtil<T> {
     }
     //set parameters  as object array in the accoridng to the order of  to qry string 
     //eg select c from cusomter c where c.x =?1 and c.y= ?2  -===here new object[]{"jawath", 2005}
-    public static  Query getQuery(String qryString, Object[] ps){
-        Query q= createEmNew().createQuery(qryString);
-        int x=0;
-        
-        for (Object o: ps) {
+
+    public static Query getQuery(String qryString, Object[] ps) {
+        Query q = createEmNew().createQuery(qryString);
+        int x = 0;
+
+        for (Object o : ps) {
             q.setParameter(x, o);
             x++;
-        }        
+        }
         return q;
     }
 
     //set parameters  as object array in the accoridng to the order of  to qry string 
     //eg select c from cusomter c where c.x =?1 and c.y= ?2  -===here new object[]{"jawath", 2005}
-    public  static <T> List<T> ExecuteQuery(String qryString,Object[] ps) {        
-        return  getQuery(qryString,ps).getResultList();    
+    public static <T> List<T> ExecuteQuery(String qryString, Object[] ps) {
+        return getQuery(qryString, ps).getResultList();
     }
-    
-    public static <T> List<T> ExecuteQuery(String qryString,Class cls) {
+
+    public static <T> List<T> ExecuteQuery(String qryString, Class cls) {
         Query query = JPAUtil.getEntityManager().createQuery(qryString, cls);
-      
+
         query.setHint(QueryHints.REFRESH, HintValues.TRUE);
         List ts = query.getResultList();
         return ts;
     }
 
-   public static   List<Object[]> ExecuteNativeQuery(String qryString) {
-       Query query = JPAUtil.getEntityManager().createNativeQuery(qryString);
-      
-     //   query.setHint(QueryHints.REFRESH, HintValues.TRUE);
+    public static List<Object[]> ExecuteNativeQuery(String qryString) {
+        Query query = JPAUtil.getEntityManager().createNativeQuery(qryString);
+
+        //   query.setHint(QueryHints.REFRESH, HintValues.TRUE);
         List<Object[]> ts = query.getResultList();
         return ts;
     }
-    
-    public static <T>  List<T> ExecuteQuery(Query qryString) {
+
+    public static <T> List<T> ExecuteQuery(Query qryString) {
         qryString.setHint(QueryHints.REFRESH, HintValues.TRUE);
         List<T> ts = qryString.getResultList();
         return ts;
     }
 
-    public static <T> T ExecuteQuerySR(String qryString,Class cl) {
+    public static <T> T ExecuteQuerySR(String qryString, Class cl) {
 
-        EntityManager em=JPAUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createQuery(qryString, cl);
         query.setHint(QueryHints.REFRESH, HintValues.TRUE);
         T ts = null;
@@ -386,16 +380,16 @@ public class GenericDAOUtil<T> {
             ts = (T) query.getSingleResult();
 
         } catch (Exception e) {
-          
-              if (e instanceof NoResultException) {             
+
+            if (e instanceof NoResultException) {
                 return null;
             }
-    e.printStackTrace();
+            e.printStackTrace();
         }
         return ts;
     }
 
-    public Object ExecuteQueryOb(String qryString,Class cls) {
+    public Object ExecuteQueryOb(String qryString, Class cls) {
         Object ts = null;
         try {
             Query query = getEm().createQuery(qryString, cls);
@@ -431,15 +425,15 @@ public class GenericDAOUtil<T> {
         return ts;
     }
 
-    public  static void refreshOn(Query query) {
+    public static void refreshOn(Query query) {
         query.setHint(QueryHints.REFRESH, HintValues.TRUE);
     }
 
-    public  static <T> Date currentTime() {
+    public static <T> Date currentTime() {
         Date date = (Timestamp) createEmNew().createNativeQuery("select CURRENT_TIMESTAMP  ").getSingleResult();
         return date;
     }
-    
+
     /*
     ///////////////
     //
@@ -449,15 +443,14 @@ public class GenericDAOUtil<T> {
     /////////
      * 
      */
-    
-       public static List pagedData(String qryKey,String qry,int pageNo){
-    Query qu=GenericDAOUtil.getQuery(qry);
-    int noofrows=10;
-    int fr=(pageNo==0?0:pageNo) * noofrows;
-    qu.setFirstResult(fr);//firstresult
-    qu.setMaxResults(noofrows); //max result = noofrows+ 
-    
-        
+    public static List pagedData(String qryKey, String qry, int pageNo) {
+        Query qu = GenericDAOUtil.getQuery(qry);
+        int noofrows = 10;
+        int fr = (pageNo == 0 ? 0 : pageNo) * noofrows;
+        qu.setFirstResult(fr);//firstresult
+        qu.setMaxResults(noofrows); //max result = noofrows+ 
+
+
         return ExecuteQuery(qu);
     }
 //    public List pagedDataScr(String qryKey,String qry,int pageNo){
