@@ -7,32 +7,22 @@ package org.biz.chequeChequing.entity.accounts.bank;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import org.biz.entity.BusObj;
 
 /**
  *
  * @author mjawath
  */
 @Entity
-public class Cheques implements Serializable {
+public class Cheques extends BusObj {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
+    @OneToOne
+    BankBranch bankBranch;
+    
     @Override
     public int hashCode() {
         int hash = 0;

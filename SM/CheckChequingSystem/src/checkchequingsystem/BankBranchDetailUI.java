@@ -18,6 +18,7 @@ import org.biz.app.ui.util.uiEty;
 import org.biz.chequeChequing.entity.accounts.bank.BankBranch;
 import org.biz.chequeChequing.entity.service.bank.BankBranchService;
 import org.biz.dao.util.EntityService;
+import org.biz.invoicesystem.system.SystemUtil;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -33,7 +34,7 @@ public class BankBranchDetailUI extends TabPanelUI {
     /** Creates new form BankDetailUI */
     public BankBranchDetailUI() {
         initComponents();
-
+        init();
     }
 
     @Override
@@ -154,7 +155,7 @@ public class BankBranchDetailUI extends TabPanelUI {
         }
 
         BankBranch item = new BankBranch();
-        item.setId(es.getKey());
+        item.setId(SystemUtil.timeStampKey());
         uiToEty(item);
         service.getDao().save(item);
         branches = service.getDao().getAll();

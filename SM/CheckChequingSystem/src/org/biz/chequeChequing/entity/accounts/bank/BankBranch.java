@@ -5,21 +5,29 @@
 
 package org.biz.chequeChequing.entity.accounts.bank;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import org.biz.entity.BusObj;
 
 /**
  *
  * @author mjawath
  */
 @Entity
-public class BankBranch implements Serializable {
+public class BankBranch extends BusObj {
     private static final long serialVersionUID = 1L;
-    @Id
-    private String id;
     String code;
 
+    @OneToOne
+    Bank bank;
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
     public String getCode() {
         return code;
     }

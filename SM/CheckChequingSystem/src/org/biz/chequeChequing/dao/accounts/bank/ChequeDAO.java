@@ -15,7 +15,7 @@ public class ChequeDAO extends  GenericDAO<Cheques>{
 
 
     public ChequeDAO() {
-
+setCls(Cheques.class);
     }
 
 }
