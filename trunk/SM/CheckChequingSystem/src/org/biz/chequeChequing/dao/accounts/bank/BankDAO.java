@@ -11,10 +11,9 @@ import org.biz.chequeChequing.entity.accounts.bank.Bank;
  *
  * @author mjawath
  */
-public class BankDAO extends  GenericDAO<Bank>{
-
+public class BankDAO extends GenericDAO {
 
     public BankDAO() {
-
+        setCls(Bank.class);
     }
 }

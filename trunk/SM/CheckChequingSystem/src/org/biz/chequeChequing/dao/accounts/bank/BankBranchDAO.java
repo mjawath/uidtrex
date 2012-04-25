@@ -4,8 +4,8 @@
  */
 package org.biz.chequeChequing.dao.accounts.bank;
 
-import org.biz.dao.service.GenericDAO;
 import org.biz.chequeChequing.entity.accounts.bank.BankBranch;
+import org.biz.dao.service.GenericDAO;
 
 /**
  *
@@ -13,9 +13,8 @@ import org.biz.chequeChequing.entity.accounts.bank.BankBranch;
  */
 public class BankBranchDAO extends GenericDAO<BankBranch>{
 
-
     public BankBranchDAO() {
-        
+        setCls(BankBranch.class);
     }
 
 
