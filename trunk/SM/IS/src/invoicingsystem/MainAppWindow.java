@@ -10,6 +10,9 @@ package invoicingsystem;
  *
  * Created on Dec 13, 2010, 10:16:22 PM
  */
+import checkchequingsystem.BankBranchDetailUI;
+import checkchequingsystem.BankDetailUI;
+import checkchequingsystem.ChequeDetailUI;
 import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
@@ -114,12 +117,16 @@ public class MainAppWindow extends app.AppMainWindow {
 //        addToTabpanelToUI(new ProductMasterUI(), "product master ui");
 //        addToTabpanelToUI(new PostedSalesInvoiceUI(), "poseted sales invoice");
 //        addToTabpanelToUI(new GRNUI(), "GRN invoice");
-//        addToTabpanelToUI(new GDNUI(), "GDN invoice");
+//        addToTabpanelToUI(new BankDetailUI(), "GDN invoice");
+        addToTabpanelToUI(new BankDetailUI(), "bank ");
+        addToTabpanelToUI(new BankBranchDetailUI(), "bank branch");
+//        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
+        addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
         events();
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
-        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
-        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
+//        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
+//        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
         addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
     System.gc();
     }

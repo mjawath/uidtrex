@@ -13,6 +13,7 @@ package invoicingsystem;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.transactions.CustomerStatement;
 import org.biz.invoicesystem.service.transactions.CustomerStatementService;
 import org.components.windows.TabPanelUI;
@@ -21,15 +22,15 @@ import org.components.windows.TabPanelUI;
  *
  * @author nnjj
  */
-public class CustomerStatementUI extends TabPanelUI {
+public class CustomerPayemntsUI extends TabPanelUI {
 
     int x;
-    CustomerStatement cust;
+    Customer cust;
     CustomerStatementService service;
     List<CustomerStatement> listStatements;
 
     /** Creates new form CustomerStatementUI */
-    public CustomerStatementUI() {
+    public CustomerPayemntsUI() {
         initComponents();
         init();
     }
@@ -37,7 +38,7 @@ public class CustomerStatementUI extends TabPanelUI {
     @Override
     public void init() {
 
-        cust=new CustomerStatement();
+        cust=new Customer();
         listStatements=new ArrayList<CustomerStatement>();
         service =new CustomerStatementService();
         controlPanel1.setCrudController(this);
@@ -83,8 +84,8 @@ public class CustomerStatementUI extends TabPanelUI {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(26, Short.MAX_VALUE)))
+                    .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(37, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,14 +100,15 @@ public class CustomerStatementUI extends TabPanelUI {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(80, 80, 80)
-                    .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(367, Short.MAX_VALUE)))
+                    .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(364, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CTableMaster cTableMaster1;

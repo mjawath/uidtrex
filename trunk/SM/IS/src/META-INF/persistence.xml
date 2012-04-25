@@ -38,11 +38,16 @@
     <class>org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem</class>
     <class>org.biz.invoicesystem.entity.transactions.SalesInvoice</class>
     <class>org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem</class>
+    <class>org.biz.chequeChequing.entity.accounts.bank.Bank</class>
+    <class>org.biz.chequeChequing.entity.accounts.bank.BankBranch</class>
+    <class>org.biz.chequeChequing.entity.accounts.bank.Cheques</class>
+    <class>org.biz.chequeChequing.entity.accounts.bank.ReturnCheques</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/invoicesystem"/>
       <property name="javax.persistence.jdbc.password" value="123"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
