@@ -6,14 +6,12 @@ package research.ui.demo;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Query;
 import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
-import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 
 /**
  *
