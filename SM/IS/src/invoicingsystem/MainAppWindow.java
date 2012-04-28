@@ -12,7 +12,6 @@ package invoicingsystem;
  */
 import checkchequingsystem.BankBranchDetailUI;
 import checkchequingsystem.BankDetailUI;
-import checkchequingsystem.ChequeDetailUI;
 import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
@@ -24,8 +23,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
-import org.biz.invoicesystem.ui.transactions.PosInvoiceUI;
-import org.biz.invoicesystem.ui.transactions.PurchaseMasterUi;
 
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
@@ -133,7 +130,7 @@ public class MainAppWindow extends app.AppMainWindow {
  
    
 
-    void showError(Throwable e) {
+    public void showError(Throwable e) {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] trace = e.getStackTrace();
         for (int i = 0; i < trace.length; i++) {
