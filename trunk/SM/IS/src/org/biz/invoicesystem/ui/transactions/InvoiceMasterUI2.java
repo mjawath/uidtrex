@@ -9,7 +9,6 @@ package org.biz.invoicesystem.ui.transactions;
 import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +22,6 @@ import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
-import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.CustomerService;
@@ -204,7 +202,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 lineItem.setItem(item);
                 //                replace row
                 addsales(lineItem);
-//        lineItemPanel.moveNextFocus();
+//                  lineItemPanel.moveNextFocus();
                 //                 lineItemPanel.getItemdescFiled().setInputVerifier(new InputVerifier() {
                 //
                 //                    @Override
