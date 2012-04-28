@@ -26,6 +26,16 @@ public class UOM implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String simbol;
+    private Byte type;
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+    
     private String descriptiom;
     @OneToOne
     private UOM guom;
