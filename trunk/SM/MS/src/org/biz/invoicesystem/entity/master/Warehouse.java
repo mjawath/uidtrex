@@ -13,5 +13,13 @@ import org.biz.entity.BusObj;
  */
 @Entity
 public class Warehouse extends BusObj {
-    
+    String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

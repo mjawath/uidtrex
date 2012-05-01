@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.biz.dao.service.GenericDAO;
 import org.biz.invoicesystem.entity.master.Item;
-import org.biz.invoicesystem.master.ui.FormMaster;
+import org.biz.invoicesystem.master.ui.SystemStatic;
 import org.dao.util.JPAUtil;
 
 /**
@@ -130,11 +130,11 @@ public class ItemDAO extends GenericDAO<Item> {
             //     Query query = em.createQuery("SELECT e FROM Item e order by e.id asc");
             Query query = em.createQuery(generatedQuery);
 
-            strt = pageNo == 0 ? 0 : pageNo * FormMaster.GRID_LIST_SIZE;
+            strt = pageNo == 0 ? 0 : pageNo * SystemStatic.GRID_LIST_SIZE;
 
             System.out.println("starting no is " + strt);
             query.setFirstResult(strt + 1);
-            query.setMaxResults(FormMaster.GRID_LIST_SIZE);
+            query.setMaxResults(SystemStatic.GRID_LIST_SIZE);
 
             lst = query.getResultList();
             System.out.println("came here....");

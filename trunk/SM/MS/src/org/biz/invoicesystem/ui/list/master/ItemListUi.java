@@ -10,7 +10,7 @@ import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.dao.master.ItemDAO;
 import org.biz.invoicesystem.entity.master.Item;
-import org.biz.invoicesystem.master.ui.FormMaster;
+import org.biz.invoicesystem.master.ui.SystemStatic;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ItemMasterUI2;
 import org.biz.invoicesystem.service.master.ItemService;
@@ -55,7 +55,7 @@ public class ItemListUi extends TabPanelUI implements PagedListUI {
     public int pageCount() {
         int x = 0;
         try {
-            x = itemService.getDao().getListSize() % FormMaster.GRID_LIST_SIZE;
+            x = itemService.getDao().getListSize() % SystemStatic.GRID_LIST_SIZE;
         } catch (Exception e) {
             e.printStackTrace();
         }
