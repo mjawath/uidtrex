@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
+import org.biz.invoicesystem.master.ui.ShopUI;
 
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
@@ -119,6 +120,7 @@ public class MainAppWindow extends app.AppMainWindow {
         addToTabpanelToUI(new BankBranchDetailUI(), "bank branch");
 //        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
         addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
+        addToTabpanelToUI(new ShopUI(), "shop statement");
         events();
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");

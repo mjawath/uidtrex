@@ -10,6 +10,7 @@ import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
 
@@ -18,9 +19,9 @@ import org.biz.invoicesystem.entity.master.Supplier;
  * @author nnjj
  */
 public class dbCreation {
-    
+
     public static void main(String[] args) {
-      
+
 //      Query e=  new SalesInvoiceService().getDao().createQuery("select c from Item c");
 //        System.out.println("exe cuting one........");
 //        e.getResultList();
@@ -37,14 +38,35 @@ public class dbCreation {
 //                System.out.println(x);
 //            }
 //        }
+        createDataBase();
         createmster();
     }
-    public static  void createmster(){
-    List lst = new ArrayList();
+
+    public static void createmster() {
+
+        List lsts = new ArrayList();
+
+
+        Shop sh = new Shop();
+        sh.setId("123");
+        lsts.add(sh);
+
+        for (int i = 0; i < 1500; i++) {
+
+            Shop shx = new Shop();
+            sh.setId(EntityService.getKeyStr());
+
+            lsts.add(shx);
+        }
+        new GenericDAO<Customer>().saveList(lsts);
+
+
+
+        List lst = new ArrayList();
         for (int i = 0; i < 1500; i++) {
             Supplier cus = new Supplier();
-            cus.setId( EntityService.getKeyStr());
-            cus.setCode( EntityService.getKeyStr());
+            cus.setId(EntityService.getKeyStr());
+            cus.setCode(EntityService.getKeyStr());
             cus.setName(EntityService.getKeyStr());
             lst.add(cus);
         }
@@ -77,5 +99,8 @@ public class dbCreation {
         }
         new GenericDAO<Staff>().saveList(lst2);
     }
-  
+
+    public static void createDataBase() {
+        GenericDAO.createNewDatabase();
+    }
 }
