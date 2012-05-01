@@ -456,6 +456,8 @@ public class Item implements Serializable {
 
     }
 
+    
+    
     public void addUOMorUpdate(UOM uom) {
 
         if (uoms == null) {
@@ -487,6 +489,8 @@ public class Item implements Serializable {
 
     }
 
+    
+    
     public String[] getUomSimbolList() {
         ArrayList al = new ArrayList();
         if (uoms != null) {
@@ -495,5 +499,28 @@ public class Item implements Serializable {
             }
         }
         return (String[]) al.toArray();
+    }
+    
+    public void addItemBarCode(ItemBarcode bar){
+        if(barcodes==null){
+        barcodes = new ArrayList<ItemBarcode>();
+        bar.setId(SystemUtil.timeStampKey());
+        barcodes.add(bar);
+        return;
+        }
+        if(bar.getId()==null){
+        bar.setId(SystemUtil.timeStampKey());
+            barcodes.add(bar);
+            return;
+        }
+         int it = -1;
+        for (ItemBarcode item : getBarcodes()) {
+            it++;
+            if (bar.getId() != null && bar.getId().equals(item.getId())) {
+//                 item=uom;//replace item
+                barcodes.set(it, bar);
+                return;
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
 package org.biz.invoicesystem.master.ui;
 
  
-public interface FormMaster {
+public interface SystemStatic {
     
     String ITEM_IMAGE_PATH="images//item//";
 

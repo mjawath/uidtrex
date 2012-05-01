@@ -55,7 +55,7 @@ public class ItemListUi extends TabPanelUI implements PagedListUI {
     public int pageCount() {
         int x = 0;
         try {
-            x = itemService.getDao().getListSize() % FormMaster.GRID_LIST_SIZE;
+            x = itemService.getDao().getListSize() % SystemStatic.GRID_LIST_SIZE;
         } catch (Exception e) {
             e.printStackTrace();
         }

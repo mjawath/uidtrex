@@ -13,13 +13,22 @@ import org.biz.entity.BusObj;
  */
 @Entity
 public class Shop extends BusObj{
-    public static void main(String[] args) {
-        
+   
+    String code;
+
+    public String getCode() {
+        return code;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     
     public static Shop getDefaultShop(){
     Shop s= new Shop();
-    s.setId("1");            
+    s.setId("123");            
+    s.setCode("123");            
     return s;
     }
 }
