@@ -1,17 +1,20 @@
 package org.dao.util;
 
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
- 
-public  class JPAUtil {
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 
-   static  int  etyvertion=0;
-   static  int  etyOldvertion=0;
-    private static  EntityManagerFactory entityManagerFactory;
-    private static  EntityManager entityManager;
+public class JPAUtil {
+
+    static int etyvertion = 0;
+    static int etyOldvertion = 0;
+    private static EntityManagerFactory entityManagerFactory;
+    private static EntityManager entityManager;
 
     static {
         try {
@@ -27,10 +30,9 @@ public  class JPAUtil {
     }
 
     public static EntityManager getEntityManager() {
-   
+
         return entityManagerFactory.createEntityManager();
     }
-
 
     public static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
@@ -51,8 +53,6 @@ public  class JPAUtil {
         return connection;
     }
 
-
-
 //    /**
 //    @return returns a EntityManagerFactory for creating an EntityManager
 //     */
@@ -65,8 +65,8 @@ public  class JPAUtil {
         entityManagerFactory.close();
     }
 
-    public static void startPersistence(){
-     try {
+    public static void startPersistence() {
+        try {
             //how to start derby database
 
             entityManagerFactory = Persistence.createEntityManagerFactory("RaheemiyaPU");
@@ -81,6 +81,22 @@ public  class JPAUtil {
         entityManagerFactory.getCache().evictAll();
     }
 
+    /**
+     * reference http://wiki.eclipse.org/Using_EclipseLink_JPA_Extensions_%28ELUG%29#Using_EclipseLink_JPA_Extensions_for_Schema_Generation
+     * key  persistence jpa ddl   Schema Generation
+     *title  Using EclipseLink JPA Extensions for Schema Generation
+     */
+    public static void createEMFWithCustomProperties() {
 
-    
+        Map props = new HashMap();
+//         props.put("eclipselink.jdbc.user","");
+//         props.put("eclipselink.jdbc.password", "");\
+        props.put(PersistenceUnitProperties.APP_LOCATION, "C:\\ddl\\");
+        props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
+        props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
+        
+        props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("InvoicingSystemPU", props);
+        entityManagerFactory = emf;
+    }
 }

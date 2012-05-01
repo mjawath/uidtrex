@@ -55,7 +55,7 @@ public abstract class TabPanelUI extends javax.swing.JPanel implements TabChildU
 
     public abstract String getTabName();
 
-    public abstract JPanel getJPanel();
+    public  JPanel getJPanel(){return this;};
 
     public void updateEntityUI() {
     }

@@ -333,5 +333,7 @@ System.out.println("size "+cpageno);
 //       System.out.println("exe cuting twoooo22..."+sqlString); 
    } 
     
-    
+    public static  void createNewDatabase(){
+    GenericDAOUtil.createEMFWithCustomProperties();
+    }
 }
