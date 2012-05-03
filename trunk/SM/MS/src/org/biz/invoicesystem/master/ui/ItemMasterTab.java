@@ -2,8 +2,6 @@ package org.biz.invoicesystem.master.ui;
 
 import java.util.List;
 import javax.swing.JPanel;
-import org.biz.app.ui.util.TableUtil;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
@@ -70,23 +68,9 @@ public class ItemMasterTab extends TabPanelUI {
         itemTabPane = new javax.swing.JTabbedPane();
         itemMasterUI21 = new org.biz.invoicesystem.master.ui.ItemMasterUI2();
         itemListUi1 = new org.biz.invoicesystem.ui.list.master.ItemListUi();
-        itemListUi2 = new org.biz.invoicesystem.ui.list.master.ItemListUi();
 
         itemTabPane.addTab("tab2", itemMasterUI21);
         itemTabPane.addTab("tab1", itemListUi1);
-
-        javax.swing.GroupLayout itemListUi2Layout = new javax.swing.GroupLayout(itemListUi2);
-        itemListUi2.setLayout(itemListUi2Layout);
-        itemListUi2Layout.setHorizontalGroup(
-            itemListUi2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 849, Short.MAX_VALUE)
-        );
-        itemListUi2Layout.setVerticalGroup(
-            itemListUi2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 561, Short.MAX_VALUE)
-        );
-
-        itemTabPane.addTab("tab3", itemListUi2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -103,7 +87,6 @@ public class ItemMasterTab extends TabPanelUI {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.biz.invoicesystem.ui.list.master.ItemListUi itemListUi1;
-    private org.biz.invoicesystem.ui.list.master.ItemListUi itemListUi2;
     private org.biz.invoicesystem.master.ui.ItemMasterUI2 itemMasterUI21;
     private javax.swing.JTabbedPane itemTabPane;
     private org.components.controls.CTextField tItemDescription;

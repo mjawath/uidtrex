@@ -328,7 +328,7 @@ public class ItemListUi extends TabPanelUI implements PagedListUI {
         cPaginatedPanel1.setBounds(410, 60, 330, 30);
 
         add(cPanel1);
-        cPanel1.setBounds(0, 10, 790, 480);
+        cPanel1.setBounds(0, 0, 790, 490);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cRefreshItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cRefreshItemActionPerformed
