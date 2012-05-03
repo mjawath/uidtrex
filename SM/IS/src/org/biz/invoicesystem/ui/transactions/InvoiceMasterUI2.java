@@ -442,11 +442,12 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     private void loadUnit(Item it) {
         if (it != null) {
-          uiEty.setcombomodel(it.getUomSimbolList(),lineItemPanel.getUnitCombo());         
+          lineItemPanel.getUnit().setModel(it.getUomSimbolList());
             
         } else {
             String[] stx = new String[]{};
-            uiEty.setcombomodel(stx, lineItemPanel.getUnitCombo());
+                      lineItemPanel.getUnit().setModel(stx);
+
         }
 
     }
@@ -815,7 +816,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tdis.setText("");
         tsalesman.setText("");
         setnewrow();
-        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
+         lineItemPanel.getUnit().setModel(new String[]{});
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
