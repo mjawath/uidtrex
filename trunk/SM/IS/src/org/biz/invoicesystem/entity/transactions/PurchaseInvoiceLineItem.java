@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 
 /**
@@ -31,6 +32,8 @@ public class PurchaseInvoiceLineItem implements Serializable  {
     Warehouse warehouse;
     @OneToOne
     Shop shop;
+    @OneToOne
+    UOM uom;
     private String itemMark;
 
     public String getItemMark() {

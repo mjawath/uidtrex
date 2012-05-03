@@ -12,10 +12,10 @@ package org.biz.invoicesystem.ui.transactions;
 
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
+import com.components.custom.DropDownWithButton;
 import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
@@ -91,7 +91,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         titemcode.nextFocusableComponent(tdescription);
         tdescription.nextFocusableComponent(tqty);
         tqty.nextFocusableComponent(tunit);
-        tunit.nextFocusableComponent(tprice);
+//        tunit.nextFocusableComponent(tprice);
         
         tprice.nextFocusableComponent(titemcode);
         titemcode.addaction(2, new ActionTask(){           
@@ -208,8 +208,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         tqty = new org.components.controls.CTextField();
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
-        tunit = new org.components.controls.CComboBox();
-        dropDownWithButton1 = new com.components.custom.DropDownWithButton();
+        tunit = new com.components.custom.DropDownWithButton();
 
         setBackground(new java.awt.Color(247, 230, 130));
         getContentPane().add(titemcode);
@@ -222,12 +221,8 @@ public class SalesLineItemPanel extends LineItemPanel {
         tprice.setBounds(590, 30, 140, 25);
         getContentPane().add(tlinetotal);
         tlinetotal.setBounds(740, 30, 140, 25);
-
-        tunit.setEditable(true);
         getContentPane().add(tunit);
-        tunit.setBounds(450, 30, 130, 23);
-        getContentPane().add(dropDownWithButton1);
-        dropDownWithButton1.setBounds(450, 60, 150, 30);
+        tunit.setBounds(450, 30, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -241,16 +236,14 @@ public class SalesLineItemPanel extends LineItemPanel {
         return tdescription;
     }
 
-    public JComboBox getUnitCombo() {
-
-        return tunit;
-    }
-
+public DropDownWithButton getUnit(){
+return tunit;
+}
     public SalesInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
-        salesline.setUnit(uiEty.cmbtostr(tunit));
+        salesline.setUnit(uiEty.tcToStr(tunit.getTextField()));
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
         salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
@@ -275,7 +268,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         uiEty.objToUi(tqty, salesline.getQty());
         uiEty.objToUi(tdescription, salesline.getDescription());
         uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tunit, salesline.getUnit());
+        uiEty.objToUi(tunit.getTextField(), salesline.getUnit());
         uiEty.objToUi(tprice, salesline.getPrice());
 
     }
@@ -283,12 +276,11 @@ public class SalesLineItemPanel extends LineItemPanel {
     public void action() {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.components.custom.DropDownWithButton dropDownWithButton1;
     private org.components.controls.CTextField tdescription;
     private org.components.controls.CTextField titemcode;
     private org.components.controls.CTextField tlinetotal;
     private org.components.controls.CTextField tprice;
     private org.components.controls.CTextField tqty;
-    private org.components.controls.CComboBox tunit;
+    private com.components.custom.DropDownWithButton tunit;
     // End of variables declaration//GEN-END:variables
 }

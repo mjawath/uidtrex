@@ -11,8 +11,10 @@
 package org.biz.erp.inventory.ui;
 
 import javax.swing.JPanel;
+import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Warehouse;
 import org.biz.invoicesystem.service.master.WareHouseService;
+import org.biz.invoicesystem.system.SystemUtil;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -38,6 +40,18 @@ public class WareHouseUI extends TabPanelUI {
         super.init();
     }
 
+    @Override
+    public void save() {
+
+        warehouse.setId(SystemUtil.timeStampKey());
+    service.getDao().save(ui);
+    warehouse =new Warehouse();
+    }
+
+    public  void uiety(){
+    warehouse.setCode(uiEty.tcToStrE(cTextField1));
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

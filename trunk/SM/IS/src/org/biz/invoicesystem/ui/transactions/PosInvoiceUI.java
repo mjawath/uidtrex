@@ -456,7 +456,7 @@ public class PosInvoiceUI extends TabPanelUI {
 
 
         setnewrow();
-        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
+//        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
         
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
