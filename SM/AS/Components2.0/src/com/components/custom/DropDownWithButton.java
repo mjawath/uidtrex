@@ -1,6 +1,8 @@
 
 package com.components.custom;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JTextField;
 
 /**
@@ -9,9 +11,12 @@ import javax.swing.JTextField;
  */
 public class DropDownWithButton extends javax.swing.JPanel {
 
+    
+    ArrayList model; 
     /** Creates new form DropDownWithButton */
     public DropDownWithButton() {
         initComponents();
+        model=new ArrayList();
     }
 
     public String getValue(){
@@ -20,6 +25,14 @@ public class DropDownWithButton extends javax.swing.JPanel {
   
     public JTextField getTextField(){
     return cTextField1;
+    }
+    
+    public void addToModel(String obj){
+    model.add(obj);
+    }
+    
+    public void setModel(String... list){
+    Collections.addAll(model,list);
     }
     
     @SuppressWarnings("unchecked")
