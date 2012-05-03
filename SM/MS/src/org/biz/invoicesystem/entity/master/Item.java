@@ -492,13 +492,14 @@ public class Item implements Serializable {
     
     
     public String[] getUomSimbolList() {
-        ArrayList al = new ArrayList();
+        ArrayList<String> al = new ArrayList<String>();
         if (uoms != null) {
             for (UOM uom : uoms) {
                 al.add(uom.getSimbol());
             }
         }
-        return (String[]) al.toArray();
+        String [] s=new String[al.size()];
+        return  al.toArray(s);
     }
     
     public void addItemBarCode(ItemBarcode bar){
