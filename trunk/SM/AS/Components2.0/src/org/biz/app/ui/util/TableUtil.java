@@ -448,4 +448,19 @@ public class TableUtil {
         tb.getColumnModel().getColumn(col).setCellEditor(ed);
 
     }
+
+/**
+     * EL implementation of the table -we can call it the model table
+     * 
+     */
+    public void addModelToTable(Object obj){
+        //table has properties
+        //loop the properties 
+        //get the valude 
+        // create the row 
+        //add the row to table
+        Vector row=new Vector();
+        
+        
+    }
 }

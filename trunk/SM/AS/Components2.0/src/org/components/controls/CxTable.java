@@ -10,18 +10,11 @@
  */
 package org.components.controls;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.EventObject;
-import java.util.HashMap;
 import javax.swing.JComponent;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
-import javax.swing.event.ChangeEvent;
-import javax.swing.table.DefaultTableCellRenderer;
 import org.components.parent.controls.PxTable;
 import org.components.parent.controls.editors.TableActions;
 

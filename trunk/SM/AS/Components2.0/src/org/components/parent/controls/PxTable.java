@@ -19,6 +19,27 @@ import org.jdesktop.swingx.JXTable;
  */
 public class PxTable extends JXTable {
 
+    String [] propertiesEL;
+
+    public String[] getPropertiesEL() {
+        return propertiesEL;
+    }
+
+    public void setPropertiesEL(String[] propertiesEL) {
+        this.propertiesEL = propertiesEL;
+    }
+    
+    Class modelClass;
+
+    public Class getModelClass() {
+        return modelClass;
+    }
+
+    public void setModelClass(Class modelClass) {
+        this.modelClass = modelClass;
+    }
+    
+    
     /** Creates new form BeanForm */
     public PxTable() {
         initComponents();
