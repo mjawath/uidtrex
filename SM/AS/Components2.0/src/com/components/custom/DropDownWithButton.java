@@ -1,38 +1,61 @@
-
 package com.components.custom;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import javax.swing.JTextField;
 
 /**
  *
  * @author nnjj
  */
-public class DropDownWithButton extends javax.swing.JPanel {
+public class DropDownWithButton<T> extends javax.swing.JPanel {
 
-    
-    ArrayList model; 
+    ArrayList<T> model;
+    Object selecedModel;
+    String elString;
+
     /** Creates new form DropDownWithButton */
     public DropDownWithButton() {
         initComponents();
-        model=new ArrayList();
+        model = new ArrayList();
     }
 
-    public String getValue(){
-    return cTextField1.getText();
+    public String getValue() {
+        return cTextField1.getText();
     }
-  
-    public JTextField getTextField(){
-    return cTextField1;
+    //should overide ..to get a proper object as returnvalue
+
+    public Object getSelectedModel() {
+        return null;
     }
-    
-    public void addToModel(String obj){
-    model.add(obj);
+
+    public JTextField getTextField() {
+        return cTextField1;
     }
-    
-    public void setModel(String... list){
-    Collections.addAll(model,list);
+
+    public void addToModel(T obj) {
+        model.add(obj);
+    }
+
+    public void setModel(ArrayList<T> list) {
+        model = list;
+
+    }
+
+    public T getModel() {
+        //get the model from the list by using /comparring the el exprestion language 
+        //and reurn the value
+        for (T object : model) {
+            if(object!=null){
+            if(object.equals(getTextField().getText())){//acctuallly el expresstion 
+            return object;
+            }
+            }
+        }
+        return null;
+    }
+
+    public void setELComparison(String el){
+    this.elString=el;
     }
     
     @SuppressWarnings("unchecked")
