@@ -12,9 +12,9 @@ package org.biz.erp.inventory.ui;
 
 import javax.swing.JPanel;
 import org.biz.app.ui.util.uiEty;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 import org.biz.invoicesystem.service.master.WareHouseService;
-import org.biz.invoicesystem.system.SystemUtil;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -42,8 +42,8 @@ public class WareHouseUI extends TabPanelUI {
 
     @Override
     public void save() {
-
-        warehouse.setId(SystemUtil.timeStampKey());
+//dropDownWithButton1.addToModel(ui);
+//        warehouse.setId(SystemUtil.timeStampKey());
     service.getDao().save(ui);
     warehouse =new Warehouse();
     }
@@ -60,6 +60,7 @@ public class WareHouseUI extends TabPanelUI {
         cxTable1 = new org.components.controls.CxTable();
         cTextField1 = new org.components.controls.CTextField();
         controlPanel1 = new com.components.custom.ControlPanel();
+        dropDownWithButton1 = new com.components.custom.DropDownWithButton<UOM>();
 
         jScrollPane1.setViewportView(cxTable1);
 
@@ -69,7 +70,6 @@ public class WareHouseUI extends TabPanelUI {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -79,19 +79,23 @@ public class WareHouseUI extends TabPanelUI {
                         .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(dropDownWithButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addComponent(dropDownWithButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -100,6 +104,7 @@ public class WareHouseUI extends TabPanelUI {
     private org.components.controls.CTextField cTextField1;
     private com.components.custom.ControlPanel controlPanel1;
     private org.components.controls.CxTable cxTable1;
+    private com.components.custom.DropDownWithButton<UOM> dropDownWithButton1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 

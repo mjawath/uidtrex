@@ -34,6 +34,15 @@ public class PurchaseInvoiceLineItem implements Serializable  {
     Shop shop;
     @OneToOne
     UOM uom;
+
+    public UOM getUom() {
+        return uom;
+    }
+
+    public void setUom(UOM uom) {
+        this.uom = uom;
+    }
+    
     private String itemMark;
 
     public String getItemMark() {

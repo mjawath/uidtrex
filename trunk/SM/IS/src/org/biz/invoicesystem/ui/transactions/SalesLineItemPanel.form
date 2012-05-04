@@ -50,7 +50,7 @@
     <Component class="org.components.controls.CTextField" name="tprice">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="590" y="30" width="140" height="-1"/>
+          <AbsoluteConstraints x="610" y="30" width="120" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -62,6 +62,9 @@
       </Constraints>
     </Component>
     <Component class="com.components.custom.DropDownWithButton" name="tunit">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;UOM&gt;"/>
+      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="450" y="30" width="150" height="30"/>

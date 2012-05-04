@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.controls.CTextField;
 
@@ -208,9 +209,10 @@ public class SalesLineItemPanel extends LineItemPanel {
         tqty = new org.components.controls.CTextField();
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
-        tunit = new com.components.custom.DropDownWithButton();
+        tunit = new com.components.custom.DropDownWithButton<UOM>();
 
         setBackground(new java.awt.Color(247, 230, 130));
+        getContentPane().setLayout(null);
         getContentPane().add(titemcode);
         titemcode.setBounds(20, 30, 122, 25);
         getContentPane().add(tdescription);
@@ -218,7 +220,7 @@ public class SalesLineItemPanel extends LineItemPanel {
         getContentPane().add(tqty);
         tqty.setBounds(320, 30, 122, 25);
         getContentPane().add(tprice);
-        tprice.setBounds(590, 30, 140, 25);
+        tprice.setBounds(610, 30, 120, 25);
         getContentPane().add(tlinetotal);
         tlinetotal.setBounds(740, 30, 140, 25);
         getContentPane().add(tunit);
@@ -247,6 +249,11 @@ return tunit;
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
         salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
+        
+        //get the uom//         salesline.getItem()
+
+        UOM uom=tunit.getModel();
+       salesline.setUom(uom);
         //ui to ety ..
         return salesline;
     }
@@ -281,6 +288,6 @@ return tunit;
     private org.components.controls.CTextField tlinetotal;
     private org.components.controls.CTextField tprice;
     private org.components.controls.CTextField tqty;
-    private com.components.custom.DropDownWithButton tunit;
+    private com.components.custom.DropDownWithButton<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 }
