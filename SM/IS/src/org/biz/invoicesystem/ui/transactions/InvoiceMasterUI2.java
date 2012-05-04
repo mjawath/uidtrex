@@ -121,6 +121,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 //validated line
                 //update table row
                 //add to list
+                // TODO get uom ????/*/done using the generic 
+                //what should be done to the uom  comparison
+               //it also done 
                 addsales(sl);
                 //replace selected row
                 //                addToTable(lineItems);
@@ -400,7 +403,13 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         String it = line.getItem() == null ? null : line.getItem().getCode();
         String itdes = line.getItem() == null ? null : line.getItem().getDescription();
         TableUtil.replacerowValues(tblInvoice, new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()}, tblInvoice.getSelectedRow());
-
+//this will bemy implementation
+        //tableutil.setdatamodle (Customer.class)
+        //tableutil .setColumnProperties (new String[]{"name","date#fromated" })//formate is supported 
+        //by calling nessasary method calls/invokations throug  EL
+        //
+       //tableutil.addobject(customer); 
+        
     }
 
     public void getSelectedEty() {
@@ -442,11 +451,12 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     private void loadUnit(Item it) {
         if (it != null) {
-          lineItemPanel.getUnit().setModel(it.getUomSimbolList());
-            
+//            lineItemPanel.getUnit().setModel(it.getUoms());
+//            lineItemPanel.getUnit().setmode
+
         } else {
             String[] stx = new String[]{};
-                      lineItemPanel.getUnit().setModel(stx);
+//            lineItemPanel.getUnit().setModel(stx);
 
         }
 
@@ -720,6 +730,11 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         cTextField12.setBounds(90, 80, 150, 20);
 
         cTextField13.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cTextField13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cTextField13ActionPerformed(evt);
+            }
+        });
         cPanel5.add(cTextField13);
         cTextField13.setBounds(90, 10, 150, 20);
 
@@ -802,6 +817,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     }//GEN-LAST:event_ttypeActionPerformed
 
+    private void cTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cTextField13ActionPerformed
+
     public void clear() {
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
@@ -816,7 +835,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         tdis.setText("");
         tsalesman.setText("");
         setnewrow();
-         lineItemPanel.getUnit().setModel(new String[]{});
+//        lineItemPanel.getUnit().setModel(new String[]{});
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

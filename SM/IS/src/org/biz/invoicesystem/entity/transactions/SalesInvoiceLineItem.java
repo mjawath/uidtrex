@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 
 /**
@@ -32,7 +33,17 @@ public class SalesInvoiceLineItem extends BusObj implements Serializable  {
     Warehouse warehouse;
     @OneToOne
     Shop shop;
+    @OneToOne
+    UOM uom;
 
+    public UOM getUom() {
+        return uom;
+    }
+
+    public void setUom(UOM uom) {
+        this.uom = uom;
+    }
+    
     public String getId() {
         return id;
     }

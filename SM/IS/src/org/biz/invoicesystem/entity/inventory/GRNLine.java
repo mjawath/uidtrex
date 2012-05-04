@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.biz.invoicesystem.entity.inventory;
 
 import java.io.Serializable;
@@ -18,8 +17,9 @@ import org.biz.invoicesystem.entity.master.UOM;
  */
 @Entity
 public class GRNLine implements Serializable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
+    
     public String getDescription() {
         return description;
     }
@@ -67,18 +67,18 @@ public class GRNLine implements Serializable {
     public void setUom(UOM uom) {
         this.uom = uom;
     }
-    
     @Id
     private String id;
     private String description;
     @OneToOne
     private Item item;
     private Long qty;
-    @OneToOne
-    private UOM uom;
     private Double price;
     private Double lineAmount;
-
+    @OneToOne
+    UOM uom;
+    
+    
     public String getId() {
         return id;
     }
@@ -111,5 +111,4 @@ public class GRNLine implements Serializable {
     public String toString() {
         return "org.biz.invoicesystem.entity.master.inventory.GRNLine[id=" + id + "]";
     }
-
 }
