@@ -12,7 +12,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.jexl2.JexlEngine;
+import org.components.controls.CxTable;
+import org.components.parent.controls.PxTable;
 import org.components.parent.controls.editors.CellEditor;
+import org.jdesktop.swingx.JXTable;
 
 /**
  *
@@ -23,7 +28,7 @@ public class TableUtil {
     public final static String newRowID = "cxMxCy%%76";
 
     public static String getNewRowId() {
-        return System.currentTimeMillis() + "-" + Math.ceil(Math.random()*10);
+        return System.currentTimeMillis() + "-" + Math.ceil(Math.random() * 10);
     }
 
     public static void createTableModel(JTable jTable, String[] columns, final Class[] columntypes) {
@@ -79,10 +84,10 @@ public class TableUtil {
         getdtm(jTable).insertRow(0, row);
 
     }
-    
+
     public static void addnewrow(JTable jTable) {
 
-        getdtm(jTable).addRow( new Object[]{});
+        getdtm(jTable).addRow(new Object[]{});
 
     }
 
@@ -102,15 +107,13 @@ public class TableUtil {
 
     }
 
-
-
-    
     public static void addrow(JTable jTable, Object[] row) {
         getdtm(jTable).addRow(row);
         jTable.scrollRectToVisible(jTable.getCellRect(jTable.getRowCount(), 0, true));
         jTable.scrollRectToVisible(jTable.getCellRect(jTable.getRowCount(), 0, true));
     }
 //First row will be visble
+
     public static void addrowSR(JTable jTable, Object[] row) {
 //    jTable.scrollRectToVisible(jTable.getCellRect(jTable.getRowCount() - 1, 0, true));
         getdtm(jTable).addRow(row);
@@ -150,17 +153,16 @@ public class TableUtil {
 
     }
 
-    
     public static void replacerowValues(JTable jTable, Object[] row, int point) {
         point = jTable.convertRowIndexToModel(point);
         for (int i = 0; i < row.length; i++) {
             Object va = row[i];
             getdtm(jTable).setValueAt(va, point, i);
         }
-        
-        
+
+
     }
-    
+
     public static void removerow(JTable jTable, int point) {
         point = jTable.convertRowIndexToModel(point);
         getdtm(jTable).removeRow(point);
@@ -280,8 +282,10 @@ public class TableUtil {
     }
 
     public static Object getSelectedModelsValueAt(JTable jt, int modelcolindex) {
-        int sr=jt.getSelectedRow();
-        if(sr<0){return null;}
+        int sr = jt.getSelectedRow();
+        if (sr < 0) {
+            return null;
+        }
         return jt.getValueAt(sr, jt.convertColumnIndexToView(modelcolindex));
     }
 
@@ -319,10 +323,8 @@ public class TableUtil {
 
     }
 
-   
     //get selected column return specified column value of selected row  if  null  retruns null
-
-    public static Object getValueat(JTable jt,int row, int column) {
+    public static Object getValueat(JTable jt, int row, int column) {
         if (row > -1) {
             if (jt.getEditingColumn() == column) {
                 TableCellEditor ce = jt.getCellEditor();
@@ -348,9 +350,7 @@ public class TableUtil {
 
     }
 
-   
     //get selected column return empty string if null
-
     public static String getSelectedValueE(JTable jt, int column) {
         if (jt.getSelectedRow() > -1) {
             Object ob = getSelectedValue(jt, column);
@@ -389,7 +389,7 @@ public class TableUtil {
         int r = jt.getRowCount();
         if (e == KeyEvent.VK_DOWN) {
             if (x + 1 < r) {
-            jt.changeSelection(x + 1, x + 1, false, false);
+                jt.changeSelection(x + 1, x + 1, false, false);
 //                jt.getSelectionModel().setSelectionInterval(x + 1, x + 1);
                 return;
             }
@@ -398,7 +398,7 @@ public class TableUtil {
         if (e == KeyEvent.VK_UP) {
             if (x - 1 >= 0 && x - 1 < r) {
 //                jt.getSelectionModel().setSelectionInterval(x - 1, x - 1);
-                jt.changeSelection(x - 1, x - 1,false, false);
+                jt.changeSelection(x - 1, x - 1, false, false);
             }
         }
 
@@ -406,7 +406,6 @@ public class TableUtil {
 
     }
 
-    
     public static void setModelValueat(JTable jt, Object value, int modelrowindex, int modelcolindex) {
         jt.setValueAt(value, jt.convertRowIndexToView(modelrowindex), jt.convertColumnIndexToView(modelcolindex));
     }
@@ -449,18 +448,55 @@ public class TableUtil {
 
     }
 
-/**
+    /**
      * EL implementation of the table -we can call it the model table
      * 
      */
-    public void addModelToTable(Object obj){
+    public static void addModelToTable(Object obj, PxTable table) {
         //table has properties
         //loop the properties 
         //get the valude 
         // create the row 
         //add the row to table
-        Vector row=new Vector();
+        Vector row = new Vector();
+
+        String[] prop = table.getPropertiesEL();
+
+
+        for (String var : prop) {
+            Object ob = ex.getProperty(obj, var);
+            row.add(ob);
+        }
+
+        addrow(table, row);
+
+//        Expression e = jexl.createExpression("cus.code()");
+
+    }
+
+    public JexlEngine creatELEngine() {
+   
+        if (ex == null) {
+            ex = new JexlEngine();
+        }    //        JexlEngine ex = new JexlEngine();
+        ex.setCache(512);
+        ex.setLenient(false);
+        ex.setSilent(false);
+        return ex;
+    }
+    static JexlEngine ex = new JexlEngine();
+
+    public static void replaceModel(PxTable table, Object obj, int point) {
         
-        
+        String[] prop = table.getPropertiesEL();
+       Vector row = new Vector();
+
+        for (String var : prop) {
+            Object ob = ex.getProperty(obj, var);
+            row.add(ob);
+        }
+
+        replacerow(table, row,point);
+
     }
 }

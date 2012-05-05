@@ -43,23 +43,23 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     CTextField textField;
     TablePopUpCellEditor editor;
     int selectedColumn = 0;
-    Object selectedObject ;
-    String selectedID ;
+    Object selectedObject;
+    String selectedID;
     String pageKey;
     List list;
-    Boolean popupDisabled=false;
+    Boolean popupDisabled = false;
     JComponent nextFocusableComponent;
-      
-    boolean moveTonextcom=true;
+    boolean moveTonextcom = true;
     List<ActionTask> actionTasks;
-    
-    
+
     public int getSelectedColumn() {
         return selectedColumn;
     }
+
     public String getSelectedID() {
         return selectedID;
     }
+
     public Object getSelectedObject() {
         return selectedObject;
     }
@@ -67,15 +67,17 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     public void setSelectedColumn(int selectedColumn) {
         this.selectedColumn = selectedColumn;
     }
+
     public void setSelectedID(String selectedID) {
         this.selectedID = selectedID;
     }
+
     public void setSelectedObject(Object selectedObject) {
         this.selectedObject = selectedObject;
     }
-    
-    public void setPopDesable(Boolean disable){
-        popupDisabled=disable;
+
+    public void setPopDesable(Boolean disable) {
+        popupDisabled = disable;
     }
 
     public JTable getTbl() {
@@ -104,8 +106,6 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         init();
     }
 
-   
-    
     public List getList() {
         return list;
     }
@@ -135,16 +135,16 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void showPopUp() {
         try {
-            if (!jpm.isVisible() ) {
+            if (!jpm.isVisible()) {
                 jpm.setFocusable(false);
                 this.setSize(600, 300);
-                jpm.setSize(200, 200);                
+                jpm.setSize(200, 200);
                 this.setVisible(true);
-                jpm.setVisible(true);                
+                jpm.setVisible(true);
                 jpm.show(textField, 30, 30);
                 jpm.setFocusable(true);
             }
-            
+
         } catch (Exception e) {
 
             System.out.println(" --------------   " + e.getMessage());
@@ -155,7 +155,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void init() {
         actionTasks = new ArrayList<ActionTask>();
-        textField.addaction(0,new ActionTask(){
+        textField.addaction(0, new ActionTask() {
 
             @Override
             public boolean action() {
@@ -163,16 +163,15 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
                 getSeletedValue();
                 return super.action();
             }
-        
         });
         jpm = new CPopupMenu();
         this.setSize(600, 300);
-        jpm.add(this);        
+        jpm.add(this);
         jpm.setSize(200, 200);
 //        this.requestFocusInWindow();
 //        cTextField1.requestFocus();
         jpm.setFocusable(false);
-        
+
         textField.addFocusListener(new FocusAdapter() {
 
             @Override
@@ -180,18 +179,19 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
                 closePopup();
             }
-        });        
-        
-        cxTable1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                 getSeletedValue();
-
-//                 editor.getComponent().postActionEvent();
-            }        
         });
 
-        
+        cxTable1.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                getSeletedValue();
+
+//                 editor.getComponent().postActionEvent();
+            }
+        });
+
+
 //        textField.setInputVerifier(new InputVerifier() {
 //
 //            @Override
@@ -203,43 +203,45 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 //                return true;
 //            }
 //        });
-        
+
         ComponentFactory.setKeyAction(textField, new AbstractAction() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);  
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
             }
-        },KeyEvent.VK_DOWN );
+        }, KeyEvent.VK_DOWN);
         ComponentFactory.setKeyAction(textField, new AbstractAction() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);  
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
             }
-        },KeyEvent.VK_UP );
+        }, KeyEvent.VK_UP);
         textField.addKeyListener(new KeyAdapter() {
 
             @Override
             public void keyPressed(KeyEvent e) {
 
-         
+
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     if (jpm.isVisible()) {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
-                    e.consume();
+                        KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
+                        e.consume();
                     }
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                   if (jpm.isVisible()) {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
-                    e.consume();
-                   }
+                    if (jpm.isVisible()) {
+                        KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
+                        e.consume();
+                    }
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     System.out.println("popup panels related text field selected");
                     if (jpm.isVisible()) {
-                    jpm.setVisible(false);
-                    e.consume();
-                   }
+                        jpm.setVisible(false);
+                        e.consume();
+                    }
                 }
             }
         });
@@ -247,27 +249,27 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent e) {
-            if ( textField.isFocusOwner() && !popupDisabled) {
-                search(textField.getText());
-                setObjectToTable(list);
-                showPopUp();
+                if (textField.isFocusOwner() && !popupDisabled) {
+                    search(textField.getText());
+                    setObjectToTable(list);
+                    showPopUp();
                 }
-                
+
             }
 
             public void removeUpdate(DocumentEvent e) {
-                if ( textField.isFocusOwner() && !popupDisabled) {
-                search(textField.getText());
-                setObjectToTable(list);
-                showPopUp();
+                if (textField.isFocusOwner() && !popupDisabled) {
+                    search(textField.getText());
+                    setObjectToTable(list);
+                    showPopUp();
                 }
             }
 
             public void changedUpdate(DocumentEvent e) {
-                if ( textField.isFocusOwner() && !popupDisabled) {
-                search(textField.getText());
-                setObjectToTable(list);
-                showPopUp();
+                if (textField.isFocusOwner() && !popupDisabled) {
+                    search(textField.getText());
+                    setObjectToTable(list);
+                    showPopUp();
                 }
             }
         });
@@ -284,11 +286,11 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         selectItem();
     }
 
-    public  void setModel(){
-       
-TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666","777"},new Class [] {
-        Object.class, String.class, String.class,Double.class,Double.class,Double.class,Double.class,Double.class
-    });
+    public void setModel() {
+
+        TableUtil.createTableModel(cxTable1, new String[]{"111", "22", "33,44", "55", "666", "777"}, new Class[]{
+                    Object.class, String.class, String.class, Double.class, Double.class, Double.class, Double.class, Double.class
+                });
     }
 
     public JComponent getNextFocusableComponent() {
@@ -298,9 +300,7 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
     public void setNextFocusableComponent(JComponent nextFocusableComponent) {
         this.nextFocusableComponent = nextFocusableComponent;
     }
-    
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -419,19 +419,19 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
     public void selectItem() {
 
         Object ob = TableUtil.getSelectedModelsValueAt(cxTable1, 0);
-      
-        if(ob!=null){
+
+        if (ob != null) {
             //find object from list and select
-           if (textField instanceof JTextField) {
-            textField.setText(ob.toString());
-            selectedID=ob.toString();
-            action(); 
-        }
-           
-           
+            if (textField instanceof JTextField) {
+                textField.setText(ob.toString());
+                selectedID = ob.toString();
+                action();
+            }
+
+
         }
         closePopup();
-      
+
     }
 
     public void closePopup() {
@@ -445,13 +445,12 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
         System.out.println("action implemented ......");
     }
 
-    public void addaction(ActionTask action){
-    actionTasks.add(action);
+    public void addaction(ActionTask action) {
+        actionTasks.add(action);
     }
-        
-        
+
     public void setObjectToTable(List lst) {
-        list=lst;
+        list = lst;
         addToTable(lst);
     }
 
@@ -467,10 +466,20 @@ TableUtil.createTableModel(cxTable1, new String[]{"111","22","33,44","55","666",
     }
 
     public void addToTable(Object item) {
-        TableUtil.addrowSR(cxTable1, data(item));
+//        TableUtil.addrowSR(cxTable1, data(item));
+        TableUtil.addModelToTable(item, cxTable1);
     }
 
     public Object[] data(Object item) {
         return null;
+    }
+
+
+    public String[] getPropertiesEL() {
+        return cxTable1.getPropertiesEL();
+    }
+
+    public void setPropertiesEL(String[] propertiesEL) {        
+        cxTable1.setPropertiesEL(propertiesEL);
     }
 }
