@@ -33,7 +33,7 @@ import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.SupplierService;
 import org.biz.invoicesystem.service.transactions.PurchaseInvoiceService;
-import org.biz.invoicesystem.system.SystemUtil;
+import org.biz.invoicesystem.system.SystemEntityUtil;
 import org.components.parent.controls.editors.ComboBoxCellEditor;
 import org.components.util.Sessions;
 import org.components.util.orgFocusTraversalPolicy;
@@ -275,8 +275,8 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 //        invoice.setDiscount(uiEty.tcToDouble(tdis));
 //        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
 //        invoice.setRemarks(uiEty.tcToStr(tremark));
-        invoice.setEditeddate(SystemUtil.getSystemDate());
-        invoice.setSaveddate(SystemUtil.getSystemDate());
+        invoice.setEditeddate(SystemEntityUtil.getSystemDate());
+        invoice.setSaveddate(SystemEntityUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
 
     }

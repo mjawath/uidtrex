@@ -12,7 +12,7 @@ import org.biz.invoicesystem.entity.master.Shop;
  *
  * @author nnjj
  */
-public class SystemUtil {
+public class SystemEntityUtil {
     public static Shop getShop(){
         Shop s=new Shop();
         s.setId("1");
