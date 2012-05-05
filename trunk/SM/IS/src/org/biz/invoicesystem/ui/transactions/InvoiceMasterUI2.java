@@ -28,7 +28,7 @@ import org.biz.invoicesystem.service.master.CustomerService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
-import org.biz.invoicesystem.system.SystemUtil;
+import org.biz.invoicesystem.system.SystemEntityUtil;
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
@@ -65,6 +65,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         init();
 
+        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "item.description","qty", "unit", "price", "lineAmount"});
     }
 
     public void init() {
@@ -217,19 +218,22 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 lineItemPanel.lineItemLogic();
             }
 
-            public Object[] data(Object item) {
-                Item it = (Item) item;
-                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
-            }
+//            public Object[] data(Object item) {
+//                Item it = (Item) item;
+//                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
+//            }
         };
-
+        itemSelectionPopup.setPropertiesEL(new String[]{"id","code","description"});
+        
+        
+        
         cuspop = new PagedPopUpPanel(tcus) {
 
-            @Override
-            public Object[] data(Object item) {
-                Customer customer = (Customer) item;
-                return new Object[]{customer.getId(), customer.getCode(), customer.getCustomerName()};
-            }
+//            @Override
+//            public Object[] data(Object item) {
+//                Customer customer = (Customer) item;
+//                return new Object[]{customer.getId(), customer.getCode(), customer.getCustomerName()};
+//            }
 
             @Override
             public void action() {
@@ -265,6 +269,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             }
         };
         cuspop.setObjectToTable(listCust);
+        cuspop.setPropertiesEL(new String[]{"id","code","customerName"});
         cuspop.setSelectedColumn(1);
         cuspop.setNextFocusableComponent(tblInvoice);
 
@@ -281,11 +286,11 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         salesPopup = new PagedPopUpPanel(tsalesman) {
 
-            @Override
-            public Object[] data(Object item) {
-                Staff st = (Staff) item;
-                return new Object[]{st.getId(), st.getCode(), st.getName()};
-            }
+//            @Override
+//            public Object[] data(Object item) {
+//                Staff st = (Staff) item;
+//                return new Object[]{st.getId(), st.getCode(), st.getName()};
+//            }
 
             @Override
             public void action() {
@@ -316,6 +321,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 }
             }
         };
+        salesPopup.setPropertiesEL(new String[]{"id","code","name"});
 
     }
 
@@ -402,7 +408,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         String it = line.getItem() == null ? null : line.getItem().getCode();
         String itdes = line.getItem() == null ? null : line.getItem().getDescription();
-        TableUtil.replacerowValues(tblInvoice, new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()}, tblInvoice.getSelectedRow());
+        TableUtil.replaceModel(tblInvoice, line , tblInvoice.getSelectedRow());
+        
+        
 //this will bemy implementation
         //tableutil.setdatamodle (Customer.class)
         //tableutil .setColumnProperties (new String[]{"name","date#fromated" })//formate is supported 
@@ -479,8 +487,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             String it = line.getItem() == null ? null : line.getItem().getCode();
             String itdes = line.getItem() == null ? null : line.getItem().getDescription();
 
-            TableUtil.addrow(tblInvoice, new Object[]{new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()
-                        }});
+            TableUtil.addModelToTable(line, tblInvoice );
         }
         TableUtil.addrow(tblInvoice, new Object[]{});
 
@@ -498,8 +505,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         invoice.setDiscount(uiEty.tcToDouble(tdis));
         invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
         invoice.setRemarks(uiEty.tcToStr(tremark));
-        invoice.setEditeddate(SystemUtil.getSystemDate());
-        invoice.setSaveddate(SystemUtil.getSystemDate());
+        invoice.setEditeddate(SystemEntityUtil.getSystemDate());
+        invoice.setSaveddate(SystemEntityUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
 
     }

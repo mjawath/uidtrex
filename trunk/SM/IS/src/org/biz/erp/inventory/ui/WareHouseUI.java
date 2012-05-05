@@ -11,10 +11,12 @@
 package org.biz.erp.inventory.ui;
 
 import javax.swing.JPanel;
+import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 import org.biz.invoicesystem.service.master.WareHouseService;
+import org.biz.invoicesystem.system.SystemUtil;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -29,23 +31,28 @@ public class WareHouseUI extends TabPanelUI {
     /** Creates new form WhereHouseUI */
     public WareHouseUI() {
         initComponents();
+        init();
     }
 
     @Override
     public void init() {
     warehouse=new Warehouse();
     service=new WareHouseService();
-    
+    cxTable1.setPropertiesEL(new String[]{"id","code"});
         controlPanel1.setCrudController(this);
         super.init();
     }
 
     @Override
     public void save() {
-//dropDownWithButton1.addToModel(ui);
-//        warehouse.setId(SystemUtil.timeStampKey());
-    service.getDao().save(ui);
-    warehouse =new Warehouse();
+        warehouse.setId(SystemUtil.timeStampKey());
+        warehouse.setCode(SystemUtil.timeStampKey());
+    
+        service.getDao().save(warehouse);
+    
+        TableUtil.addModelToTable(warehouse, cxTable1);
+        warehouse =new Warehouse();
+    
     }
 
     public  void uiety(){
