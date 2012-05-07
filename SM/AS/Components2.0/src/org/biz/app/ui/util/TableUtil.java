@@ -12,12 +12,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
-import org.apache.commons.beanutils.BeanUtils;
+//import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.jexl2.JexlEngine;
-import org.components.controls.CxTable;
 import org.components.parent.controls.PxTable;
 import org.components.parent.controls.editors.CellEditor;
-import org.jdesktop.swingx.JXTable;
 
 /**
  *
@@ -485,7 +483,7 @@ public class TableUtil {
         ex.setSilent(false);
         return ex;
     }
-    static JexlEngine ex = new JexlEngine();
+        static JexlEngine ex = new JexlEngine();
 
     public static void replaceModel(PxTable table, Object obj, int point) {
         
