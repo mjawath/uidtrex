@@ -10,6 +10,7 @@
  */
 package org.biz.invoicesystem.master.ui;
 
+import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Shop;
@@ -29,27 +30,33 @@ public class ShopUI extends TabPanelUI {
         init();
     }
     Shop shop;
+    List<Shop> shops;
     ShopService service;
-    
 
     @Override
     public void init() {
         controlPanel1.setCrudController(this);
         shop = new Shop();
-    service =new ShopService();    
-        
+        service = new ShopService();
+
     }
 
     @Override
     public void save() {
         uiToety();
         shop.setId(SystemUtil.timeStampKey());
-        service.getDao().save(shop);        
+        service.getDao().save(shop);
         shop = new Shop();
+        
+        //get last updated or creaded ety 
+        //make this a pattern
+        shops = service.getDao().getAll();
+        
+        
     }
 
     private void uiToety() {
-        shop.setCode(uiEty.tcToStr(cTextField1));
+        shop.setCode(uiEty.tcToStr(tshopcode));
 
     }
 
@@ -60,46 +67,56 @@ public class ShopUI extends TabPanelUI {
         controlPanel1 = new com.components.custom.ControlPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         cxTable1 = new org.components.controls.CxTable();
-        cTextField1 = new org.components.controls.CTextField();
+        tshopcode = new org.components.controls.CTextField();
+        cLabel1 = new org.components.controls.CLabel();
+        cLabel2 = new org.components.controls.CLabel();
+        tshopname = new org.components.controls.CTextField();
 
+        setLayout(null);
+        add(controlPanel1);
+        controlPanel1.setBounds(318, 20, 356, 35);
+
+        cxTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Shop Code", "Shop Name"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(cxTable1);
 
-        cTextField1.setText("cTextField1");
+        add(jScrollPane1);
+        jScrollPane1.setBounds(10, 158, 664, 131);
+        add(tshopcode);
+        tshopcode.setBounds(118, 33, 131, 25);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        cLabel1.setText("Shop Code");
+        add(cLabel1);
+        cLabel1.setBounds(10, 33, 80, 25);
+
+        cLabel2.setText("Shop Name");
+        add(cLabel2);
+        cLabel2.setBounds(10, 64, 80, 25);
+        add(tshopname);
+        tshopname.setBounds(118, 64, 131, 25);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CTextField cTextField1;
+    private org.components.controls.CLabel cLabel1;
+    private org.components.controls.CLabel cLabel2;
     private com.components.custom.ControlPanel controlPanel1;
     private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CTextField tshopcode;
+    private org.components.controls.CTextField tshopname;
     // End of variables declaration//GEN-END:variables
 
     @Override
