@@ -177,10 +177,15 @@ public class ItemMasterUI2 extends TabPanelUI {
                             uom.setMulti(tContainsQty.getDoubleValue0());
                             //prime  unit
                             UOM pu = new UOM();
-                            pu.setSimbol(tprimunit.getText());
-                            uom.setGuom(pu);
+//                            pu.setSimbol(tprimunit.getText());
+//                            uom.setGuom(pu);
+                            List<UOM> uoms=selectedItem.getUoms();
+                            if(uoms!=null || !uoms.isEmpty()){
+                            pu=uoms.get(0);                                
+                            }
                             selectedItem.addUOMorUpdate(uom);
-
+//we can skip current primary uom setting becas we r using only one primary key
+                            //set it when we save data ..
 
                             addUnitToTable();
 
@@ -265,6 +270,8 @@ public class ItemMasterUI2 extends TabPanelUI {
             e.printStackTrace();
         }
 //        crudcontrolPanel.set
+    tblunitprices.setPropertiesEL(new String[]{"id","code","symbol","contains","promaryUOM.symbol"});
+    
     }
 
     public void clear() {
@@ -1266,7 +1273,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
 
             uiToEty(selectedItem);
-
+setuoms();
 
             Item exist = itemService.getDao().findItemByCode(selectedItem.getCode());
             if (exist == null || Validator.isEmptyOrNull(selectedItem.getId())) {
@@ -1936,5 +1943,23 @@ public class ItemMasterUI2 extends TabPanelUI {
      */
     public void setCopiedItemId(String copiedItemId) {
         this.copiedItemId = copiedItemId;
+    }
+
+    private void setuoms() {
+        List<UOM> uoms=selectedItem.getUoms();
+        
+//        if(){}
+        
+                       UOM pu = new UOM();
+//                            pu.setSimbol(tprimunit.getText());
+//                            uom.setGuom(pu);
+//                            List<UOM> uoms=selectedItem.getUoms();
+                            if(uoms!=null || !uoms.isEmpty()){
+                            pu=uoms.get(0);                                
+                            }
+//                            selectedItem.addUOMorUpdate(uom);
+for (UOM uom : uoms) {
+            uom.setGuom(pu);
+        }
     }
 }
