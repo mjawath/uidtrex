@@ -480,6 +480,7 @@ public class TableUtil {
             ex = new JexlEngine();
         }    //        JexlEngine ex = new JexlEngine();
         ex.setCache(512);
+        
         ex.setLenient(false);
         ex.setSilent(false);
         return ex;

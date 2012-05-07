@@ -106,6 +106,13 @@ public class GenericDAO<T> {
 //        getEm().clear();
         return GenericDAOUtil.getAll(orderby, cls);
     }
+    
+//    public List<T> getLastModefied() {
+////        getEm().clear();
+//        
+//        orderby = " c.modifiedDate, c.createdDate  ";
+////        return GenericDAOUtil.pagedData(orderby, cls);
+//    }
     // save array of objects may be used to persist different kind of objects
     // eg car , dog ,customer in same time 
 
