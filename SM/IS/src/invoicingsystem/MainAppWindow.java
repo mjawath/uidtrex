@@ -124,6 +124,7 @@ public class MainAppWindow extends app.AppMainWindow {
         addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
         addToTabpanelToUI(new ShopUI(), "shop statement");
         addToTabpanelToUI(new WareHouseUI(), "ware house");
+        addToTabpanelToUI(new TransferOrderUI(), "transfer order");
         events();
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");

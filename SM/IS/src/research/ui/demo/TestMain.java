@@ -4,12 +4,12 @@
  */
 package research.ui.demo;
 
+import java.util.List;
 import javax.swing.JFrame;
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
-import org.apache.commons.jexl2.ObjectContext;
 import org.biz.erp.inventory.ui.BarCodeCreatorUI;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
@@ -64,5 +64,30 @@ public class TestMain {
         jf.setVisible(true);
 
 
+    }
+    
+    List xx;
+    void setList( List xx){
+    this.xx=xx;
+    }
+    public void createList(){
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
+    xx.add(new Item());
     }
 }

@@ -10,6 +10,16 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
+import com.components.custom.PagedPopUpPanel;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import org.biz.invoicesystem.entity.master.Item;
+import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.Warehouse;
+import org.biz.invoicesystem.service.master.ItemService;
+import org.biz.invoicesystem.service.master.ShopService;
+import org.biz.invoicesystem.service.master.WareHouseService;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -18,11 +28,172 @@ import org.components.windows.TabPanelUI;
  */
 public class TransferOrderUI extends TabPanelUI {
 
+    
+    ShopService shopService;
+    ItemService itemService;
+    WareHouseService wareHouseService;
+    List<Item> items;
+    List<Shop> shops;
+    List<Warehouse> warehouses; 
+    
+    PagedPopUpPanel shopPopUpPanel;
+    PagedPopUpPanel shoptoPopUpPanel;
+    PagedPopUpPanel itemPopUpPanel;
+    PagedPopUpPanel itemtoPopUpPanel;
+    PagedPopUpPanel wareHousePopUpPanel;
+    PagedPopUpPanel wareHousetoPopUpPanel;
+    
     /** Creates new form TransferOrderUI */
     public TransferOrderUI() {
         initComponents();
+        init();
     }
 
+    @Override
+    public void init() {
+    shopService =new ShopService();
+    shops=Collections.emptyList();
+    shopService.setList(shops);
+    itemService = new ItemService();
+    wareHouseService = new WareHouseService();
+    
+    items=Collections.emptyList();
+  
+    warehouses=Collections.emptyList();
+    
+    shopPopUpPanel = new PagedPopUpPanel(ttoshop) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                try {
+                                    shopService.getDao().getItemByCode(qry);
+
+                } catch (Exception e) {
+                e.printStackTrace();
+                }
+                  
+                
+//                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+    
+    wareHousePopUpPanel= new PagedPopUpPanel(tfromware) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+
+    itemPopUpPanel= new PagedPopUpPanel(ttoshop) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+    
+    shoptoPopUpPanel = new PagedPopUpPanel(ttoshop) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+    
+    wareHousetoPopUpPanel =new PagedPopUpPanel(ttowarehouse) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+
+    itemPopUpPanel =new PagedPopUpPanel(ttoshop) {
+
+            @Override
+            public void action() {
+                super.action();
+            }
+
+            @Override
+            public void search(String qry) {
+                
+                super.search(qry);
+            }
+
+            @Override
+            public Object[] data(Object item) {
+                return super.data(item);
+            }
+    
+    };
+
+    
+    
+    
+    
+    super.init();
+        
+        
+    }
+
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -134,7 +305,7 @@ public class TransferOrderUI extends TabPanelUI {
         cTable1.getColumnModel().getColumn(3).setResizable(false);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(10, 260, 620, 160);
+        jScrollPane1.setBounds(10, 260, 770, 250);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfromwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfromwareActionPerformed
