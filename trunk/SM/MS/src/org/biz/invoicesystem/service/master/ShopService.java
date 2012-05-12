@@ -4,6 +4,7 @@
  */
 package org.biz.invoicesystem.service.master;
 
+import java.util.List;
 import org.biz.dao.service.Service;
 import org.biz.invoicesystem.dao.master.ShopDao;
 
@@ -13,9 +14,19 @@ import org.biz.invoicesystem.dao.master.ShopDao;
  */
 public class ShopService extends Service{
 
+    
     ShopDao dao;
     public ShopService() {
     dao=new ShopDao();
+    }
+
+    @Override
+    public ShopDao getDao() {
+        return dao;
+    }
+
+    public void setList(List shops) {
+       dao.setList(shops); 
     }
     
 }

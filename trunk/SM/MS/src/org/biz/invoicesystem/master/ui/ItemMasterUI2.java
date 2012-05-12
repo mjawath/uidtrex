@@ -179,9 +179,9 @@ public class ItemMasterUI2 extends TabPanelUI {
                             UOM pu = new UOM();
 //                            pu.setSimbol(tprimunit.getText());
 //                            uom.setGuom(pu);
-                            List<UOM> uoms=selectedItem.getUoms();
-                            if(uoms!=null || !uoms.isEmpty()){
-                            pu=uoms.get(0);                                
+                            List<UOM> uoms = selectedItem.getUoms();
+                            if (uoms != null || !uoms.isEmpty()) {
+                                pu = uoms.get(0);
                             }
                             selectedItem.addUOMorUpdate(uom);
 //we can skip current primary uom setting becas we r using only one primary key
@@ -223,7 +223,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     public void init() {
@@ -270,8 +270,8 @@ public class ItemMasterUI2 extends TabPanelUI {
             e.printStackTrace();
         }
 //        crudcontrolPanel.set
-    tblunitprices.setPropertiesEL(new String[]{"id","code","symbol","contains","promaryUOM.symbol"});
-    
+        tblunitprices.setPropertiesEL(new String[]{"id", "code", "symbol", "contains", "promaryUOM.symbol"});
+
     }
 
     public void clear() {
@@ -1273,7 +1273,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
 
             uiToEty(selectedItem);
-setuoms();
+            setuoms();
 
             Item exist = itemService.getDao().findItemByCode(selectedItem.getCode());
             if (exist == null || Validator.isEmptyOrNull(selectedItem.getId())) {
@@ -1946,20 +1946,24 @@ setuoms();
     }
 
     private void setuoms() {
-        List<UOM> uoms=selectedItem.getUoms();
-        
+        List<UOM> uoms = selectedItem.getUoms();
+
 //        if(){}
-        
-                       UOM pu = new UOM();
+
+        UOM pu = null;//comply with the preference  ...
 //                            pu.setSimbol(tprimunit.getText());
 //                            uom.setGuom(pu);
 //                            List<UOM> uoms=selectedItem.getUoms();
-                            if(uoms!=null || !uoms.isEmpty()){
-                            pu=uoms.get(0);                                
-                            }
+        if (uoms != null || !uoms.isEmpty()) {
+            pu = uoms.get(0);
+        }
 //                            selectedItem.addUOMorUpdate(uom);
-for (UOM uom : uoms) {
+
+        for (int i = 0; i < uoms.size(); i++) {
+            UOM uom = uoms.get(i);
+            if(i==0)continue;
             uom.setGuom(pu);
+
         }
     }
 }

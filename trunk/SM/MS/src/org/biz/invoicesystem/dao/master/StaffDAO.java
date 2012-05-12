@@ -71,7 +71,7 @@ public class StaffDAO extends GenericDAO<Staff>{
     }
  
      public List<Staff> byCode(String code) {
-        String cus = " where c.name like '" + code + "%' ";
+        String cus = "  c.name like '" + code + "%' ";
         List<Staff> lst = pagedData( cus, 0);
         return lst;
     }

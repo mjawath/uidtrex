@@ -22,7 +22,7 @@ public class ItemDAO extends GenericDAO<Item> {
 
     
      public  List<Item> findItemListByCode(String itemcode) {
-  String qry =" Where c.code like '" + itemcode + "%' ";
+  String qry ="  c.code like '" + itemcode + "%' ";
         List<Item> lst = pagedData(qry,0);
 //
         getCache().createAndAddCache(findItemListByCode,qry, 0, 0l, lst);
@@ -145,7 +145,7 @@ public class ItemDAO extends GenericDAO<Item> {
     }
 
     public List<Item> byCode(String qry) {
-        String cus = " where c.code like '" + qry + "%' ";
+        String cus = "  c.code like '" + qry + "%' ";
         List<Item> lst = pagedData(cus, 0);//if lst size 0 then search barcode
         return lst;
 
