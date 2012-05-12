@@ -4,6 +4,8 @@
  */
 package org.biz.invoicesystem.dao.master;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.biz.dao.service.GenericDAO;
 import org.biz.invoicesystem.entity.master.Shop;
 
@@ -13,8 +15,21 @@ import org.biz.invoicesystem.entity.master.Shop;
  */
 public class ShopDao extends GenericDAO<Shop> {
 
+    List shops;
+
     public ShopDao() {
-    setCls(Shop.class);
+        setCls(Shop.class);
+        shops = new ArrayList();
     }
-    
+
+    public List getItemByCode(String qry) {
+        String qryx = " c.code like  '" + qry + "%'";
+        shops.clear();
+        shops.addAll(pagedData(qryx, 0));
+        return shops;
+    }
+
+    public void setList(List shops) {
+        this.shops = shops;
+    }
 }
