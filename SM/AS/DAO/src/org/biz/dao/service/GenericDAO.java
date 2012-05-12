@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.dao.util.JPAUtil;
 import org.eclipse.persistence.queries.ScrollableCursor;
-
+//http://code.google.com/p/krank/wiki/UsingDAO
 /**
  *
  * @author mjawath
