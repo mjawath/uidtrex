@@ -10,13 +10,16 @@
  */
 package checkchequingsystem;
 
-import java.util.ArrayList;
+import com.components.custom.PagedPopUpPanel;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
+import org.biz.chequeChequing.entity.accounts.bank.Bank;
 import org.biz.chequeChequing.entity.accounts.bank.BankBranch;
 import org.biz.chequeChequing.entity.service.bank.BankBranchService;
+import org.biz.chequeChequing.entity.service.bank.BankService;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.system.SystemUtil;
 import org.components.windows.TabPanelUI;
@@ -29,8 +32,11 @@ public class BankBranchDetailUI extends TabPanelUI {
 
     BankBranch selectedbankbranch;
     List<BankBranch> branches;
+    List<Bank> banks;
     BankBranchService service;
+    BankService bankservice;
     EntityService es;
+    PagedPopUpPanel bankpopPanel;
     /** Creates new form BankDetailUI */
     public BankBranchDetailUI() {
         initComponents();
@@ -41,8 +47,23 @@ public class BankBranchDetailUI extends TabPanelUI {
     public void init() {
 
         service = new BankBranchService();
-        branches = new ArrayList<BankBranch>();
-       es = EntityService.getEntityService();
+        bankservice =new BankService();
+        branches = Collections.emptyList();
+        banks = Collections.emptyList();
+        bankpopPanel =new PagedPopUpPanel(tbank) {
+
+            public void action() {
+                super.action();
+            }
+            public void search(String qry) {
+                super.search(qry);
+            }
+        
+            
+        };
+        bankpopPanel.setPropertiesEL(new String[]{"id","code"});
+
+        es = EntityService.getEntityService();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,6 +78,7 @@ public class BankBranchDetailUI extends TabPanelUI {
         cButton2 = new org.components.controls.CButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         cxTable1 = new org.components.controls.CxTable();
+        tbank = new org.components.controls.CTextField();
 
         cButton1.setText("Save");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -115,11 +137,14 @@ public class BankBranchDetailUI extends TabPanelUI {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tbankname, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(cButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tbank, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tbankname, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(cButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56)
+                                .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(176, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -139,7 +164,9 @@ public class BankBranchDetailUI extends TabPanelUI {
                     .addComponent(tbankname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(98, 98, 98)
+                .addGap(30, 30, 30)
+                .addComponent(tbank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -205,6 +232,7 @@ public class BankBranchDetailUI extends TabPanelUI {
     private org.components.controls.CLabel cLabel2;
     private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CTextField tbank;
     private org.components.controls.CTextField tbankname;
     private org.components.controls.CTextField tcode;
     // End of variables declaration//GEN-END:variables
