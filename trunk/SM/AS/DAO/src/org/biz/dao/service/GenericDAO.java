@@ -182,8 +182,7 @@ public class GenericDAO<T> {
     }
 
     public List pagedData(String qry, int pageNo) {
-        String sq = createSelect();
-        sq += qry;
+        String sq  = createWhere(qry);
 //        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
 //        if(lst!=null && !lst.isEmpty()){
 //            System.out.println("dddddddddf");
@@ -269,8 +268,8 @@ System.out.println("size "+cpageno);
     
     
     public List pagedData(String qry) {
-        String sq = createSelect();
-        sq += qry;
+        String sq = createWhere(qry);
+        
 //        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
 //        if(lst!=null && !lst.isEmpty()){
 //            System.out.println("dddddddddf");
@@ -301,7 +300,7 @@ System.out.println("size "+cpageno);
 
     public String createWhere(String whr) {
 
-        return " from  ";
+        return createSelect() + " where  "+whr;
     }
     /*
     ///////////////
