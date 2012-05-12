@@ -18,7 +18,7 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import org.components.util.Sessions;
 
-
+//http://code.google.com/p/krank/wiki/UsingDAO
 /**
  *
  * @author mjawath
