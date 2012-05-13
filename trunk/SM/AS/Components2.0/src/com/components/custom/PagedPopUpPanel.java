@@ -28,10 +28,13 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.biz.app.ui.util.ComponentFactory;
+import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
+import org.biz.app.ui.util.uiEty;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
+import sun.reflect.misc.ReflectUtil;
 
 /**
  *
@@ -51,15 +54,37 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     JComponent nextFocusableComponent;
     boolean moveTonextcom = true;
     List<ActionTask> actionTasks;
-
+    private String property;
+    private  Object model;
+    
     public int getSelectedColumn() {
         return selectedColumn;
     }
 
     public String getSelectedID() {
+    //get selected item  from objects
+        
+        
         return selectedID;
     }
 
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+
+    public Object getModel() {
+        return model;
+    }
+
+    public void setModel(Object model) {
+        this.model = model;
+    }
+
+    
     public Object getSelectedObject() {
         return selectedObject;
     }
@@ -418,13 +443,22 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void selectItem() {
 
-        Object ob = TableUtil.getSelectedModelsValueAt(cxTable1, 0);
+        Object ob = TableUtil.getSelectedModelsValueAt(cxTable1, getSelectedColumn());
 
         if (ob != null) {
             //find object from list and select
             if (textField instanceof JTextField) {
-                textField.setText(ob.toString());
                 selectedID = ob.toString();
+                //get selected object
+                for (Object object : list) {
+                   //compare property with Object property ob.equals(object);
+                    System.out.println(ob.equals(ReflectionUtility.getProperty(object, "id") ));
+                    if(ob.equals(ReflectionUtility.getProperty(object, "id") )){
+                    selectedObject = object;
+                    uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, "code"));
+
+                    }
+                }
                 action();
             }
 
@@ -481,5 +515,8 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void setPropertiesEL(String[] propertiesEL) {        
         cxTable1.setPropertiesEL(propertiesEL);
+    }
+    public void setTitle(String[] title) {        
+        TableUtil.createTableModel(cxTable1, title);
     }
 }

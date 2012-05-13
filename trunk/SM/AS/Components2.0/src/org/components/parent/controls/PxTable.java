@@ -11,6 +11,7 @@
 
 package org.components.parent.controls;
 
+import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
 
 /**
@@ -27,6 +28,12 @@ public class PxTable extends JXTable {
 
     public void setPropertiesEL(String[] propertiesEL) {
         this.propertiesEL = propertiesEL;
+//     TableUtil.createTableModel(this, propertiesEL);   
+    }
+     
+    public void setColumnHeader(String[] title) {
+        
+     TableUtil.createTableModel(this, title);   
     }
     
     Class modelClass;

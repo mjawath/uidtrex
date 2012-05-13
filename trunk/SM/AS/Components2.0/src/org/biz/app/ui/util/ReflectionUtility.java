@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.lang.reflect.*;
 import java.util.*;
 import javax.swing.SwingWorker;
+import org.apache.commons.jexl2.JexlEngine;
 
 
 
@@ -635,4 +636,23 @@ public class ReflectionUtility {
       
   }
 
+  
+  //EL Launguage usage
+    public  static  JexlEngine creatELEngine() {
+   
+        if (ex == null) {
+            ex = new JexlEngine();
+        }    //        JexlEngine ex = new JexlEngine();
+        ex.setCache(512);
+        
+        ex.setLenient(false);
+        ex.setSilent(false);
+        return ex;
+    }
+        static JexlEngine ex = new JexlEngine();
+
+   public static Object getProperty(Object object,String property){
+       return ex.getProperty(object, property);
+       
+   }
 }
