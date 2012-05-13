@@ -28,6 +28,7 @@ public class Popupdirect extends javax.swing.JFrame {
 
         p1.setBackground(new java.awt.Color(255, 153, 204));
         p1.setLayout(null);
+        
         getLayeredPane().add(p1,1);
         p1.setBounds(40, 20, 380, 120);
 

@@ -11,8 +11,6 @@ import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.AbstractAction;
@@ -66,14 +64,17 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         initComponents();
 
         init();
-
         tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "item.description","qty", "unit", "price", "lineAmount"});
+    }
+    
+    public void mm(){
+    
+        System.out.println("ddd");
     }
 
     public void init() {
-
         initPopups();
-
+        System.out.println("initi 4444444444444444444 impleme");
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
@@ -112,7 +113,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     public void initPopups() {
         JFrame jf = (JFrame) Sessions.getObj("mainui");
-//       JDialog jd = new JDialog(jf,false);
+//       JDialog jd = new JDialog(jf,false); 
 ////       jd.setModal(false);
 //       jd.setSize(300,300);
 //       jd.setVisible(true);
@@ -177,7 +178,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         };
 
         lineItemPanel.setTable(tblInvoice);
-        lineItemPanel.setcTextField1(lineItemPanel.getItemFiled());
+        tblInvoice.setColumnHeader(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
+        tblInvoice.setPropertiesEL(new String[]{"id","item.Code","description","qty","Unit","price","lineAmount"});
+        
+        lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 
         itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
 
@@ -192,30 +196,22 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
             public void action() {
                 super.action();
-                String ob = getSelectedID();
-                Item item = null;
-                //find Item
-                for (Item it : listItem) {
-                    if (ob.equals(it.getId())) {
-                        setSelectedObject(it);
-                        item = it;
-                        break;
-                    }
-                }
+                Item item = (Item) getSelectedObject();
+//                Item item = null;
+//                //find Item
+//                for (Item it : listItem) {
+//                    if (ob.equals(it.getId())) {
+//                        setSelectedObject(it);
+//                        item = it;
+//                        break;
+//                    }
+//                }
                 loadUnit(item);
                 SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty();
                 //                if current row valid 
                 lineItem.setItem(item);
                 //                replace row
                 addsales(lineItem);
-//                  lineItemPanel.moveNextFocus();
-                //                 lineItemPanel.getItemdescFiled().setInputVerifier(new InputVerifier() {
-                //
-                //                    @Override
-                //                    public boolean verify(JComponent input) {
-                //                        throw new UnsupportedOperationException("Not supported yet.");
-                //                    }
-                //                });
 
                 lineItemPanel.lineItemLogic();
             }
@@ -226,7 +222,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 //            }
         };
         itemSelectionPopup.setPropertiesEL(new String[]{"id","code","description"});
-        
+//        itemSelectionPopup.setSelectedColumn(1);
         
         
         cuspop = new PagedPopUpPanel(tcus) {
@@ -272,7 +268,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         };
         cuspop.setObjectToTable(listCust);
         cuspop.setPropertiesEL(new String[]{"id","code","customerName"});
-        cuspop.setSelectedColumn(1);
+        cuspop.setTitle(new String[]{"id","Code","Customer Name "});
+//        cuspop.setSelectedColumn(1);
         cuspop.setNextFocusableComponent(tblInvoice);
 
 
@@ -461,12 +458,11 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     private void loadUnit(Item it) {
         if (it != null) {
-//            lineItemPanel.getUnit().setModel(it.getUoms());
-//            lineItemPanel.getUnit().setmode
+            lineItemPanel.getUnit().setModel(it.getUoms());
 
         } else {
-            String[] stx = new String[]{};
-//            lineItemPanel.getUnit().setModel(stx);
+            
+            lineItemPanel.getUnit().getModel().clear();
 
         }
 
@@ -485,9 +481,6 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         }
         for (SalesInvoiceLineItem line : items) {
 
-
-            String it = line.getItem() == null ? null : line.getItem().getCode();
-            String itdes = line.getItem() == null ? null : line.getItem().getDescription();
 
             TableUtil.addModelToTable(line, tblInvoice );
         }
@@ -660,7 +653,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         jScrollPane3.setViewportView(taddress);
 
         cPanel2.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 30, 230, 80);
+        jScrollPane3.setBounds(10, 50, 230, 60);
         cPanel2.add(tcus);
         tcus.setBounds(66, 0, 150, 25);
 

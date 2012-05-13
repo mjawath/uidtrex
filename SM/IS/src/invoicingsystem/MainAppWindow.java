@@ -12,10 +12,14 @@ package invoicingsystem;
  */
 import checkchequingsystem.BankBranchDetailUI;
 import checkchequingsystem.BankDetailUI;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
@@ -25,6 +29,7 @@ import javax.swing.plaf.FontUIResource;
 import org.biz.erp.inventory.ui.WareHouseUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
+import org.biz.invoicesystem.ui.transactions.PosInvoiceUI;
 import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
 
 import org.components.util.Sessions;
@@ -59,6 +64,8 @@ public class MainAppWindow extends app.AppMainWindow {
         cstattus = new org.components.controls.CLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        mclose = new javax.swing.JMenuItem();
+        mrefresh = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +74,13 @@ public class MainAppWindow extends app.AppMainWindow {
         cstattus.setText("");
 
         jMenu1.setText("File");
+
+        mclose.setText("Close Selected");
+        jMenu1.add(mclose);
+
+        mrefresh.setText("Refresh");
+        jMenu1.add(mrefresh);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -104,7 +118,20 @@ public class MainAppWindow extends app.AppMainWindow {
     }
 
     public void init2() {
+        mclose.addActionListener(new ActionListener() {
 
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                   removeTab();
+                    }
+                });
+        mrefresh.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                   refreshTab();
+                    }
+                });
         setjTabbedPane1(jTabbedPane1);
        
         addToTabpanelToUI(new ItemMasterTab(), "Item master");
@@ -129,7 +156,7 @@ public class MainAppWindow extends app.AppMainWindow {
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
-//        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
+        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
         addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
     System.gc();
     }
@@ -241,13 +268,13 @@ public class MainAppWindow extends app.AppMainWindow {
         }
     }
 
-    public void addToTabpanelToUI(TabPanelUI tab, String title) {
-
-//        addToTabpanelToUI(tab, title, null);
-         getjTabbedPane1().addTab(title, tab);
-        
-        
-    }
+//    public void addToTabpanelToUI(TabPanelUI tab, String title) {
+//
+////        addToTabpanelToUI(tab, title, null);
+//         getjTabbedPane1().addTab(title, tab);
+//        
+//        
+//    }
 
     public void selectTab(String title) {
         int sx = getjTabbedPane1().indexOfTab(title);
@@ -279,6 +306,29 @@ public class MainAppWindow extends app.AppMainWindow {
         Sessions.remove(tit);
         getjTabbedPane1().remove(x);
 
+    }
+
+    public void refreshTab() {
+        int x = getjTabbedPane1().getSelectedIndex();
+        if (x < 0) {
+            return;
+        }
+
+        String tit = getjTabbedPane1().getTitleAt(x);
+        getjTabbedPane1().remove(x);
+        TabPanelUI tab= (TabPanelUI) Sessions.getObj(tit);
+           String cls=   tab.getClass().getName();
+       
+        System.out.println(tab.getClass().getName());
+        Sessions.remove(tit);
+       
+        try {
+       TabPanelUI tabnew = (TabPanelUI) Class.forName(cls).newInstance();
+       addToTabpanelToUI(tabnew, tit);
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
     }
 
     public void selectNextTab(){
@@ -352,5 +402,7 @@ public class MainAppWindow extends app.AppMainWindow {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem mclose;
+    private javax.swing.JMenuItem mrefresh;
     // End of variables declaration//GEN-END:variables
 }
