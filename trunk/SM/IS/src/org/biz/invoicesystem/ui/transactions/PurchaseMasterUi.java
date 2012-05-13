@@ -162,7 +162,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
             }
         };
         lineItemPanel.setTable(tblInvoice);
-        lineItemPanel.setcTextField1(lineItemPanel.getItemFiled());
+        lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 
         itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
 

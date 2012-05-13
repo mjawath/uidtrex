@@ -200,27 +200,27 @@ public class LineItemPanel extends javax.swing.JDialog {
         pack();
     }
 
-    public JTextField getcTextField1() {
-        return cTextField1;
+    public JTextField getTextField() {
+        return textField;
     }
 
     public void dispatchEventx(KeyEvent event) {
-        cTextField1.requestFocus();
+        textField.requestFocus();
 
-        System.out.println(" text 111||| " + cTextField1.getText());
-        System.out.println("selected text 111||| " + cTextField1.getSelectedText());
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cTextField1, event);
-        System.out.println("selected text 222||| " + cTextField1.getSelectedText());
+        System.out.println(" text 111||| " + textField.getText());
+        System.out.println("selected text 111||| " + textField.getSelectedText());
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(textField, event);
+        System.out.println("selected text 222||| " + textField.getSelectedText());
 
 //        cTextField1.select(cTextField1.getText().length()-1, cTextField1.getText().length()-1);
 //        cTextField1.setCaretPosition(cTextField1.getText().length()-1);
 //        event.consume();
     }
 
-    public void setcTextField1(JTextField cTextField1) {
-        this.cTextField1 = cTextField1;
+    public void setTextField(JTextField cTextField1) {
+        this.textField = cTextField1;
     }
-    protected JTextField cTextField1;
+    protected JTextField textField;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 

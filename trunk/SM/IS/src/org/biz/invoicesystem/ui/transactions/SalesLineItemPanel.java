@@ -252,7 +252,7 @@ return tunit;
         
         //get the uom//         salesline.getItem()
 
-        UOM uom=tunit.getModel();
+        UOM uom=tunit.getSelectedModel();
        salesline.setUom(uom);
         //ui to ety ..
         return salesline;
