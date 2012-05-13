@@ -50,6 +50,14 @@ public class TableUtil {
 
     }
 
+    public static void createTableModel(JTable jTable, String[] columns) {
+
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.setColumnIdentifiers(columns);
+        jTable.setModel(dtm);
+
+    }
+    
     public static void createTableModel(JTable jTable, String[] columns, final Class[] columntypes, final boolean editable) {
 
         DefaultTableModel dtm = new DefaultTableModel(
@@ -462,7 +470,7 @@ public class TableUtil {
 
 
         for (String var : prop) {
-            Object ob = ex.getProperty(obj, var);
+            Object ob = ReflectionUtility.getProperty(obj, var);
             row.add(ob);
         }
 
@@ -472,18 +480,6 @@ public class TableUtil {
 
     }
 
-    public JexlEngine creatELEngine() {
-   
-        if (ex == null) {
-            ex = new JexlEngine();
-        }    //        JexlEngine ex = new JexlEngine();
-        ex.setCache(512);
-        
-        ex.setLenient(false);
-        ex.setSilent(false);
-        return ex;
-    }
-        static JexlEngine ex = new JexlEngine();
 
     public static void replaceModel(PxTable table, Object obj, int point) {
         
@@ -491,7 +487,7 @@ public class TableUtil {
        Vector row = new Vector();
 
         for (String var : prop) {
-            Object ob = ex.getProperty(obj, var);
+            Object ob = ReflectionUtility.getProperty(obj, var);
             row.add(ob);
         }
 

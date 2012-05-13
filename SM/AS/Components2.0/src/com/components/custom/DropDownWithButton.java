@@ -1,7 +1,9 @@
 package com.components.custom;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JTextField;
+import org.biz.app.ui.util.ReflectionUtility;
 
 /**
  *
@@ -9,7 +11,7 @@ import javax.swing.JTextField;
  */
 public class DropDownWithButton<T> extends javax.swing.JPanel {
 
-    ArrayList<T> model;
+    List<T> model;
     Object selecedModel;
     String elString;
 
@@ -24,8 +26,19 @@ public class DropDownWithButton<T> extends javax.swing.JPanel {
     }
     //should overide ..to get a proper object as returnvalue
 
-    public Object getSelectedModel() {
+    public T getSelectedModel() {
+     //get the model from the list by using /comparring the el exprestion language 
+        //and reurn the value
+        for (T object : model) {
+            if(object!=null){
+            if(getTextField().getText().equals(ReflectionUtility.getProperty(object, elString))){//acctuallly el expresstion 
+            selecedModel =object;
+                return object;
+            }
+            }
+        }
         return null;
+ 
     }
 
     public JTextField getTextField() {
@@ -36,22 +49,13 @@ public class DropDownWithButton<T> extends javax.swing.JPanel {
         model.add(obj);
     }
 
-    public void setModel(ArrayList<T> list) {
+    public void setModel(List<T> list) {
         model = list;
 
     }
 
-    public T getModel() {
-        //get the model from the list by using /comparring the el exprestion language 
-        //and reurn the value
-        for (T object : model) {
-            if(object!=null){
-            if(object.equals(getTextField().getText())){//acctuallly el expresstion 
-            return object;
-            }
-            }
-        }
-        return null;
+    public List<T>  getModel() {
+       return model;
     }
 
     public void setELComparison(String el){
