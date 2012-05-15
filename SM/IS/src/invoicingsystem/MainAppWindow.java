@@ -12,9 +12,8 @@ package invoicingsystem;
  */
 import checkchequingsystem.BankBranchDetailUI;
 import checkchequingsystem.BankDetailUI;
+import checkchequingsystem.ChequeDetailUI;
 import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
 import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
@@ -147,7 +146,7 @@ public class MainAppWindow extends app.AppMainWindow {
 //        addToTabpanelToUI(new BankDetailUI(), "GDN invoice");
         addToTabpanelToUI(new BankDetailUI(), "bank ");
         addToTabpanelToUI(new BankBranchDetailUI(), "bank branch");
-//        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
+        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
         addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
         addToTabpanelToUI(new ShopUI(), "shop statement");
         addToTabpanelToUI(new WareHouseUI(), "ware house");

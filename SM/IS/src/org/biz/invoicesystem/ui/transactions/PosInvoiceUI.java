@@ -341,9 +341,6 @@ public class PosInvoiceUI extends TabPanelUI {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.TableEditable();
-        cButton1 = new org.components.controls.CButton();
-        cdelete = new org.components.controls.CButton();
-        cclear = new org.components.controls.CButton();
         cPanel1 = new org.components.containers.CPanel();
         cLabel5 = new org.components.controls.CLabel();
         cLabel7 = new org.components.controls.CLabel();
@@ -380,33 +377,6 @@ public class PosInvoiceUI extends TabPanelUI {
 
         add(jScrollPane2);
         jScrollPane2.setBounds(20, 20, 900, 300);
-
-        cButton1.setText("Save");
-        cButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cButton1ActionPerformed(evt);
-            }
-        });
-        add(cButton1);
-        cButton1.setBounds(410, 400, 57, 30);
-
-        cdelete.setText("Delete");
-        cdelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cdeleteActionPerformed(evt);
-            }
-        });
-        add(cdelete);
-        cdelete.setBounds(540, 400, 70, 30);
-
-        cclear.setText("Clear");
-        cclear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cclearActionPerformed(evt);
-            }
-        });
-        add(cclear);
-        cclear.setBounds(470, 400, 70, 30);
 
         cPanel1.setLayout(null);
 
@@ -466,7 +436,8 @@ public class PosInvoiceUI extends TabPanelUI {
         controlPanel1.setBounds(60, 430, 340, 40);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
+    
+        public  void save() {                                         
 
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
@@ -485,14 +456,10 @@ public class PosInvoiceUI extends TabPanelUI {
 
 
 
-    }//GEN-LAST:event_cButton1ActionPerformed
+    }                                        
 
-    private void cdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cdeleteActionPerformed
-    }//GEN-LAST:event_cdeleteActionPerformed
 
-    private void cclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cclearActionPerformed
-    }//GEN-LAST:event_cclearActionPerformed
-
+    
     public void clear() {
 
         invoice = SalesInvoice.createNewInvoice();
@@ -505,7 +472,6 @@ public class PosInvoiceUI extends TabPanelUI {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.CButton cButton1;
     private org.components.controls.CLabel cLabel10;
     private org.components.controls.CLabel cLabel15;
     private org.components.controls.CLabel cLabel5;
@@ -513,8 +479,6 @@ public class PosInvoiceUI extends TabPanelUI {
     private org.components.controls.CLabel cLabel8;
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
-    private org.components.controls.CButton cclear;
-    private org.components.controls.CButton cdelete;
     private com.components.custom.ControlPanel controlPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private org.components.controls.TableEditable tblInvoice;
