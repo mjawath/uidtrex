@@ -180,7 +180,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 //                            pu.setSimbol(tprimunit.getText());
 //                            uom.setGuom(pu);
                             List<UOM> uoms = selectedItem.getUoms();
-                            if (uoms != null || !uoms.isEmpty()) {
+                            if (uoms != null && !uoms.isEmpty()) {
                                 pu = uoms.get(0);
                             }
                             selectedItem.addUOMorUpdate(uom);
@@ -596,7 +596,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         add(tItemSalesPriceUnit1);
-        tItemSalesPriceUnit1.setBounds(80, 260, 80, 20);
+        tItemSalesPriceUnit1.setBounds(80, 270, 80, 20);
 
         jLabel2.setText("Description ");
         add(jLabel2);
@@ -629,7 +629,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         add(tItemSalesPriceUnit2);
-        tItemSalesPriceUnit2.setBounds(210, 260, 80, 20);
+        tItemSalesPriceUnit2.setBounds(210, 270, 80, 20);
 
         tUnitItem2.setEditable(true);
         add(tUnitItem2);
@@ -683,7 +683,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         tblunitprices.getColumnModel().getColumn(5).setResizable(false);
 
         cPanel6.add(jScrollPane3);
-        jScrollPane3.setBounds(0, 40, 520, 210);
+        jScrollPane3.setBounds(0, 40, 450, 140);
         cPanel6.add(tunitprice);
         tunitprice.setBounds(390, 10, 102, 25);
         cPanel6.add(tunitsymbot);
@@ -854,7 +854,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         jScrollPane4.setViewportView(tMetaInfo);
 
         cPanel3.add(jScrollPane4);
-        jScrollPane4.setBounds(10, 80, 440, 96);
+        jScrollPane4.setBounds(10, 80, 440, 76);
 
         cLabel3.setText("Meta Information ");
         cPanel3.add(cLabel3);
@@ -1317,13 +1317,7 @@ public class ItemMasterUI2 extends TabPanelUI {
     public void yy(Object[] ob) {
         System.out.println("yyy");
     }
-    AbstractAction ab = new AbstractAction() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    };
+    
 
     public void saveImages(String itemid, List<File> images) {
         try {
@@ -1967,3 +1961,19 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
     }
 }
+
+
+
+
+/*
+ ***********************************************************
+ //UOM 
+ * if one item is selected then modify it
+ * if nothing selected then create new 
+ * 
+ 
+ 
+ 
+ 
+ 
+ */
