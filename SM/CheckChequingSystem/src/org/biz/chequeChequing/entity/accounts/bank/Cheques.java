@@ -22,6 +22,16 @@ public class Cheques extends BusObj {
     
     @OneToOne
     BankBranch bankBranch;
+
+    public BankBranch getBankBranch() {
+        return bankBranch;
+    }
+
+    public void setBankBranch(BankBranch bankBranch) {
+        this.bankBranch = bankBranch;
+    }
+    
+
     
     @Override
     public int hashCode() {
@@ -46,15 +56,5 @@ public class Cheques extends BusObj {
     @Override
     public String toString() {
         return "org.business.accounts.NewEntity[id=" + id + "]";
-    }
-  @Transient
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }
