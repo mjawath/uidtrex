@@ -6,6 +6,7 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
+import org.biz.invoicesystem.ui.transactions.components.SalesLineItemPanel;
 import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
