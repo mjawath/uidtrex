@@ -83,3 +83,8 @@ public class DropDownWithButton<T> extends javax.swing.JPanel {
     private org.components.controls.CTextField cTextField1;
     // End of variables declaration//GEN-END:variables
 }
+/*
+ class  used to load list of objects and its values 
+ * in a popup 
+ 
+ */

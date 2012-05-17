@@ -212,6 +212,12 @@ public class GenericDAO<T> {
 
     }
 
+    public List<T> getByCode(String code) {
+        
+        String qry=" c.code like '%"+code+"'";
+        return pagedData(code, 0);
+    }
+
     public void getNextPage(String qryname) {
         String qry = getquery(qryname);
         int cpageno = getCupage(qryname);
