@@ -1,15 +1,10 @@
-
 package org.biz.invoicesystem.entity.master;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,38 +13,29 @@ import javax.persistence.TemporalType;
  * @author Administrator
  */
 @Entity
-public class Supplier implements Serializable {
-  
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+public class Supplier extends Persons {
+
     private String code;
     private String name;
-private String title;
-     
-   private String company;
- private String designation;
- private String type;
-   private String address1;
-   private String address2;
-   private String city;
+    private String title;
+    private String company;
+    private String designation;
+    private String type;
+    private String address1;
+    private String address2;
+    private String city;
     private String phone;
-  private String mobilePhone;
-   private String email;
- 
-   @Temporal(TemporalType.DATE)
-  private Date dob;
- 
-   
-  @Temporal(TemporalType.DATE)
-  Date curDate;
-  private String signatureImage;
-  // private boolean isSentToMaster;
-  //private boolean isDeleted;
-   private String religion;
- //  private String loggedinStaff;
- 
-    
+    private String mobilePhone;
+    private String email;
+    @Temporal(TemporalType.DATE)
+    private Date dob;
+    @Temporal(TemporalType.DATE)
+    Date curDate;
+    private String signatureImage;
+    // private boolean isSentToMaster;
+    //private boolean isDeleted;
+    private String religion;
+    //  private String loggedinStaff;
 
     public static Supplier find(String code, List<Supplier> lst) {
 
@@ -179,7 +165,6 @@ private String title;
         this.email = email;
     }
 
-   
     public String getMobilePhone() {
         return mobilePhone;
     }
@@ -253,8 +238,4 @@ private String title;
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
-    
-    
-
 }

@@ -1,74 +1,51 @@
- 
 package org.biz.invoicesystem.entity.master;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
- 
 @Entity
-public class Staff implements Serializable {
-   
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+public class Staff extends Persons {
+
     String code;
-    
     private String name;
-  private String nic;
+    private String nic;
     private String department;
-  private String initial;
-   private String gender;
- private String reigion;
-  @Temporal(TemporalType.DATE)
+    private String initial;
+    private String gender;
+    private String reigion;
+    @Temporal(TemporalType.DATE)
     private Date dob;
-   private String designation;
+    private String designation;
+    private String address1;
+    private String address2;
+    private String city;
+    private String password;
+    private String retypePasswod;
+    private String username;
+    private String thumbImage;
+    private String phone;
+    private String mobile;
+    @Temporal(TemporalType.DATE)
+    private Date joinedDate;
+    private Double salary;
+    private Double allowance;
+    private String paymentMethod;
+    private String securityRole;
+    private String signatureImage;
+    //  private String otherDetails;
+    @Temporal(TemporalType.DATE)
+    Date crtdTime;
+    //  private boolean isSentToMaster;
+    //  private boolean isDeleted;
+    //  private String workPlace;
+    //  private String loggedinStaff;
+    private String shopName;//shopname is because when we filter username we need to filter it by shopname
+    //coz shp person in one location cant login to other shop....
+    private String email;
 
-  private String address1;
-   private String address2;
-   private String city;
-   private String password;
-  private String retypePasswod;
- private String username;
-  private String thumbImage;
-  private String phone;
-   private String mobile;
- 
-  @Temporal(TemporalType.DATE)
-   private Date joinedDate;
- 
-   
- private Double salary;
-private Double allowance;
- 
-   private String paymentMethod;
-  private String securityRole;
-  private String signatureImage;
- //  private String otherDetails;
- 
-   @Temporal(TemporalType.DATE)
-   Date crtdTime;
- //  private boolean isSentToMaster;
- //  private boolean isDeleted;
- //  private String workPlace;
-  //  private String loggedinStaff;
-  
-private String shopName;//shopname is because when we filter username we need to filter it by shopname
-                        //coz shp person in one location cant login to other shop....
-   
-
-private String email;
-
-
-public String getAddress1() {
+    public String getAddress1() {
         return address1;
     }
 
@@ -172,7 +149,6 @@ public String getAddress1() {
         this.username = username;
     }
 
-    
     public String getMobile() {
         return mobile;
     }
@@ -197,7 +173,6 @@ public String getAddress1() {
         this.nic = nic;
     }
 
-    
     public String getPassword() {
         return password;
     }
@@ -245,8 +220,6 @@ public String getAddress1() {
     public void setSignatureImage(String signatureImage) {
         this.signatureImage = signatureImage;
     }
-
-   
 
     public String getThumbImage() {
         return thumbImage;
@@ -313,6 +286,4 @@ public String getAddress1() {
     public void setEmail(String email) {
         this.email = email;
     }
-   
-   
 }
