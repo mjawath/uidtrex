@@ -5,11 +5,10 @@
 
 package org.biz.chequeChequing.entity.accounts.bank;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.Temporal;
 import org.biz.entity.BusObj;
 
 /**
@@ -21,7 +20,12 @@ public class Cheques extends BusObj {
     private static final long serialVersionUID = 1L;
     
     @OneToOne
-    BankBranch bankBranch;
+    private BankBranch bankBranch;
+    private String chequeNumber;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateOfBank;
+    
+    
 
     public BankBranch getBankBranch() {
         return bankBranch;
