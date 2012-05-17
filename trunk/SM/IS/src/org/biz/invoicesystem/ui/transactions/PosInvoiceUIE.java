@@ -39,7 +39,7 @@ import org.components.windows.TabPanelUI;
  * @2011/12/15 jawath-  table editing cell ediotr
  * @2011/12/18 jawath-  table editing cell ediotr document listner
  */
-public class PosInvoiceUI extends TabPanelUI {
+public class PosInvoiceUIE extends TabPanelUI {
 
     SalesInvoice invoice;
     List<SalesInvoiceLineItem> lineItems;
@@ -48,7 +48,7 @@ public class PosInvoiceUI extends TabPanelUI {
     SalesLineItemPanel lineItemPanel;
 
     /** Creates new form InvoiceMasterUi */
-    public PosInvoiceUI() {
+    public PosInvoiceUIE() {
         initComponents();
 
         init();
@@ -81,7 +81,7 @@ public class PosInvoiceUI extends TabPanelUI {
                 //get selected row 
                 //get line item from list 
                 //set seleceted object to lineitempanel
-                SalesInvoiceLineItem sl = PosInvoiceUI.this.getSelectedLine();
+                SalesInvoiceLineItem sl = PosInvoiceUIE.this.getSelectedLine();
                 if (sl == null) {
                     return;
                 }
@@ -363,11 +363,11 @@ public class PosInvoiceUI extends TabPanelUI {
 
             },
             new String [] {
-                "id", "Item Code", "Desc", "Qty", "Unit", "Price", "Line Amount"
+                "id", "Item Code", "Desc", "Qty", "Price", "Line Amount"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -513,6 +513,6 @@ public class PosInvoiceUI extends TabPanelUI {
 //tblInvoice.registerKeyboardAction(ac,enter,JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);*/
 /*
  * make it simple 
- * 
+ * pos without unit -UOM
  * 
  */

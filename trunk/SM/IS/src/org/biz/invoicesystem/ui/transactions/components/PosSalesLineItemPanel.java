@@ -8,7 +8,7 @@
  *
  * Created on Feb 23, 2012, 10:21:43 PM
  */
-package org.biz.invoicesystem.ui.transactions;
+package org.biz.invoicesystem.ui.transactions.components;
 
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
@@ -28,12 +28,12 @@ import org.components.controls.CTextField;
  *
  * @author nnjj
  */
-public class SalesLineItemPanel extends LineItemPanel {
+public class PosSalesLineItemPanel extends LineItemPanel {
 
     
-    SalesInvoiceLineItem salesline;
+    protected SalesInvoiceLineItem salesline;
 
-    public SalesLineItemPanel(JFrame jf) {
+    public PosSalesLineItemPanel(JFrame jf) {
         super(jf);
         initComponents();
 
@@ -91,7 +91,6 @@ public class SalesLineItemPanel extends LineItemPanel {
         
         titemcode.nextFocusableComponent(tdescription);
         tdescription.nextFocusableComponent(tqty);
-        tqty.nextFocusableComponent(tunit);
 //        tunit.nextFocusableComponent(tprice);
         
         tprice.nextFocusableComponent(titemcode);
@@ -120,25 +119,11 @@ public class SalesLineItemPanel extends LineItemPanel {
     }
 
     /** Creates new form LineItemPanel */
-    public SalesLineItemPanel() {
+    public PosSalesLineItemPanel() {
         super();
         initComponents();
 
       
-        tunit.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                    action();
-                    titemcode.requestFocus();
-//                rowToEty();
-                    e.consume();
-                }
-
-            }
-        });
 
 //               Object[][] xx = {{titemcode, tblInvoice}, {tsalesman, ttax}, {ttax, tsubtotal}
 //        };
@@ -169,9 +154,6 @@ public class SalesLineItemPanel extends LineItemPanel {
     public void lineItemLogic() {
         salesline= panelToEty();
         if (salesline.getItem() != null) {
-            if (tunit.hasFocus()) {
-                salesline.getSalesPrice();
-            }
             salesline.setLineAmount(MathUtil.multiply(salesline.getQty(), salesline.getPrice()));
         }
         etyToPanel();
@@ -209,10 +191,8 @@ public class SalesLineItemPanel extends LineItemPanel {
         tqty = new org.components.controls.CTextField();
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
-        tunit = new com.components.custom.DropDownWithButton<UOM>();
 
         setBackground(new java.awt.Color(247, 230, 130));
-        getContentPane().setLayout(null);
         getContentPane().add(titemcode);
         titemcode.setBounds(20, 30, 122, 25);
         getContentPane().add(tdescription);
@@ -223,8 +203,6 @@ public class SalesLineItemPanel extends LineItemPanel {
         tprice.setBounds(610, 30, 120, 25);
         getContentPane().add(tlinetotal);
         tlinetotal.setBounds(740, 30, 140, 25);
-        getContentPane().add(tunit);
-        tunit.setBounds(450, 30, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -238,22 +216,16 @@ public class SalesLineItemPanel extends LineItemPanel {
         return tdescription;
     }
 
-public DropDownWithButton getUnit(){
-return tunit;
-}
     public SalesInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
-        salesline.setUnit(uiEty.tcToStr(tunit.getTextField()));
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
         salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
         
         //get the uom//         salesline.getItem()
 
-        UOM uom=tunit.getSelectedModel();
-       salesline.setUom(uom);
         //ui to ety ..
         return salesline;
     }
@@ -275,7 +247,6 @@ return tunit;
         uiEty.objToUi(tqty, salesline.getQty());
         uiEty.objToUi(tdescription, salesline.getDescription());
         uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tunit.getTextField(), salesline.getUnit());
         uiEty.objToUi(tprice, salesline.getPrice());
 
     }
@@ -288,6 +259,15 @@ return tunit;
     private org.components.controls.CTextField tlinetotal;
     private org.components.controls.CTextField tprice;
     private org.components.controls.CTextField tqty;
-    private com.components.custom.DropDownWithButton<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 }
+
+//
+/**
+ 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
