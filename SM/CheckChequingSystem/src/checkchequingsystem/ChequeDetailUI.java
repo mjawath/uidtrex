@@ -40,7 +40,7 @@ public class ChequeDetailUI extends TabPanelUI {
     /** Creates new form cheques */
     public ChequeDetailUI() {
         initComponents();
-        init();
+//        init();
     }
 
     @Override
@@ -91,9 +91,12 @@ public class ChequeDetailUI extends TabPanelUI {
 
     }
 
+    public Cheques uiety(){
+    return null;
+    }
     @Override
     public void save() {
-
+                
 
         super.save();
     }
@@ -105,6 +108,7 @@ public class ChequeDetailUI extends TabPanelUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cDatePicker1 = new org.components.controls.CDatePicker();
         cLabel1 = new org.components.controls.CLabel();
         tcode = new org.components.controls.CTextField();
         controlPanel1 = new com.components.custom.ControlPanel();
@@ -112,6 +116,7 @@ public class ChequeDetailUI extends TabPanelUI {
         tbranch = new org.components.controls.CTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         cTable1 = new org.components.controls.CTable();
+        cdate = new org.components.controls.CDatePicker();
 
         setLayout(null);
 
@@ -142,11 +147,13 @@ public class ChequeDetailUI extends TabPanelUI {
 
         add(jScrollPane1);
         jScrollPane1.setBounds(90, 290, 580, 150);
+        add(cdate);
+        cdate.setBounds(500, 20, 114, 22);
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public String getTabName() {
-        return "Bank UI";
+        return "cheque system";
     }
 
     @Override
@@ -154,8 +161,10 @@ public class ChequeDetailUI extends TabPanelUI {
         return this;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.components.controls.CDatePicker cDatePicker1;
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CTable cTable1;
+    private org.components.controls.CDatePicker cdate;
     private com.components.custom.ControlPanel controlPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CTextField tbank;
