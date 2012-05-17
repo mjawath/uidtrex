@@ -34,7 +34,6 @@ import org.biz.app.ui.util.uiEty;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
-import sun.reflect.misc.ReflectUtil;
 
 /**
  *
@@ -359,17 +358,9 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "nullfsdf", "nullsdafsadfd", "nullsadfd", "nullgeg"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         cxTable1.setFocusable(false);
         jScrollPane1.setViewportView(cxTable1);
 
