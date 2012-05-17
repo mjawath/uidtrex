@@ -2,21 +2,19 @@
 
 package org.biz.invoicesystem.entity.master;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
-import org.biz.entity.BusObj;
 
 /**
  *
  * @author mjawath
  */
 @Entity
-public class Customer  extends BusObj implements Serializable {
+public class Customer  extends Persons {
   
   
      private String code;
