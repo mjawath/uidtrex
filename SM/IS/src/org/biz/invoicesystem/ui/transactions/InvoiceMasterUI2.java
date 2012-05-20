@@ -189,7 +189,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
             public void search(String qry) {
                 try {
 
-                    setList(itemService.getDao().byCode(qry));
+                    listItem=itemService.getDao().byCode(qry);
+                    setList(listItem);
+                itemSelectionPopup.setObjectToTable(listItem);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -222,6 +224,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 //                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
 //            }
         };
+        itemSelectionPopup.setTitle(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
         itemSelectionPopup.setPropertiesEL(new String[]{"id","code","description"});
 //        itemSelectionPopup.setSelectedColumn(1);
         
@@ -273,7 +276,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 //        cuspop.setSelectedColumn(1);
         cuspop.setNextFocusableComponent(tblInvoice);
 
-
+        
         cuspop.addaction(new ActionTask() {
 
             @Override
@@ -323,8 +326,12 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         };
         salesPopup.setPropertiesEL(new String[]{"id","code","name"});
 
+        
+        
     }
 
+    
+    
     public void events() {
 
 
@@ -775,6 +782,8 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                 return canEdit [columnIndex];
             }
         });
+        tblInvoice.setRowHeight(30);
+        tblInvoice.setRowHeight(30);
         jScrollPane2.setViewportView(tblInvoice);
         tblInvoice.getColumnModel().getColumn(0).setResizable(false);
         tblInvoice.getColumnModel().getColumn(1).setResizable(false);

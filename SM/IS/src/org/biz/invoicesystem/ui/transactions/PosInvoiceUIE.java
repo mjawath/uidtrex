@@ -6,7 +6,6 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
-import org.biz.invoicesystem.ui.transactions.components.SalesLineItemPanel;
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -29,6 +28,7 @@ import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 import org.biz.invoicesystem.system.SystemEntityUtil;
+import org.biz.invoicesystem.ui.transactions.components.PosSalesLineItemPanel;
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
@@ -45,7 +45,7 @@ public class PosInvoiceUIE extends TabPanelUI {
     List<SalesInvoiceLineItem> lineItems;
     SalesInvoiceService servicedao;
     PagedPopUpPanel itemSelectionPopup;
-    SalesLineItemPanel lineItemPanel;
+    PosSalesLineItemPanel lineItemPanel;
 
     /** Creates new form InvoiceMasterUi */
     public PosInvoiceUIE() {
@@ -60,7 +60,7 @@ public class PosInvoiceUIE extends TabPanelUI {
         controlPanel1.setCrudController(this);
         JFrame jf = (JFrame) Sessions.getObj("mainui");
 
-        lineItemPanel = new SalesLineItemPanel(jf) {
+        lineItemPanel = new PosSalesLineItemPanel(jf) {
 
             public SalesInvoiceLineItem panelToEty() {
                 SalesInvoiceLineItem sl = super.panelToEty();
@@ -72,7 +72,7 @@ public class PosInvoiceUIE extends TabPanelUI {
                 //it also done 
                 addsales(sl);
                 //replace selected row
-                //                addToTable(lineItems);
+                //addToTable(lineItems);
 
                 return sl;
             }
@@ -86,7 +86,6 @@ public class PosInvoiceUIE extends TabPanelUI {
                     return;
                 }
                 salesline = sl;
-                loadUnit(sl.getItem());
                 itemSelectionPopup.setPopDesable(true);
                 etyToPanel();
                 itemSelectionPopup.setPopDesable(false);
@@ -125,7 +124,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 
 
 //        tblInvoice.setColumnHeader(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
-        tblInvoice.setPropertiesEL(new String[]{"id", "item.Code", "description", "qty", "Unit", "price", "lineAmount"});
+        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty",  "price", "lineAmount"});
 
         itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
 
@@ -134,6 +133,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 
                     itemSelectionPopup.setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
+                    
                     e.printStackTrace();
                 }
             }
@@ -151,7 +151,6 @@ public class PosInvoiceUIE extends TabPanelUI {
                     }
                 }
                 int sr = tblInvoice.getSelectedRow();
-                loadUnit(item);
                 SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty();
                 lineItem.setItem(item);
                 addsales(lineItem);
@@ -210,11 +209,9 @@ public class PosInvoiceUIE extends TabPanelUI {
 
     private void etyToRow(SalesInvoiceLineItem line) {
 
-        String it = line.getItem() == null ? null : line.getItem().getCode();
-        String itdes = line.getItem() == null ? null : line.getItem().getDescription();
-        TableUtil.replacerowValues(tblInvoice, new Object[]{line.getId(), it, itdes, line.getQty(), line.getUnit(), line.getPrice(), line.getLineAmount()}, tblInvoice.getSelectedRow());
-
+        TableUtil.replaceModel(tblInvoice, line , tblInvoice.getSelectedRow());
     }
+
 
     public SalesInvoiceLineItem getSelectedLine() {
 
@@ -306,17 +303,6 @@ public class PosInvoiceUIE extends TabPanelUI {
 //        uiEty.objToUi(tbal, invoice.setTotal());
     }
 
-    private void loadUnit(Item it) {
-        if (it != null) {
-            lineItemPanel.getUnit().setModel(it.getUoms());
-
-        } else {
-
-            lineItemPanel.getUnit().getModel().clear();
-
-        }
-
-    }
 
     public void setnewrow() {
         TableUtil.addrow(tblInvoice, new Object[]{});
@@ -340,8 +326,6 @@ public class PosInvoiceUIE extends TabPanelUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblInvoice = new org.components.controls.TableEditable();
         cPanel1 = new org.components.containers.CPanel();
         cLabel5 = new org.components.controls.CLabel();
         cLabel7 = new org.components.controls.CLabel();
@@ -355,29 +339,10 @@ public class PosInvoiceUIE extends TabPanelUI {
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInvoice = new org.components.controls.CxTable();
 
         setLayout(null);
-
-        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id", "Item Code", "Desc", "Qty", "Price", "Line Amount"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tblInvoice);
-
-        add(jScrollPane2);
-        jScrollPane2.setBounds(20, 20, 900, 300);
 
         cPanel1.setLayout(null);
 
@@ -435,6 +400,11 @@ public class PosInvoiceUIE extends TabPanelUI {
         cPanel1.setBounds(680, 360, 260, 160);
         add(controlPanel1);
         controlPanel1.setBounds(60, 430, 340, 40);
+
+        jScrollPane1.setViewportView(tblInvoice);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(120, 80, 500, 320);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -481,8 +451,8 @@ public class PosInvoiceUIE extends TabPanelUI {
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
     private com.components.custom.ControlPanel controlPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private org.components.controls.TableEditable tblInvoice;
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CxTable tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
     private org.components.controls.CTextField tdis;
     private org.components.controls.CTextField tfinaltotle;

@@ -240,17 +240,16 @@ public class SalesLineItemPanel extends LineItemPanel {
 public DropDownWithButton getUnit(){
 return tunit;
 }
-    public SalesInvoiceLineItem panelToEty() {
+    
+public SalesInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
         salesline.setUnit(uiEty.tcToStr(tunit.getTextField()));
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
-        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
-        
+        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));        
         //get the uom//         salesline.getItem()
-
         UOM uom=tunit.getSelectedModel();
        salesline.setUom(uom);
         //ui to ety ..
