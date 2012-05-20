@@ -146,9 +146,9 @@ public class ChequeDetailUI extends TabPanelUI {
         jScrollPane1.setViewportView(cTable1);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(90, 290, 580, 150);
+        jScrollPane1.setBounds(20, 290, 700, 190);
         add(cdate);
-        cdate.setBounds(500, 20, 114, 22);
+        cdate.setBounds(500, 20, 104, 22);
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
