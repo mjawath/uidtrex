@@ -28,7 +28,7 @@ import javax.swing.plaf.FontUIResource;
 import org.biz.erp.inventory.ui.WareHouseUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
-import org.biz.invoicesystem.ui.transactions.PosInvoiceUI;
+import org.biz.invoicesystem.ui.transactions.PosInvoiceUIE;
 import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
 
 import org.components.util.Sessions;
@@ -155,7 +155,7 @@ public class MainAppWindow extends app.AppMainWindow {
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
-        addToTabpanelToUI(new PosInvoiceUI(),"  * pos Invoice Master *");
+        addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
         addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
     System.gc();
     }
