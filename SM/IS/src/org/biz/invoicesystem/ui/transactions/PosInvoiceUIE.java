@@ -340,7 +340,7 @@ public class PosInvoiceUIE extends TabPanelUI {
         cLabel15 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblInvoice = new org.components.controls.CxTable();
+        tblInvoice = new org.components.controls.CTableMaster();
 
         setLayout(null);
 
@@ -401,10 +401,18 @@ public class PosInvoiceUIE extends TabPanelUI {
         add(controlPanel1);
         controlPanel1.setBounds(60, 430, 340, 40);
 
+        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "id", "Item Code", "Qty", "Price", "Line Amount"
+            }
+        ));
         jScrollPane1.setViewportView(tblInvoice);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(120, 80, 500, 320);
+        jScrollPane1.setBounds(0, 0, 790, 330);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -452,7 +460,7 @@ public class PosInvoiceUIE extends TabPanelUI {
     private org.components.containers.CPanel cPanel1;
     private com.components.custom.ControlPanel controlPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.components.controls.CxTable tblInvoice;
+    private org.components.controls.CTableMaster tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
     private org.components.controls.CTextField tdis;
     private org.components.controls.CTextField tfinaltotle;

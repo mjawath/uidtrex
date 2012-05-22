@@ -80,7 +80,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
 
-//                //ADD this list to popup
+//                //ADD this list to popupd
 
         listStaff = new ArrayList<Staff>();
 
@@ -180,7 +180,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
         lineItemPanel.setTable(tblInvoice);
         tblInvoice.setColumnHeader(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
-        tblInvoice.setPropertiesEL(new String[]{"id","item.Code","description","qty","Unit","price","lineAmount"});
+        tblInvoice.setPropertiesEL(new String[]{"id","item.code","description","qty","Unit","price","lineAmount"});
         
         lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 

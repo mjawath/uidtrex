@@ -38,8 +38,25 @@ public class dbCreation {
 //                System.out.println(x);
 //            }
 //        }
-        createDataBase();
-        createmster();
+//?        createDataBase();
+//       createmster();
+           List lsts = new ArrayList();
+
+
+        Shop sh = new Shop();
+//        sh.setId("123");
+//        lsts.add(sh);
+
+        for (int i = 0; i < 1500; i++) {
+
+            Shop shx = new Shop();
+            sh.setId(EntityService.getKeyStr());
+            sh.setCode(EntityService.getKeyStr());
+
+            lsts.add(shx);
+        }
+        new GenericDAO<Customer>().saveList(lsts);
+
     }
 
     public static void createmster() {
@@ -55,6 +72,7 @@ public class dbCreation {
 
             Shop shx = new Shop();
             sh.setId(EntityService.getKeyStr());
+            sh.setCode(EntityService.getKeyStr());
 
             lsts.add(shx);
         }
