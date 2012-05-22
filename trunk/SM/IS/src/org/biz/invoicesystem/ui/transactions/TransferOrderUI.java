@@ -71,7 +71,8 @@ public class TransferOrderUI extends TabPanelUI {
             @Override
             public void search(String qry) {
                 try {
-                                    shopService.getDao().getItemByCode(qry);
+                                    
+                    shopService.getDao().getItemByCode(qry);
 
                 } catch (Exception e) {
                 e.printStackTrace();
@@ -87,7 +88,8 @@ public class TransferOrderUI extends TabPanelUI {
             }
     
     };
-    
+    shopPopUpPanel.setPropertiesEL(new String[]{"id","code"});
+//        shopPopUpPanel.setTitle(new String[]{"id","Code"});
     wareHousePopUpPanel= new PagedPopUpPanel(tfromware) {
 
             @Override
