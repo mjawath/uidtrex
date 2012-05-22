@@ -24,8 +24,7 @@ public class ShopDao extends GenericDAO<Shop> {
 
     public List getItemByCode(String qry) {
         String qryx = " c.code like  '" + qry + "%'";
-        shops.clear();
-        shops.addAll(pagedData(qryx, 0));
+        addPagedData(qryx, 0,shops);
         return shops;
     }
 
