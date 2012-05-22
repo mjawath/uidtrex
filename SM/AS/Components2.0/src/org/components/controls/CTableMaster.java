@@ -10,11 +10,6 @@
  */
 package org.components.controls;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 import org.components.parent.controls.PxTable;
 
 /**
@@ -58,6 +53,7 @@ public class CTableMaster extends PxTable {
             }
         ));
         setIntercellSpacing(new java.awt.Dimension(10, 5));
+        setRowHeight(25);
         setSurrendersFocusOnKeystroke(true);
         getTableHeader().setReorderingAllowed(false);
     }// </editor-fold>//GEN-END:initComponents

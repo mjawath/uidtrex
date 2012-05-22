@@ -181,6 +181,15 @@ public class GenericDAO<T> {
         return cc;
     }
 
+    public void addPagedData(String qry, int pageNo,List addto) {
+       addto.clear();
+        List list=pagedData(qry, pageNo);
+        if (list!=null || !list.isEmpty()) {
+            addto.addAll(list);
+        
+        }
+    }
+    
     public List pagedData(String qry, int pageNo) {
         String sq  = createWhere(qry);
 //        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);

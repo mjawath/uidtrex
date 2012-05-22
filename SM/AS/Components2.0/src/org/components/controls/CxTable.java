@@ -86,9 +86,9 @@ public class CxTable extends PxTable {
             }
         ));
         setIntercellSpacing(new java.awt.Dimension(10, 5));
+        setRowHeight(20);
         setSurrendersFocusOnKeystroke(true);
         getTableHeader().setReorderingAllowed(false);
-        setTerminateEditOnFocusLost(false);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
