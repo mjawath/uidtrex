@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.biz.app.ui.util.BizException;
 import org.biz.app.ui.util.ComponentFactory;
 import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
@@ -34,6 +35,7 @@ import org.biz.app.ui.util.uiEty;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
+import org.components.util.SystemException;
 
 /**
  *
@@ -54,16 +56,16 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     boolean moveTonextcom = true;
     List<ActionTask> actionTasks;
     private String property;
-    private  Object model;
-    
+    private Object model;
+
     public int getSelectedColumn() {
         return selectedColumn;
     }
 
     public String getSelectedID() {
-    //get selected item  from objects
-        
-        
+        //get selected item  from objects
+
+
         return selectedID;
     }
 
@@ -83,7 +85,6 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         this.model = model;
     }
 
-    
     public Object getSelectedObject() {
         return selectedObject;
     }
@@ -159,6 +160,11 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void showPopUp() {
         try {
+            if(getPropertiesEL() ==null || getPropertiesEL().length==0)
+throw new BizException("not specified properties ");
+            if(getTbl().getColumnCount()==0)
+throw new BizException("not specified column ");
+            
             if (!jpm.isVisible()) {
                 jpm.setFocusable(false);
                 this.setSize(600, 300);
@@ -247,7 +253,6 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
 
-
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     if (jpm.isVisible()) {
                         KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(cxTable1, e);
@@ -273,36 +278,36 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent e) {
-                if (textField.isFocusOwner() && !popupDisabled) {
-                    search(textField.getText());
-                    setObjectToTable(list);
-                    showPopUp();
-                }
-
+                searchWhenDocumentChange();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                if (textField.isFocusOwner() && !popupDisabled) {
-                    search(textField.getText());
-                    setObjectToTable(list);
-                    showPopUp();
-                }
+                searchWhenDocumentChange();
             }
 
             public void changedUpdate(DocumentEvent e) {
-                if (textField.isFocusOwner() && !popupDisabled) {
-                    search(textField.getText());
-                    setObjectToTable(list);
-                    showPopUp();
-                }
+                searchWhenDocumentChange();
             }
         });
 
 
     }
-//serach sort filter cache and within the cache we we do 
-    //we find our entity
 
+    private void searchWhenDocumentChange() {
+        if (textField.isFocusOwner() && !popupDisabled) {
+            try {
+                search(textField.getText());
+                setObjectToTable(list);
+                showPopUp();
+
+            } catch (Exception ee) {
+                ee.printStackTrace();
+            }
+        }
+    }
+
+    //serach sort filter cache and within the cache we we do 
+    //we find our entity
     public void search(String qry) {
     }
 
@@ -442,11 +447,11 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
                 selectedID = ob.toString();
                 //get selected object
                 for (Object object : list) {
-                   //compare property with Object property ob.equals(object);
-                    System.out.println(ob.equals(ReflectionUtility.getProperty(object, "id") ));
-                    if(ob.equals(ReflectionUtility.getProperty(object, "id") )){
-                    selectedObject = object;
-                    uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, "code"));
+                    //compare property with Object property ob.equals(object);
+                    System.out.println(ob.equals(ReflectionUtility.getProperty(object, "id")));
+                    if (ob.equals(ReflectionUtility.getProperty(object, "id"))) {
+                        selectedObject = object;
+                        uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, "code"));
 
                     }
                 }
@@ -499,15 +504,15 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         return null;
     }
 
-
     public String[] getPropertiesEL() {
         return cxTable1.getPropertiesEL();
     }
 
-    public void setPropertiesEL(String[] propertiesEL) {        
+    public void setPropertiesEL(String[] propertiesEL) {
         cxTable1.setPropertiesEL(propertiesEL);
     }
-    public void setTitle(String[] title) {        
+
+    public void setTitle(String[] title) {
         TableUtil.createTableModel(cxTable1, title);
     }
 }
