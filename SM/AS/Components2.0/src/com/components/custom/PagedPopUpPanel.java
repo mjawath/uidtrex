@@ -35,7 +35,6 @@ import org.biz.app.ui.util.uiEty;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
-import org.components.util.SystemException;
 
 /**
  *
@@ -162,7 +161,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         try {
             if(getPropertiesEL() ==null || getPropertiesEL().length==0)
 throw new BizException("not specified properties ");
-            if(getTbl().getColumnCount()==0)
+            if(cxTable1.getColumnCount()==0)
 throw new BizException("not specified column ");
             
             if (!jpm.isVisible()) {

@@ -11,6 +11,7 @@
 package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.PagedPopUpPanel;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +53,7 @@ public class TransferOrderUI extends TabPanelUI {
     @Override
     public void init() {
     shopService =new ShopService();
-    shops=Collections.emptyList();
+    shops=new ArrayList<Shop>();
     shopService.setList(shops);
     itemService = new ItemService();
     wareHouseService = new WareHouseService();
@@ -61,7 +62,7 @@ public class TransferOrderUI extends TabPanelUI {
   
     warehouses=Collections.emptyList();
     
-    shopPopUpPanel = new PagedPopUpPanel(ttoshop) {
+    shopPopUpPanel = new PagedPopUpPanel(tfromshop) {
 
             @Override
             public void action() {
@@ -88,8 +89,10 @@ public class TransferOrderUI extends TabPanelUI {
             }
     
     };
+    //set list
+    shopPopUpPanel.setList(shops);
     shopPopUpPanel.setPropertiesEL(new String[]{"id","code"});
-//        shopPopUpPanel.setTitle(new String[]{"id","Code"});
+        shopPopUpPanel.setTitle(new String[]{"id","Code"});
     wareHousePopUpPanel= new PagedPopUpPanel(tfromware) {
 
             @Override
@@ -109,7 +112,7 @@ public class TransferOrderUI extends TabPanelUI {
     
     };
 
-    itemPopUpPanel= new PagedPopUpPanel(ttoshop) {
+    itemPopUpPanel= new PagedPopUpPanel(ttowarehouse) {
 
             @Override
             public void action() {
@@ -146,7 +149,8 @@ public class TransferOrderUI extends TabPanelUI {
             }
     
     };
-    
+    shoptoPopUpPanel.setPropertiesEL(new String[]{"id","code"});
+        shoptoPopUpPanel.setTitle(new String[]{"id","Code"});
     wareHousetoPopUpPanel =new PagedPopUpPanel(ttowarehouse) {
 
             @Override
@@ -166,7 +170,7 @@ public class TransferOrderUI extends TabPanelUI {
     
     };
 
-    itemPopUpPanel =new PagedPopUpPanel(ttoshop) {
+    itemPopUpPanel =new PagedPopUpPanel(ttowarehouse) {
 
             @Override
             public void action() {

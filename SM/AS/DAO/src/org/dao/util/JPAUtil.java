@@ -91,7 +91,7 @@ public class JPAUtil {
         Map props = new HashMap();
 //         props.put("eclipselink.jdbc.user","");
 //         props.put("eclipselink.jdbc.password", "");\
-        props.put(PersistenceUnitProperties.APP_LOCATION, "C:\\ddl\\");
+        props.put(PersistenceUnitProperties.APP_LOCATION, "c:\\jobs\\");
         props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
         props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
         
