@@ -38,8 +38,8 @@ public class dbCreation {
 //                System.out.println(x);
 //            }
 //        }
-//?        createDataBase();
-//       createmster();
+        createDataBase();
+       createmster();
            List lsts = new ArrayList();
 
 
@@ -55,7 +55,7 @@ public class dbCreation {
 
             lsts.add(shx);
         }
-        new GenericDAO<Customer>().saveList(lsts);
+//        new GenericDAO<Customer>().saveList(lsts);
 
     }
 
