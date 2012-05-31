@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
  * TransferOrderUI.java
@@ -10,14 +6,19 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
+import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import org.biz.app.ui.util.TableUtil;
+import org.biz.app.ui.util.uiEty;
+import org.biz.invoicesystem.entity.inventory.TransferOrder;
+import org.biz.invoicesystem.entity.inventory.TransferOrderLineItem;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
+import org.biz.invoicesystem.service.inventory.TransferOrderService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.ShopService;
 import org.biz.invoicesystem.service.master.WareHouseService;
@@ -29,21 +30,22 @@ import org.components.windows.TabPanelUI;
  */
 public class TransferOrderUI extends TabPanelUI {
 
-    
     ShopService shopService;
+    TransferOrderService  orderService;
     ItemService itemService;
     WareHouseService wareHouseService;
     List<Item> items;
     List<Shop> shops;
-    List<Warehouse> warehouses; 
-    
-    PagedPopUpPanel shopPopUpPanel;
-    PagedPopUpPanel shoptoPopUpPanel;
-    PagedPopUpPanel itemPopUpPanel;
-    PagedPopUpPanel itemtoPopUpPanel;
-    PagedPopUpPanel wareHousePopUpPanel;
-    PagedPopUpPanel wareHousetoPopUpPanel;
-    
+    List<Warehouse> warehouses;
+    TransferOrder transferOrder;
+    TransferOrderLineItem transferOrderLineItem;
+    List<TransferOrder> transferOrders;
+    PagedPopUpPanel<Shop> shopFromPopUpPanel;
+    PagedPopUpPanel<Shop> shoptoPopUpPanel;
+    PagedPopUpPanel<Item> itemPopUpPanel;
+    PagedPopUpPanel<Warehouse> wareHouseFromPopUpPanel;
+    PagedPopUpPanel<Warehouse> wareHousetoPopUpPanel;
+
     /** Creates new form TransferOrderUI */
     public TransferOrderUI() {
         initComponents();
@@ -52,17 +54,39 @@ public class TransferOrderUI extends TabPanelUI {
 
     @Override
     public void init() {
-    shopService =new ShopService();
-    shops=new ArrayList<Shop>();
-    shopService.setList(shops);
-    itemService = new ItemService();
-    wareHouseService = new WareHouseService();
-    
-    items=Collections.emptyList();
-  
-    warehouses=Collections.emptyList();
-    
-    shopPopUpPanel = new PagedPopUpPanel(tfromshop) {
+
+        transferOrder = new TransferOrder();
+        controlPanel1.setCrudController(this);
+        shopService = new ShopService();
+        shops = new ArrayList<Shop>();
+        itemService = new ItemService();
+        wareHouseService = new WareHouseService();
+
+        items = new ArrayList<Item>();
+
+        warehouses = new ArrayList<Warehouse>();
+
+        shopFromPopUpPanel = new PagedPopUpPanel(tfromshop, shops, new String[]{"id", "code"},
+                new String[]{"id", "Code"}) {
+
+            @Override
+            public void action() {
+            }
+
+            @Override
+            public void search(String qry) {
+                try {
+                    shopFromPopUpPanel.setObjectToTable(shopService.getDao().getItemByCode(qry));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                super.search(qry);
+            }
+        };
+        shopFromPopUpPanel.setSelectedProperty("code");
+
+        itemPopUpPanel = new PagedPopUpPanel<Item>(titem, items, new String[]{"id", "code"}, new String[]{"id", "code"}) {
 
             @Override
             public void action() {
@@ -72,28 +96,49 @@ public class TransferOrderUI extends TabPanelUI {
             @Override
             public void search(String qry) {
                 try {
-                                    
-                    shopService.getDao().getItemByCode(qry);
+                    itemPopUpPanel.setObjectToTable(itemService.getDao().findItemListByCode(qry));
 
                 } catch (Exception e) {
-                e.printStackTrace();
+                    e.printStackTrace();
                 }
-                  
-                
-//                super.search(qry);
+            }
+        };
+        itemPopUpPanel.setSelectedProperty("code");
+
+        shoptoPopUpPanel = new PagedPopUpPanel(ttoshop, shops, new String[]{"id", "code"}, new String[]{"id", "code"}) {
+
+            @Override
+            public void action() {
             }
 
             @Override
-            public Object[] data(Object item) {
-                return super.data(item);
+            public void search(String qry) {
+
+                try {
+
+                    shoptoPopUpPanel.setObjectToTable(shopService.getDao().getItemByCode(qry));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-    
-    };
-    //set list
-    shopPopUpPanel.setList(shops);
-    shopPopUpPanel.setPropertiesEL(new String[]{"id","code"});
-        shopPopUpPanel.setTitle(new String[]{"id","Code"});
-    wareHousePopUpPanel= new PagedPopUpPanel(tfromware) {
+        };
+        shoptoPopUpPanel.setSelectedProperty("code");
+
+        wareHousetoPopUpPanel = new PagedPopUpPanel(ttowarehouse, warehouses, new String[]{"id", "code"}, new String[]{"id", "code"}) {
+
+            @Override
+            public void action() {
+            }
+
+            @Override
+            public void search(String qry) {
+                wareHousetoPopUpPanel.setObjectToTable(wareHouseService.getDao().byCode(qry));
+            }
+        };
+        wareHousetoPopUpPanel.setSelectedProperty("code");
+
+        wareHouseFromPopUpPanel = new PagedPopUpPanel(tfromware, warehouses, new String[]{"id", "code"}, new String[]{"id", "code"}) {
 
             @Override
             public void action() {
@@ -102,104 +147,71 @@ public class TransferOrderUI extends TabPanelUI {
 
             @Override
             public void search(String qry) {
-                super.search(qry);
+                wareHouseFromPopUpPanel.setObjectToTable(wareHouseService.getDao().byCode(qry));
             }
+        };
+        wareHouseFromPopUpPanel.setSelectedProperty("code");
 
-            @Override
-            public Object[] data(Object item) {
-                return super.data(item);
-            }
-    
-    };
+        super.init();
 
-    itemPopUpPanel= new PagedPopUpPanel(ttowarehouse) {
-
-            @Override
-            public void action() {
-                super.action();
-            }
-
-            @Override
-            public void search(String qry) {
-                super.search(qry);
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                return super.data(item);
-            }
-    
-    };
-    
-    shoptoPopUpPanel = new PagedPopUpPanel(ttoshop) {
-
-            @Override
-            public void action() {
-                super.action();
-            }
-
-            @Override
-            public void search(String qry) {
-                super.search(qry);
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                return super.data(item);
-            }
-    
-    };
-    shoptoPopUpPanel.setPropertiesEL(new String[]{"id","code"});
-        shoptoPopUpPanel.setTitle(new String[]{"id","Code"});
-    wareHousetoPopUpPanel =new PagedPopUpPanel(ttowarehouse) {
-
-            @Override
-            public void action() {
-                super.action();
-            }
-
-            @Override
-            public void search(String qry) {
-                super.search(qry);
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                return super.data(item);
-            }
-    
-    };
-
-    itemPopUpPanel =new PagedPopUpPanel(ttowarehouse) {
-
-            @Override
-            public void action() {
-                super.action();
-            }
-
-            @Override
-            public void search(String qry) {
-                
-                super.search(qry);
-            }
-
-            @Override
-            public Object[] data(Object item) {
-                return super.data(item);
-            }
-    
-    };
-
-    
-    
-    
-    
-    super.init();
-        
-        
+        events();
     }
 
+    @Override
+    public void events() {
+        titemmark.addaction(0, new ActionTask() {
+
+            @Override
+            public boolean action() {
+                transferOrder.initialiseList();
+//                transferOrder.getLastItem();
+                //to test the generic behaviour
+                // TODO---make use of generic method implemnetation
+                transferOrderLineItem = uiety();
+                transferOrder.addToList(transferOrderLineItem);
+                addToTable(transferOrder.getItemList());
+
+                return true;
+            }
+        });
+    }
+
+    TransferOrderLineItem uiety(){
+    TransferOrderLineItem to=new TransferOrderLineItem();
+    to.setItem(itemPopUpPanel.getSelectedObject());
+    to.setItemMark(uiEty.tcToStr(titemmark));        
+    to.setQty(uiEty.tcToDouble(tqty));
+    to.setShopFrom(shopFromPopUpPanel.getSelectedObject() );
+    to.setShopTo(shoptoPopUpPanel.getSelectedObject());
+    to.setWareHouseFrom(wareHouseFromPopUpPanel.getSelectedObject());
+    to.setWareHouseTo(wareHousetoPopUpPanel.getSelectedObject());
     
+    return to;
+    }
+    
+    @Override
+    public void save() {
+
+
+        
+           orderService.getDao().save(transferOrder);
+
+    }
+
+
+    public void addToTable(List<TransferOrderLineItem> items) {
+        TableUtil.cleardata(tblTransfer);
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+        for (TransferOrderLineItem line : items) {
+
+            TableUtil.addModelToTable(line, tblTransfer );
+        }
+        TableUtil.addrow(tblTransfer, new Object[]{});
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -208,20 +220,21 @@ public class TransferOrderUI extends TabPanelUI {
         cLabel1 = new org.components.controls.CLabel();
         ttoshop = new org.components.controls.CTextField();
         cLabel2 = new org.components.controls.CLabel();
-        cTextField3 = new org.components.controls.CTextField();
+        titem = new org.components.controls.CTextField();
         cLabel3 = new org.components.controls.CLabel();
-        cTextField4 = new org.components.controls.CTextField();
+        tqty = new org.components.controls.CTextField();
         cLabel4 = new org.components.controls.CLabel();
-        cTextField5 = new org.components.controls.CTextField();
         cLabel5 = new org.components.controls.CLabel();
-        cTextField6 = new org.components.controls.CTextField();
+        titemmark = new org.components.controls.CTextField();
         cLabel6 = new org.components.controls.CLabel();
         tfromshop = new org.components.controls.CTextField();
         cLabel7 = new org.components.controls.CLabel();
         ttowarehouse = new org.components.controls.CTextField();
         cLabel8 = new org.components.controls.CLabel();
+        tunit = new com.components.custom.DropDownWithButton<UOM>();
+        controlPanel1 = new com.components.custom.ControlPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        cTable1 = new org.components.controls.CTable();
+        tblTransfer = new org.components.controls.CTableMaster();
 
         setLayout(null);
 
@@ -242,26 +255,24 @@ public class TransferOrderUI extends TabPanelUI {
         cLabel2.setText("To shop");
         add(cLabel2);
         cLabel2.setBounds(180, 37, 104, 25);
-        add(cTextField3);
-        cTextField3.setBounds(360, 60, 95, 25);
+        add(titem);
+        titem.setBounds(360, 60, 95, 25);
 
         cLabel3.setText("Item");
         add(cLabel3);
         cLabel3.setBounds(320, 30, 104, 25);
-        add(cTextField4);
-        cTextField4.setBounds(80, 200, 140, 30);
+        add(tqty);
+        tqty.setBounds(80, 200, 140, 30);
 
         cLabel4.setText("Qty");
         add(cLabel4);
         cLabel4.setBounds(80, 160, 104, 30);
-        add(cTextField5);
-        cTextField5.setBounds(250, 200, 80, 30);
 
         cLabel5.setText("Unit");
         add(cLabel5);
         cLabel5.setBounds(250, 150, 80, 30);
-        add(cTextField6);
-        cTextField6.setBounds(350, 200, 136, 30);
+        add(titemmark);
+        titemmark.setBounds(350, 200, 136, 30);
 
         cLabel6.setText("Item Mark");
         add(cLabel6);
@@ -278,40 +289,31 @@ public class TransferOrderUI extends TabPanelUI {
         cLabel8.setText("To warehouse");
         add(cLabel8);
         cLabel8.setBounds(170, 90, 104, 25);
+        add(tunit);
+        tunit.setBounds(230, 200, 110, 30);
+        add(controlPanel1);
+        controlPanel1.setBounds(430, 10, 340, 30);
 
-        cTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTransfer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Item Code", "Item Name", "Qty", "UOM", "Shop From", "Shop To", "Ware House From", "Ware House To"
+                "id", "Item Code", "Item Mark", "Qty", "From Shop", "To Shop", "From Warehouse", "To Warehouse"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Short.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, false, true
+                false, false, false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(cTable1);
-        cTable1.getColumnModel().getColumn(0).setResizable(false);
-        cTable1.getColumnModel().getColumn(2).setResizable(false);
-        cTable1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tblTransfer);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(10, 260, 770, 250);
+        jScrollPane1.setBounds(30, 242, 600, 270);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfromwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfromwareActionPerformed
@@ -326,23 +328,23 @@ public class TransferOrderUI extends TabPanelUI {
     private org.components.controls.CLabel cLabel6;
     private org.components.controls.CLabel cLabel7;
     private org.components.controls.CLabel cLabel8;
-    private org.components.controls.CTable cTable1;
-    private org.components.controls.CTextField cTextField3;
-    private org.components.controls.CTextField cTextField4;
-    private org.components.controls.CTextField cTextField5;
-    private org.components.controls.CTextField cTextField6;
+    private com.components.custom.ControlPanel controlPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CTableMaster tblTransfer;
     private org.components.controls.CTextField tfromshop;
     private org.components.controls.CTextField tfromware;
+    private org.components.controls.CTextField titem;
+    private org.components.controls.CTextField titemmark;
+    private org.components.controls.CTextField tqty;
     private org.components.controls.CTextField ttoshop;
     private org.components.controls.CTextField ttowarehouse;
+    private com.components.custom.DropDownWithButton<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public String getTabName() {
         return "Transfer Order UI ";
     }
-    
     /**
      * title
      * 
@@ -352,3 +354,5 @@ public class TransferOrderUI extends TabPanelUI {
      * keys
      */
 }
+//added support for generic method behaviour
+//sub classed the documents to be used as generic implementation

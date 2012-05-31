@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Customer;
@@ -50,7 +51,15 @@ public class PosInvoiceUI extends TabPanelUI {
     /** Creates new form InvoiceMasterUi */
     public PosInvoiceUI() {
         initComponents();
+JTable kk=new JTable(){
 
+            @Override
+            public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+                super.changeSelection(rowIndex, columnIndex, toggle, extend);
+            
+            }
+
+}; 
         init();
     }
 
@@ -60,14 +69,14 @@ public class PosInvoiceUI extends TabPanelUI {
         controlPanel1.setCrudController(this);
         JFrame jf = (JFrame) Sessions.getObj("mainui");
 
-        lineItemPanel = new SalesLineItemPanel(jf) {
+    /*    lineItemPanel = new SalesLineItemPanel(jf) {
 
             public SalesInvoiceLineItem panelToEty() {
                 SalesInvoiceLineItem sl = super.panelToEty();
                 //validated line
                 //update table row
                 //add to list
-                // TODO get uom ????/*/done using the generic 
+                // TODO get uom ????/done using the generic 
                 //what should be done to the uom  comparison
                 //it also done 
                 addsales(sl);
@@ -118,11 +127,11 @@ public class PosInvoiceUI extends TabPanelUI {
 
             }
         };
-
-
-        lineItemPanel.setTable(tblInvoice);
+       lineItemPanel.setTable(tblInvoice);
         lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 
+*/
+ 
 
 //        tblInvoice.setColumnHeader(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
         tblInvoice.setPropertiesEL(new String[]{"id", "item.Code", "description", "qty", "Unit", "price", "lineAmount"});

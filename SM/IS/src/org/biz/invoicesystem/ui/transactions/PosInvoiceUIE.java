@@ -158,10 +158,7 @@ public class PosInvoiceUIE extends TabPanelUI {
                 lineItemPanel.lineItemLogic();
             }
 
-            public Object[] data(Object item) {
-                Item it = (Item) item;
-                return new Object[]{it.getId(), it.getCode(), it.getDescription()};
-            }
+            
         };
         itemSelectionPopup.setPropertiesEL(new String[]{"id", "code", "description"});
         itemSelectionPopup.setTitle(new String[]{"id", "Code", "Description"});
@@ -326,6 +323,8 @@ public class PosInvoiceUIE extends TabPanelUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInvoice = new org.components.controls.CTableMaster();
         cPanel1 = new org.components.containers.CPanel();
         cLabel5 = new org.components.controls.CLabel();
         cLabel7 = new org.components.controls.CLabel();
@@ -339,8 +338,16 @@ public class PosInvoiceUIE extends TabPanelUI {
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblInvoice = new org.components.controls.CTableMaster();
+
+        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
+            }
+        ));
+        jScrollPane1.setViewportView(tblInvoice);
 
         setLayout(null);
 
@@ -397,22 +404,9 @@ public class PosInvoiceUIE extends TabPanelUI {
         cLabel15.setBounds(10, 120, 70, 20);
 
         add(cPanel1);
-        cPanel1.setBounds(680, 360, 260, 160);
+        cPanel1.setBounds(580, 350, 260, 160);
         add(controlPanel1);
         controlPanel1.setBounds(60, 430, 340, 40);
-
-        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "id", "Item Code", "Qty", "Price", "Line Amount"
-            }
-        ));
-        jScrollPane1.setViewportView(tblInvoice);
-
-        add(jScrollPane1);
-        jScrollPane1.setBounds(0, 0, 790, 330);
     }// </editor-fold>//GEN-END:initComponents
 
     
