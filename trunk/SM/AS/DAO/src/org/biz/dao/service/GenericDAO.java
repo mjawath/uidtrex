@@ -11,7 +11,7 @@ import org.eclipse.persistence.queries.ScrollableCursor;
  * @author mjawath
  */
 public class GenericDAO<T> {
-
+    protected List list;
     public static void main(String[] args) {
     }
     private EntityManager em;
@@ -283,19 +283,19 @@ System.out.println("size "+cpageno);
     
     
     public List pagedData(String qry) {
-        String sq = createWhere(qry);
-        
-//        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
-//        if(lst!=null && !lst.isEmpty()){
-//            System.out.println("dddddddddf");
-//            return lst;
-//        }
-        Query qu = GenericDAOUtil.getQuery(sq);
-        int noofrows = 1000;
-        int fr = (2 - 1) * noofrows;
-        qu.setFirstResult(fr);//firstresult
-        qu.setMaxResults(noofrows); //max result = noofrows+ 0
-        return ExecuteQuery(qu);
+//        String sq = createWhere(qry);
+//        
+////        List lst=GenericDAOUtil.getCache().getbySpecialKey(classname, sq,pageNo);
+////        if(lst!=null && !lst.isEmpty()){
+////            System.out.println("dddddddddf");
+////            return lst;
+////        }
+//        Query qu = GenericDAOUtil.getQuery(sq);
+//        int noofrows = 1000;
+//        int fr = (2 - 1) * noofrows;
+//        qu.setFirstResult(fr);//firstresult
+//        qu.setMaxResults(noofrows); //max result = noofrows+ 0
+        return pagedData(qry, 0);
     }
 
     public List pagedDataScr(String qryKey, String qry, int pageNo) {

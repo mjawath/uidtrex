@@ -34,6 +34,7 @@ public class CTableMaster extends PxTable {
 //        action=new TableSelectionAction(this, new HashMap<Integer, TableSelectionAction>());
     }
 
+
     
     
     @SuppressWarnings("unchecked")

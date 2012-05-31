@@ -91,12 +91,17 @@ public class JPAUtil {
         Map props = new HashMap();
 //         props.put("eclipselink.jdbc.user","");
 //         props.put("eclipselink.jdbc.password", "");\
-        props.put(PersistenceUnitProperties.APP_LOCATION, "c:\\jobs\\");
+        props.put(PersistenceUnitProperties.APP_LOCATION, "c:\\ddl\\");
         props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
+        props.put("eclipselink.ddl-generation", "drop-and-create-tables");
         props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
         
         props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InvoicingSystemPU", props);
         entityManagerFactory = emf;
+        for (String string : emf.getProperties().keySet()) {
+            System.out.println(emf.getProperties().get(string));
+        }
+
     }
 }
