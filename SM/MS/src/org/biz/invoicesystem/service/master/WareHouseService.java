@@ -17,5 +17,11 @@ public class WareHouseService extends Service{
     public WareHouseService() {
     dao=new WareHouseDao();
     }
+
+    @Override
+    public WareHouseDao getDao() {
+        return dao;
+    }
+    
     
 }

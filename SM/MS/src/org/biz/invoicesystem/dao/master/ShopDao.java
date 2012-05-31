@@ -15,20 +15,20 @@ import org.biz.invoicesystem.entity.master.Shop;
  */
 public class ShopDao extends GenericDAO<Shop> {
 
-    List shops;
-
+//    List shops;
+    
     public ShopDao() {
         setCls(Shop.class);
-        shops = new ArrayList();
+//        shops = new ArrayList();
     }
 
     public List getItemByCode(String qry) {
         String qryx = " c.code like  '" + qry + "%'";
-        addPagedData(qryx, 0,shops);
-        return shops;
+        return pagedData(qryx, 0);
+        
     }
 
     public void setList(List shops) {
-        this.shops = shops;
+        this.list = shops;
     }
 }
