@@ -50,14 +50,14 @@
     <Component class="org.components.controls.CTextField" name="tprice">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="610" y="30" width="120" height="-1"/>
+          <AbsoluteConstraints x="470" y="30" width="120" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="org.components.controls.CTextField" name="tlinetotal">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="740" y="30" width="140" height="-1"/>
+          <AbsoluteConstraints x="610" y="30" width="140" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>

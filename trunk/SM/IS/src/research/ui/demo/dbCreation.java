@@ -13,6 +13,8 @@ import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.master.Supplier;
+import org.biz.invoicesystem.entity.master.Warehouse;
+import org.dao.util.JPAUtil;
 
 /**
  *
@@ -43,18 +45,6 @@ public class dbCreation {
            List lsts = new ArrayList();
 
 
-        Shop sh = new Shop();
-//        sh.setId("123");
-//        lsts.add(sh);
-
-        for (int i = 0; i < 1500; i++) {
-
-            Shop shx = new Shop();
-            sh.setId(EntityService.getKeyStr());
-            sh.setCode(EntityService.getKeyStr());
-
-            lsts.add(shx);
-        }
 //        new GenericDAO<Customer>().saveList(lsts);
 
     }
@@ -64,15 +54,16 @@ public class dbCreation {
         List lsts = new ArrayList();
 
 
-        Shop sh = new Shop();
-        sh.setId("123");
-        lsts.add(sh);
+        Shop shz = new Shop();
+        shz.setId("123");
+        shz.setCode("12n3");
+        lsts.add(shz);
 
         for (int i = 0; i < 1500; i++) {
 
             Shop shx = new Shop();
-            sh.setId(EntityService.getKeyStr());
-            sh.setCode(EntityService.getKeyStr());
+            shx.setId(EntityService.getKeyStr());
+            shx.setCode(EntityService.getKeyStr());
 
             lsts.add(shx);
         }
@@ -116,9 +107,20 @@ public class dbCreation {
             lst2.add(cus);
         }
         new GenericDAO<Staff>().saveList(lst2);
+        
+       List lstw = new ArrayList();
+        for (int i = 0; i < 1500; i++) {
+            Warehouse cus = new Warehouse();
+            cus.setId(EntityService.getKeyStr());
+            cus.setCode(EntityService.getKeyStr());
+
+            lstw.add(cus);
+        }
+        new GenericDAO<Warehouse>().saveList(lstw);
+
     }
 
     public static void createDataBase() {
-        GenericDAO.createNewDatabase();
+        JPAUtil.createEMFWithCustomProperties();
     }
 }

@@ -200,9 +200,9 @@ public class PosSalesLineItemPanel extends LineItemPanel {
         getContentPane().add(tqty);
         tqty.setBounds(320, 30, 122, 25);
         getContentPane().add(tprice);
-        tprice.setBounds(610, 30, 120, 25);
+        tprice.setBounds(470, 30, 120, 25);
         getContentPane().add(tlinetotal);
-        tlinetotal.setBounds(740, 30, 140, 25);
+        tlinetotal.setBounds(610, 30, 140, 25);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -55,7 +55,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="org.components.controls.CTextField" name="cTextField3">
+    <Component class="org.components.controls.CTextField" name="titem">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="360" y="60" width="95" height="-1"/>
@@ -72,7 +72,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="org.components.controls.CTextField" name="cTextField4">
+    <Component class="org.components.controls.CTextField" name="tqty">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="80" y="200" width="140" height="30"/>
@@ -89,13 +89,6 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="org.components.controls.CTextField" name="cTextField5">
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="250" y="200" width="80" height="30"/>
-        </Constraint>
-      </Constraints>
-    </Component>
     <Component class="org.components.controls.CLabel" name="cLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Unit"/>
@@ -106,7 +99,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="org.components.controls.CTextField" name="cTextField6">
+    <Component class="org.components.controls.CTextField" name="titemmark">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="350" y="200" width="136" height="30"/>
@@ -157,35 +150,52 @@
         </Constraint>
       </Constraints>
     </Component>
+    <Component class="com.components.custom.DropDownWithButton" name="tunit">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;UOM&gt;"/>
+      </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="230" y="200" width="110" height="30"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="com.components.custom.ControlPanel" name="controlPanel1">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="430" y="10" width="340" height="30"/>
+        </Constraint>
+      </Constraints>
+    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="10" y="260" width="770" height="250"/>
+          <AbsoluteConstraints x="30" y="242" width="600" height="270"/>
         </Constraint>
       </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="org.components.controls.CTable" name="cTable1">
+        <Component class="org.components.controls.CTableMaster" name="tblTransfer">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="8" rowCount="4">
-                <Column editable="false" title="Item Code" type="java.lang.String"/>
-                <Column editable="false" title="Item Name" type="java.lang.String"/>
-                <Column editable="false" title="Qty" type="java.lang.Double"/>
-                <Column editable="false" title="UOM" type="java.lang.Short"/>
-                <Column editable="true" title="Shop From" type="java.lang.String"/>
-                <Column editable="true" title="Shop To" type="java.lang.String"/>
-                <Column editable="false" title="Ware House From" type="java.lang.String"/>
-                <Column editable="true" title="Ware House To" type="java.lang.String"/>
+              <Table columnCount="8" rowCount="0">
+                <Column editable="false" title="id" type="java.lang.Object"/>
+                <Column editable="false" title="Item Code" type="java.lang.Object"/>
+                <Column editable="false" title="Item Mark" type="java.lang.Object"/>
+                <Column editable="false" title="Qty" type="java.lang.Object"/>
+                <Column editable="false" title="From Shop" type="java.lang.Object"/>
+                <Column editable="false" title="To Shop" type="java.lang.Object"/>
+                <Column editable="false" title="From Warehouse" type="java.lang.Object"/>
+                <Column editable="false" title="To Warehouse" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -195,12 +205,12 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
