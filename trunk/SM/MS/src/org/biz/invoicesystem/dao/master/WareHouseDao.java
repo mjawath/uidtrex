@@ -4,6 +4,7 @@
  */
 package org.biz.invoicesystem.dao.master;
 
+import java.util.List;
 import org.biz.dao.service.GenericDAO;
 import org.biz.invoicesystem.entity.master.Warehouse;
 
@@ -16,5 +17,12 @@ public class WareHouseDao extends GenericDAO<Warehouse> {
     public WareHouseDao() {
     setCls(Warehouse.class);
     }
+    
+    public List byCode(String qry){
+        String qryx = " c.code like  '" + qry + "%'";
+    return pagedData(qryx);
+    }
+    
+    
     
 }
