@@ -6,13 +6,9 @@ package org.biz.dao.service;
  */
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
@@ -20,7 +16,6 @@ import org.biz.dao.util.EntityService;
 import org.biz.entity.BusObj;
 import org.dao.util.DAOException;
 import org.dao.util.JPAUtil;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 /**
  * @author mjawath

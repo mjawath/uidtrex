@@ -134,6 +134,7 @@ public class TableEditable extends PxTable {
 //            editCellAt(rowIndex, columnIndex);
 //            prepareEditor(this.getCellEditor(rowIndex, columnIndex), rowIndex, columnIndex);
         }
+        editCellAt(sr, columnIndex);
     }
 
     

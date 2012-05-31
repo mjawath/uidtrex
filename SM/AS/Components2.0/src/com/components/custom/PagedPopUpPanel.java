@@ -40,13 +40,13 @@ import org.components.parent.controls.editors.TablePopUpCellEditor;
  *
  * @author nnjj
  */
-public abstract class PagedPopUpPanel extends javax.swing.JPanel {
+public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
 
     JTable tbl;
     CTextField textField;
     TablePopUpCellEditor editor;
     int selectedColumn = 0;
-    Object selectedObject;
+    T selectedObject;
     String selectedID;
     String pageKey;
     List list;
@@ -54,7 +54,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
     JComponent nextFocusableComponent;
     boolean moveTonextcom = true;
     List<ActionTask> actionTasks;
-    private String property;
+    private String selectedProperty;
     private Object model;
 
     public int getSelectedColumn() {
@@ -68,12 +68,12 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         return selectedID;
     }
 
-    public String getProperty() {
-        return property;
+    public String getSelectedProperty() {
+        return selectedProperty;
     }
 
-    public void setProperty(String property) {
-        this.property = property;
+    public void setSelectedProperty(String property) {
+        this.selectedProperty = property;
     }
 
     public Object getModel() {
@@ -84,7 +84,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         this.model = model;
     }
 
-    public Object getSelectedObject() {
+    public T getSelectedObject() {
         return selectedObject;
     }
 
@@ -96,7 +96,7 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
         this.selectedID = selectedID;
     }
 
-    public void setSelectedObject(Object selectedObject) {
+    public void setSelectedObject(T selectedObject) {
         this.selectedObject = selectedObject;
     }
 
@@ -151,6 +151,13 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     }
 
+    public PagedPopUpPanel(CTextField field, List model, String[] columnproperties, String[] columnTitle) {
+        this(field);
+        list = model;
+        setPropertiesEL(columnproperties);
+        setTitle(columnTitle);
+    }
+
     public PagedPopUpPanel() {
         initComponents();
         tbl = new JTable();
@@ -159,11 +166,13 @@ public abstract class PagedPopUpPanel extends javax.swing.JPanel {
 
     public void showPopUp() {
         try {
-            if(getPropertiesEL() ==null || getPropertiesEL().length==0)
-throw new BizException("not specified properties ");
-            if(cxTable1.getColumnCount()==0)
-throw new BizException("not specified column ");
-            
+            if (getPropertiesEL() == null || getPropertiesEL().length == 0) {
+                throw new BizException("not specified properties ");
+            }
+            if (cxTable1.getColumnCount() == 0) {
+                throw new BizException("not specified column ");
+            }
+
             if (!jpm.isVisible()) {
                 jpm.setFocusable(false);
                 this.setSize(600, 300);
@@ -449,8 +458,8 @@ throw new BizException("not specified column ");
                     //compare property with Object property ob.equals(object);
                     System.out.println(ob.equals(ReflectionUtility.getProperty(object, "id")));
                     if (ob.equals(ReflectionUtility.getProperty(object, "id"))) {
-                        selectedObject = object;
-                        uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, "code"));
+                        selectedObject = (T)object;//selected object can i make it generic
+                        uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, getSelectedProperty()));
 
                     }
                 }
@@ -463,6 +472,8 @@ throw new BizException("not specified column ");
 
     }
 
+    
+    
     public void closePopup() {
         if (jpm.isVisible()) {
             jpm.setVisible(false);
