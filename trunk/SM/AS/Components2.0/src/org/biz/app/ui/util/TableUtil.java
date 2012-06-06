@@ -13,9 +13,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 //import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.jexl2.JexlEngine;
+import org.components.controls.CxTable;
 import org.components.parent.controls.PxTable;
 import org.components.parent.controls.editors.CellEditor;
+import org.jdesktop.swingx.JXTable;
 
 /**
  *

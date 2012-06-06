@@ -53,8 +53,10 @@ public class CTableMaster extends PxTable {
                 "col 1", "col 2", "col 3", "col 4"
             }
         ));
+        setEditable(false);
         setIntercellSpacing(new java.awt.Dimension(10, 5));
         setRowHeight(25);
+        setRowHeight(30);
         setSurrendersFocusOnKeystroke(true);
         getTableHeader().setReorderingAllowed(false);
     }// </editor-fold>//GEN-END:initComponents
