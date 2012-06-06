@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
+import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.inventory.TransferOrder;
 import org.biz.invoicesystem.entity.inventory.TransferOrderLineItem;
 import org.biz.invoicesystem.entity.master.Item;
@@ -31,7 +32,7 @@ import org.components.windows.TabPanelUI;
 public class TransferOrderUI extends TabPanelUI {
 
     ShopService shopService;
-    TransferOrderService  orderService;
+    TransferOrderService orderService;
     ItemService itemService;
     WareHouseService wareHouseService;
     List<Item> items;
@@ -55,7 +56,10 @@ public class TransferOrderUI extends TabPanelUI {
     @Override
     public void init() {
 
+        tblTransfer.setPropertiesEL(new String[]{"id","item.code","shopFrom.code","shopTo.code","wareHouseFrom.code","wareHouseTo.code","qty","itemMark"});
+        tblTransfer.setColumnHeader(new String[]{"id","Item code","description","Shop To","Shop From","WareHouse From","WareHouse To","Qty","Item Mark"});
         transferOrder = new TransferOrder();
+        orderService=new TransferOrderService();
         controlPanel1.setCrudController(this);
         shopService = new ShopService();
         shops = new ArrayList<Shop>();
@@ -167,7 +171,10 @@ public class TransferOrderUI extends TabPanelUI {
 //                transferOrder.getLastItem();
                 //to test the generic behaviour
                 // TODO---make use of generic method implemnetation
-                transferOrderLineItem = uiety();
+                TransferOrderLineItem item = transferOrderLineItem = uiety();
+                //validate the transfer order line item 
+                //add to the list
+                item.setId(EntityService.getKeyStr());
                 transferOrder.addToList(transferOrderLineItem);
                 addToTable(transferOrder.getItemList());
 
@@ -176,41 +183,52 @@ public class TransferOrderUI extends TabPanelUI {
         });
     }
 
-    TransferOrderLineItem uiety(){
-    TransferOrderLineItem to=new TransferOrderLineItem();
-    to.setItem(itemPopUpPanel.getSelectedObject());
-    to.setItemMark(uiEty.tcToStr(titemmark));        
-    to.setQty(uiEty.tcToDouble(tqty));
-    to.setShopFrom(shopFromPopUpPanel.getSelectedObject() );
-    to.setShopTo(shoptoPopUpPanel.getSelectedObject());
-    to.setWareHouseFrom(wareHouseFromPopUpPanel.getSelectedObject());
-    to.setWareHouseTo(wareHousetoPopUpPanel.getSelectedObject());
-    
-    return to;
+    TransferOrderLineItem uiety() {
+        TransferOrderLineItem to = new TransferOrderLineItem();
+        to.setItem(itemPopUpPanel.getSelectedObject());
+        to.setItemMark(uiEty.tcToStr(titemmark));
+        to.setQty(uiEty.tcToDouble(tqty));
+        to.setShopFrom(shopFromPopUpPanel.getSelectedObject());
+        to.setShopTo(shoptoPopUpPanel.getSelectedObject());
+        to.setWareHouseFrom(wareHouseFromPopUpPanel.getSelectedObject());
+        to.setWareHouseTo(wareHousetoPopUpPanel.getSelectedObject());
+
+        return to;
     }
-    
+
     @Override
     public void save() {
+        //must not be empty or null
+        if (transferOrder.getLastItem()!=null || !transferOrder.getItemList().isEmpty()) {
 
+                orderService.getDao().save(transferOrder);
 
-        
-           orderService.getDao().save(transferOrder);
+        }
+        clear();
 
     }
-
 
     public void addToTable(List<TransferOrderLineItem> items) {
-        TableUtil.cleardata(tblTransfer);
-        if (items == null || items.isEmpty()) {
-            return;
-        }
-        for (TransferOrderLineItem line : items) {
-
-            TableUtil.addModelToTable(line, tblTransfer );
-        }
-        TableUtil.addrow(tblTransfer, new Object[]{});
-
+        tblTransfer.modelToTable(items);
+        tblTransfer.addrow(new Object[]{});
     }
+    
+
+    @Override
+    public void clear() {
+
+        tfromshop.setText("");
+        tfromware.setText("");
+        titem.setText("");
+        titemmark.setText("");
+        tqty.setText("");
+        ttoshop.setText("");
+        ttowarehouse.setText("");
+        ttowarehouse.setText("");
+        super.clear();
+    }
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

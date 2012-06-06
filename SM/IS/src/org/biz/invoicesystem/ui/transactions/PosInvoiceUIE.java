@@ -162,7 +162,7 @@ public class PosInvoiceUIE extends TabPanelUI {
         };
         itemSelectionPopup.setPropertiesEL(new String[]{"id", "code", "description"});
         itemSelectionPopup.setTitle(new String[]{"id", "Code", "Description"});
-
+        itemSelectionPopup.setSelectedProperty("code");
 
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
@@ -323,8 +323,6 @@ public class PosInvoiceUIE extends TabPanelUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblInvoice = new org.components.controls.CTableMaster();
         cPanel1 = new org.components.containers.CPanel();
         cLabel5 = new org.components.controls.CLabel();
         cLabel7 = new org.components.controls.CLabel();
@@ -338,16 +336,8 @@ public class PosInvoiceUIE extends TabPanelUI {
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
-
-        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
-            }
-        ));
-        jScrollPane1.setViewportView(tblInvoice);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInvoice = new org.components.controls.CTableMaster();
 
         setLayout(null);
 
@@ -407,10 +397,26 @@ public class PosInvoiceUIE extends TabPanelUI {
         cPanel1.setBounds(580, 350, 260, 160);
         add(controlPanel1);
         controlPanel1.setBounds(60, 430, 340, 40);
+
+        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
+            }
+        ));
+        jScrollPane1.setViewportView(tblInvoice);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(0, 0, 880, 300);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-        public  void save() {                                         
+/**
+     * using a pos inventory for tracking pos stock
+     * i would be needed 
+     */
+    public  void save() {
 
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
@@ -429,10 +435,9 @@ public class PosInvoiceUIE extends TabPanelUI {
 
 
 
-    }                                        
+    }   
 
 
-    
     public void clear() {
 
         invoice = SalesInvoice.createNewInvoice();
@@ -444,6 +449,12 @@ public class PosInvoiceUIE extends TabPanelUI {
 //        uiEty.setcombomodel(new String[]{}, lineItemPanel.getUnitCombo());
 
     }
+
+    public void updatePosInvoice(){
+    
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel10;
     private org.components.controls.CLabel cLabel15;
@@ -486,5 +497,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 /*
  * make it simple 
  * pos without unit -UOM
- * 
+ *
+ * pos invoice invoice which can be used with the
+ *
  */
