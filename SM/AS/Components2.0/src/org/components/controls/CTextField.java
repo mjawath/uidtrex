@@ -209,7 +209,7 @@ public class CTextField extends PTextField {
 
     }
     
-        public  Double getDoubleValue() {
+    public  Double getDoubleValue() {
 
         try {
             String s = null;
@@ -224,6 +224,11 @@ public class CTextField extends PTextField {
 
     }
     
+    public void clear(){
+    this.setText("");
+    this.setToolTipText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
