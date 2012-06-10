@@ -495,4 +495,8 @@ public class TableUtil {
         replacerow(table, row,point);
 
     }
+    public static void replaceSelectedModel(PxTable table, Object obj){
+     if(table.getSelectedRow()>-1)
+        replaceModel(table, obj, table.getSelectedRow());
+    }
 }

@@ -10,7 +10,9 @@
  */
 package org.components.parent.controls;
 
-import org.components.controls.*;
+import app.utils.SystemUtil;
+import com.components.custom.IComponent;
+import com.components.custom.IContainer;
 import java.awt.event.FocusEvent;
 import javax.swing.SwingUtilities;
 
@@ -18,7 +20,19 @@ import javax.swing.SwingUtilities;
  *
  * @author nano
  */
-public class PTextField extends javax.swing.JTextField {
+public class PTextField extends javax.swing.JTextField implements IComponent{
+
+    protected  IContainer container;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     @Override
     protected void processFocusEvent(FocusEvent e) {
@@ -59,6 +73,8 @@ public class PTextField extends javax.swing.JTextField {
     /** Creates new form BeanForm */
     public PTextField() {
         initComponents();
+        id=SystemUtil.getKeyStr();
+
     }
 
     /** This method is called from within the constructor to
@@ -93,4 +109,14 @@ public class PTextField extends javax.swing.JTextField {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setContainer(IContainer con) {
+        this.container =con;
+    }
+
+    public IContainer getContainer() {
+        return container;
+    }
+    
 }

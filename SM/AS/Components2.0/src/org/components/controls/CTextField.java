@@ -28,7 +28,7 @@ import org.components.parent.controls.PTextField;
  */
 public class CTextField extends PTextField {
 
-    IContainer container;
+
     JComponent nextFocusableComponent;
     JComponent previouseFocusedComponent;
     List<ActionTask> actionTasks;
@@ -91,9 +91,11 @@ public class CTextField extends PTextField {
                             actionTask.action();
                         }
                     }
-                    if (nextFocusableComponent != null && moveTonextcom) {
-                        nextFocusableComponent.requestFocus();
-                    }
+                    if(getContainer()!=null)
+                    getContainer().gotoNextComponent();
+//                    if (nextFocusableComponent != null && moveTonextcom) {
+//                        nextFocusableComponent.requestFocus();
+//                    }
                     // just change the focus 
                 }
 //                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
