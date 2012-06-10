@@ -295,6 +295,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             cPanel4.revalidate();
 
             images.clear();
+            tItemcode.requestFocus();
         } catch (Exception e) {
         }
 
@@ -352,6 +353,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVariation = new javax.swing.JTable();
         tVariationPrice1 = new org.components.controls.CTextField();
+        tItemTrakSerial = new org.components.controls.CCheckBox();
         tItemCostPrice = new org.components.controls.CTextField();
         tItemMinimumStock = new org.components.controls.CTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -430,7 +432,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel14 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         cPanel2 = new org.components.containers.CPanel();
-        tItemTrakSerial = new org.components.controls.CCheckBox();
         tItemTrakExpiry = new org.components.controls.CCheckBox();
         tItemTrakNonStockItem = new org.components.controls.CCheckBox();
         tItemTrakInactive = new org.components.controls.CCheckBox();
@@ -507,6 +508,13 @@ public class ItemMasterUI2 extends TabPanelUI {
         });
         cPanel1.add(tVariationPrice1);
         tVariationPrice1.setBounds(150, 30, 140, 25);
+
+        tItemTrakSerial.setText("Track Serial Number");
+        tItemTrakSerial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tItemTrakSerial.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tItemTrakSerial.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tItemTrakSerial.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        tItemTrakSerial.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         setLayout(null);
         add(tItemCostPrice);
@@ -854,7 +862,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         jScrollPane4.setViewportView(tMetaInfo);
 
         cPanel3.add(jScrollPane4);
-        jScrollPane4.setBounds(10, 80, 440, 76);
+        jScrollPane4.setBounds(10, 80, 440, 96);
 
         cLabel3.setText("Meta Information ");
         cPanel3.add(cLabel3);
@@ -910,15 +918,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel11.setBounds(20, 260, 60, 30);
 
         cPanel2.setLayout(null);
-
-        tItemTrakSerial.setText("Track Serial Number");
-        tItemTrakSerial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tItemTrakSerial.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tItemTrakSerial.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tItemTrakSerial.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        tItemTrakSerial.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        cPanel2.add(tItemTrakSerial);
-        tItemTrakSerial.setBounds(0, 0, 110, 40);
 
         tItemTrakExpiry.setText("Track Expiry ");
         tItemTrakExpiry.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1971,7 +1970,9 @@ public class ItemMasterUI2 extends TabPanelUI {
  * if one item is selected then modify it
  * if nothing selected then create new 
  * 
- 
+ ****************
+ * item mark should be  considered agains !!!!!
+ * 
  
  
  
