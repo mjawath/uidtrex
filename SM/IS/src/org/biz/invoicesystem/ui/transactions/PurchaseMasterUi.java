@@ -615,7 +615,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         tblInvoice.getColumnModel().getColumn(6).setResizable(false);
 
         add(jScrollPane2);
-        jScrollPane2.setBounds(10, 150, 940, 190);
+        jScrollPane2.setBounds(10, 160, 940, 180);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField2ActionPerformed
@@ -674,6 +674,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         
 
     }
+    
     private void cTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTextField9ActionPerformed
 }//GEN-LAST:event_cTextField9ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

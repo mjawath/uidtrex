@@ -99,7 +99,6 @@ public class PosInvoiceUIE extends TabPanelUI {
                     sl.setId(System.currentTimeMillis() + "tt");
                 }
 
-
                 etyToRow(sl);
                 uiety();
                 invoice.setTotal();
@@ -117,8 +116,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 
             }
         };
-
-
+        
         lineItemPanel.setTable(tblInvoice);
         lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 
@@ -130,7 +128,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 
             public void search(String qry) {
                 try {
-
+                //how about searching the pos invnetory for the items
                     itemSelectionPopup.setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
                     
@@ -201,12 +199,16 @@ public class PosInvoiceUIE extends TabPanelUI {
 
         setnewrow();
 
+        addToFocus(tsubtotal);
+        addToFocus(ttax);
+        addToFocus(tdis);
+
 
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
 
-        TableUtil.replaceModel(tblInvoice, line , tblInvoice.getSelectedRow());
+        tblInvoice.replaceModel( line );
     }
 
 
@@ -308,15 +310,9 @@ public class PosInvoiceUIE extends TabPanelUI {
     }
 
     public void addToTable(List<SalesInvoiceLineItem> items) {
-        TableUtil.cleardata(tblInvoice);
-        if (items == null || items.isEmpty()) {
-            return;
-        }
-        for (SalesInvoiceLineItem item : items) {
-            TableUtil.addrow(tblInvoice, new Object[]{item.getId(), item.getItem().getCode(), item.getQty()
-                    });
-        }
-        TableUtil.addrow(tblInvoice, new Object[]{TableUtil.newRowID});
+
+        tblInvoice.modelToTable(items);
+        tblInvoice.addrow( new Object[]{});
     }
 
     @SuppressWarnings("unchecked")
@@ -400,7 +396,45 @@ public class PosInvoiceUIE extends TabPanelUI {
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
@@ -426,7 +460,8 @@ public class PosInvoiceUIE extends TabPanelUI {
         }
 
 
-        servicedao.createInventoryJournal(invoice);
+        //pos inventory will be updated
+        servicedao.createInventoryJournalForPos(invoice);
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);
@@ -439,7 +474,7 @@ public class PosInvoiceUIE extends TabPanelUI {
 
 
     public void clear() {
-
+        System.out.println("comp  "+tsubtotal.toString());
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);

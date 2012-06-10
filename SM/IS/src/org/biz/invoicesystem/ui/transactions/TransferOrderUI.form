@@ -102,7 +102,7 @@
     <Component class="org.components.controls.CTextField" name="titemmark">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="350" y="200" width="136" height="30"/>
+          <AbsoluteConstraints x="400" y="200" width="136" height="30"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -156,7 +156,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="230" y="200" width="110" height="30"/>
+          <AbsoluteConstraints x="230" y="200" width="160" height="30"/>
         </Constraint>
       </Constraints>
     </Component>

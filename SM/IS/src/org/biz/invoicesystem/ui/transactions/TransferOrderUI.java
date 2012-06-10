@@ -10,7 +10,6 @@ import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.util.ArrayList;
 import java.util.List;
-import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.inventory.TransferOrder;
@@ -290,7 +289,7 @@ public class TransferOrderUI extends TabPanelUI {
         add(cLabel5);
         cLabel5.setBounds(250, 150, 80, 30);
         add(titemmark);
-        titemmark.setBounds(350, 200, 136, 30);
+        titemmark.setBounds(400, 200, 136, 30);
 
         cLabel6.setText("Item Mark");
         add(cLabel6);
@@ -308,7 +307,7 @@ public class TransferOrderUI extends TabPanelUI {
         add(cLabel8);
         cLabel8.setBounds(170, 90, 104, 25);
         add(tunit);
-        tunit.setBounds(230, 200, 110, 30);
+        tunit.setBounds(230, 200, 160, 30);
         add(controlPanel1);
         controlPanel1.setBounds(430, 10, 340, 30);
 

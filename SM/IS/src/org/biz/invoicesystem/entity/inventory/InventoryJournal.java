@@ -20,21 +20,33 @@ import org.biz.invoicesystem.entity.master.Shop;
 
 /**
  *
- * @author Administrator
+ * @author Admin
  */
 @Entity
 public class InventoryJournal  extends BusObj implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-   
+    public  static final long serialVersionUID = 1L;
+    public  static final Byte pos_Invoice =0;
+    public  static final Byte sales_Invoice = 1;
+    public  static final Byte Item_In = 1;
+    public  static final Byte Item_Out = 0;
+
     private String code;
-    private String documentType;//invoice //transferorder//begbalance//adjestments
+    private Byte documentType;//invoice //transferorder//begbalance//adjestments
     private String documentClass;//classs type of document
     private String refCode;//reference document ids
     @JoinColumn(name = "inv_id")    
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval=true)
     List<InventoryJournalLine> lines;
-    
+    private Byte  inOrOut; // to represent the state of  inventory entry in a top level 
+
+    public Byte getInOrOut() {
+        return inOrOut;
+    }
+
+    public void setInOrOut(Byte inOrOut) {
+        this.inOrOut = inOrOut;
+    }
     @OneToOne
     private Shop shop;
     @OneToOne
@@ -60,11 +72,11 @@ public class InventoryJournal  extends BusObj implements Serializable {
     lines.add(ij);
     }
     
-    public String getDocumentType() {
+    public Byte getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(String documentType) {
+    public void setDocumentType(Byte documentType) {
         this.documentType = documentType;
     }
 
@@ -201,3 +213,12 @@ public class InventoryJournal  extends BusObj implements Serializable {
         
     }
 }
+/*
+
+  top level implementation of the inventory .
+ * as a journal so that data mining can be eased 
+
+
+ */
+
+

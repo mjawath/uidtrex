@@ -10,6 +10,7 @@ package invoicingsystem;
  *
  * Created on Dec 13, 2010, 10:16:22 PM
  */
+import app.AppMainWindow;
 import checkchequingsystem.BankBranchDetailUI;
 import checkchequingsystem.BankDetailUI;
 import checkchequingsystem.ChequeDetailUI;
@@ -34,11 +35,12 @@ import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
+
 /**
  *
  * @author mjawath
  */
-public class MainAppWindow extends app.AppMainWindow {
+public class MainAppWindow extends AppMainWindow {
 
     public MainAppWindow() {
         try {
