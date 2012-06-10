@@ -52,5 +52,30 @@ public class SalesInvoiceService extends Service {
         dao.save(invoice,ij);
     }
 
-    
+
+    public void createInventoryJournalForPos(SalesInvoice invoice){
+       invoice.setId(EntityService.getKeys());
+        //inventory journal
+        InventoryJournal ij=new InventoryJournal();
+        ij.setId(   EntityService.getKeys()) ;
+        ij.setDocumentType(InventoryJournal.pos_Invoice);
+        ij.setInOrOut(InventoryJournal.Item_In);
+        for (SalesInvoiceLineItem sl : invoice.getLineItems()) {
+            InventoryJournalLine ijl=new InventoryJournalLine();
+            ijl.setId(sl.getId());
+            ijl.setItem(sl.getItem());
+            ijl.setQty(sl.getQty());
+
+            ijl.setShop(sl.getShop());
+            ijl.setItemMark(sl.getItemMark());
+            ijl.setWarehouse(sl.getWarehouse());
+            ij.addIJLine(ijl);
+//            ijl.setShop(invoice.gets);
+//            jt
+                    //shop ware houses
+//            ijl.setUom(sl.getQty());
+        }
+        dao.save(invoice,ij);
+    }
+
 }

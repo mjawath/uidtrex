@@ -10,6 +10,8 @@
  */
 package invoicingsystem;
 
+import com.components.custom.IComponent;
+import com.components.custom.IContainer;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
@@ -21,10 +23,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -36,12 +38,13 @@ import org.biz.app.ui.util.uiEty;
  *
  * @author nnjj
  */
-public class LineItemPanel extends javax.swing.JDialog {
+public class LineItemPanel extends javax.swing.JDialog implements IContainer {
 
     protected Object lineitem;
 
     public LineItemPanel(JFrame jf) {
         super(jf, true);
+      
         init();
     }
 
@@ -53,7 +56,7 @@ public class LineItemPanel extends javax.swing.JDialog {
     }
 
     private void init() {
-
+        
         setModal(true);
 
         this.setModalityType(ModalityType.MODELESS);
@@ -226,4 +229,39 @@ public class LineItemPanel extends javax.swing.JDialog {
 
     public void selectEty() {
     }
+
+    @Override
+    public void gotoNextComponent() {
+        //get current focused compnentt
+        Component jc=KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+
+        //find from compnent list
+        int x=0;
+        for (IComponent com : focus) {
+            if(  com==jc){
+            if(x>=0 && x< focus.size()-1){
+                IComponent yx=focus.get(x+1);
+            ((Component)yx).requestFocus();
+            return;
+            }
+            }
+            x++;
+        }
+
+    }
+
+
+    public void addToFocus(IComponent com){
+    focus.add(com);
+    com.setContainer(this);
+
+    }
+
+    private List<IComponent> focus;
+
+    @Override
+    public void callBackAction() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

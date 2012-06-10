@@ -12,15 +12,12 @@ package org.biz.invoicesystem.ui.transactions.components;
 
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
-import com.components.custom.DropDownWithButton;
 import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
-import org.biz.invoicesystem.entity.master.Item;
-import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.controls.CTextField;
 
@@ -36,85 +33,9 @@ public class PosSalesLineItemPanel extends LineItemPanel {
     public PosSalesLineItemPanel(JFrame jf) {
         super(jf);
         initComponents();
-
+        init();
    
-        tprice.addKeyListener(new KeyAdapter() {
-
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    action();
-                    titemcode.requestFocus();
-//                rowToEty();
-                    e.consume();
-                }
-            }
-        });
-
-
-
-//        titemcode.addActionListener(new ActionTask(tdescription));
-//        tdescription.addActionListener(new ActionTask(tdescription));
-        //order of tabbing
-
-//        Object [][] xx=new Object[][]{{titemcode,new ActionTask()},{tdescription},{tqty}};
-
-//        titemcode.addKeyListener(new KeyAdapter() {
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                super.keyPressed(e);
-//            }
-//        
-//        });        
-
-
-
-      /*  tdescription.setInputVerifier(new CInputVerifier(tqty){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tqty.setInputVerifier(new CInputVerifier(tunit){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tprice.setInputVerifier(new CInputVerifier(tprice){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-*/
-        
-        titemcode.nextFocusableComponent(tdescription);
-        tdescription.nextFocusableComponent(tqty);
-//        tunit.nextFocusableComponent(tprice);
-        
-        tprice.nextFocusableComponent(titemcode);
-        titemcode.addaction(2, new ActionTask(){           
-            public boolean action() {
-                    lineItemLogic();
-                return super.action();
-            }        
-        });
-        tqty.addaction(0, new ActionTask(){
-
-            @Override
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        
-        });
-        tprice.addaction(0, new ActionTask(){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }        
-        });
+     
         
     }
 
@@ -147,6 +68,111 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
 //        tunit.setActionTask(new ActionTask(tprice));
 
+    tprice.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            lineItemLogic();
+            }
+        });
+
+    }
+
+    public void init(){
+
+
+        
+
+       tprice.addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//                    action();
+//                    titemcode.requestFocus();
+////                rowToEty();
+//                    e.consume();
+//                }
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                System.out.println(tprice.getText());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                lineItemLogic();
+
+            }
+
+
+        });
+
+
+
+//        titemcode.addActionListener(new ActionTask(tdescription));
+//        tdescription.addActionListener(new ActionTask(tdescription));
+        //order of tabbing
+
+//        Object [][] xx=new Object[][]{{titemcode,new ActionTask()},{tdescription},{tqty}};
+
+//        titemcode.addKeyListener(new KeyAdapter() {
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                super.keyPressed(e);
+//            }
+//
+//        });
+
+
+
+      /*  tdescription.setInputVerifier(new CInputVerifier(tqty){
+            public boolean action() {
+                lineItemLogic();
+                return super.action();
+            }
+        });
+        tqty.setInputVerifier(new CInputVerifier(tunit){
+            public boolean action() {
+                lineItemLogic();
+                return super.action();
+            }
+        });
+        tprice.setInputVerifier(new CInputVerifier(tprice){
+            public boolean action() {
+                lineItemLogic();
+                return super.action();
+            }
+        });
+*/
+
+//        titemcode.nextFocusableComponent(tdescription);
+//        tdescription.nextFocusableComponent(tqty);
+//        tunit.nextFocusableComponent(tprice);
+
+        tprice.nextFocusableComponent(titemcode);
+        titemcode.addaction(2, new ActionTask(){
+            public boolean action() {
+                    lineItemLogic();
+                return super.action();
+            }
+        });
+        tqty.addaction(0, new ActionTask(){
+
+            @Override
+            public boolean action() {
+                lineItemLogic();
+                return super.action();
+            }
+
+        });
+        tprice.addaction(0, new ActionTask(){
+            public boolean action() {
+                lineItemLogic();
+               PosSalesLineItemPanel. this.action();
+                return super.action();
+            }
+        });
 
 
     }
@@ -237,20 +263,21 @@ public class PosSalesLineItemPanel extends LineItemPanel {
     }
 
     public void etyToPanel() {
-        Item it = salesline.getItem();
-        if (it != null) {
-            uiEty.objToUi(titemcode, it.getCode());
-
-        } else {
-            uiEty.objToUi(titemcode, "");
-        }
-        uiEty.objToUi(tqty, salesline.getQty());
-        uiEty.objToUi(tdescription, salesline.getDescription());
-        uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tprice, salesline.getPrice());
+//        Item it = salesline.getItem();
+//        if (it != null) {
+//            uiEty.objToUi(titemcode, it.getCode());
+//
+//        } else {
+//            uiEty.objToUi(titemcode, "");
+//        }
+        if(!tqty.hasFocus())uiEty.objToUi(tqty, salesline.getQty());
+        if(!tdescription.hasFocus())uiEty.objToUi(tdescription, salesline.getDescription());
+        if(!tlinetotal.hasFocus())uiEty.objToUi(tlinetotal, salesline.getLineAmount());
+        if(!tprice.hasFocus())uiEty.objToUi(tprice, salesline.getPrice());
 
     }
 
+  
     public void action() {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
