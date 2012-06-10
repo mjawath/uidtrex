@@ -54,8 +54,8 @@ public class CTableMaster extends PxTable {
             }
         ));
         setEditable(false);
+        setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         setIntercellSpacing(new java.awt.Dimension(10, 5));
-        setRowHeight(25);
         setRowHeight(30);
         setSurrendersFocusOnKeystroke(true);
         getTableHeader().setReorderingAllowed(false);

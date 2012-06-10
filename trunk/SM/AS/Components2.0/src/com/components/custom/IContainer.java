@@ -4,8 +4,6 @@
  */
 package com.components.custom;
 
-import java.util.List;
-
 /**
  *
  * @author Jawath
@@ -13,4 +11,7 @@ import java.util.List;
  public interface  IContainer {
     
     public void callBackAction();
+
+    public void gotoNextComponent();
+    
 }

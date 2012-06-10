@@ -11,7 +11,9 @@
 package org.components.parent.controls;
 
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JTable;
+import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
 
@@ -68,6 +70,11 @@ public class PxTable extends JXTable {
 
 
     }
+    public  void replaceModel( Object obj) {
+       TableUtil. replaceSelectedModel(this, obj);
+
+    }
+
 
     public void addrow(Object[] row){
     TableUtil.addrow(this, row);
@@ -92,3 +99,5 @@ public class PxTable extends JXTable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
+/**bringing the tableutil functunality in to the table it  self with the object oriented level even
+*/

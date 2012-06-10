@@ -11,6 +11,7 @@
 
 package org.components.parent.controls;
 
+import app.utils.SystemUtil;
 import javax.swing.JButton;
 
 /**
@@ -19,9 +20,20 @@ import javax.swing.JButton;
  */
 public class PButton extends JButton {
 
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     /** Creates new form BeanForm */
     public PButton() {
         initComponents();
+        id=SystemUtil.getKeyStr();
     }
 
     /** This method is called from within the constructor to

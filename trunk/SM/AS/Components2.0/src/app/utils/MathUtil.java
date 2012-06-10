@@ -52,6 +52,7 @@ public class MathUtil {
         if(d1==null || d2== null){
         return 0d;
         }
+        System.out.println("big");
 //        BigDecimal t=new BigDecimal(d1).multiply(d2);
         Double t=d1*d2;
         return t;

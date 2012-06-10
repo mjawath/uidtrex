@@ -16,12 +16,13 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import org.components.containers.CPanel;
 
 /**
  *
  * @author mjawath
  */
-public abstract class TabPanelUI extends javax.swing.JPanel implements TabChildUI,CrudControl {
+public abstract class TabPanelUI extends CPanel implements TabChildUI,CrudControl{
 
     /** Creates new form TabPanelUI */
     public TabPanelUI() {
