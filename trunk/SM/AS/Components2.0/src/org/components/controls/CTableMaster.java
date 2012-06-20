@@ -10,14 +10,17 @@
  */
 package org.components.controls;
 
+import com.components.custom.IComponent;
+import com.components.custom.IContainer;
 import org.components.parent.controls.PxTable;
 
 /**
  *
  * @author nano
  */
-public class CTableMaster extends PxTable {
+public class CTableMaster extends PxTable implements IComponent{
 
+   protected  IContainer container;
     
     
     /** Creates new form BeanForm */
@@ -63,8 +66,15 @@ public class CTableMaster extends PxTable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
-   
+
+   @Override
+    public void setContainer(IContainer con) {
+        this.container =con;
+    }
+
+    public IContainer getContainer() {
+        return container;
+    }
 
     
     

@@ -456,7 +456,6 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
                 //get selected object
                 for (Object object : list) {
                     //compare property with Object property ob.equals(object);
-                    System.out.println(ob.equals(ReflectionUtility.getProperty(object, "id")));
                     if (ob.equals(ReflectionUtility.getProperty(object, "id"))) {
                         selectedObject = (T)object;//selected object can i make it generic
                         uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, getSelectedProperty()));
@@ -524,5 +523,11 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
 
     public void setTitle(String[] title) {
         TableUtil.createTableModel(cxTable1, title);
+    }
+
+    public  void setText(String txt){
+    setPopDesable(true);
+        textField.setText(txt);
+    setPopDesable(false);
     }
 }
