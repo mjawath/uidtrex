@@ -8,6 +8,7 @@ package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.PagedPopUpPanel;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,21 +34,23 @@ import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
 /*
- * @2011/12/08 zumri -  GUI creation  of invoice
- * @2011/12/09 jawath-  creation  of invoice logic 
- * @2011/12/12 jawath-  table editing popup poanel  
- * @2011/12/15 jawath-  table editing cell ediotr
- * @2011/12/18 jawath-  table editing cell ediotr document listner
+ * @2011/12/08 Jawath - GUI creation of invoice @2011/12/09 jawath- creation of
+ * invoice logic @2011/12/12 jawath- table editing popup poanel @2011/12/15
+ * jawath- table editing cell ediotr @2011/12/18 jawath- table editing cell
+ * ediotr document listner
  */
 public class PosInvoiceUIE extends TabPanelUI {
 
     SalesInvoice invoice;
     List<SalesInvoiceLineItem> lineItems;
     SalesInvoiceService servicedao;
-    PagedPopUpPanel itemSelectionPopup;
+    PagedPopUpPanel<Item> itemSelectionPopup;
     PosSalesLineItemPanel lineItemPanel;
 
-    /** Creates new form InvoiceMasterUi */
+
+    /**
+     * Creates new form InvoiceMasterUi
+     */
     public PosInvoiceUIE() {
         initComponents();
 
@@ -56,25 +59,25 @@ public class PosInvoiceUIE extends TabPanelUI {
 
     @Override
     public void init() {
-
+        seil = new SalesInvoiceLineItem();
         controlPanel1.setCrudController(this);
         JFrame jf = (JFrame) Sessions.getObj("mainui");
 
         lineItemPanel = new PosSalesLineItemPanel(jf) {
 
             public SalesInvoiceLineItem panelToEty() {
-                SalesInvoiceLineItem sl = super.panelToEty();
+                super.panelToEty(seil);
                 //validated line
                 //update table row
                 //add to list
                 // TODO get uom ????/*/done using the generic 
                 //what should be done to the uom  comparison
                 //it also done 
-                addsales(sl);
+                addsales(seil);
                 //replace selected row
                 //addToTable(lineItems);
 
-                return sl;
+                return seil;
             }
 
             public void selectEty() {
@@ -87,19 +90,20 @@ public class PosInvoiceUIE extends TabPanelUI {
                 }
                 salesline = sl;
                 itemSelectionPopup.setPopDesable(true);
-                etyToPanel();
+                clear();
+                selectEtyToPanel();
                 itemSelectionPopup.setPopDesable(false);
 
             }
 
             public void action() {
-                SalesInvoiceLineItem sl = super.panelToEty();
-                Object id = sl.getId();
+                panelToEty(salesline);
+                Object id = salesline.getId();
                 if (id == null) {
-                    sl.setId(System.currentTimeMillis() + "tt");
+                    salesline.setId(System.currentTimeMillis() + "tt");
                 }
 
-                etyToRow(sl);
+                etyToRow(salesline);
                 uiety();
                 invoice.setTotal();
                 sTotalToUI();
@@ -116,47 +120,40 @@ public class PosInvoiceUIE extends TabPanelUI {
 
             }
         };
-        
+
         lineItemPanel.setTable(tblInvoice);
         lineItemPanel.setTextField(lineItemPanel.getItemFiled());
 
 
 //        tblInvoice.setColumnHeader(new String[]{"id","Item Code","Description","Qty","Unit","Price","Line Amount"});
-        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty",  "price", "lineAmount"});
+        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "price", "lineAmount"});
 
-        itemSelectionPopup = new PagedPopUpPanel(lineItemPanel.getItemFiled()) {
+        itemSelectionPopup = new PagedPopUpPanel<Item>(lineItemPanel.getItemFiled()) {
 
             public void search(String qry) {
                 try {
-                //how about searching the pos invnetory for the items
+                    //how about searching the pos invnetory for the items
                     itemSelectionPopup.setList(itemService.getDao().byCode(qry));
                 } catch (Exception e) {
-                    
+
                     e.printStackTrace();
                 }
             }
 
             public void action() {
                 super.action();
-                String ob = itemSelectionPopup.getSelectedID();
-                Item item = null;
-                //find Item
-                for (Item it : listItem) {
-                    if (ob.equals(it.getId())) {
-                        itemSelectionPopup.setSelectedObject(it);
-                        item = it;
-                        break;
-                    }
-                }
-                int sr = tblInvoice.getSelectedRow();
-                SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty();
-                lineItem.setItem(item);
-                addsales(lineItem);
+                Item item = itemSelectionPopup.getSelectedObject();
+                seil.setItem(item);
+                seil.setDescription(item.getDescription());
+                //get sales price for pos
+                seil.setPrice(item.getSalesPrice());
+                lineItemPanel.etyToPanel(seil);
 
-                lineItemPanel.lineItemLogic();
+//                lineItemPanel.panelToEty(seil);
+                addsales(seil);
+                lineItemPanel.setSalesline(seil);
+                lineItemPanel.lineItemLogic();//here i am being  fucked
             }
-
-            
         };
         itemSelectionPopup.setPropertiesEL(new String[]{"id", "code", "description"});
         itemSelectionPopup.setTitle(new String[]{"id", "Code", "Description"});
@@ -165,7 +162,6 @@ public class PosInvoiceUIE extends TabPanelUI {
         uiEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("delete action .......");
                 int sr = tblInvoice.getSelectedRow();
                 String id = (String) TableUtil.getSelectedValue(tblInvoice, 0);
                 if (id.equals(TableUtil.newRowID)) {
@@ -180,6 +176,16 @@ public class PosInvoiceUIE extends TabPanelUI {
                 }
             }
         }, KeyEvent.VK_DELETE);
+
+                uiEty.setKeyAction(this, new AbstractAction() {
+
+            public void actionPerformed(ActionEvent e) {
+                int sr = tblInvoice.getSelectedRow();
+//                save();
+                System.out.println("saved");
+            }
+        }, KeyEvent.VK_F5);
+
 
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
@@ -199,18 +205,28 @@ public class PosInvoiceUIE extends TabPanelUI {
 
         setnewrow();
 
+        addToFocus(tblInvoice);
         addToFocus(tsubtotal);
         addToFocus(ttax);
         addToFocus(tdis);
 
 
+        tblInvoice.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (KeyEvent.VK_ESCAPE == e.getKeyCode()) {
+                    tsubtotal.requestFocus();
+                }
+            }
+        });
+
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
 
-        tblInvoice.replaceModel( line );
+        tblInvoice.replaceModel(line);
     }
-
 
     public SalesInvoiceLineItem getSelectedLine() {
 
@@ -226,12 +242,12 @@ public class PosInvoiceUIE extends TabPanelUI {
         }
         return null;
     }
-//    DoubleCellEditor de;
-    PagedPopUpPanel salesPopup;
-    CustomerService custService;
-    ItemService itemService;
-    List<Customer> listCust;
-    List<Item> listItem;
+
+    private PagedPopUpPanel salesPopup;
+    private CustomerService custService;
+    private ItemService itemService;
+    private List<Customer> listCust;
+    private List<Item> listItem;
     List<Staff> listStaff;
     StaffService staffService;
     Item currentItem;
@@ -243,7 +259,8 @@ public class PosInvoiceUIE extends TabPanelUI {
         int x = -1;
         for (SalesInvoiceLineItem sil : lineItems) {
             x++;
-            if ((lineItem.getId() == null && sil.getId() == null) || lineItem.getId() != null && sil.getId() != null && lineItem.getId().equals(sil.getId())) {
+            if ((lineItem.getId() == null && sil.getId() == null) || lineItem.getId() != null
+                    && sil.getId() != null && lineItem.getId().equals(sil.getId())) {
                 sx = x;
                 sl = sil;
                 break;
@@ -302,7 +319,6 @@ public class PosInvoiceUIE extends TabPanelUI {
 //        uiEty.objToUi(tbal, invoice.setTotal());
     }
 
-
     public void setnewrow() {
         TableUtil.addrow(tblInvoice, new Object[]{});
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();
@@ -312,7 +328,7 @@ public class PosInvoiceUIE extends TabPanelUI {
     public void addToTable(List<SalesInvoiceLineItem> items) {
 
         tblInvoice.modelToTable(items);
-        tblInvoice.addrow( new Object[]{});
+        tblInvoice.addrow(new Object[]{});
     }
 
     @SuppressWarnings("unchecked")
@@ -332,6 +348,8 @@ public class PosInvoiceUIE extends TabPanelUI {
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         controlPanel1 = new com.components.custom.ControlPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInvoice = new org.components.controls.CTableMaster();
 
@@ -340,52 +358,52 @@ public class PosInvoiceUIE extends TabPanelUI {
         cPanel1.setLayout(null);
 
         cLabel5.setText("Salesman");
-        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel5);
         cLabel5.setBounds(800, 70, 60, 25);
 
         cLabel7.setText("Total");
-        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel7);
         cLabel7.setBounds(10, 10, 70, 20);
 
         cLabel8.setText("Tax");
-        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel8);
         cLabel8.setBounds(10, 40, 70, 20);
 
         cLabel9.setText("Discount");
-        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel9);
         cLabel9.setBounds(10, 60, 70, 20);
 
         cLabel10.setText("Final Total");
-        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel10);
         cLabel10.setBounds(10, 90, 70, 20);
 
-        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tfinaltotle);
         tfinaltotle.setBounds(90, 90, 150, 20);
 
-        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tsubtotal);
         tsubtotal.setBounds(90, 10, 150, 20);
 
-        ttax.setFont(new java.awt.Font("Tahoma", 0, 10));
+        ttax.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(ttax);
         ttax.setBounds(90, 40, 150, 20);
 
-        tdis.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tdis.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tdis);
         tdis.setBounds(90, 60, 150, 20);
 
-        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tcashrecieved);
         tcashrecieved.setBounds(90, 120, 150, 20);
 
         cLabel15.setText("Recieved");
-        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel15);
         cLabel15.setBounds(10, 120, 70, 20);
 
@@ -394,47 +412,16 @@ public class PosInvoiceUIE extends TabPanelUI {
         add(controlPanel1);
         controlPanel1.setBounds(60, 430, 340, 40);
 
+        jLayeredPane1.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel1.setBounds(80, 160, 700, 80);
+        jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.remove(jPanel1);
+        jLayeredPane1.revalidate();
+        jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.MODAL_LAYER);
+
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
@@ -442,15 +429,17 @@ public class PosInvoiceUIE extends TabPanelUI {
         ));
         jScrollPane1.setViewportView(tblInvoice);
 
-        add(jScrollPane1);
-        jScrollPane1.setBounds(0, 0, 880, 300);
+        jScrollPane1.setBounds(10, 0, 880, 200);
+        jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        add(jLayeredPane1);
+        jLayeredPane1.setBounds(-10, 20, 930, 300);
     }// </editor-fold>//GEN-END:initComponents
 
-/**
-     * using a pos inventory for tracking pos stock
-     * i would be needed 
+    /**
+     * using a pos inventory for tracking pos stock i would be needed
      */
-    public  void save() {
+    public void save() {
 
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
@@ -459,7 +448,6 @@ public class PosInvoiceUIE extends TabPanelUI {
             }
         }
 
-
         //pos inventory will be updated
         servicedao.createInventoryJournalForPos(invoice);
         invoice = SalesInvoice.createNewInvoice();
@@ -467,14 +455,10 @@ public class PosInvoiceUIE extends TabPanelUI {
         addToTable(lineItems);
 
         clear();
-
-
-
-    }   
-
+    }
 
     public void clear() {
-        System.out.println("comp  "+tsubtotal.toString());
+        System.out.println("comp  " + tsubtotal.toString());
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
         addToTable(lineItems);
@@ -485,8 +469,8 @@ public class PosInvoiceUIE extends TabPanelUI {
 
     }
 
-    public void updatePosInvoice(){
-    
+
+    public void updatePosInvoice() {
     }
 
 
@@ -499,6 +483,8 @@ public class PosInvoiceUIE extends TabPanelUI {
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
     private com.components.custom.ControlPanel controlPanel1;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CTableMaster tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
@@ -522,17 +508,16 @@ public class PosInvoiceUIE extends TabPanelUI {
         return this;
     }
 }
-//        cxTable2.getColumnModel().getColumn(2).setCellEditor(new editor(popUpComponent, tblInvoice));
-//        dialog = new ItemPopUp(cTextField1, lineItems)
-//        /*     KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-//KeyStroke ob = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
-////         tblInvoice.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),ob);
-//ActionListener ac = tblInvoice.getActionForKeyStroke(ob);
-//tblInvoice.registerKeyboardAction(ac,enter,JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);*/
 /*
  * make it simple 
  * pos without unit -UOM
  *
  * pos invoice invoice which can be used with the
+ *
+ * note : - popis shown several times becas of when user press enter when seleccting
+ * item item code is set to texttield so thet textfieds
+ * viered sinario :- user selects a item press enter tiem is set to text field this trigers the
+ * documant listner for each chars which set to the textfeild ..
+ * fix:- disable the popup when setting the text to textfield
  *
  */

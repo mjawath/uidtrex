@@ -70,12 +70,10 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     
     public void mm(){
     
-        System.out.println("ddd");
     }
 
     public void init() {
         initPopups();
-        System.out.println("initi 4444444444444444444 impleme");
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);

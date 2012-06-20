@@ -12,6 +12,8 @@ package org.biz.invoicesystem.ui.transactions.components;
 
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
+import com.components.custom.PagedPopUpPanel;
+import com.components.custom.TextFieldWithPopUP;
 import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,13 +26,13 @@ import org.components.controls.CTextField;
 
 /**
  *
- * @author nnjj
+ * @author mjawath
  */
-public class PosSalesLineItemPanel extends LineItemPanel {
+public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
     protected SalesInvoiceLineItem salesline;
 
-    public PosSalesLineItemPanel(JFrame jf) {
+    public PosSalesLineItemPanelV3(JFrame jf) {
         super(jf);
         initComponents();
         init();
@@ -42,7 +44,7 @@ public class PosSalesLineItemPanel extends LineItemPanel {
     /**
      * Creates new form LineItemPanel
      */
-    public PosSalesLineItemPanel() {
+    public PosSalesLineItemPanelV3() {
         super();
         initComponents();
 
@@ -80,7 +82,7 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
     public void init() {
 
-
+salesline=new SalesInvoiceLineItem();
 
         tprice.addKeyListener(new KeyAdapter() {
 
@@ -127,10 +129,34 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
             public boolean action() {
                 lineItemLogic();
-                PosSalesLineItemPanel.this.action();
+                PosSalesLineItemPanelV3.this.action();
                 return super.action();
             }
         });
+
+
+
+
+        titemcode.setPagedPopUpPanel(new PagedPopUpPanel<Item>(getItemFiled()) {
+
+            public void search(String qry) {
+                try {
+                    //how about searching the pos invnetory for the items
+//                    itemSelectionPopup.setList(itemService.getDao().byCode(qry));
+                    itemSearch(qry);
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            public void action() {
+                itemAction();
+            }
+        });
+        titemcode.setPropertiesEL(new String[]{"id", "code", "description"});
+        titemcode.setTitle(new String[]{"id", "Code", "Description"});
+        titemcode.setSelectedProperty("code");
 
         addToFocus(titemcode);
         addToFocus(tqty);
@@ -139,8 +165,15 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
     }
 
+    public void itemSearch(String qry) {
+        titemcode.getPagedPopUpPanel().search(qry);
+    }
+
+    public void itemAction() {
+    }
+
     public void lineItemLogic() {
-        panelToEty(salesline );
+        panelToEty(salesline);
         if (salesline.getItem() != null) {
             salesline.setLineAmount(MathUtil.multiply(salesline.getQty(), salesline.getPrice()));
         }
@@ -148,28 +181,16 @@ public class PosSalesLineItemPanel extends LineItemPanel {
         //provide tseparate method for line logic
     }
 
-//    public void moveNextFocus() {
-//        Component com = getFocusOwner();
-//        if (com != null) {
-//            int id = al.indexOf(com);
-//            if (id > - 1 && id < al.size() - 1) {
-//                Component comp = (Component) al.get(++id);
-////                comp.requestFocus();
-//            }
-//        }
-//    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titemcode = new org.components.controls.CTextField();
         tdescription = new org.components.controls.CTextField();
         tqty = new org.components.controls.CTextField();
         tprice = new org.components.controls.CTextField();
         tlinetotal = new org.components.controls.CTextField();
+        titemcode = new com.components.custom.TextFieldWithPopUP<Item>();
 
         setBackground(new java.awt.Color(247, 230, 130));
-        getContentPane().add(titemcode);
-        titemcode.setBounds(20, 30, 122, 25);
         getContentPane().add(tdescription);
         tdescription.setBounds(160, 30, 140, 25);
         getContentPane().add(tqty);
@@ -178,9 +199,15 @@ public class PosSalesLineItemPanel extends LineItemPanel {
         tprice.setBounds(470, 30, 120, 25);
         getContentPane().add(tlinetotal);
         tlinetotal.setBounds(610, 30, 140, 25);
+        getContentPane().add(titemcode);
+        titemcode.setBounds(20, 30, 130, 25);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public TextFieldWithPopUP<Item> getItemcode() {
+        return titemcode;
+    }
 
     public CTextField getItemFiled() {
         return titemcode;
@@ -214,11 +241,11 @@ public class PosSalesLineItemPanel extends LineItemPanel {
     public void etyToPanel(SalesInvoiceLineItem salesline) {
         Item it = salesline.getItem();
         if (it != null) {
-            uiEty.objToUi(titemcode, it.getCode());
+            titemcode.setTextItem( it.getCode());
             uiEty.objToUi(tdescription, salesline.getDescription());
 //
         } else {
-            uiEty.objToUi(titemcode, "");
+            titemcode.setTextItem( "");
             uiEty.objToUi(tdescription, "");
         }
 
@@ -245,13 +272,14 @@ public class PosSalesLineItemPanel extends LineItemPanel {
         this.salesline = salesline;
     }
 
-    public void selectEtyToPanel() {
+    public void selectedEtyToPanel() {
         Item it = salesline.getItem();
         if (it != null) {
-            uiEty.objToUi(titemcode, it.getCode());
+            titemcode.setTextItem(it.getCode());
+
 //
         } else {
-            uiEty.objToUi(titemcode, "");
+            titemcode.setTextItem( "");
         }
         uiEty.objToUi(tqty, salesline.getQty());
         uiEty.objToUi(tdescription, salesline.getDescription());
@@ -270,14 +298,14 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
     public void clear() {
         tdescription.setText("");
-        titemcode.setText("");
+        titemcode.setTextItem("");
         tlinetotal.setText("");
         tprice.setText("");
         tqty.setText("");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CTextField tdescription;
-    private org.components.controls.CTextField titemcode;
+    private com.components.custom.TextFieldWithPopUP<Item> titemcode;
     private org.components.controls.CTextField tlinetotal;
     private org.components.controls.CTextField tprice;
     private org.components.controls.CTextField tqty;

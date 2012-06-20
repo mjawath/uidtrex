@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -56,7 +57,7 @@ public class LineItemPanel extends javax.swing.JDialog implements IContainer {
     }
 
     private void init() {
-        
+       focus = new ArrayList<IComponent>();
         setModal(true);
 
         this.setModalityType(ModalityType.MODELESS);
@@ -182,9 +183,7 @@ public class LineItemPanel extends javax.swing.JDialog implements IContainer {
 //        });
     }
 
-    public Object panelToEty() {
-        return null;
-    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -264,4 +263,8 @@ public class LineItemPanel extends javax.swing.JDialog implements IContainer {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-}
+    public void clear(){
+    
+
+    }
+    }
