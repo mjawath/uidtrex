@@ -30,6 +30,7 @@ import org.biz.erp.inventory.ui.WareHouseUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
 import org.biz.invoicesystem.ui.transactions.PosInvoiceUIE;
+import org.biz.invoicesystem.ui.transactions.PosInvoiceV3;
 import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
 
 import org.components.util.Sessions;
@@ -156,6 +157,7 @@ public class MainAppWindow extends AppMainWindow {
         events();
         
         addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
+        addToTabpanelToUI(new PosInvoiceV3(),"  * pos Invoice 3 Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
         addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
         addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
