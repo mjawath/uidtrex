@@ -10,10 +10,9 @@
  */
 package org.components.parent.controls;
 
+import com.components.custom.IComponent;
+import com.components.custom.IContainer;
 import java.util.List;
-import java.util.Vector;
-import javax.swing.JTable;
-import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
 
@@ -21,7 +20,18 @@ import org.jdesktop.swingx.JXTable;
  *
  * @author nano
  */
-public class PxTable extends JXTable {
+public class PxTable extends JXTable  implements IComponent{
+
+   protected  IContainer container;
+
+    @Override
+    public void setContainer(IContainer con) {
+        this.container =con;
+    }
+
+    public IContainer getContainer() {
+        return container;
+    }
 
     String[] propertiesEL;
 

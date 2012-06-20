@@ -88,24 +88,8 @@ public class CTextFieldWpopup extends CTextField {
                             actionTask.action();
                         }
                     }
-                    if (nextFocusableComponent != null && moveTonextcom) {
-                        nextFocusableComponent.requestFocus();
-                    }
                     // just change the focus 
                 }
-//                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//                
-//                    if (nextFocusableComponent != null && moveTonextcom) {
-//                        nextFocusableComponent.requestFocus();
-//                    }
-//                }
-//                
-//                if (e.getKeyCode() == KeyEvent.VK_UP) {
-//                
-//                    if (previouseFocusedComponent != null ) {
-//                        previouseFocusedComponent.requestFocus();
-//                    }
-//                }
             }
         });
 
@@ -132,44 +116,7 @@ public class CTextFieldWpopup extends CTextField {
         addActionListener(actionTask);
     }
 
-    @Override
-    protected void processKeyEvent(KeyEvent e) {
-//        if(e.getKeyCode()==KeyEvent.VK_ENTER){
-//            postActionEvent();
-//            return;
-//        }
-        super.processKeyEvent(e);
-    }
 
-    public void setInputVerifier(CInputVerifier inputVerifier) {
-//        addActionListener(inputVerifier);
-        super.setInputVerifier(inputVerifier);
-    }
-
-    public JComponent nextFocusableComponent() {
-        return nextFocusableComponent;
-    }
-
-    public void nextFocusableComponent(JComponent nextFocusableComponent) {
-        this.nextFocusableComponent = nextFocusableComponent;
-    }
-
-    public JComponent getNextFocusableComponent() {
-        return nextFocusableComponent;
-    }
-
-    public void setNextFocusableComponent(JComponent nextFocusableComponent) {
-        this.nextFocusableComponent = nextFocusableComponent;
-    }
-
-    public JComponent getPreviouseFocusedComponent() {
-        return previouseFocusedComponent;
-    }
-
-    public void setPreviouseFocusedComponent(JComponent previouseFocusedComponent) {
-        this.previouseFocusedComponent = previouseFocusedComponent;
-    }
-    
     
     private String formater;
 
