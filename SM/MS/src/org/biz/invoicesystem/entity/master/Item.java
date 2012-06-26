@@ -463,6 +463,7 @@ public class Item implements Serializable {
         if (uoms == null) {
             uoms = new ArrayList<UOM>();
             uom.setId(SystemUtil.timeStampKey());
+            uom.setIsPrimary(true);
             uoms.add(uom);
             return;
         }
@@ -479,6 +480,7 @@ public class Item implements Serializable {
             if (uom.getId() != null && uom.getId().equals(item.getId())) {
 //                 item=uom;//replace item
                 uoms.set(it, uom);
+                if(it==0)uom.setIsPrimary(true);
                 return;
             }
         }

@@ -127,7 +127,13 @@ public class PosInvoiceV3 extends TabPanelUI {
 
         tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "price", "lineAmount"});
 
+        //1 apply u -fullly into it
+        //2 primary activity(desire) wanted otherthen anything else
+        //3 patient
+        //4 see things throu dont give up,dont be a quiter
 
+        //5 direction of teacher
+        // 6 sacrifise
 
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
@@ -238,11 +244,16 @@ public class PosInvoiceV3 extends TabPanelUI {
         lineItems.add(si);
     }
 
+
+
+
     public void addToTable(List<SalesInvoiceLineItem> items) {
 
         tblInvoice.modelToTable(items);
         tblInvoice.addrow(new Object[]{});
     }
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -262,6 +273,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         tdis = new org.components.controls.CTextField();
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
+        crudcontrolPanel = new com.components.custom.ControlPanel();
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -333,16 +345,22 @@ public class PosInvoiceV3 extends TabPanelUI {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 266, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(crudcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(306, 306, 306))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(cPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(crudcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -353,6 +371,7 @@ public class PosInvoiceV3 extends TabPanelUI {
     private org.components.controls.CLabel cLabel8;
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
+    private com.components.custom.ControlPanel crudcontrolPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CTableMaster tblInvoice;
     private org.components.controls.CTextField tcashrecieved;

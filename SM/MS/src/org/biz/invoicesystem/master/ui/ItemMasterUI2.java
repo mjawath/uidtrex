@@ -27,22 +27,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import org.biz.app.ui.util.MessageBoxes;
 import org.biz.app.ui.util.TableUtil;
@@ -176,24 +161,24 @@ public class ItemMasterUI2 extends TabPanelUI {
                             uom.setSalesPrice(tunitprice.getDoubleValue());
                             uom.setMulti(tContainsQty.getDoubleValue0());
                             //prime  unit
-                            UOM pu = new UOM();
-//                            pu.setSimbol(tprimunit.getText());
-//                            uom.setGuom(pu);
-                            List<UOM> uoms = selectedItem.getUoms();
-                            if (uoms != null && !uoms.isEmpty()) {
-                                pu = uoms.get(0);
-                            }
+                            //logic changes type is defined 
                             selectedItem.addUOMorUpdate(uom);
 //we can skip current primary uom setting becas we r using only one primary key
+ // we cannnot give only primary key
+                            // 
                             //set it when we save data ..
 
-                            addUnitToTable();
+                            addUnitToTable(selectedItem);
+                            cleatUOM();
+                            tunitsymbot.requestFocus();
 
                         }
                     } catch (Exception exx) {
                         exx.printStackTrace();
                     }
                 }
+
+
             });
 
             tblBarcode.addKeyListener(new KeyAdapter() {
@@ -264,28 +249,27 @@ public class ItemMasterUI2 extends TabPanelUI {
                 }
             });
             chooser.setCurrentDirectory(null);
+            UOM.setUOMType(tunittype);
+          
+//            tunittype.setModel(new DefaultComboBoxModel(new String[]{"3","4"}));
             events();
             ////////////////////////////////////////
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        crudcontrolPanel.set
-        tblunitprices.setPropertiesEL(new String[]{"id", "code", "symbol", "contains", "promaryUOM.symbol"});
+        tblunitprices.setPropertiesEL(new String[]{"id","simbol","salesPrice" ,"multi" });
 
     }
 
     public void clear() {
         try {
 
-            tVariationName.setSelectedItem("");
-            tVariationPrice1.setText("");
-            tVariationPrice2.setText("");
-
             tPriceRange.setSelectedItem("");
             tRngeValue.setText("");
-            TableUtil.cleardata(tblVariation);
             TableUtil.cleardata(tblPriceRanges);
             TableUtil.cleardata(tblBarcode);
+            tblunitprices.clear();
 
             titemmark.setText("");
             tItemBarcode.setText("");
@@ -307,7 +291,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             for (Iterator<UOM> it = selectedItem.getUoms().iterator(); it.hasNext();) {
                 if (ob.equals(it.next().getId())) {
                     it.remove();
-                    addUnitToTable();
+                    addUnitToTable(selectedItem);
                     break;
                 }
             }
@@ -315,14 +299,16 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
     }
 
-    private void addUnitToTable() {
-        TableUtil.cleardata(tblunitprices);
-        for (UOM um : selectedItem.getUoms()) {
-            String u = um.getGuom() != null ? um.getGuom().getSimbol() : null;
-            TableUtil.addrow(tblunitprices, new Object[]{um.getId(), um.getType(), um.getSimbol(), um.getSalesPrice(),
-                        um.getMulti(), u});
+    private void addUnitToTable(Item  item) {
+        tblunitprices.clear();
+        for (UOM um : item.getUoms()) {
+//            String u = um.getGuom() != null ? um.getGuom().getSimbol() : null;
+//            TableUtil.addrow(tblunitprices, new Object[]{um.getId(), um.getType(), um.getSimbol(), um.getSalesPrice(),
+//                        um.getMulti(), u});
+            tblunitprices.addModelToTable(um);
         }
-        TableUtil.addnewrow(tblunitprices);
+        tblunitprices.addModelToTable(new UOM());
+//        TableUtil.addnewrow(tblunitprices);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -346,22 +332,13 @@ public class ItemMasterUI2 extends TabPanelUI {
     private void initComponents() {
 
         componentFactory1 = new org.components.util.ComponentFactory();
-        cPanel1 = new org.components.containers.CPanel();
-        tVariationPrice2 = new org.components.controls.CTextField();
-        tVariationName = new org.components.controls.CComboBox();
-        cLabel2 = new org.components.controls.CLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblVariation = new javax.swing.JTable();
-        tVariationPrice1 = new org.components.controls.CTextField();
         tItemTrakSerial = new org.components.controls.CCheckBox();
         tItemCostPrice = new org.components.controls.CTextField();
         tItemMinimumStock = new org.components.controls.CTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         tItemCommissionValue = new org.components.controls.CTextField();
-        tDifferentPerUnit = new org.components.controls.CTextField();
         tSupplierItem = new org.components.controls.CComboBox();
         tItemDescription = new org.components.controls.CTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -370,36 +347,24 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel16 = new javax.swing.JLabel();
         cButton1 = new org.components.controls.CButton();
         tItemdiscount = new org.components.controls.CTextField();
-        tItemSalesPriceUnit1 = new org.components.controls.CTextField();
         jLabel2 = new javax.swing.JLabel();
         tItemLandingCost = new org.components.controls.CTextField();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
         cScrollPane1 = new org.components.controls.CScrollPane();
         cPanel4 = new org.components.containers.CPanel();
         cLabel7 = new org.components.controls.CLabel();
-        tItemSalesPriceUnit2 = new org.components.controls.CTextField();
-        tUnitItem2 = new org.components.controls.CComboBox();
         jLabel15 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         cScrollPane2 = new org.components.controls.CScrollPane();
         cPanel6 = new org.components.containers.CPanel();
-        cLabel10 = new org.components.controls.CLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblunitprices = new org.components.controls.CxTable();
         tunitprice = new org.components.controls.CTextField();
         tunitsymbot = new org.components.controls.CTextField();
-        textraunitprice1 = new org.components.controls.CTextField();
         tContainsQty = new org.components.controls.CTextField();
-        tprimunit = new org.components.controls.CTextField();
-        textraunitprice4 = new org.components.controls.CTextField();
-        textraunitprice5 = new org.components.controls.CTextField();
-        textraunitprice6 = new org.components.controls.CTextField();
-        textraunitprice7 = new org.components.controls.CTextField();
-        textraunitprice8 = new org.components.controls.CTextField();
         cButton2 = new org.components.controls.CButton();
-        tunittype = new org.components.controls.CComboBox();
+        cLabel2 = new org.components.controls.CLabel();
+        tunittype = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblBarcode = new javax.swing.JTable();
@@ -420,24 +385,20 @@ public class ItemMasterUI2 extends TabPanelUI {
         jScrollPane4 = new javax.swing.JScrollPane();
         tMetaInfo = new org.components.controls.CTextArea();
         cLabel3 = new org.components.controls.CLabel();
-        jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         tItemMinimumPrice = new org.components.controls.CTextField();
         tItemLocation = new org.components.controls.CComboBox();
         tItemdiscValue = new org.components.controls.CTextField();
         tItemCommission = new org.components.controls.CTextField();
-        jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         tItemReOrder = new org.components.controls.CTextField();
         jLabel14 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         cPanel2 = new org.components.containers.CPanel();
         tItemTrakExpiry = new org.components.controls.CCheckBox();
         tItemTrakNonStockItem = new org.components.controls.CCheckBox();
         tItemTrakInactive = new org.components.controls.CCheckBox();
         tItemTrakManfctringItem = new org.components.controls.CCheckBox();
         tCartonItem = new org.components.controls.CTextField();
-        tUnitItem1 = new org.components.controls.CComboBox();
         jLabel19 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         tItemcode = new org.components.controls.CTextField();
@@ -450,67 +411,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel9 = new org.components.controls.CLabel();
         tmodel = new org.components.controls.CTextField();
 
-        cPanel1.setLayout(null);
-
-        tVariationPrice2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tVariationPrice2ActionPerformed(evt);
-            }
-        });
-        tVariationPrice2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tVariationPrice2KeyTyped(evt);
-            }
-        });
-        cPanel1.add(tVariationPrice2);
-        tVariationPrice2.setBounds(310, 30, 140, 25);
-
-        tVariationName.setEditable(true);
-        cPanel1.add(tVariationName);
-        tVariationName.setBounds(10, 30, 130, 23);
-
-        cLabel2.setText("Item Variation");
-        cPanel1.add(cLabel2);
-        cLabel2.setBounds(10, 0, 130, 25);
-
-        tblVariation.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Description", "S Price 1", "S Price 2"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tblVariation);
-
-        cPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 60, 440, 120);
-
-        tVariationPrice1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tVariationPrice1KeyTyped(evt);
-            }
-        });
-        cPanel1.add(tVariationPrice1);
-        tVariationPrice1.setBounds(150, 30, 140, 25);
-
         tItemTrakSerial.setText("Track Serial Number");
-        tItemTrakSerial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tItemTrakSerial.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tItemTrakSerial.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tItemTrakSerial.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -530,38 +431,15 @@ public class ItemMasterUI2 extends TabPanelUI {
         add(jLabel3);
         jLabel3.setBounds(20, 190, 60, 20);
 
-        jLabel8.setText("Unit 2");
-        add(jLabel8);
-        jLabel8.setBounds(210, 220, 60, 20);
-
         jLabel22.setText("Cost Price");
         add(jLabel22);
         jLabel22.setBounds(20, 320, 60, 20);
-
-        tItemCommissionValue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemCommissionValueActionPerformed(evt);
-            }
-        });
         add(tItemCommissionValue);
         tItemCommissionValue.setBounds(200, 410, 90, 25);
-        add(tDifferentPerUnit);
-        tDifferentPerUnit.setBounds(160, 240, 50, 20);
 
         tSupplierItem.setEditable(true);
-        tSupplierItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tSupplierItemActionPerformed(evt);
-            }
-        });
         add(tSupplierItem);
         tSupplierItem.setBounds(80, 110, 210, 20);
-
-        tItemDescription.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemDescriptionActionPerformed(evt);
-            }
-        });
         add(tItemDescription);
         tItemDescription.setBounds(80, 50, 210, 25);
 
@@ -589,22 +467,8 @@ public class ItemMasterUI2 extends TabPanelUI {
         });
         add(cButton1);
         cButton1.setBounds(300, 390, 80, 20);
-
-        tItemdiscount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemdiscountActionPerformed(evt);
-            }
-        });
         add(tItemdiscount);
         tItemdiscount.setBounds(80, 380, 90, 25);
-
-        tItemSalesPriceUnit1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemSalesPriceUnit1ActionPerformed(evt);
-            }
-        });
-        add(tItemSalesPriceUnit1);
-        tItemSalesPriceUnit1.setBounds(80, 270, 80, 20);
 
         jLabel2.setText("Description ");
         add(jLabel2);
@@ -612,16 +476,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         add(tItemLandingCost);
         tItemLandingCost.setBounds(200, 320, 90, 25);
 
-        jLabel18.setText("Diff");
-        add(jLabel18);
-        jLabel18.setBounds(160, 220, 50, 20);
-
-        jLabel20.setText("Unit 1");
-        add(jLabel20);
-        jLabel20.setBounds(80, 220, 50, 20);
-
         cScrollPane1.setAutoscrolls(true);
-        cScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cScrollPane1.setViewportView(cPanel4);
 
         add(cScrollPane1);
@@ -630,18 +485,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel7.setText("You Can Select More than one Product Image");
         add(cLabel7);
         cLabel7.setBounds(390, 390, 370, 25);
-
-        tItemSalesPriceUnit2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemSalesPriceUnit2ActionPerformed(evt);
-            }
-        });
-        add(tItemSalesPriceUnit2);
-        tItemSalesPriceUnit2.setBounds(210, 270, 80, 20);
-
-        tUnitItem2.setEditable(true);
-        add(tUnitItem2);
-        tUnitItem2.setBounds(210, 240, 80, 23);
 
         jLabel15.setText("Location");
         add(jLabel15);
@@ -655,23 +498,19 @@ public class ItemMasterUI2 extends TabPanelUI {
         cPanel6.setPreferredSize(new java.awt.Dimension(600, 400));
         cPanel6.setLayout(null);
 
-        cLabel10.setText("Carton");
-        cPanel6.add(cLabel10);
-        cLabel10.setBounds(10, 11, 0, 25);
-
         tblunitprices.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Unit Type", "Unit Symbol", "Price", "Contains", "prim Unit "
+                "id", "Unit Symbol", "Contains", "Price"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -687,37 +526,21 @@ public class ItemMasterUI2 extends TabPanelUI {
         tblunitprices.getColumnModel().getColumn(1).setResizable(false);
         tblunitprices.getColumnModel().getColumn(2).setResizable(false);
         tblunitprices.getColumnModel().getColumn(3).setResizable(false);
-        tblunitprices.getColumnModel().getColumn(4).setResizable(false);
-        tblunitprices.getColumnModel().getColumn(5).setResizable(false);
 
         cPanel6.add(jScrollPane3);
-        jScrollPane3.setBounds(0, 40, 450, 140);
-        cPanel6.add(tunitprice);
-        tunitprice.setBounds(390, 10, 102, 25);
-        cPanel6.add(tunitsymbot);
-        tunitsymbot.setBounds(10, 10, 90, 25);
-        cPanel6.add(textraunitprice1);
-        textraunitprice1.setBounds(630, 280, 102, 25);
-        cPanel6.add(tContainsQty);
-        tContainsQty.setBounds(170, 10, 100, 25);
+        jScrollPane3.setBounds(10, 70, 450, 140);
 
-        tprimunit.addActionListener(new java.awt.event.ActionListener() {
+        tunitprice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tprimunitActionPerformed(evt);
+                tunitpriceActionPerformed(evt);
             }
         });
-        cPanel6.add(tprimunit);
-        tprimunit.setBounds(280, 10, 102, 25);
-        cPanel6.add(textraunitprice4);
-        textraunitprice4.setBounds(630, 350, 102, 25);
-        cPanel6.add(textraunitprice5);
-        textraunitprice5.setBounds(630, 310, 102, 25);
-        cPanel6.add(textraunitprice6);
-        textraunitprice6.setBounds(740, 280, 102, 25);
-        cPanel6.add(textraunitprice7);
-        textraunitprice7.setBounds(740, 350, 102, 25);
-        cPanel6.add(textraunitprice8);
-        textraunitprice8.setBounds(740, 310, 102, 25);
+        cPanel6.add(tunitprice);
+        tunitprice.setBounds(260, 40, 90, 25);
+        cPanel6.add(tunitsymbot);
+        tunitsymbot.setBounds(20, 40, 90, 25);
+        cPanel6.add(tContainsQty);
+        tContainsQty.setBounds(130, 40, 100, 25);
 
         cButton2.setText("remove");
         cButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -726,11 +549,15 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel6.add(cButton2);
-        cButton2.setBounds(520, 50, 70, 23);
+        cButton2.setBounds(470, 70, 70, 23);
 
-        tunittype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+        cLabel2.setText("Symbol");
+        cPanel6.add(cLabel2);
+        cLabel2.setBounds(10, 10, 70, 25);
+
+        tunittype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cPanel6.add(tunittype);
-        tunittype.setBounds(110, 10, 50, 23);
+        tunittype.setBounds(130, 10, 56, 20);
 
         cScrollPane2.setViewportView(cPanel6);
 
@@ -765,12 +592,6 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         jPanel4.add(jScrollPane5);
         jScrollPane5.setBounds(50, 70, 340, 110);
-
-        titemmark.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                titemmarkKeyTyped(evt);
-            }
-        });
         jPanel4.add(titemmark);
         titemmark.setBounds(50, 30, 160, 25);
 
@@ -785,12 +606,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel6.setText("Enter");
         jPanel4.add(cLabel6);
         cLabel6.setBounds(404, 30, 40, 25);
-
-        tItemBarcode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tItemBarcodeKeyTyped(evt);
-            }
-        });
         jPanel4.add(tItemBarcode);
         tItemBarcode.setBounds(230, 30, 160, 25);
 
@@ -839,11 +654,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         tRngeValue.setBounds(270, 70, 120, 25);
 
         tPriceRange.setEditable(true);
-        tPriceRange.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tPriceRangeActionPerformed(evt);
-            }
-        });
         jPanel1.add(tPriceRange);
         tPriceRange.setBounds(50, 70, 130, 23);
 
@@ -867,8 +677,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel3.setText("Meta Information ");
         cPanel3.add(cLabel3);
         cLabel3.setBounds(10, 50, 300, 25);
-        cPanel3.add(jPanel3);
-        jPanel3.setBounds(100, -30, 10, 10);
 
         jTabbedPane1.addTab("Meta Details ", cPanel3);
 
@@ -884,24 +692,10 @@ public class ItemMasterUI2 extends TabPanelUI {
         tItemLocation.setEditable(true);
         add(tItemLocation);
         tItemLocation.setBounds(80, 440, 210, 23);
-
-        tItemdiscValue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemdiscValueActionPerformed(evt);
-            }
-        });
         add(tItemdiscValue);
         tItemdiscValue.setBounds(200, 380, 90, 25);
-
-        tItemCommission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemCommissionActionPerformed(evt);
-            }
-        });
         add(tItemCommission);
         tItemCommission.setBounds(80, 410, 90, 20);
-        add(jPanel2);
-        jPanel2.setBounds(300, 210, 10, 10);
 
         jLabel4.setText("Category");
         add(jLabel4);
@@ -912,10 +706,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel14.setText("Val");
         add(jLabel14);
         jLabel14.setBounds(180, 380, 20, 30);
-
-        jLabel11.setText("Sales Price");
-        add(jLabel11);
-        jLabel11.setBounds(20, 260, 60, 30);
 
         cPanel2.setLayout(null);
 
@@ -948,15 +738,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         add(tCartonItem);
         tCartonItem.setBounds(80, 190, 210, 25);
 
-        tUnitItem1.setEditable(true);
-        tUnitItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tUnitItem1ActionPerformed(evt);
-            }
-        });
-        add(tUnitItem1);
-        tUnitItem1.setBounds(80, 240, 80, 23);
-
         jLabel19.setText("Re Order");
         add(jLabel19);
         jLabel19.setBounds(20, 500, 60, 20);
@@ -964,12 +745,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel12.setText("Discount ");
         add(jLabel12);
         jLabel12.setBounds(20, 380, 60, 20);
-
-        tItemcode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tItemcodeActionPerformed(evt);
-            }
-        });
         add(tItemcode);
         tItemcode.setBounds(80, 20, 210, 25);
 
@@ -1001,37 +776,11 @@ public class ItemMasterUI2 extends TabPanelUI {
     }// </editor-fold>//GEN-END:initComponents
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addToVariationTbl() {
-        try {
-            // TableUtil.cleardata(tblVariation);
-            String variationDesc = uiEty.cmbtostr(tVariationName);
-            double variaiotnPrice1 = uiEty.tcToDble0(tVariationPrice1);
-            double variaiotnPrice2 = uiEty.tcToDble0(tVariationPrice2);
-            TableUtil.addrow(tblVariation, new Object[]{variationDesc, variaiotnPrice1, variaiotnPrice2});
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
+    private void cleatUOM() {
+    tunitprice.clear();
+    tunitsymbot.clear();
+    tContainsQty.clear();
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //this method ADD VALUES TO THE TABLE OF EXTRA SALES PRICE...TABLE.
-
-    public void addToExtraPriceTbl() {
-        try {
-            // TableUtil.cleardata(tblVariation);
-            String tPriceDes = uiEty.cmbtostr(tPriceRange);
-            double ExtraPrice1 = uiEty.tcToDble0(tRngeValue);
-            TableUtil.addrow(tblPriceRanges, new Object[]{tPriceDes, ExtraPrice1});
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Item uiToEty(Item i) throws Exception {
         try {
             i.setId(EntityService.getEntityService().getKey(""));
@@ -1040,11 +789,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
             i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
             i.setCarton(uiEty.tcToDble0(tCartonItem)); //
-            i.setUnitOne(uiEty.cmbtostr(tUnitItem1));//      combo
-            i.setDifferent(uiEty.tcToInt(tDifferentPerUnit));//tDifferentPerUnit
-            i.setUnitTwo(uiEty.cmbtostr(tUnitItem2));//tUnitItem2       combo
-            i.setUnit1SalesPrice(uiEty.tcToDble0(tItemSalesPriceUnit1)); //tItemSalesPriceUnit1      
-            i.setUnit2SalesPrice(uiEty.tcToDble0(tItemSalesPriceUnit2));//tItemSalesPriceUnit2
             i.setCost(uiEty.tcToDble0(tItemCostPrice));//tItemCostPrice
             i.setLandCost(uiEty.tcToDble0(tItemLandingCost)); //tItemLandingCost     
             i.setMinSalesPrice(uiEty.tcToDble0(tItemMinimumPrice)); //tItemMinimumPrice
@@ -1062,7 +806,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setInactive(tItemTrakInactive.isSelected());//tItemTrakInactive chk      
             i.setWholesalePrice(uiEty.tcToDble0(tWholesalePrice));//tWholesalePrice      
             i.setMetaInfo(tMetaInfo.getText());  //tMetaInfo
-            i.setVariations(ui2ItemVariation(tblVariation, i.getId()));
             i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges, i.getId()));
 
         } catch (Exception e) {
@@ -1164,11 +907,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             uiEty.objToUi(tItemCategory, i.getCategory());
             uiEty.objToUi(tSupplierItem, i.getSupplierId());
             uiEty.objToUi(tCartonItem, i.getCarton());
-            uiEty.objToUi(tUnitItem1, i.getUnitOne());
-            uiEty.objToUi(tDifferentPerUnit, i.getDifferent());
-            uiEty.objToUi(tUnitItem2, i.getUnitTwo());
-            uiEty.objToUi(tItemSalesPriceUnit1, i.getUnit1SalesPrice());
-            uiEty.objToUi(tItemSalesPriceUnit2, i.getUnit2SalesPrice());
             uiEty.objToUi(tItemCostPrice, i.getCost());
             uiEty.objToUi(tItemLandingCost, i.getLandCost());
             uiEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());
@@ -1189,6 +927,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             itemVariation2Ui(i.getVariations());
             extraSalesPrice2Ui(i.getExtrasalespriceCollection());
 
+            addUnitToTable(i);
             loadImagesToPanel(i.getCode());
         } catch (Exception e) {
             e.printStackTrace();
@@ -1205,7 +944,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             for (Iterator<ItemVariation> it = lstOfVariation.iterator(); it.hasNext();) {
                 ItemVariation i = it.next();
 
-                TableUtil.addrow(tblVariation, new Object[]{i.getDescription(), i.getsPrice1(), i.getsPrice2()});
 
             }
         } catch (Exception e) {
@@ -1225,7 +963,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             for (Iterator<ExtraSalesPrice> it = lstOfExtraPrice.iterator(); it.hasNext();) {
                 ExtraSalesPrice i = it.next();
 
-                TableUtil.addrow(tblVariation, new Object[]{i.getDescription(), i.getPrice()});
 
             }
         } catch (Exception e) {
@@ -1245,7 +982,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             for (Iterator<ItemBarcode> it = lstOfBarcode.iterator(); it.hasNext();) {
                 ItemBarcode i = it.next();
 
-                TableUtil.addrow(tblVariation, new Object[]{i.getType(), i.getBarcode()});
 
             }
         } catch (Exception e) {
@@ -1272,7 +1008,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
 
             uiToEty(selectedItem);
-            setuoms();
+//            setuoms();
 
             Item exist = itemService.getDao().findItemByCode(selectedItem.getCode());
             if (exist == null || Validator.isEmptyOrNull(selectedItem.getId())) {
@@ -1439,68 +1175,39 @@ public class ItemMasterUI2 extends TabPanelUI {
         return extension;
     }
 
-//////////////////////////////////
-    private void tItemSalesPriceUnit2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemSalesPriceUnit2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tItemSalesPriceUnit2ActionPerformed
-
-    private void tUnitItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tUnitItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tUnitItem1ActionPerformed
-
-    private void tPriceRangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tPriceRangeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tPriceRangeActionPerformed
-
-    private void tItemdiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemdiscountActionPerformed
-    }//GEN-LAST:event_tItemdiscountActionPerformed
-
-    private void tItemCommissionValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemCommissionValueActionPerformed
-    }//GEN-LAST:event_tItemCommissionValueActionPerformed
-
-    private void tItemdiscValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemdiscValueActionPerformed
-    }//GEN-LAST:event_tItemdiscValueActionPerformed
-
-    private void tItemCommissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemCommissionActionPerformed
-    }//GEN-LAST:event_tItemCommissionActionPerformed
-
-    private void tItemSalesPriceUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemSalesPriceUnit1ActionPerformed
-    }//GEN-LAST:event_tItemSalesPriceUnit1ActionPerformed
+//    try {
+//            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+//                //need to clear table before adding rows....
+//                addToExtraPriceTbl();
+//                tPriceRange.setSelectedItem("");
+//                tRngeValue.setText("");
+//                tPriceRange.getEditor().getEditorComponent().requestFocus();
+//
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//      try {
+//
+//            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+//                //need to clear table before adding rows....
+//                addToVariationTbl();
+//
+//                tVariationName.setSelectedItem("");
+//                tVariationPrice1.setText("");
+//                tVariationPrice2.setText("");
+//
+//                tVariationName.getEditor().getEditorComponent().requestFocus();
+//
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     private void tRngeValueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tRngeValueKeyTyped
-        try {
-            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-                //need to clear table before adding rows....
-                addToExtraPriceTbl();
-                tPriceRange.setSelectedItem("");
-                tRngeValue.setText("");
-                tPriceRange.getEditor().getEditorComponent().requestFocus();
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
     }//GEN-LAST:event_tRngeValueKeyTyped
-
-    private void tVariationPrice2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tVariationPrice2KeyTyped
-        try {
-
-            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-                //need to clear table before adding rows....
-                addToVariationTbl();
-
-                tVariationName.setSelectedItem("");
-                tVariationPrice1.setText("");
-                tVariationPrice2.setText("");
-
-                tVariationName.getEditor().getEditorComponent().requestFocus();
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tVariationPrice2KeyTyped
 
     public void delete() {
         try {
@@ -1536,31 +1243,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
 
     }
-
-    private void titemmarkKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_titemmarkKeyTyped
-    }//GEN-LAST:event_titemmarkKeyTyped
-
-    private void tItemBarcodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tItemBarcodeKeyTyped
-        try {
-            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-
-                addToBarcode();
-                titemmark.setText("");
-                tItemBarcode.setText("");
-                titemmark.requestFocus();
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tItemBarcodeKeyTyped
-
-    private void tVariationPrice1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tVariationPrice1KeyTyped
-    }//GEN-LAST:event_tVariationPrice1KeyTyped
-
-    private void tVariationPrice2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tVariationPrice2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tVariationPrice2ActionPerformed
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
         try {
@@ -1639,25 +1321,14 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }//GEN-LAST:event_cButton1ActionPerformed
 
-    private void tItemcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemcodeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tItemcodeActionPerformed
-
-    private void tItemDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tItemDescriptionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tItemDescriptionActionPerformed
-
-    private void tSupplierItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tSupplierItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tSupplierItemActionPerformed
-
-    private void tprimunitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tprimunitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tprimunitActionPerformed
-
     private void cButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton2ActionPerformed
         deleteUnitRow();
     }//GEN-LAST:event_cButton2ActionPerformed
+
+    private void tunitpriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tunitpriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tunitpriceActionPerformed
+
     public JPopupMenu viewLargeImg(JLabel lbl, File image) {
         //  System.out.println("viewlargeImg Methd image name is "+image.getAbsolutePath());
         JPopupMenu p = new JPopupMenu("imagepanel");
@@ -1712,11 +1383,11 @@ public class ItemMasterUI2 extends TabPanelUI {
         jl.setIcon(i12);
         return jl;
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CButton cButton2;
     private org.components.controls.CLabel cLabel1;
-    private org.components.controls.CLabel cLabel10;
     private org.components.controls.CLabel cLabel2;
     private org.components.controls.CLabel cLabel3;
     private org.components.controls.CLabel cLabel4;
@@ -1725,7 +1396,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.controls.CLabel cLabel7;
     private org.components.controls.CLabel cLabel8;
     private org.components.controls.CLabel cLabel9;
-    private org.components.containers.CPanel cPanel1;
     private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
     private org.components.containers.CPanel cPanel4;
@@ -1736,17 +1406,14 @@ public class ItemMasterUI2 extends TabPanelUI {
     private com.components.custom.ControlPanel crudcontrolPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1754,21 +1421,16 @@ public class ItemMasterUI2 extends TabPanelUI {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private org.components.controls.CTextField tCartonItem;
     private org.components.controls.CTextField tContainsQty;
-    private org.components.controls.CTextField tDifferentPerUnit;
     private org.components.controls.CTextField tItemBarcode;
     private org.components.controls.CComboBox tItemCategory;
     private org.components.controls.CTextField tItemCommission;
@@ -1780,8 +1442,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.controls.CTextField tItemMinimumPrice;
     private org.components.controls.CTextField tItemMinimumStock;
     private org.components.controls.CTextField tItemReOrder;
-    private org.components.controls.CTextField tItemSalesPriceUnit1;
-    private org.components.controls.CTextField tItemSalesPriceUnit2;
     private org.components.controls.CCheckBox tItemTrakExpiry;
     private org.components.controls.CCheckBox tItemTrakInactive;
     private org.components.controls.CCheckBox tItemTrakManfctringItem;
@@ -1794,29 +1454,16 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.controls.CComboBox tPriceRange;
     private org.components.controls.CTextField tRngeValue;
     private org.components.controls.CComboBox tSupplierItem;
-    private org.components.controls.CComboBox tUnitItem1;
-    private org.components.controls.CComboBox tUnitItem2;
-    private org.components.controls.CComboBox tVariationName;
-    private org.components.controls.CTextField tVariationPrice1;
-    private org.components.controls.CTextField tVariationPrice2;
     private org.components.controls.CTextField tWholesalePrice;
     private javax.swing.JTable tblBarcode;
     private javax.swing.JTable tblPriceRanges;
-    private javax.swing.JTable tblVariation;
     private org.components.controls.CxTable tblunitprices;
-    private org.components.controls.CTextField textraunitprice1;
-    private org.components.controls.CTextField textraunitprice4;
-    private org.components.controls.CTextField textraunitprice5;
-    private org.components.controls.CTextField textraunitprice6;
-    private org.components.controls.CTextField textraunitprice7;
-    private org.components.controls.CTextField textraunitprice8;
     private org.components.controls.CTextField titemmark;
     private org.components.controls.CTextField tmodel;
-    private org.components.controls.CTextField tprimunit;
     private org.components.controls.CTextField ttype;
     private org.components.controls.CTextField tunitprice;
     private org.components.controls.CTextField tunitsymbot;
-    private org.components.controls.CComboBox tunittype;
+    private javax.swing.JComboBox tunittype;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -1947,7 +1594,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 //                            pu.setSimbol(tprimunit.getText());
 //                            uom.setGuom(pu);
 //                            List<UOM> uoms=selectedItem.getUoms();
-        if (uoms != null || !uoms.isEmpty()) {
+        if (uoms != null && !uoms.isEmpty()) {
             pu = uoms.get(0);
         }
 //                            selectedItem.addUOMorUpdate(uom);
@@ -1969,7 +1616,13 @@ public class ItemMasterUI2 extends TabPanelUI {
  //UOM 
  * if one item is selected then modify it
  * if nothing selected then create new 
- * 
+ primary unit
+ * item must have a primary key
+ * so uom should have a flag to say it is primary
+ * * or
+ * uom has gom --has a relationship??  this is way complecated
+types should be difined as primary , cartons, wholesale ,,,and others ..
+ *
  ****************
  * item mark should be  considered agains !!!!!
  * 

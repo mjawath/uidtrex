@@ -14,6 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
+import org.biz.app.ui.util.uiEty;
 
 /**
  *
@@ -26,7 +30,21 @@ public class UOM implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String simbol;
-    private Byte type;
+    private Byte type;// this can be primary ,carton, wholsale ..others
+    private Boolean isPrimary;
+
+    public enum UOMType{
+    Primary,Carton,WholeSale,Other
+    }
+    public Boolean getIsPrimary() {
+        return isPrimary;
+    }
+
+    public void setIsPrimary(Boolean isPrimary) {
+        this.isPrimary = isPrimary;
+    }
+
+
 
     public Byte getType() {
         return type;
@@ -114,6 +132,38 @@ public class UOM implements Serializable {
     public void setSimbol(String simbol) {
         this.simbol = simbol;
     }
+
+    public static void setUOMType(JComboBox cmb){
+            DefaultComboBoxModel cmbmo=new DefaultComboBoxModel();
+
+        for (UOMType uOMType : UOMType.values()) {
+        cmbmo.addElement(uOMType);
+        }
+        cmb.setModel(cmbmo);
+//        
+//        for (Object object : UOMType.values()) {
+//            
+//        }
+//        switch(index){
+//            case 0: return UOMType.Primary ;
+//            case 1: return UOMType.Carton ;
+//            case 2: return UOMType.WholeSale ;
+//            case 3: return UOMType.Other;
+//            default : return UOMType.Primary ;
+//        }
+    }
+
+    public static UOMType getUOMType(int index){
+    //
+        switch(index){
+            case 0: return UOMType.Primary ;
+            case 1: return UOMType.Carton ;
+            case 2: return UOMType.WholeSale ;
+            case 3: return UOMType.Other;
+            default : return UOMType.Primary ;
+        }
+    }
+
 
     @Override
     public int hashCode() {

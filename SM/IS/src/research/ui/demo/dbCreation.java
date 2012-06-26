@@ -5,16 +5,16 @@
 package research.ui.demo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
-import org.biz.invoicesystem.entity.master.Customer;
-import org.biz.invoicesystem.entity.master.Item;
-import org.biz.invoicesystem.entity.master.Shop;
-import org.biz.invoicesystem.entity.master.Staff;
-import org.biz.invoicesystem.entity.master.Supplier;
-import org.biz.invoicesystem.entity.master.Warehouse;
+import org.biz.invoicesystem.entity.master.*;
 import org.dao.util.JPAUtil;
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 /**
  *
@@ -24,6 +24,14 @@ public class dbCreation {
 
     public static void main(String[] args) {
 
+//        ItemDAO d=new ItemDAO();
+//        Item x=new Item();
+//        x.setId("nn");
+//        UOM u=new UOM();
+//        u.setId("xx");
+//        u.setSimbol("123");
+//        x.addUOMorUpdate(u);
+//        d.update(x);
 //      Query e=  new SalesInvoiceService().getDao().createQuery("select c from Item c");
 //        System.out.println("exe cuting one........");
 //        e.getResultList();
@@ -121,6 +129,27 @@ public class dbCreation {
     }
 
     public static void createDataBase() {
-        JPAUtil.createEMFWithCustomProperties();
+        //before call this method should not initialis the emf any where perticularly in static initialisers!!!
+//        JPAUtil.createEMFWithCustomProperties();
+
+        Map props = new HashMap();
+//         props.put("eclipselink.jdbc.user","");
+//         props.put("eclipselink.jdbc.password", "");\
+        props.put(PersistenceUnitProperties.APP_LOCATION, "c:\\ddl\\");
+//        props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
+        props.put("eclipselink.ddl-generation", "drop-and-create-tables");
+        props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
+        props.put("eclipselink.logging.level", "FINE");
+//        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
+//        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
+        props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
+//        props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
+        props.put(PersistenceUnitProperties.DROP_JDBC_DDL_FILE, "drop.sql");
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("InvoicingSystemPU", props);
+
+       
+     List s=   emf.createEntityManager().createQuery("select item from Item item").getResultList();
+
     }
 }

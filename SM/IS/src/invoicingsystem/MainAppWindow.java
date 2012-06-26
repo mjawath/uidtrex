@@ -29,6 +29,7 @@ import javax.swing.plaf.FontUIResource;
 import org.biz.erp.inventory.ui.WareHouseUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
+import org.biz.invoicesystem.master.ui.SupplierMasterTab;
 import org.biz.invoicesystem.ui.transactions.PosInvoiceUIE;
 import org.biz.invoicesystem.ui.transactions.PosInvoiceV3;
 import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
@@ -137,6 +138,7 @@ public class MainAppWindow extends AppMainWindow {
         setjTabbedPane1(jTabbedPane1);
        
         addToTabpanelToUI(new ItemMasterTab(), "Item master");
+        addToTabpanelToUI(new SupplierMasterTab(), "Master master");
 //       addToTabpanelToUI(new InvoiceTestUI2() , "Invoice test");
 //        addToTabpanelToUI(new AccountsCreationUI(), "acoouts master");
 //        addToTabpanelToUI(new SalesInvoiceUI(), "Invoice master");
@@ -147,9 +149,9 @@ public class MainAppWindow extends AppMainWindow {
 //        addToTabpanelToUI(new PostedSalesInvoiceUI(), "poseted sales invoice");
 //        addToTabpanelToUI(new GRNUI(), "GRN invoice");
 //        addToTabpanelToUI(new BankDetailUI(), "GDN invoice");
-        addToTabpanelToUI(new BankDetailUI(), "bank ");
-        addToTabpanelToUI(new BankBranchDetailUI(), "bank branch");
-        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
+//        addToTabpanelToUI(new BankDetailUI(), "bank ");
+//        addToTabpanelToUI(new BankBranchDetailUI(), "bank branch");
+//        addToTabpanelToUI(new ChequeDetailUI(), "cheque");
         addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
         addToTabpanelToUI(new ShopUI(), "shop statement");
         addToTabpanelToUI(new WareHouseUI(), "ware house");
