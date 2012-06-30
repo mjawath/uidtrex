@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.biz.invoicesystem.entity.master;
 
 import java.io.Serializable;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import org.biz.app.ui.util.uiEty;
 
 /**
  *
@@ -25,17 +22,51 @@ import org.biz.app.ui.util.uiEty;
  */
 @Entity
 public class UOM implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String simbol;
+//    @Enumerated(EnumType.ORDINAL)
     private Byte type;// this can be primary ,carton, wholsale ..others
     private Boolean isPrimary;
 
-    public enum UOMType{
-    Primary,Carton,WholeSale,Other
+    public enum UOMType {
+
+        Primary, Carton, WholeSale, Other;
+        byte value;
+
+        UOMType() {
+        }
+//http://stackoverflow.com/questions/2751733/map-enum-in-jpa-with-fixed-values
+
+
+         UOMType(byte vl) {
+            value = vl;
+        }
+
+        public byte getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case Primary:
+                    return "Primary";
+                case Carton:
+                    return "Carton";
+                case Other:
+                    return "Other";
+                case WholeSale:
+                    return "WholeSale";
+            }
+
+            return super.toString();
+        }
     }
+
     public Boolean getIsPrimary() {
         return isPrimary;
     }
@@ -44,8 +75,6 @@ public class UOM implements Serializable {
         this.isPrimary = isPrimary;
     }
 
-
-
     public Byte getType() {
         return type;
     }
@@ -53,7 +82,6 @@ public class UOM implements Serializable {
     public void setType(Byte type) {
         this.type = type;
     }
-    
     private String descriptiom;
     @OneToOne
     private UOM guom;
@@ -68,10 +96,7 @@ public class UOM implements Serializable {
         this.salesPrice = salesPrice;
     }
 
-    
-    
-    
-   public static UOM find(String code, List<UOM> lst) {
+    public static UOM find(String code, List<UOM> lst) {
 
 
         Comparator<UOM> com = new Comparator<UOM>() {
@@ -93,6 +118,7 @@ public class UOM implements Serializable {
             return null;
         }
     }
+
     public String getId() {
         return id;
     }
@@ -133,11 +159,11 @@ public class UOM implements Serializable {
         this.simbol = simbol;
     }
 
-    public static void setUOMType(JComboBox cmb){
-            DefaultComboBoxModel cmbmo=new DefaultComboBoxModel();
+    public static void setUOMType(JComboBox cmb) {
+        DefaultComboBoxModel cmbmo = new DefaultComboBoxModel();
 
         for (UOMType uOMType : UOMType.values()) {
-        cmbmo.addElement(uOMType);
+            cmbmo.addElement(uOMType);
         }
         cmb.setModel(cmbmo);
 //        
@@ -153,17 +179,21 @@ public class UOM implements Serializable {
 //        }
     }
 
-    public static UOMType getUOMType(int index){
-    //
-        switch(index){
-            case 0: return UOMType.Primary ;
-            case 1: return UOMType.Carton ;
-            case 2: return UOMType.WholeSale ;
-            case 3: return UOMType.Other;
-            default : return UOMType.Primary ;
+    public static UOMType getUOMType(int index) {
+        //
+        switch (index) {
+            case 0:
+                return UOMType.Primary;
+            case 1:
+                return UOMType.Carton;
+            case 2:
+                return UOMType.WholeSale;
+            case 3:
+                return UOMType.Other;
+            default:
+                return UOMType.Primary;
         }
     }
-
 
     @Override
     public int hashCode() {
@@ -189,5 +219,4 @@ public class UOM implements Serializable {
     public String toString() {
         return "org.biz.invoicesystem.entity.master.UOM[id=" + id + "]";
     }
-
 }

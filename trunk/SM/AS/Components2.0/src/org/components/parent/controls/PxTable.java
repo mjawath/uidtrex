@@ -73,13 +73,14 @@ public class PxTable extends JXTable  implements IComponent{
 
     public void modelToTable(List list) {
         clear();
-        if(list!=null && list.isEmpty() )return;
+        if(list==null || list.isEmpty() )return;
         for (Object row : list) {
         TableUtil.addModelToTable(row, this);
         }
 
 
     }
+
     public  void replaceModel( Object obj) {
        TableUtil. replaceSelectedModel(this, obj);
 

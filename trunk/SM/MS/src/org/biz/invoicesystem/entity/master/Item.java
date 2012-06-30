@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import org.biz.invoicesystem.system.SystemUtil;
 
-
 @Entity
 public class Item implements Serializable {
     //   private static final long serialVersionUID = 1L;
@@ -456,8 +455,6 @@ public class Item implements Serializable {
 
     }
 
-    
-    
     public void addUOMorUpdate(UOM uom) {
 
         if (uoms == null) {
@@ -480,7 +477,9 @@ public class Item implements Serializable {
             if (uom.getId() != null && uom.getId().equals(item.getId())) {
 //                 item=uom;//replace item
                 uoms.set(it, uom);
-                if(it==0)uom.setIsPrimary(true);
+                if (it == 0) {
+                    uom.setIsPrimary(true);
+                }
                 return;
             }
         }
@@ -491,8 +490,6 @@ public class Item implements Serializable {
 
     }
 
-    
-    
     public String[] getUomSimbolList() {
         ArrayList<String> al = new ArrayList<String>();
         if (uoms != null) {
@@ -500,23 +497,23 @@ public class Item implements Serializable {
                 al.add(uom.getSimbol());
             }
         }
-        String [] s=new String[al.size()];
-        return  al.toArray(s);
+        String[] s = new String[al.size()];
+        return al.toArray(s);
     }
-    
-    public void addItemBarCode(ItemBarcode bar){
-        if(barcodes==null){
-        barcodes = new ArrayList<ItemBarcode>();
-        bar.setId(SystemUtil.timeStampKey());
-        barcodes.add(bar);
-        return;
-        }
-        if(bar.getId()==null){
-        bar.setId(SystemUtil.timeStampKey());
+
+    public void addItemBarCode(ItemBarcode bar) {
+        if (barcodes == null) {
+            barcodes = new ArrayList<ItemBarcode>();
+            bar.setId(SystemUtil.timeStampKey());
             barcodes.add(bar);
             return;
         }
-         int it = -1;
+        if (bar.getId() == null) {
+            bar.setId(SystemUtil.timeStampKey());
+            barcodes.add(bar);
+            return;
+        }
+        int it = -1;
         for (ItemBarcode item : getBarcodes()) {
             it++;
             if (bar.getId() != null && bar.getId().equals(item.getId())) {

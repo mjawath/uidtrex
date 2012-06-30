@@ -11,11 +11,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -156,8 +152,8 @@ public class ItemMasterUI2 extends TabPanelUI {
                             Object id = TableUtil.getSelectedValue(tblunitprices, 0);
                             uom.setId(id != null ? id.toString() : null);
                             uom.setSimbol(tunitsymbot.getText());
-                            String ty = uiEty.cmbtostr(tunittype);
-                            uom.setType(new Byte(ty));
+                            int ty = tunittype.getSelectedIndex();                            
+                            uom.setType((byte)ty);
                             uom.setSalesPrice(tunitprice.getDoubleValue());
                             uom.setMulti(tContainsQty.getDoubleValue0());
                             //prime  unit
@@ -205,6 +201,21 @@ public class ItemMasterUI2 extends TabPanelUI {
                 }
             });
 
+
+            tunittype.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("---   ---");
+                    //apply primary type when select only one item
+                    
+                    // allow only one carton , and whole sale
+                    //other entries are other type and are allowed multiple time
+                    // when deleting a entry chek this contitions
+                    //when primary is deleted user should be notified
+
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -286,6 +297,8 @@ public class ItemMasterUI2 extends TabPanelUI {
     }
 
     private void deleteUnitRow() {
+        //should check for primary keys deletion !!!!!
+
         Object ob = TableUtil.getSelectedValue(tblunitprices, 0);
         if (ob != null) {
             for (Iterator<UOM> it = selectedItem.getUoms().iterator(); it.hasNext();) {
@@ -300,14 +313,11 @@ public class ItemMasterUI2 extends TabPanelUI {
     }
 
     private void addUnitToTable(Item  item) {
-        tblunitprices.clear();
-        for (UOM um : item.getUoms()) {
 //            String u = um.getGuom() != null ? um.getGuom().getSimbol() : null;
 //            TableUtil.addrow(tblunitprices, new Object[]{um.getId(), um.getType(), um.getSimbol(), um.getSalesPrice(),
 //                        um.getMulti(), u});
-            tblunitprices.addModelToTable(um);
-        }
-        tblunitprices.addModelToTable(new UOM());
+            tblunitprices.modelToTable(item.getUoms());
+            tblunitprices.addModelToTable(new UOM());
 //        TableUtil.addnewrow(tblunitprices);
     }
 
@@ -557,7 +567,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         tunittype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cPanel6.add(tunittype);
-        tunittype.setBounds(130, 10, 56, 20);
+        tunittype.setBounds(370, 30, 70, 30);
 
         cScrollPane2.setViewportView(cPanel6);
 
