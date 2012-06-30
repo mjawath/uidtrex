@@ -1,7 +1,9 @@
 package org.dao.util;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,7 +22,7 @@ public class JPAUtil {
         try {
             //how to start derby database
 
-            entityManagerFactory = Persistence.createEntityManagerFactory("InvoicingSystemPU");
+           entityManagerFactory = Persistence.createEntityManagerFactory("InvoicingSystemPU");
             entityManager = entityManagerFactory.createEntityManager();
 
         } catch (Throwable e) {
@@ -92,16 +94,23 @@ public class JPAUtil {
 //         props.put("eclipselink.jdbc.user","");
 //         props.put("eclipselink.jdbc.password", "");\
         props.put(PersistenceUnitProperties.APP_LOCATION, "c:\\ddl\\");
-        props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
+//        props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
         props.put("eclipselink.ddl-generation", "drop-and-create-tables");
         props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
-        
+        props.put("eclipselink.logging.level", "FINE");
+//        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
+//        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
         props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
+//        props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
+        props.put(PersistenceUnitProperties.DROP_JDBC_DDL_FILE, "drop.sql");
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("InvoicingSystemPU", props);
+
         entityManagerFactory = emf;
         for (String string : emf.getProperties().keySet()) {
             System.out.println(emf.getProperties().get(string));
         }
-
+     List s=   emf.createEntityManager().createQuery("select item from Item item").getResultList();
+        System.out.println(s);
     }
 }

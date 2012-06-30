@@ -500,3 +500,9 @@ public class TableUtil {
         replaceModel(table, obj, table.getSelectedRow());
     }
 }
+/*
+ todo addModelToTable()
+ * should be able to parse a methods to evaluate
+ * a custom property in the level of object -property as a method call
+ *
+ */
