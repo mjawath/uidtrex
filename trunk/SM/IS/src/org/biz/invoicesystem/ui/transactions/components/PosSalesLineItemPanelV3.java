@@ -82,7 +82,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
     public void init() {
 
-salesline=new SalesInvoiceLineItem();
+        salesline = new SalesInvoiceLineItem();
 
         tprice.addKeyListener(new KeyAdapter() {
 
@@ -241,11 +241,11 @@ salesline=new SalesInvoiceLineItem();
     public void etyToPanel(SalesInvoiceLineItem salesline) {
         Item it = salesline.getItem();
         if (it != null) {
-            titemcode.setTextItem( it.getCode());
+            titemcode.setTextItem(it.getCode());
             uiEty.objToUi(tdescription, salesline.getDescription());
 //
         } else {
-            titemcode.setTextItem( "");
+            titemcode.setTextItem("");
             uiEty.objToUi(tdescription, "");
         }
 
@@ -279,7 +279,7 @@ salesline=new SalesInvoiceLineItem();
 
 //
         } else {
-            titemcode.setTextItem( "");
+            titemcode.setTextItem("");
         }
         uiEty.objToUi(tqty, salesline.getQty());
         uiEty.objToUi(tdescription, salesline.getDescription());

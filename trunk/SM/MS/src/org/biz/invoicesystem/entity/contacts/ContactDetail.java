@@ -5,6 +5,7 @@
 package org.biz.invoicesystem.entity.contacts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -39,6 +40,11 @@ public class ContactDetail extends BusObj implements Serializable {
     
     @OneToOne
     Address defAddress;
+
+    public ContactDetail() {
+        addresses = new ArrayList<Address>();
+        
+    }
 
    
 
@@ -136,10 +142,14 @@ public class ContactDetail extends BusObj implements Serializable {
     }
 
     
-    public void setAddresses(List<Address> addresses) {
+    public  void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 
-    
-    
+    public static String addString(String list,String phone){
+        if(list==null){list=""+phone;return list;}
+        list+=divider+phone;
+        return list;
+    }
+    public static String divider="\n";
 }

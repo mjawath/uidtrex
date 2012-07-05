@@ -1,6 +1,5 @@
 package org.biz.invoicesystem.master.ui;
 
-import org.biz.invoicesystem.ui.list.master.ItemListUi;
 import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,6 +23,8 @@ import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import org.biz.app.ui.util.MessageBoxes;
 import org.biz.app.ui.util.TableUtil;
@@ -39,6 +40,8 @@ import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
+import org.biz.invoicesystem.ui.list.master.ItemListUi;
+
 
 public class ItemMasterUI2 extends TabPanelUI {
 
@@ -152,12 +155,21 @@ public class ItemMasterUI2 extends TabPanelUI {
                             Object id = TableUtil.getSelectedValue(tblunitprices, 0);
                             uom.setId(id != null ? id.toString() : null);
                             uom.setSimbol(tunitsymbot.getText());
+
+                            //check this with id and symbol if same skip
+                            //if diff do not accept
+
                             int ty = tunittype.getSelectedIndex();                            
                             uom.setType((byte)ty);
+                            
                             uom.setSalesPrice(tunitprice.getDoubleValue());
                             uom.setMulti(tContainsQty.getDoubleValue0());
                             //prime  unit
                             //logic changes type is defined 
+                            if(selectedItem.checkUOMExist(uom)){
+                            MessageBoxes.wrnmsg(ItemMasterUI2.this, "unit already exists ", "duplicate uom");
+                            return;
+                            }
                             selectedItem.addUOMorUpdate(uom);
 //we can skip current primary uom setting becas we r using only one primary key
  // we cannnot give only primary key
@@ -213,6 +225,35 @@ public class ItemMasterUI2 extends TabPanelUI {
                     //other entries are other type and are allowed multiple time
                     // when deleting a entry chek this contitions
                     //when primary is deleted user should be notified
+
+                    
+                }
+            });
+
+
+            tblunitprices.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if(equals(e.getValueIsAdjusting()))return;
+                        //get selected uom from list
+                     Object id = TableUtil.getSelectedValue(tblunitprices, 0);
+                     
+                     for (UOM uom : selectedItem.getUoms()) {
+                        if(uom.getId().equals(id)){
+                            //set uom to UI
+                            uiEty.objToUi(tunitprice,uom.getSalesPrice());
+                            uiEty.objToUi(tContainsQty,uom.getMulti());
+                            uiEty.objToUi(tunitsymbot,uom.getSimbol());
+                                                return;
+
+                        }
+                    }
+
+                        tunitprice.clear();
+                        tContainsQty.clear();
+                        tunitsymbot.clear();
+
 
                 }
             });
@@ -538,7 +579,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         tblunitprices.getColumnModel().getColumn(3).setResizable(false);
 
         cPanel6.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 70, 450, 140);
+        jScrollPane3.setBounds(10, 70, 450, 180);
 
         tunitprice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

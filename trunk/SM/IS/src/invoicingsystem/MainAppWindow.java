@@ -27,12 +27,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import org.biz.erp.inventory.ui.WareHouseUI;
+import org.biz.invoicesystem.master.ui.ContactsUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
 import org.biz.invoicesystem.master.ui.SupplierMasterTab;
-import org.biz.invoicesystem.ui.transactions.PosInvoiceUIE;
-import org.biz.invoicesystem.ui.transactions.PosInvoiceV3;
-import org.biz.invoicesystem.ui.transactions.TransferOrderUI;
+import org.biz.invoicesystem.ui.transactions.*;
 
 import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
@@ -158,11 +157,11 @@ public class MainAppWindow extends AppMainWindow {
         addToTabpanelToUI(new TransferOrderUI(), "transfer order");
         events();
         
-        addToTabpanelToUI(new InvoiceMasterUI2(),"  * Invoice Master *");
+        addToTabpanelToUI(new InvoiceMasterUIV3(),"  * Invoice Master *");
         addToTabpanelToUI(new PosInvoiceV3(),"  * pos Invoice 3 Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
         addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
-        addToTabpanelToUI(new PostedInvoicesListUI(),"  * pos Invofdgice Master *");
+        addToTabpanelToUI(new ContactsUI(),"  * contact Master *");
     System.gc();
     }
  
