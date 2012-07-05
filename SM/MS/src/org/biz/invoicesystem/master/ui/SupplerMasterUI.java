@@ -212,7 +212,7 @@ public void clear(){
         add(tSuppTitle);
         tSuppTitle.setBounds(260, 40, 63, 23);
         add(cSuppDob);
-        cSuppDob.setBounds(610, 40, 116, 22);
+        cSuppDob.setBounds(610, 40, 108, 22);
 
         cLabel5.setText("DOB");
         add(cLabel5);

@@ -126,7 +126,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         lineItemPanel.setTable(tblInvoice);
 
         tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "price", "lineAmount"});
-
+////////////seeking 
         //1 apply u -fullly into it
         //2 primary activity(desire) wanted otherthen anything else
         //3 patient

@@ -25,46 +25,7 @@ import org.components.controls.CTextField;
  */
 public class CTextFieldWpopup extends CTextField {
 
-    IContainer container;
-    JComponent nextFocusableComponent;
-    JComponent previouseFocusedComponent;
     List<ActionTask> actionTasks;
-    boolean moveTonextcom = true;
-
-    protected void processFocusEvent(FocusEvent e) {
-        super.processFocusEvent(e);
-        if (e.isTemporary()) {
-            return;
-        }
-
-        int id = e.getID();
-        switch (id) {
-            case FocusEvent.FOCUS_GAINED:
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        selectAll();
-                    }
-                });
-                break;
-            case FocusEvent.FOCUS_LOST:
-                final CTextFieldWpopup org = (CTextFieldWpopup) e.getComponent();
-
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        org.setCaretPosition(org.getText().length());
-                    }
-                });
-                break;
-        }
-
-
-
-
-    }
 
     /** Creates new form BeanForm */
     public CTextFieldWpopup() {
@@ -116,6 +77,7 @@ public class CTextFieldWpopup extends CTextField {
         addActionListener(actionTask);
     }
 
+    
 
     
     private String formater;

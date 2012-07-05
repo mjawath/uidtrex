@@ -490,6 +490,21 @@ public class Item implements Serializable {
 
     }
 
+    public boolean checkUOMExist(UOM x){
+        if(uoms==null)return false;
+        for (UOM uom : uoms) {
+           //selected uoms x s id should not be equal to 
+            //
+            if(uom.getSimbol().equals(x.getSimbol()) && !uom.getId().equals(x.getId())){
+            return true;
+            }
+            if(x.getId()==null && uom.getSimbol().equals(x.getSimbol())){
+            return true;
+            }
+        }
+        return false;
+    }
+
     public String[] getUomSimbolList() {
         ArrayList<String> al = new ArrayList<String>();
         if (uoms != null) {

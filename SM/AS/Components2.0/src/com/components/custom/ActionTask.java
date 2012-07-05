@@ -19,7 +19,7 @@ import javax.swing.JComponent;
  */
 public class ActionTask extends AbstractAction{
     
-    
+    Object param;
     JComponent nextToFocus;
 
     public ActionTask(JComponent nextToFocus) {
@@ -29,13 +29,23 @@ public class ActionTask extends AbstractAction{
     public ActionTask() {
     }
     
-    
+    public ActionTask(Object obj) {
+this.param=obj;
+    }
+
     public boolean validate(){
     return true;
     }
     public boolean action(){
     
     return true;
+    }
+
+    public void actionCall(Object obj){
+
+    }
+    public void actionCall(){
+
     }
     public void actionPerformed(ActionEvent e) {
         if(! validate()){
@@ -46,12 +56,7 @@ public class ActionTask extends AbstractAction{
             
         return;
         };
-        System.out.println("sdfasfasfas");
-        
-        if(nextToFocus!=null){
-        nextToFocus.requestFocus();
-        }
-        
+                     
     }
     
 }
