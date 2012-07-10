@@ -28,6 +28,25 @@ public class Item implements Serializable {
     private String description; //item description ....
     // private String inventoryType;
     private String category;
+    private String model;
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+    
+    private String manufacturer;
     private String unitOne; //like bags...dozens...boxes..
     private Integer different; //unit diferents like 50packets=1 bag...
     private String unitTwo; //like pcs ..packets...
@@ -60,7 +79,6 @@ public class Item implements Serializable {
     private Double commission;
     private Double commissionValue;
     private Double reOrder;
-    private Double carton;
     private Boolean nonStockItems;
     private Boolean inactive;
     private Boolean itemcol;
@@ -154,13 +172,6 @@ public class Item implements Serializable {
 //    public void setActive(Boolean active) {
 //        this.active = active;
 //    }
-    public Double getCarton() {
-        return carton;
-    }
-
-    public void setCarton(Double carton) {
-        this.carton = carton;
-    }
 
     public String getCategory() {
         return category;

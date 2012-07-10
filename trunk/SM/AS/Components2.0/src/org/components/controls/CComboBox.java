@@ -11,13 +11,14 @@
 package org.components.controls;
 
 import com.components.custom.ActionTask;
-import com.components.custom.CInputVerifier;
-import java.awt.event.ActionEvent;
+import com.components.custom.IComponent;
+import com.components.custom.IContainer;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
@@ -25,13 +26,28 @@ import javax.swing.JComponent;
  *
  * @author nano
  */
-public class CComboBox extends JComboBox {
+public class CComboBox<E> extends JComboBox implements IComponent{
+
+
+    protected  IContainer container;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     JComponent nextFocusableComponent;
     List<ActionTask> actionTasks;
     boolean moveTonextcom = true;
 
-    /** Creates new form BeanForm */
+    /**
+     * Creates new form BeanForm
+     */
     public CComboBox() {
         initComponents();
 //          addKeyListener(new KeyAdapter() {
@@ -124,19 +140,31 @@ public class CComboBox extends JComboBox {
 
     }
 
+    public void setModel(List model) {
+        if (model != null) {
+            this.setModel(new DefaultComboBoxModel(model.toArray()));
+        } else {
+            this. removeAllItems();
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
 
-    public JComponent nextFocusableComponent() {
-        return nextFocusableComponent;
+    
+
+    @Override
+    public void setContainer(IContainer con) {
+        this.container =con;
     }
 
-    public void nextFocusableComponent(JComponent nextFocusableComponent) {
-        this.nextFocusableComponent = nextFocusableComponent;
+    public IContainer getContainer() {
+        return container;
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

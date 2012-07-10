@@ -34,7 +34,6 @@ public class TestMain {
         Customer cus = new Customer();
         SalesInvoiceLineItem item = new SalesInvoiceLineItem();
         Item i = new Item();
-        i.setCarton(2560d);
         item.setItem(i);
         JexlContext context = new MapContext();
         context.set("cus", item);

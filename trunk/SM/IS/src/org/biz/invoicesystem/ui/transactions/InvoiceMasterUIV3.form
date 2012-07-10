@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
@@ -381,7 +381,7 @@
     <Container class="org.components.containers.CPanel" name="cPanel5">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="260" y="150" width="250" height="110"/>
+          <AbsoluteConstraints x="260" y="150" width="250" height="120"/>
         </Constraint>
       </Constraints>
 
@@ -462,7 +462,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="90" y="80" width="150" height="20"/>
+              <AbsoluteConstraints x="90" y="90" width="150" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -567,14 +567,7 @@
     <Component class="com.components.custom.ControlPanel" name="controlPanel1">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="110" y="420" width="480" height="50"/>
-        </Constraint>
-      </Constraints>
-    </Component>
-    <Component class="com.components.custom.CTextFieldWpopup" name="tsalesman">
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="790" y="240" width="160" height="-1"/>
+          <AbsoluteConstraints x="110" y="420" width="480" height="40"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -584,7 +577,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="50" y="10" width="810" height="110"/>
+          <AbsoluteConstraints x="50" y="20" width="810" height="120"/>
         </Constraint>
       </Constraints>
 
@@ -609,5 +602,18 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="com.components.custom.TextFieldWithPopUP" name="tsalesman">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tsalesmanActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Staff&gt;"/>
+      </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="770" y="240" width="130" height="-1"/>
+        </Constraint>
+      </Constraints>
+    </Component>
   </SubComponents>
 </Form>
