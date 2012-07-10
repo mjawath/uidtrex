@@ -4,6 +4,7 @@
  */
 package org.biz.invoicesystem.entity.transactions;
 
+import app.utils.MathUtil;
 import org.biz.entity.BusObj;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -141,6 +142,10 @@ public class SalesInvoiceLineItem extends BusObj implements Serializable  {
         return price;
     }
 
+    public void calculateLineItem(){
     
+            setLineAmount(MathUtil.multiply(getQty(), getPrice()));
+    
+    }
     
 }

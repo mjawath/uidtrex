@@ -30,14 +30,13 @@ import org.components.controls.CTextField;
  */
 public class SalesLineItemPanel extends LineItemPanel {
 
-    
     protected SalesInvoiceLineItem salesline;
 
     public SalesLineItemPanel(JFrame jf) {
         super(jf);
         initComponents();
 
-   
+
         tprice.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
@@ -69,62 +68,54 @@ public class SalesLineItemPanel extends LineItemPanel {
 
 
 
-      /*  tdescription.setInputVerifier(new CInputVerifier(tqty){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tqty.setInputVerifier(new CInputVerifier(tunit){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-        tprice.setInputVerifier(new CInputVerifier(tprice){
-            public boolean action() {
-                lineItemLogic();
-                return super.action();
-            }
-        });
-*/
-        
+        /*
+         * tdescription.setInputVerifier(new CInputVerifier(tqty){ public
+         * boolean action() { lineItemLogic(); return super.action(); } });
+         * tqty.setInputVerifier(new CInputVerifier(tunit){ public boolean
+         * action() { lineItemLogic(); return super.action(); } });
+         * tprice.setInputVerifier(new CInputVerifier(tprice){ public boolean
+         * action() { lineItemLogic(); return super.action(); } });
+         */
+
         titemcode.nextFocusableComponent(tdescription);
         tdescription.nextFocusableComponent(tqty);
         tqty.nextFocusableComponent(tunit);
 //        tunit.nextFocusableComponent(tprice);
-        
+
         tprice.nextFocusableComponent(titemcode);
-        titemcode.addaction(2, new ActionTask(){           
+        titemcode.addaction(2, new ActionTask() {
+
             public boolean action() {
-                    lineItemLogic();
+                lineItemLogic();
                 return super.action();
-            }        
+            }
         });
-        tqty.addaction(0, new ActionTask(){
+        tqty.addaction(0, new ActionTask() {
 
             @Override
             public boolean action() {
                 lineItemLogic();
                 return super.action();
             }
-        
         });
-        tprice.addaction(0, new ActionTask(){
+        tprice.addaction(0, new ActionTask() {
+
             public boolean action() {
                 lineItemLogic();
                 return super.action();
-            }        
+            }
         });
-        
+
     }
 
-    /** Creates new form LineItemPanel */
+    /**
+     * Creates new form LineItemPanel
+     */
     public SalesLineItemPanel() {
         super();
         initComponents();
 
-      
+
         tunit.addKeyListener(new KeyAdapter() {
 
             @Override
@@ -143,20 +134,18 @@ public class SalesLineItemPanel extends LineItemPanel {
 //               Object[][] xx = {{titemcode, tblInvoice}, {tsalesman, ttax}, {ttax, tsubtotal}
 //        };
 //        ComponentFactory.addKeyAction(xx);
-        titemcode.addaction(4, new ActionTask(){
+        titemcode.addaction(4, new ActionTask() {
 
-                    @Override
-                    public boolean action() {
-                        System.out.println("ddddddddddffffddddddddddd");
-                    return true;
-                    }
-                
-                } );
-        
+            @Override
+            public boolean action() {
+                System.out.println("ddddddddddffffddddddddddd");
+                return true;
+            }
+        });
+
         titemcode.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
-               
             }
         });
 
@@ -167,7 +156,7 @@ public class SalesLineItemPanel extends LineItemPanel {
     }
 
     public void lineItemLogic() {
-        salesline= panelToEty();
+        salesline = panelToEty();
         if (salesline.getItem() != null) {
             if (tunit.hasFocus()) {
                 salesline.getSalesPrice();
@@ -187,7 +176,6 @@ public class SalesLineItemPanel extends LineItemPanel {
 //            }
 //        }
 //    }
-
     protected void dialogInit() {
         super.dialogInit();
 //        initComponents();
@@ -237,21 +225,21 @@ public class SalesLineItemPanel extends LineItemPanel {
         return tdescription;
     }
 
-public DropDownWithButton getUnit(){
-return tunit;
-}
-    
-public SalesInvoiceLineItem panelToEty() {
+    public DropDownWithButton getUnit() {
+        return tunit;
+    }
+
+    public SalesInvoiceLineItem panelToEty() {
 
 
         salesline.setQty(uiEty.tcToDouble(tqty));
         salesline.setUnit(uiEty.tcToStr(tunit.getTextField()));
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
-        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));        
+        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
         //get the uom//         salesline.getItem()
-        UOM uom=tunit.getSelectedModel();
-       salesline.setUom(uom);
+        UOM uom = tunit.getSelectedModel();
+        salesline.setUom(uom);
         //ui to ety ..
         return salesline;
     }
@@ -289,7 +277,6 @@ public SalesInvoiceLineItem panelToEty() {
     private com.components.custom.DropDownWithButton<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 }
-
 //
 /**
  

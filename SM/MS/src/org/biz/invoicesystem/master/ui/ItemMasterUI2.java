@@ -42,7 +42,6 @@ import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
 import org.biz.invoicesystem.ui.list.master.ItemListUi;
 
-
 public class ItemMasterUI2 extends TabPanelUI {
 
     List<Item> items;
@@ -141,11 +140,9 @@ public class ItemMasterUI2 extends TabPanelUI {
                     try {
                         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                             /**
-                            
-                             * get the line
-                             * validate object
-                             * add to table 
-                             * adjust selection
+                             *
+                             * get the line validate object add to table adjust
+                             * selection
                              */
                             //get selected row id
                             //find selected row in the uoms
@@ -159,20 +156,20 @@ public class ItemMasterUI2 extends TabPanelUI {
                             //check this with id and symbol if same skip
                             //if diff do not accept
 
-                            int ty = tunittype.getSelectedIndex();                            
-                            uom.setType((byte)ty);
-                            
+                            int ty = tunittype.getSelectedIndex();
+                            uom.setType((byte) ty);
+
                             uom.setSalesPrice(tunitprice.getDoubleValue());
                             uom.setMulti(tContainsQty.getDoubleValue0());
                             //prime  unit
                             //logic changes type is defined 
-                            if(selectedItem.checkUOMExist(uom)){
-                            MessageBoxes.wrnmsg(ItemMasterUI2.this, "unit already exists ", "duplicate uom");
-                            return;
+                            if (selectedItem.checkUOMExist(uom)) {
+                                MessageBoxes.wrnmsg(ItemMasterUI2.this, "unit already exists ", "duplicate uom");
+                                return;
                             }
                             selectedItem.addUOMorUpdate(uom);
 //we can skip current primary uom setting becas we r using only one primary key
- // we cannnot give only primary key
+                            // we cannnot give only primary key
                             // 
                             //set it when we save data ..
 
@@ -185,8 +182,6 @@ public class ItemMasterUI2 extends TabPanelUI {
                         exx.printStackTrace();
                     }
                 }
-
-
             });
 
             tblBarcode.addKeyListener(new KeyAdapter() {
@@ -220,13 +215,13 @@ public class ItemMasterUI2 extends TabPanelUI {
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("---   ---");
                     //apply primary type when select only one item
-                    
+
                     // allow only one carton , and whole sale
                     //other entries are other type and are allowed multiple time
                     // when deleting a entry chek this contitions
                     //when primary is deleted user should be notified
 
-                    
+
                 }
             });
 
@@ -235,24 +230,26 @@ public class ItemMasterUI2 extends TabPanelUI {
 
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    if(equals(e.getValueIsAdjusting()))return;
-                        //get selected uom from list
-                     Object id = TableUtil.getSelectedValue(tblunitprices, 0);
-                     
-                     for (UOM uom : selectedItem.getUoms()) {
-                        if(uom.getId().equals(id)){
+                    if (equals(e.getValueIsAdjusting())) {
+                        return;
+                    }
+                    //get selected uom from list
+                    Object id = TableUtil.getSelectedValue(tblunitprices, 0);
+
+                    for (UOM uom : selectedItem.getUoms()) {
+                        if (uom.getId().equals(id)) {
                             //set uom to UI
-                            uiEty.objToUi(tunitprice,uom.getSalesPrice());
-                            uiEty.objToUi(tContainsQty,uom.getMulti());
-                            uiEty.objToUi(tunitsymbot,uom.getSimbol());
-                                                return;
+                            uiEty.objToUi(tunitprice, uom.getSalesPrice());
+                            uiEty.objToUi(tContainsQty, uom.getMulti());
+                            uiEty.objToUi(tunitsymbot, uom.getSimbol());
+                            return;
 
                         }
                     }
 
-                        tunitprice.clear();
-                        tContainsQty.clear();
-                        tunitsymbot.clear();
+                    tunitprice.clear();
+                    tContainsQty.clear();
+                    tunitsymbot.clear();
 
 
                 }
@@ -302,7 +299,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             });
             chooser.setCurrentDirectory(null);
             UOM.setUOMType(tunittype);
-          
+
 //            tunittype.setModel(new DefaultComboBoxModel(new String[]{"3","4"}));
             events();
             ////////////////////////////////////////
@@ -310,7 +307,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             e.printStackTrace();
         }
 //        crudcontrolPanel.set
-        tblunitprices.setPropertiesEL(new String[]{"id","simbol","salesPrice" ,"multi" });
+        tblunitprices.setPropertiesEL(new String[]{"id", "simbol", "salesPrice", "multi"});
 
     }
 
@@ -353,12 +350,12 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
     }
 
-    private void addUnitToTable(Item  item) {
+    private void addUnitToTable(Item item) {
 //            String u = um.getGuom() != null ? um.getGuom().getSimbol() : null;
 //            TableUtil.addrow(tblunitprices, new Object[]{um.getId(), um.getType(), um.getSimbol(), um.getSalesPrice(),
 //                        um.getMulti(), u});
-            tblunitprices.modelToTable(item.getUoms());
-            tblunitprices.addModelToTable(new UOM());
+        tblunitprices.modelToTable(item.getUoms());
+        tblunitprices.addModelToTable(new UOM());
 //        TableUtil.addnewrow(tblunitprices);
     }
 
@@ -387,7 +384,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         tItemCostPrice = new org.components.controls.CTextField();
         tItemMinimumStock = new org.components.controls.CTextField();
         jLabel9 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         tItemCommissionValue = new org.components.controls.CTextField();
         tSupplierItem = new org.components.controls.CComboBox();
@@ -449,7 +445,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         tItemTrakNonStockItem = new org.components.controls.CCheckBox();
         tItemTrakInactive = new org.components.controls.CCheckBox();
         tItemTrakManfctringItem = new org.components.controls.CCheckBox();
-        tCartonItem = new org.components.controls.CTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         tItemcode = new org.components.controls.CTextField();
@@ -477,10 +472,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jLabel9.setText("Min.Price");
         add(jLabel9);
         jLabel9.setBounds(20, 350, 60, 20);
-
-        jLabel3.setText("Carton ");
-        add(jLabel3);
-        jLabel3.setBounds(20, 190, 60, 20);
 
         jLabel22.setText("Cost Price");
         add(jLabel22);
@@ -786,8 +777,6 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         add(cPanel2);
         cPanel2.setBounds(310, 240, 450, 40);
-        add(tCartonItem);
-        tCartonItem.setBounds(80, 190, 210, 25);
 
         jLabel19.setText("Re Order");
         add(jLabel19);
@@ -828,10 +817,11 @@ public class ItemMasterUI2 extends TabPanelUI {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void cleatUOM() {
-    tunitprice.clear();
-    tunitsymbot.clear();
-    tContainsQty.clear();
+        tunitprice.clear();
+        tunitsymbot.clear();
+        tContainsQty.clear();
     }
+
     public Item uiToEty(Item i) throws Exception {
         try {
             i.setId(EntityService.getEntityService().getKey(""));
@@ -839,7 +829,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setDescription(uiEty.tcToStr(tItemDescription));
             i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
             i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
-            i.setCarton(uiEty.tcToDble0(tCartonItem)); //
             i.setCost(uiEty.tcToDble0(tItemCostPrice));//tItemCostPrice
             i.setLandCost(uiEty.tcToDble0(tItemLandingCost)); //tItemLandingCost     
             i.setMinSalesPrice(uiEty.tcToDble0(tItemMinimumPrice)); //tItemMinimumPrice
@@ -858,7 +847,8 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setWholesalePrice(uiEty.tcToDble0(tWholesalePrice));//tWholesalePrice      
             i.setMetaInfo(tMetaInfo.getText());  //tMetaInfo
             i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges, i.getId()));
-
+            i.setModel(uiEty.tcToStr(tmodel));
+            i.setType(uiEty.tcToStr(ttype));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -957,7 +947,6 @@ public class ItemMasterUI2 extends TabPanelUI {
             uiEty.objToUi(tItemDescription, i.getDescription());
             uiEty.objToUi(tItemCategory, i.getCategory());
             uiEty.objToUi(tSupplierItem, i.getSupplierId());
-            uiEty.objToUi(tCartonItem, i.getCarton());
             uiEty.objToUi(tItemCostPrice, i.getCost());
             uiEty.objToUi(tItemLandingCost, i.getLandCost());
             uiEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());
@@ -1103,7 +1092,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     public void yy(Object[] ob) {
         System.out.println("yyy");
     }
-    
 
     public void saveImages(String itemid, List<File> images) {
         try {
@@ -1255,9 +1243,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
     private void tRngeValueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tRngeValueKeyTyped
-        
     }//GEN-LAST:event_tRngeValueKeyTyped
 
     public void delete() {
@@ -1434,7 +1420,6 @@ public class ItemMasterUI2 extends TabPanelUI {
         jl.setIcon(i12);
         return jl;
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CButton cButton2;
@@ -1468,7 +1453,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1480,7 +1464,6 @@ public class ItemMasterUI2 extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private org.components.controls.CTextField tCartonItem;
     private org.components.controls.CTextField tContainsQty;
     private org.components.controls.CTextField tItemBarcode;
     private org.components.controls.CComboBox tItemCategory;
@@ -1652,33 +1635,28 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         for (int i = 0; i < uoms.size(); i++) {
             UOM uom = uoms.get(i);
-            if(i==0)continue;
+            if (i == 0) {
+                continue;
+            }
             uom.setGuom(pu);
 
         }
     }
 }
-
-
-
-
 /*
  ***********************************************************
- //UOM 
- * if one item is selected then modify it
- * if nothing selected then create new 
- primary unit
- * item must have a primary key
- * so uom should have a flag to say it is primary
- * * or
- * uom has gom --has a relationship??  this is way complecated
-types should be difined as primary , cartons, wholesale ,,,and others ..
+ * //UOM if one item is selected then modify it if nothing selected then create
+ * new primary unit item must have a primary key so uom should have a flag to
+ * say it is primary * or uom has gom --has a relationship?? this is way
+ * complecated types should be difined as primary , cartons, wholesale ,,,and
+ * others ..
  *
  ****************
- * item mark should be  considered agains !!!!!
- * 
- 
- 
- 
- 
+ * item mark should be considered agains !!!!!
+ *
+ *
+ *
+ * //enhancements
+ *
+ *
  */

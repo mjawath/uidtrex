@@ -139,7 +139,7 @@ public class dbCreation {
 //        props.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
         props.put("eclipselink.ddl-generation", "drop-and-create-tables");
         props.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_BOTH_GENERATION);
-        props.put("eclipselink.logging.level", "FINE");
+//        props.put("eclipselink.logging.level", "FINE");
 //        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
 //        	<property name="eclipselink.ddl-generation.output-mode" value="both" />
         props.put(PersistenceUnitProperties.CREATE_JDBC_DDL_FILE, "create.sql");
