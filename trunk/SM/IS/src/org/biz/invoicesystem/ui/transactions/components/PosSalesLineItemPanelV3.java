@@ -88,7 +88,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
             public void keyPressed(KeyEvent e) {
 //                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    action();
+//                    lineAddAction();
 //                    titemcode.requestFocus();
 ////                rowToEty();
 //                    e.consume();
@@ -129,7 +129,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
             public boolean action() {
                 lineItemLogic();
-                PosSalesLineItemPanelV3.this.action();
+                PosSalesLineItemPanelV3.this.lineAddAction();
                 return super.action();
             }
         });
@@ -288,7 +288,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
     }
 
-    public void action() {
+    public void lineAddAction() {
     }
 
     @Override

@@ -98,7 +98,7 @@ public class PosInvoiceV3 extends TabPanelUI {
                 lineItemPanel.lineItemLogic();
             }
 
-            public void action() {
+            public void lineAddAction() {
                 panelToEty(salesline);
                 Object id = salesline.getId();
                 if (id == null) {

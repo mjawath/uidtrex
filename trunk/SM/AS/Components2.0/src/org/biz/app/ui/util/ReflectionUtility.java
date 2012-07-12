@@ -3,8 +3,10 @@ package org.biz.app.ui.util;
 import java.awt.Component;
 import java.lang.reflect.*;
 import java.util.*;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import org.apache.commons.jexl2.JexlEngine;
+import org.components.parent.controls.PxTable;
 
 
 
@@ -654,5 +656,16 @@ public class ReflectionUtility {
    public static Object getProperty(Object object,String property){
        return ex.getProperty(object, property);
        
+   }
+
+   
+
+   public static <T> T findByID(List<T> list,Object idTofind){
+        if(list==null || list.isEmpty() || idTofind==null) return null;
+       for (T obj : list) {
+           Object id=  getProperty(obj, "id");
+           if(id!=null && id.equals(idTofind)) return obj;
+       }
+       return null;
    }
 }

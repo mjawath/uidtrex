@@ -296,6 +296,11 @@ public class TableUtil {
         return jt.getValueAt(sr, jt.convertColumnIndexToView(modelcolindex));
     }
 
+    /**
+     * selected column selected row
+     * @param jt
+     * @return 
+     */
     public static Object getSelectedValue(JTable jt) {
         if (jt.getSelectedRow() > -1) {
             return jt.getValueAt(jt.getSelectedRow(), jt.getSelectedColumn());
@@ -499,6 +504,34 @@ public class TableUtil {
      if(table.getSelectedRow()>-1)
         replaceModel(table, obj, table.getSelectedRow());
     }
+
+    public static Object getSelectedID(PxTable jt) {
+
+        int x = jt.getSelectedRow();
+        if (x == -1) {
+            return null;
+        } else {
+            Object ob = jt.getValueAt(x, 0);
+            if (ob==null || newRowID.equals(ob)) {
+                return null;
+            } else {
+                return ob;
+            }
+        }
+
+
+    }
+    /**
+     * get the selected tables rows object or returns null
+     *
+     * @param tbl
+     * @return
+     */
+    public static Object getSelectedTableObject(PxTable tbl){
+
+       Object ob=  TableUtil.getSelectedID(tbl);
+       return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
+   }
 }
 /*
  todo addModelToTable()
