@@ -13,6 +13,7 @@ package org.components.parent.controls;
 import com.components.custom.IComponent;
 import com.components.custom.IContainer;
 import java.util.List;
+import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
 
@@ -20,20 +21,23 @@ import org.jdesktop.swingx.JXTable;
  *
  * @author nano
  */
-public class PxTable extends JXTable  implements IComponent{
+public class PxTable extends JXTable implements IComponent {
 
-   protected  IContainer container;
+    protected IContainer container;
+    private  Class modelClass;
+    private String[] propertiesEL;
+    private List modelCollection;
+
+
 
     @Override
     public void setContainer(IContainer con) {
-        this.container =con;
+        this.container = con;
     }
 
     public IContainer getContainer() {
         return container;
     }
-
-    String[] propertiesEL;
 
     public String[] getPropertiesEL() {
         return propertiesEL;
@@ -48,7 +52,6 @@ public class PxTable extends JXTable  implements IComponent{
 
         TableUtil.createTableModel(this, title);
     }
-    Class modelClass;
 
     public Class getModelClass() {
         return modelClass;
@@ -58,7 +61,18 @@ public class PxTable extends JXTable  implements IComponent{
         this.modelClass = modelClass;
     }
 
-    /** Creates new form BeanForm */
+    public List getModelCollection() {
+        return modelCollection;
+    }
+
+    public void setModelCollection(List modelCollection) {
+        this.modelCollection = modelCollection;
+    }
+
+    
+    /**
+     * Creates new form BeanForm
+     */
     public PxTable() {
         initComponents();
     }
@@ -73,22 +87,30 @@ public class PxTable extends JXTable  implements IComponent{
 
     public void modelToTable(List list) {
         clear();
-        if(list==null || list.isEmpty() )return;
+        if (list == null || list.isEmpty()) {
+            return;
+        }
         for (Object row : list) {
-        TableUtil.addModelToTable(row, this);
+            TableUtil.addModelToTable(row, this);
         }
 
 
     }
 
-    public  void replaceModel( Object obj) {
-       TableUtil. replaceSelectedModel(this, obj);
+    public void replaceModel(Object obj) {
+        TableUtil.replaceSelectedModel(this, obj);
 
     }
 
 
-    public void addrow(Object[] row){
-    TableUtil.addrow(this, row);
+    public Object getSelectedObject() {
+        //loop the collection//TODO : Set collection
+    return  TableUtil.getSelectedTableObject(this);
+
+    }
+
+    public void addrow(Object[] row) {
+        TableUtil.addrow(this, row);
     }
 
     @SuppressWarnings("unchecked")

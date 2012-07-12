@@ -35,8 +35,8 @@ import org.components.util.Sessions;
 import org.components.windows.TabPanelUI;
 
 /*
- * @2011/12/08 jawth -  GUIcreation  of invoice
- * @2011/12/09 jawath-  creation  of invoice logic 
+ * @2011/12/08 jawth - GUIcreation of invoice @2011/12/09 jawath- creation of
+ * invoice logic
  */
 public class InvoiceMasterUIV3 extends TabPanelUI {
 
@@ -58,7 +58,9 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
     SalesInvoiceLineItem seil;
     TextFieldWithPopUP itemFiled;
 
-    /** Creates new form InvoiceMasterUi */
+    /**
+     * Creates new form InvoiceMasterUi
+     */
     public InvoiceMasterUIV3() {
         initComponents();
 
@@ -78,7 +80,7 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
 
         listStaff = new ArrayList<Staff>();
 
-seil=new SalesInvoiceLineItem();
+        seil = new SalesInvoiceLineItem();
 
         setnewrow();
 
@@ -121,52 +123,66 @@ seil=new SalesInvoiceLineItem();
         lineItemPanel = new SalesLineItemPanelV3(jf) {
 
             public SalesInvoiceLineItem panelToEty() {
-                SalesInvoiceLineItem sl = super.panelToEty(seil);
-                //validated line
-                //update table row
-                //add to list
-                // TODO get uom ????/*/done using the generic 
-                //what should be done to the uom  comparison
-                //it also done
-                addsales(sl);
-                //replace selected row
-                //                addToTable(lineItems);
-
-                return sl;
+                super.panelToEty(seil);
+                addsales(seil);
+                return seil;
             }
 
             public void selectEty() {
-                //get selected row 
-                //get line item from list 
-                //set seleceted object to lineitempanel
                 SalesInvoiceLineItem sl = InvoiceMasterUIV3.this.getSelectedLine();
                 if (sl == null) {
                     return;
                 }
+
                 salesline = sl;
-                this.loadUnit(sl.getItem());
-//                itemSelectionPopup.setPopDesable(true);
-                etyToPanel(salesline);
-//                itemSelectionPopup.setPopDesable(false);
+                clear();
+                selectedEtyToPanel();
+            }
+
+            @Override
+            public void itemSearch(String qry) {
+
+                try {
+                    //how about searching the pos invnetory for the items
+                    lineItemPanel.getItemcode().getPagedPopUpPanel().setList(itemService.getDao().byCode(qry));
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
 
             }
 
-            public void action() {
-                SalesInvoiceLineItem sl = super.panelToEty(seil);
-                Object id = sl.getId();
+            @Override
+            public void itemAction() {
+
+                SalesInvoiceLineItem sili = lineItemPanel.getSalesline();
+                Item item = lineItemPanel.getItemcode().getSelectedObject();
+                sili.setItem(item);
+                sili.setDescription(item.getDescription());
+                //get sales price for pos
+                sili.setPrice(item.getSalesPrice());
+//                lineItemPanel.panelToEty(seil);
+                lineItemPanel.etyToPanel(sili);
+                addsales(sili);
+                lineItemPanel.setSalesline(sili);
+                lineItemPanel.lineItemLogic();
+            }
+
+            public void lineAddAction() {
+                panelToEty(salesline);
+                Object id = salesline.getId();
                 if (id == null) {
-                    sl.setId(System.currentTimeMillis() + "tt");
+                    salesline.setId(System.currentTimeMillis() + "tt");
                 }
 
-
-                etyToRow(sl);
-                uiety();
+                etyToRow(salesline);
+                uiety();//to set invoice properties
                 invoice.setTotal();
                 sTotalToUI();
 
-                //check lineittem id is null then if its need a new row insert a new row  
+                //check lineittem id is null then if its need a new row insert a new row
                 //or move to next row
-
+                lineItemPanel.clear();
                 if (id == null) {
                     setnewrow();
                     int row = tblInvoice.getRowCount();
@@ -176,7 +192,8 @@ seil=new SalesInvoiceLineItem();
 
             }
         };
-        itemFiled = lineItemPanel.getItemFiled();
+
+        itemFiled = lineItemPanel.getItemcode();
 
         lineItemPanel.setTable(tblInvoice);
         tblInvoice.setColumnHeader(new String[]{"id", "Item Code", "Description", "Qty", "Unit", "Price", "Line Amount"});
@@ -185,52 +202,52 @@ seil=new SalesInvoiceLineItem();
         lineItemPanel.setTextField(itemFiled);
 
 
-        itemFiled.setTitle(new String[]{"id", "Item Code", "Description", "Qty", "Unit", "Price", "Line Amount"});
-        itemFiled.setPropertiesEL(new String[]{"id", "code", "description"});
-        itemFiled.setSelectedProperty("code");
-        //        itemSelectionPopup.setSelectedColumn(1);
-        itemFiled.setActionActionTask(new ActionTask() {
+//        itemFiled.setTitle(new String[]{"id", "Item Code", "Description", "Qty", "Unit", "Price", "Line Amount"});
+//        itemFiled.setPropertiesEL(new String[]{"id", "code", "description"});
+//        itemFiled.setSelectedProperty("code");
+//        //        itemSelectionPopup.setSelectedColumn(1);
+//        itemFiled.setActionActionTask(new ActionTask() {
+//
+//            @Override
+//            public void actionCall() {
+//                Item item = (Item) itemFiled.getSelectedObject();
+////                Item item = null;
+////                //find Item
+////                for (Item it : listItem) {
+////                    if (ob.equals(it.getId())) {
+////                        setSelectedObject(it);
+////                        item = it;
+////                        break;
+////                    }
+////                }
+//                lineItemPanel.loadUnit(item);
+//                SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty(seil);
+//                //                if current row valid
+//                lineItem.setItem(item);
+//                //                replace row
+//                addsales(lineItem);
+//
+//                lineItemPanel.lineItemLogic();
+//
+//
+//            }
+//        });
 
-            @Override
-            public void actionCall() {
-                Item item = (Item) itemFiled.getSelectedObject();
-//                Item item = null;
-//                //find Item
-//                for (Item it : listItem) {
-//                    if (ob.equals(it.getId())) {
-//                        setSelectedObject(it);
-//                        item = it;
-//                        break;
-//                    }
+//        itemFiled.setSearchActionTask(new ActionTask() {
+//
+//            @Override
+//            public void actionCall(Object st) {
+//                try {
+//
+//                    listItem = itemService.getDao().byCode(st.toString());
+////                    lineItemPanel.getItemFiled().setList(listItem);
+//                    itemFiled.setObjectToTable(listItem);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
 //                }
-                lineItemPanel.loadUnit(item);
-                SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty(seil);
-                //                if current row valid
-                lineItem.setItem(item);
-                //                replace row
-                addsales(lineItem);
-
-                lineItemPanel.lineItemLogic();
-
-
-            }
-        });
-
-        itemFiled.setSearchActionTask(new ActionTask() {
-
-            @Override
-            public void actionCall(Object st) {
-                try {
-
-                    listItem = itemService.getDao().byCode(st.toString());
-//                    lineItemPanel.getItemFiled().setList(listItem);
-                    itemFiled.setObjectToTable(listItem);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
+//
+//            }
+//        });
 
 
         cuspop.setActionActionTask(new ActionTask() {
@@ -281,8 +298,9 @@ seil=new SalesInvoiceLineItem();
 
 
 
-        tsalesman.setActionTask(new ActionTask(){
-        @Override
+        tsalesman.setActionTask(new ActionTask() {
+
+            @Override
             public void actionCall() {
 
                 String ob = tsalesman.getSelectedID();
@@ -302,17 +320,18 @@ seil=new SalesInvoiceLineItem();
 
             }
         });
-        tsalesman.setSearchActionTask(new ActionTask(){
-        @Override
+        tsalesman.setSearchActionTask(new ActionTask() {
+
+            @Override
             public void actionCall(Object qry) {
-                    try {
+                try {
                     listStaff = staffService.getDao().byCode(qry.toString());
                     salesPopup.setObjectToTable(listStaff);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-        
-        }
+
+            }
         });
         tsalesman.setObjectToTable(listStaff);
         tsalesman.setPropertiesEL(new String[]{"id", "code", "name"});
@@ -321,6 +340,22 @@ seil=new SalesInvoiceLineItem();
 
 
 
+    }
+
+    //this method should be refetored
+    // move this to the object table level
+    public SalesInvoiceLineItem getSelectedLine() {
+
+        String bt = uiEty.colToStrE(tblInvoice, 0);
+
+        for (SalesInvoiceLineItem sli : lineItems) {
+            //
+            if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null) && bt.equals(sli.getId())) {
+                return sli;
+
+            }
+        }
+        return null;
     }
 
     public void events() {
@@ -439,23 +474,6 @@ seil=new SalesInvoiceLineItem();
         }
         return sl;
     }
-
-    public SalesInvoiceLineItem getSelectedLine() {
-
-        String bt = uiEty.colToStrE(tblInvoice, 0);
-        SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
-
-        for (SalesInvoiceLineItem sli : lineItems) {
-            //
-            if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null) && bt.equals(sli.getId())) {
-                return sli;
-
-            }
-        }
-        return null;
-    }
-
-    
 
     public void setnewrow() {
         TableUtil.addrow(tblInvoice, new Object[]{});
@@ -815,8 +833,6 @@ seil=new SalesInvoiceLineItem();
 //        lineItemPanel.getUnit().setModel(new String[]{});
 
     }
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel10;
@@ -880,3 +896,30 @@ seil=new SalesInvoiceLineItem();
         return this;
     }
 }
+
+/*
+
+ simpliflying the GUI usage--------Keep the model with the component policy 
+ * 1) customer selection :-
+ *              * user search for specific attribute
+ *              * press enter selects the customer ::::: note why do we have to bring the
+ *              * selected model to the upper level ..keep it in the componnet level
+ *              * if user types any stupid values  clear the selection of the model and textfield
+ *
+2)line item entry
+* if table selection changes
+*       model value should be set to floating panel  FP
+*           and it should be shown on the top of thet row
+*
+* if user changes the row while data entry
+*       values of the FP should be added to collection of the table
+*           and row should be refreshed .
+*
+* if user complets the data entry then
+*       validate the model
+*       warn the user
+*       update the collection with dirty value -----***should be checked  ****
+*
+*
+
+ */
