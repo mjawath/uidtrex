@@ -38,7 +38,7 @@ public class PosInvoiceV3 extends TabPanelUI {
     List<Staff> listStaff;
     StaffService staffService;
     Item currentItem;
-    SalesInvoiceLineItem seil;
+    SalesInvoiceLineItem invoiceLine;
 
     /**
      * Creates new form PosInvoiceV3
@@ -54,49 +54,49 @@ public class PosInvoiceV3 extends TabPanelUI {
 
         lineItemPanel = new PosSalesLineItemPanelV3(jf) {
 
-            public SalesInvoiceLineItem panelToEty() {
-                super.panelToEty(seil);
-                addsales(seil);
-                return seil;
-            }
-
-            public void selectEty() {
-                SalesInvoiceLineItem sl = PosInvoiceV3.this.getSelectedLine();
-                
-                if (sl == null)  return;
-                salesline = sl;
-                clear();
-                selectedEtyToPanel();
-            }
+//            public SalesInvoiceLineItem panelToEty() {
+//                super.panelToEty(seil);
+//                addsales(seil);
+//                return seil;
+//            }
+////
+//            public void selectEty() {
+//                SalesInvoiceLineItem sl = PosInvoiceV3.this.getSelectedLine();
+//
+//                if (sl == null)  return;
+//                salesline = sl;
+//                clear();
+//                selectedEtyToPanel();
+//            }
 
             @Override
-            public void itemSearch(String qry) {
+            public List itemSearch(String qry) {
 
                 try {
                     //how about searching the pos invnetory for the items
-                    lineItemPanel.getItemcode().getPagedPopUpPanel().setList(itemService.getDao().byCode(qry));
+                return    itemService.getDao().byCode(qry);
                 } catch (Exception e) {
 
                     e.printStackTrace();
                 }
-
+            return null;
             }
 
             @Override
-            public void itemAction() {
+//            public void itemAction() {
 
-                SalesInvoiceLineItem sili = lineItemPanel.getSalesline();
-                Item item = lineItemPanel.getItemcode().getSelectedObject();
-                sili.setItem(item);
-                sili.setDescription(item.getDescription());
-                //get sales price for pos
-                sili.setPrice(item.getSalesPrice());
-//                lineItemPanel.panelToEty(seil);
-                lineItemPanel.etyToPanel(sili);
-                addsales(sili);
-                lineItemPanel.setSalesline(sili);
-                lineItemPanel.lineItemLogic();
-            }
+//                SalesInvoiceLineItem sili = lineItemPanel.getSalesline();
+//                Item item = lineItemPanel.getItemcode().getSelectedObject();
+//                sili.setItem(item);
+//                sili.setDescription(item.getDescription());
+//                //get sales price for pos
+//                sili.setPrice(item.getSalesPrice());
+////                lineItemPanel.panelToEty(seil);
+//                lineItemPanel.etyToPanel(sili);
+//                addsales(sili);
+//                lineItemPanel.setSalesline(sili);
+//                lineItemPanel.lineItemLogic();
+//            }
 
             public void lineAddAction() {
                 panelToEty(salesline);
@@ -138,6 +138,8 @@ public class PosInvoiceV3 extends TabPanelUI {
         invoice = new SalesInvoice();
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
+        invoiceLine = new SalesInvoiceLineItem();
+        tblInvoice.setModelCollection(lineItems);
         itemService = new ItemService();
 
         servicedao = new SalesInvoiceService();

@@ -77,10 +77,10 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
         lineItems = new ArrayList<SalesInvoiceLineItem>();
         invoice.setLineItems(lineItems);
 //                //ADD this list to popupd
-
         listStaff = new ArrayList<Staff>();
 
         seil = new SalesInvoiceLineItem();
+        tblInvoice.setModelCollection(lineItems);
 
         setnewrow();
 
@@ -120,53 +120,23 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
 //       jd.setSize(300,300);
 //       jd.setVisible(true);
         //
+
         lineItemPanel = new SalesLineItemPanelV3(jf) {
 
-            public SalesInvoiceLineItem panelToEty() {
-                super.panelToEty(seil);
-                addsales(seil);
-                return seil;
-            }
-
-            public void selectEty() {
-                SalesInvoiceLineItem sl = InvoiceMasterUIV3.this.getSelectedLine();
-                if (sl == null) {
-                    return;
-                }
-
-                salesline = sl;
-                clear();
-                selectedEtyToPanel();
-            }
-
             @Override
-            public void itemSearch(String qry) {
+            public List itemSearch(String qry) {
 
                 try {
                     //how about searching the pos invnetory for the items
-                    lineItemPanel.getItemcode().getPagedPopUpPanel().setList(itemService.getDao().byCode(qry));
+                return    listItem=itemService.getDao().byCode(qry);
                 } catch (Exception e) {
 
                     e.printStackTrace();
                 }
-
+            return null;
             }
 
             @Override
-            public void itemAction() {
-
-                SalesInvoiceLineItem sili = lineItemPanel.getSalesline();
-                Item item = lineItemPanel.getItemcode().getSelectedObject();
-                sili.setItem(item);
-                sili.setDescription(item.getDescription());
-                //get sales price for pos
-                sili.setPrice(item.getSalesPrice());
-//                lineItemPanel.panelToEty(seil);
-                lineItemPanel.etyToPanel(sili);
-                addsales(sili);
-                lineItemPanel.setSalesline(sili);
-                lineItemPanel.lineItemLogic();
-            }
 
             public void lineAddAction() {
                 panelToEty(salesline);
@@ -200,54 +170,6 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
         tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "Unit", "price", "lineAmount"});
 
         lineItemPanel.setTextField(itemFiled);
-
-
-//        itemFiled.setTitle(new String[]{"id", "Item Code", "Description", "Qty", "Unit", "Price", "Line Amount"});
-//        itemFiled.setPropertiesEL(new String[]{"id", "code", "description"});
-//        itemFiled.setSelectedProperty("code");
-//        //        itemSelectionPopup.setSelectedColumn(1);
-//        itemFiled.setActionActionTask(new ActionTask() {
-//
-//            @Override
-//            public void actionCall() {
-//                Item item = (Item) itemFiled.getSelectedObject();
-////                Item item = null;
-////                //find Item
-////                for (Item it : listItem) {
-////                    if (ob.equals(it.getId())) {
-////                        setSelectedObject(it);
-////                        item = it;
-////                        break;
-////                    }
-////                }
-//                lineItemPanel.loadUnit(item);
-//                SalesInvoiceLineItem lineItem = lineItemPanel.panelToEty(seil);
-//                //                if current row valid
-//                lineItem.setItem(item);
-//                //                replace row
-//                addsales(lineItem);
-//
-//                lineItemPanel.lineItemLogic();
-//
-//
-//            }
-//        });
-
-//        itemFiled.setSearchActionTask(new ActionTask() {
-//
-//            @Override
-//            public void actionCall(Object st) {
-//                try {
-//
-//                    listItem = itemService.getDao().byCode(st.toString());
-////                    lineItemPanel.getItemFiled().setList(listItem);
-//                    itemFiled.setObjectToTable(listItem);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
 
 
         cuspop.setActionActionTask(new ActionTask() {
@@ -439,8 +361,6 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
 
     private void etyToRow(SalesInvoiceLineItem line) {
 
-        String it = line.getItem() == null ? null : line.getItem().getCode();
-        String itdes = line.getItem() == null ? null : line.getItem().getDescription();
         TableUtil.replaceModel(tblInvoice, line, tblInvoice.getSelectedRow());
 
 
@@ -833,6 +753,7 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
 //        lineItemPanel.getUnit().setModel(new String[]{});
 
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel10;

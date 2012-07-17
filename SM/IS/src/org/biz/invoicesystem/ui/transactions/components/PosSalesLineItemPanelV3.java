@@ -12,11 +12,11 @@ package org.biz.invoicesystem.ui.transactions.components;
 
 import app.utils.MathUtil;
 import com.components.custom.ActionTask;
-import com.components.custom.PagedPopUpPanel;
 import com.components.custom.TextFieldWithPopUP;
 import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
@@ -137,23 +137,19 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
 
 
-        titemcode.setPagedPopUpPanel(new PagedPopUpPanel<Item>(getItemFiled()) {
+        titemcode.setActionActionTask(new ActionTask() {
+            @Override
+            public void actionCall() {
+             itemAction();
+            }});
+         titemcode.setSearchActionTask(new ActionTask() {
 
-            public void search(String qry) {
-                try {
-                    //how about searching the pos invnetory for the items
-//                    itemSelectionPopup.setList(itemService.getDao().byCode(qry));
-                    itemSearch(qry);
-                } catch (Exception e) {
+            @Override
+            public void actionCall(Object st) {
+            List lst= itemSearch(st.toString());
+            titemcode.getPagedPopUpPanel().setList(lst);
+            }});
 
-                    e.printStackTrace();
-                }
-            }
-
-            public void action() {
-                itemAction();
-            }
-        });
         titemcode.setPropertiesEL(new String[]{"id", "code", "description"});
         titemcode.setTitle(new String[]{"id", "Code", "Description"});
         titemcode.setSelectedProperty("code");
@@ -165,11 +161,24 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
     }
 
-    public void itemSearch(String qry) {
-        titemcode.getPagedPopUpPanel().search(qry);
+    public List itemSearch(String qry) {
+                return null;
     }
 
     public void itemAction() {
+        SalesInvoiceLineItem sili = this.getSalesline();
+                Item item = this.getItemcode().getSelectedObject();
+                sili.setItem(item);
+                sili.setDescription(item.getDescription());
+                //get sales price for pos
+                sili.setPrice(item.getSalesPrice());
+//                lineItemPanel.panelToEty(seil);
+                this.etyToPanel(sili);
+//                addsales(sili);
+                setSalesline(sili);
+                lineItemLogic();
+
+
     }
 
     public void lineItemLogic() {

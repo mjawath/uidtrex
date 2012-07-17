@@ -120,7 +120,9 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
         this.textField = textField;
     }
 
-    /** Creates new form Detail */
+    /**
+     * Creates new form Detail
+     */
     public PagedPopUpPanel(JTable tb, TablePopUpCellEditor field) {
         initComponents();
         tbl = tb;
@@ -457,7 +459,7 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
                 for (Object object : list) {
                     //compare property with Object property ob.equals(object);
                     if (ob.equals(ReflectionUtility.getProperty(object, "id"))) {
-                        selectedObject = (T)object;//selected object can i make it generic
+                        selectedObject = (T) object;//selected object can i make it generic
                         uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, getSelectedProperty()));
 
                     }
@@ -471,8 +473,6 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
 
     }
 
-    
-    
     public void closePopup() {
         if (jpm.isVisible()) {
             jpm.setVisible(false);
@@ -525,9 +525,9 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
         TableUtil.createTableModel(cxTable1, title);
     }
 
-    public  void setText(String txt){
-    setPopDesable(true);
+    public void setText(String txt) {
+        setPopDesable(true);
         textField.setText(txt);
-    setPopDesable(false);
+        setPopDesable(false);
     }
 }

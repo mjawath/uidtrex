@@ -41,7 +41,6 @@ public class CComboBox<E> extends JComboBox implements IComponent{
     }
 
 
-    JComponent nextFocusableComponent;
     List<ActionTask> actionTasks;
     boolean moveTonextcom = true;
 
@@ -98,10 +97,9 @@ public class CComboBox<E> extends JComboBox implements IComponent{
                             actionTask.action();
                         }
                     }
-                    if (nextFocusableComponent != null && moveTonextcom) {
-                        nextFocusableComponent.requestFocus();
-                    }
-                    // just change the focus 
+                    // just change the focus
+                    if(getContainer()!=null)
+                    getContainer().gotoNextComponent();
                 }
             }
         });
@@ -116,9 +114,8 @@ public class CComboBox<E> extends JComboBox implements IComponent{
                             actionTask.action();
                         }
                     }
-                    if (nextFocusableComponent != null && moveTonextcom) {
-                        nextFocusableComponent.requestFocus();
-                    }
+                    if(getContainer()!=null)
+                    getContainer().gotoNextComponent();
                     // just change the focus 
                 }
             }

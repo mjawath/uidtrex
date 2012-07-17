@@ -49,40 +49,6 @@ public class SalesLineItemPanel extends LineItemPanel {
             }
         });
 
-
-
-//        titemcode.addActionListener(new ActionTask(tdescription));
-//        tdescription.addActionListener(new ActionTask(tdescription));
-        //order of tabbing
-
-//        Object [][] xx=new Object[][]{{titemcode,new ActionTask()},{tdescription},{tqty}};
-
-//        titemcode.addKeyListener(new KeyAdapter() {
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                super.keyPressed(e);
-//            }
-//        
-//        });        
-
-
-
-        /*
-         * tdescription.setInputVerifier(new CInputVerifier(tqty){ public
-         * boolean action() { lineItemLogic(); return super.action(); } });
-         * tqty.setInputVerifier(new CInputVerifier(tunit){ public boolean
-         * action() { lineItemLogic(); return super.action(); } });
-         * tprice.setInputVerifier(new CInputVerifier(tprice){ public boolean
-         * action() { lineItemLogic(); return super.action(); } });
-         */
-
-        titemcode.nextFocusableComponent(tdescription);
-        tdescription.nextFocusableComponent(tqty);
-        tqty.nextFocusableComponent(tunit);
-//        tunit.nextFocusableComponent(tprice);
-
-        tprice.nextFocusableComponent(titemcode);
         titemcode.addaction(2, new ActionTask() {
 
             public boolean action() {

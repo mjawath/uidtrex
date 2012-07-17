@@ -28,9 +28,10 @@ import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
  *
  * @author nnjj
  */
-public class SalesLineItemPanelV3 extends LineItemPanel {
+public class SalesLineItemPanelV3 extends LineItemPanel   {
 
     protected SalesInvoiceLineItem salesline;
+    private ISalesLineItemController controller;
 
     public SalesLineItemPanelV3(JFrame jf) {
         super(jf);
@@ -59,6 +60,15 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
             }
         });
 
+        tprice.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+                lineItemLogic();
+            }
+
+        });
 
         tqty.addKeyListener(new KeyAdapter() {
 
@@ -78,7 +88,8 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
 
             @Override
             public void actionCall(Object st) {
-            itemSearch(st.toString());
+            List lst= itemSearch(st.toString());
+            titemcode.getPagedPopUpPanel().setList(lst);
             }});
 
         titemcode.setPropertiesEL(new String[]{"id", "code", "description"});
@@ -86,7 +97,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
         titemcode.setSelectedProperty("code");
 
 
-
+        salesline=new SalesInvoiceLineItem();
 
         addToFocus(titemcode);
         addToFocus(tdescription);
@@ -181,7 +192,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
         salesline.setDescription(uiEty.tcToStr(tdescription));
         salesline.setPrice(uiEty.tcToDouble(tprice));
         salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
-
+        salesline.setItem(titemcode.getSelectedObject());
         //get the uom//         salesline.getItem()
         UOM uom = (UOM) tunit.getSelectedItem();
         salesline.setUom(uom);
@@ -190,11 +201,29 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
         return salesline;
     }
 
-    public void itemSearch(String qry) {
-        titemcode.getPagedPopUpPanel().search(qry);
+    public List itemSearch(String qry) {
+                return null;
     }
 
     public void itemAction() {
+        SalesInvoiceLineItem sili = this.getSalesline();
+                Item item = this.getItemcode().getSelectedObject();
+                sili.setItem(item);
+                sili.setDescription(item.getDescription());
+                //get sales price for pos
+                sili.setPrice(item.getSalesPrice());
+//                lineItemPanel.panelToEty(seil);
+                this.etyToPanel(sili);
+//                addsales(sili);
+                setSalesline(sili);
+                lineItemLogic();
+
+
+    }
+    public void selectEty() {
+        salesline=(SalesInvoiceLineItem) jt.getSelectedObject();
+        clear();
+        selectedEtyToPanel();
     }
 
     public void loadUnit(List it) {
@@ -243,6 +272,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel {
     }
 
     public void selectedEtyToPanel() {
+        if(salesline==null)return;
         Item it = salesline.getItem();
         if (it != null) {
             titemcode.setTextItem(it.getCode());

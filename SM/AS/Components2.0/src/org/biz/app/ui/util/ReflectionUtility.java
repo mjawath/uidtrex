@@ -661,10 +661,12 @@ public class ReflectionUtility {
    
 
    public static <T> T findByID(List<T> list,Object idTofind){
-        if(list==null || list.isEmpty() || idTofind==null) return null;
+        if(list==null || list.isEmpty() ) return null;
        for (T obj : list) {
+
            Object id=  getProperty(obj, "id");
-           if(id!=null && id.equals(idTofind)) return obj;
+           
+           if((idTofind==null && id ==null) || (id!=null && id.equals(idTofind))) return obj;
        }
        return null;
    }
