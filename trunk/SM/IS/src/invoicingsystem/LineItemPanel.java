@@ -28,20 +28,21 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
+import org.components.parent.controls.PxTable;
 
 /**
  *
  * @author nnjj
  */
-public class LineItemPanel extends javax.swing.JDialog implements IContainer {
+public abstract class LineItemPanel extends javax.swing.JDialog implements IContainer {
 
     protected Object lineitem;
+    protected PxTable jt;
 
     public LineItemPanel(JFrame jf) {
         super(jf, true);
@@ -93,9 +94,8 @@ public class LineItemPanel extends javax.swing.JDialog implements IContainer {
 //        setFocusableWindowState(true);
 //        setFocus();
     }
-    JTable jt;
 
-    public void setTable(JTable tbl) {
+    public void setTable(PxTable tbl) {
         this.jt = tbl;
 
         ///press esc to close 

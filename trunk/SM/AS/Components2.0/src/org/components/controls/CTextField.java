@@ -92,24 +92,7 @@ public class CTextField extends PTextField {
                     }
                     if(getContainer()!=null)
                     getContainer().gotoNextComponent();
-//                    if (nextFocusableComponent != null && moveTonextcom) {
-//                        nextFocusableComponent.requestFocus();
-//                    }
-                    // just change the focus 
                 }
-//                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//                
-//                    if (nextFocusableComponent != null && moveTonextcom) {
-//                        nextFocusableComponent.requestFocus();
-//                    }
-//                }
-//                
-//                if (e.getKeyCode() == KeyEvent.VK_UP) {
-//                
-//                    if (previouseFocusedComponent != null ) {
-//                        previouseFocusedComponent.requestFocus();
-//                    }
-//                }
             }
         });
 
@@ -148,51 +131,6 @@ public class CTextField extends PTextField {
     public void setInputVerifier(CInputVerifier inputVerifier) {
 //        addActionListener(inputVerifier);
         super.setInputVerifier(inputVerifier);
-    }
-
-    public JComponent nextFocusableComponent() {
-        return nextFocusableComponent;
-    }
-
-    public void nextFocusableComponent(JComponent nextFocusableComponent) {
-        this.nextFocusableComponent = nextFocusableComponent;
-    }
-
-    public JComponent getNextFocusableComponent() {
-        return nextFocusableComponent;
-    }
-
-    public void setNextFocusableComponent(JComponent nextFocusableComponent) {
-        this.nextFocusableComponent = nextFocusableComponent;
-    }
-
-    public JComponent getPreviouseFocusedComponent() {
-        return previouseFocusedComponent;
-    }
-
-    public void setPreviouseFocusedComponent(JComponent previouseFocusedComponent) {
-        this.previouseFocusedComponent = previouseFocusedComponent;
-    }
-    
-    
-    private String formater;
-
-    /**
-     * Get the value of formater
-     *
-     * @return the value of formater
-     */
-    public String getFormater() {
-        return formater;
-    }
-
-    /**
-     * Set the value of formater
-     *
-     * @param formater new value of formater
-     */
-    public void setFormater(String formater) {
-        this.formater = formater;
     }
     
     public  double getDoubleValue0() {

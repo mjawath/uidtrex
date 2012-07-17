@@ -147,6 +147,7 @@ public class TableUtil {
      */
 
     public static void replacerow(JTable jTable, Vector row, int point) {
+
         point = jTable.convertRowIndexToModel(point);
         getdtm(jTable).removeRow(point);
         getdtm(jTable).insertRow(point, row);
