@@ -24,7 +24,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
-                      <Component id="cTextField1" min="-2" pref="202" max="-2" attributes="0"/>
+                      <Component id="tcustomer" min="-2" pref="202" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="77" max="32767" attributes="0"/>
@@ -35,7 +35,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="cTextField1" min="-2" max="-2" attributes="0"/>
+              <Component id="tcustomer" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="127" max="32767" attributes="0"/>
               <Component id="chequeDetailUI1" min="-2" pref="131" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
@@ -46,7 +46,7 @@
   <SubComponents>
     <Component class="checkchequingsystem.ChequeDetailUI" name="chequeDetailUI1">
     </Component>
-    <Component class="org.components.controls.CTextField" name="cTextField1">
+    <Component class="org.components.controls.CTextField" name="tcustomer">
     </Component>
   </SubComponents>
 </Form>

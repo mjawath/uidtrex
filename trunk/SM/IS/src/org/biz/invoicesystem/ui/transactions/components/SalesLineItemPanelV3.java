@@ -11,14 +11,12 @@
 package org.biz.invoicesystem.ui.transactions.components;
 
 import com.components.custom.ActionTask;
-import com.components.custom.TextFieldWithPopUP;
 import invoicingsystem.LineItemPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import org.biz.app.ui.util.uiEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.UOM;
@@ -90,7 +88,8 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
             public void actionCall(Object st) {
             List lst= itemSearch(st.toString());
             titemcode.getPagedPopUpPanel().setList(lst);
-            }});
+            }}
+                 );
 
         titemcode.setPropertiesEL(new String[]{"id", "code", "description"});
         titemcode.setTitle(new String[]{"id", "Code", "Description"});
@@ -172,15 +171,6 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
         this.salesline = salesline;
     }
 
-    public TextFieldWithPopUP<Item> getItemcode() {
-        return titemcode;
-    }
-
-    public JTextField getItemdescFiled() {
-
-        return tdescription;
-    }
-
     public UOM getUnit() {
         return (UOM) tunit.getSelectedItem();
     }
@@ -196,7 +186,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
         //get the uom//         salesline.getItem()
         UOM uom = (UOM) tunit.getSelectedItem();
         salesline.setUom(uom);
-
+        
         //ui to ety ..
         return salesline;
     }
@@ -206,8 +196,9 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
     }
 
     public void itemAction() {
-        SalesInvoiceLineItem sili = this.getSalesline();
-                Item item = this.getItemcode().getSelectedObject();
+                SalesInvoiceLineItem sili = this.getSalesline();
+                Item item = titemcode.getSelectedObject();
+                loadUnit(item);
                 sili.setItem(item);
                 sili.setDescription(item.getDescription());
                 //get sales price for pos
@@ -241,7 +232,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
 
     public void getLineItem() {
 
-        salesline = (SalesInvoiceLineItem) lineitem;
+        salesline = (SalesInvoiceLineItem) super.salesline;
 
     }
 
@@ -276,7 +267,6 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
         Item it = salesline.getItem();
         if (it != null) {
             titemcode.setTextItem(it.getCode());
-
 //
         } else {
             titemcode.setTextItem("");
@@ -290,6 +280,7 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
 
     public void lineAddAction() {
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CTextField tdescription;
     private com.components.custom.TextFieldWithPopUP<Item> titemcode;
@@ -299,6 +290,8 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
     private org.components.controls.CComboBox<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 }
+
+
 //
 /**
  

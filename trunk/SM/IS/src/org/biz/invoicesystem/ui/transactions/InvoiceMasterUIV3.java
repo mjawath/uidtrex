@@ -137,7 +137,6 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
             }
 
             @Override
-
             public void lineAddAction() {
                 panelToEty(salesline);
                 Object id = salesline.getId();
@@ -163,13 +162,10 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
             }
         };
 
-        itemFiled = lineItemPanel.getItemcode();
 
         lineItemPanel.setTable(tblInvoice);
-        tblInvoice.setColumnHeader(new String[]{"id", "Item Code", "Description", "Qty", "Unit", "Price", "Line Amount"});
-        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "Unit", "price", "lineAmount"});
-
-        lineItemPanel.setTextField(itemFiled);
+        tblInvoice.setColumnHeader(new String[]{"id", "Item Code", "Description", "Qty", "Unit"      , "Price", "Line Amount"});
+        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "uom.simbol", "price", "lineAmount"});
 
 
         cuspop.setActionActionTask(new ActionTask() {
@@ -350,7 +346,7 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
             }
         }
 
-
+//do we have worry about journal posting 
         servicedao.createInventoryJournal(invoice);
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();

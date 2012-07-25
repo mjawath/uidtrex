@@ -33,6 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.uiEty;
+import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.parent.controls.PxTable;
 
 /**
@@ -41,7 +42,7 @@ import org.components.parent.controls.PxTable;
  */
 public abstract class LineItemPanel extends javax.swing.JDialog implements IContainer {
 
-    protected Object lineitem;
+    protected Object salesline;
     protected PxTable jt;
 
     public LineItemPanel(JFrame jf) {
@@ -226,9 +227,12 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-    public void selectEty() {
-    }
 
+    public void selectEty() {
+        salesline=(SalesInvoiceLineItem) jt.getSelectedObject();
+        clear();
+        selectedEtyToPanel();
+    }
     @Override
     public void gotoNextComponent() {
         //get current focused compnentt
@@ -266,5 +270,9 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
     public void clear(){
     
 
+    }
+
+    private void selectedEtyToPanel() {
+        
     }
     }

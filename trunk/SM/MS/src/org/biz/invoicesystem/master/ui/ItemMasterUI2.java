@@ -309,6 +309,11 @@ public class ItemMasterUI2 extends TabPanelUI {
 //        crudcontrolPanel.set
         tblunitprices.setPropertiesEL(new String[]{"id", "simbol", "salesPrice", "multi"});
 
+        cPanel6.addToFocus(tunitsymbot);
+        cPanel6.addToFocus(tContainsQty);
+        cPanel6.addToFocus(tunittype);
+        cPanel6.addToFocus(tunitprice);
+
     }
 
     public void clear() {
@@ -411,7 +416,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         tContainsQty = new org.components.controls.CTextField();
         cButton2 = new org.components.controls.CButton();
         cLabel2 = new org.components.controls.CLabel();
-        tunittype = new javax.swing.JComboBox();
+        tunittype = new org.components.controls.CComboBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblBarcode = new javax.swing.JTable();
@@ -578,7 +583,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             }
         });
         cPanel6.add(tunitprice);
-        tunitprice.setBounds(260, 40, 90, 25);
+        tunitprice.setBounds(340, 40, 90, 25);
         cPanel6.add(tunitsymbot);
         tunitsymbot.setBounds(20, 40, 90, 25);
         cPanel6.add(tContainsQty);
@@ -597,9 +602,13 @@ public class ItemMasterUI2 extends TabPanelUI {
         cPanel6.add(cLabel2);
         cLabel2.setBounds(10, 10, 70, 25);
 
-        tunittype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tunittype.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tunittypeActionPerformed(evt);
+            }
+        });
         cPanel6.add(tunittype);
-        tunittype.setBounds(370, 30, 70, 30);
+        tunittype.setBounds(250, 40, 80, 23);
 
         cScrollPane2.setViewportView(cPanel6);
 
@@ -1366,6 +1375,10 @@ public class ItemMasterUI2 extends TabPanelUI {
         // TODO add your handling code here:
     }//GEN-LAST:event_tunitpriceActionPerformed
 
+    private void tunittypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tunittypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tunittypeActionPerformed
+
     public JPopupMenu viewLargeImg(JLabel lbl, File image) {
         //  System.out.println("viewlargeImg Methd image name is "+image.getAbsolutePath());
         JPopupMenu p = new JPopupMenu("imagepanel");
@@ -1497,7 +1510,7 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.controls.CTextField ttype;
     private org.components.controls.CTextField tunitprice;
     private org.components.controls.CTextField tunitsymbot;
-    private javax.swing.JComboBox tunittype;
+    private org.components.controls.CComboBox tunittype;
     // End of variables declaration//GEN-END:variables
 
     @Override
