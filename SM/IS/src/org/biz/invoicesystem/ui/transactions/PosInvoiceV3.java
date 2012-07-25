@@ -52,9 +52,10 @@ public class PosInvoiceV3 extends TabPanelUI {
     public void init() {
         JFrame jf = SystemStatic.getMainWindow();//get the main window from the statics
 
+        crudcontrolPanel.setCrudController(this);
         lineItemPanel = new PosSalesLineItemPanelV3(jf) {
 
-//            public SalesInvoiceLineItem panelToEty() {
+//            public SalesIfnvoiceLineItem panelToEty() {
 //                super.panelToEty(seil);
 //                addsales(seil);
 //                return seil;

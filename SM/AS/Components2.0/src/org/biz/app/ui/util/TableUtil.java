@@ -148,10 +148,21 @@ public class TableUtil {
 
     public static void replacerow(JTable jTable, Vector row, int point) {
 
-        point = jTable.convertRowIndexToModel(point);
-        getdtm(jTable).removeRow(point);
-        getdtm(jTable).insertRow(point, row);
+        jTable.getColumnModel().getColumns().nextElement().getIdentifier();
 
+        point = jTable.convertRowIndexToModel(point);
+        DefaultTableModel dt=getdtm(jTable);
+
+//        dt.removeRow(point);
+//        dt.insertRow(point, row);
+        int col = dt.getColumnCount();
+        for (int i = 0; i < col; i++) {
+            dt.setValueAt(row.get(i), point, i);
+        }
+
+  /*   getdtm(jTable).setDataVector(row, jTable.getd(point);// todo data updation without selection change
+        getdtm(jTable).insertRow(point, row); // temp solution:  loop through the columns to set the values
+*/
     }
 
     public static void replacerow(JTable jTable, Object[] row, int point) {

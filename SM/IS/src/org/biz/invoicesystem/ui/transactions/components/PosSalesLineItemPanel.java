@@ -207,7 +207,7 @@ public class PosSalesLineItemPanel extends LineItemPanel {
 
     public void getLineItem() {
 
-        salesline = (SalesInvoiceLineItem) lineitem;
+        salesline = (SalesInvoiceLineItem) super.salesline;
 
     }
 

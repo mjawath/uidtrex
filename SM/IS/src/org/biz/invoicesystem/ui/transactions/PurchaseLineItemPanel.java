@@ -254,7 +254,7 @@ public class PurchaseLineItemPanel extends LineItemPanel {
 
     public void getLineItem() {
 
-        salesline = (PurchaseInvoiceLineItem) lineitem;
+        salesline = (PurchaseInvoiceLineItem) super.salesline;
 
     }
 

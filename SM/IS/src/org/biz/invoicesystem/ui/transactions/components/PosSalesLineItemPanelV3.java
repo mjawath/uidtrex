@@ -138,17 +138,20 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
 
         titemcode.setActionActionTask(new ActionTask() {
+
             @Override
             public void actionCall() {
-             itemAction();
-            }});
-         titemcode.setSearchActionTask(new ActionTask() {
+                itemAction();
+            }
+        });
+        titemcode.setSearchActionTask(new ActionTask() {
 
             @Override
             public void actionCall(Object st) {
-            List lst= itemSearch(st.toString());
-            titemcode.getPagedPopUpPanel().setList(lst);
-            }});
+                List lst = itemSearch(st.toString());
+                titemcode.getPagedPopUpPanel().setList(lst);
+            }
+        });
 
         titemcode.setPropertiesEL(new String[]{"id", "code", "description"});
         titemcode.setTitle(new String[]{"id", "Code", "Description"});
@@ -162,21 +165,21 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
     }
 
     public List itemSearch(String qry) {
-                return null;
+        return null;
     }
 
     public void itemAction() {
         SalesInvoiceLineItem sili = this.getSalesline();
-                Item item = this.getItemcode().getSelectedObject();
-                sili.setItem(item);
-                sili.setDescription(item.getDescription());
-                //get sales price for pos
-                sili.setPrice(item.getSalesPrice());
+        Item item = this.getItemcode().getSelectedObject();
+        sili.setItem(item);
+        sili.setDescription(item.getDescription());
+        //get sales price for pos
+        sili.setPrice(item.getSalesPrice());
 //                lineItemPanel.panelToEty(seil);
-                this.etyToPanel(sili);
+        this.etyToPanel(sili);
 //                addsales(sili);
-                setSalesline(sili);
-                lineItemLogic();
+        setSalesline(sili);
+        lineItemLogic();
 
 
     }
@@ -218,15 +221,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
         return titemcode;
     }
 
-    public CTextField getItemFiled() {
-        return titemcode;
-    }
-
-    public JTextField getItemdescFiled() {
-
-        return tdescription;
-    }
-
+    
     public SalesInvoiceLineItem panelToEty(SalesInvoiceLineItem salesline) {
 
 
@@ -243,7 +238,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
 
     public void getLineItem() {
 
-        salesline = (SalesInvoiceLineItem) lineitem;
+        salesline = (SalesInvoiceLineItem) super.salesline;
 
     }
 
@@ -282,6 +277,9 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
     }
 
     public void selectedEtyToPanel() {
+        if (salesline == null) {
+            return;
+        }
         Item it = salesline.getItem();
         if (it != null) {
             titemcode.setTextItem(it.getCode());
@@ -300,9 +298,10 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
     public void lineAddAction() {
     }
 
-    @Override
-    public void pack() {
-        super.pack();
+    public void selectEty() {
+        salesline = (SalesInvoiceLineItem) jt.getSelectedObject();
+        clear();
+        selectedEtyToPanel();
     }
 
     public void clear() {

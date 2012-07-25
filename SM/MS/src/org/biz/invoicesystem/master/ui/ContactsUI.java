@@ -44,33 +44,26 @@ public class ContactsUI extends TabPanelUI {
         super.init();
         contactDetail = new ContactDetail();
         service = new ContactsDetailService();
-        events();
     }
 
     @Override
     public void events() {
 
-        ttel.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        ttel.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    addToTable();
-                }
-                super.keyPressed(e);
-            }
-        });
         ttel.addaction(0, new ActionTask() {
 
             @Override
             public boolean action() {
-                System.out.println("oooo__  __||^||__  __oooo");
+                System.out.println(" tableadding tel no to");
+                addToTable();
+                return super.action();
+            }
+        });
+
+        temail.addaction(0, new ActionTask() {
+
+            @Override
+            public boolean action() {
+                System.out.println("adding email to table ");
                 addToTable();
                 return super.action();
             }
@@ -83,8 +76,22 @@ public class ContactsUI extends TabPanelUI {
         contactDetail.setPhones(ContactDetail.addString(contactDetail.getPhones(), txt));
         String obj = contactDetail.getPhones();
         String[] txts = obj.split(ContactDetail.divider);
+        TableUtil.cleardata(tbltel);
         for (String str : txts) {
-            TableUtil.addrow(cTable1, new Object[]{str});
+            TableUtil.addrow(tbltel, new Object[]{str});
+        }
+
+    }
+
+    public void addEmailToTable() {
+
+        String txt = temail.getText();
+        contactDetail.setEmails(ContactDetail.addString(contactDetail.getEmails(), txt));
+        String obj = contactDetail.getPhones();
+        String[] txts = obj.split(ContactDetail.divider);
+        TableUtil.cleardata(tbleemail);
+        for (String str : txts) {
+            TableUtil.addrow(tbleemail, new Object[]{str});
         }
 
     }
@@ -97,14 +104,14 @@ public class ContactsUI extends TabPanelUI {
         cLabel1 = new org.components.controls.CLabel();
         cTextField2 = new org.components.controls.CTextField();
         cLabel2 = new org.components.controls.CLabel();
-        cTextField3 = new org.components.controls.CTextField();
+        temail = new org.components.controls.CTextField();
         cLabel3 = new org.components.controls.CLabel();
         cTextField4 = new org.components.controls.CTextField();
         cLabel4 = new org.components.controls.CLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         cTable1 = new org.components.controls.CTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        cTable2 = new org.components.controls.CTable();
+        tbleemail = new org.components.controls.CTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         cTable4 = new org.components.controls.CTable();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -125,7 +132,7 @@ public class ContactsUI extends TabPanelUI {
         cButton1 = new org.components.controls.CButton();
         btelrem = new org.components.controls.CButton();
         jScrollPane8 = new javax.swing.JScrollPane();
-        cxTable1 = new org.components.controls.CxTable();
+        tbltel = new org.components.controls.CxTable();
 
         setLayout(null);
 
@@ -146,8 +153,8 @@ public class ContactsUI extends TabPanelUI {
         cLabel2.setText("Fax");
         add(cLabel2);
         cLabel2.setBounds(30, 160, 68, 25);
-        add(cTextField3);
-        cTextField3.setBounds(330, 30, 140, 25);
+        add(temail);
+        temail.setBounds(330, 30, 140, 25);
 
         cLabel3.setText("Email");
         add(cLabel3);
@@ -184,7 +191,7 @@ public class ContactsUI extends TabPanelUI {
         add(jScrollPane1);
         jScrollPane1.setBounds(80, 200, 142, 95);
 
-        cTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbleemail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -203,8 +210,8 @@ public class ContactsUI extends TabPanelUI {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(cTable2);
-        cTable2.getColumnModel().getColumn(0).setResizable(false);
+        jScrollPane2.setViewportView(tbleemail);
+        tbleemail.getColumnModel().getColumn(0).setResizable(false);
 
         add(jScrollPane2);
         jScrollPane2.setBounds(330, 60, 142, 95);
@@ -339,7 +346,7 @@ public class ContactsUI extends TabPanelUI {
         add(btelrem);
         btelrem.setBounds(230, 100, 40, 23);
 
-        cxTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbltel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -362,8 +369,8 @@ public class ContactsUI extends TabPanelUI {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane8.setViewportView(cxTable1);
-        cxTable1.getColumnModel().getColumn(0).setResizable(false);
+        jScrollPane8.setViewportView(tbltel);
+        tbltel.getColumnModel().getColumn(0).setResizable(false);
 
         add(jScrollPane8);
         jScrollPane8.setBounds(70, 70, 150, 70);
@@ -387,13 +394,11 @@ public class ContactsUI extends TabPanelUI {
     private org.components.controls.CLabel cLabel6;
     private org.components.controls.CLabel cLabel7;
     private org.components.controls.CTable cTable1;
-    private org.components.controls.CTable cTable2;
     private org.components.controls.CTable cTable4;
     private org.components.controls.CTable cTable5;
     private org.components.controls.CTable cTable6;
     private org.components.controls.CTable cTable7;
     private org.components.controls.CTextField cTextField2;
-    private org.components.controls.CTextField cTextField3;
     private org.components.controls.CTextField cTextField4;
     private org.components.controls.CTextField cTextField5;
     private org.components.controls.CTextField cTextField6;
@@ -401,7 +406,6 @@ public class ContactsUI extends TabPanelUI {
     private org.components.controls.CTextField cTextField8;
     private org.components.controls.CTextField cTextField9;
     private com.components.custom.ControlPanel controlPanel1;
-    private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
@@ -409,6 +413,9 @@ public class ContactsUI extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private org.components.controls.CTable tbleemail;
+    private org.components.controls.CxTable tbltel;
+    private org.components.controls.CTextField temail;
     private org.components.controls.CTextField ttel;
     // End of variables declaration//GEN-END:variables
 
