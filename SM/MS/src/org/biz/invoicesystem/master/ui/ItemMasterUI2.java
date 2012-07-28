@@ -433,6 +433,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         tPriceRange = new org.components.controls.CComboBox();
         cLabel1 = new org.components.controls.CLabel();
         tWholesalePrice = new org.components.controls.CTextField();
+        tmodel = new org.components.controls.CTextField();
         cPanel3 = new org.components.containers.CPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tMetaInfo = new org.components.controls.CTextArea();
@@ -460,7 +461,7 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel8 = new org.components.controls.CLabel();
         ttype = new org.components.controls.CTextField();
         cLabel9 = new org.components.controls.CLabel();
-        tmodel = new org.components.controls.CTextField();
+        ttype1 = new org.components.controls.CTextField();
 
         tItemTrakSerial.setText("Track Serial Number");
         tItemTrakSerial.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -666,7 +667,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
         jLabel7.setText("Whole Sale  Price");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(20, 10, 130, 20);
+        jLabel7.setBounds(20, 10, 90, 20);
 
         tblPriceRanges.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -713,6 +714,8 @@ public class ItemMasterUI2 extends TabPanelUI {
         cLabel1.setBounds(60, 40, 310, 25);
         jPanel1.add(tWholesalePrice);
         tWholesalePrice.setBounds(260, 10, 180, 25);
+        jPanel1.add(tmodel);
+        tmodel.setBounds(110, 10, 140, 25);
 
         jTabbedPane1.addTab("Price Range", jPanel1);
 
@@ -815,13 +818,13 @@ public class ItemMasterUI2 extends TabPanelUI {
         add(cLabel8);
         cLabel8.setBounds(20, 130, 40, 20);
         add(ttype);
-        ttype.setBounds(80, 135, 210, 20);
+        ttype.setBounds(80, 140, 210, 20);
 
         cLabel9.setText("Model");
         add(cLabel9);
         cLabel9.setBounds(20, 160, 50, 20);
-        add(tmodel);
-        tmodel.setBounds(80, 160, 210, 25);
+        add(ttype1);
+        ttype1.setBounds(80, 170, 210, 20);
     }// </editor-fold>//GEN-END:initComponents
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1508,6 +1511,7 @@ public class ItemMasterUI2 extends TabPanelUI {
     private org.components.controls.CTextField titemmark;
     private org.components.controls.CTextField tmodel;
     private org.components.controls.CTextField ttype;
+    private org.components.controls.CTextField ttype1;
     private org.components.controls.CTextField tunitprice;
     private org.components.controls.CTextField tunitsymbot;
     private org.components.controls.CComboBox tunittype;
