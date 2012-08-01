@@ -157,10 +157,10 @@ public class MainAppWindow extends AppMainWindow {
         addToTabpanelToUI(new TransferOrderUI(), "transfer order");
         events();
         
-        addToTabpanelToUI(new InvoiceMasterUIV3(),"  * Invoice Master *");
+        addToTabpanelToUI(new InvoiceMasterUIV3(),"  * Invoice Master v3 *");
         addToTabpanelToUI(new PosInvoiceV3(),"  * pos Invoice 3 Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
-        addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
+//        addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
         addToTabpanelToUI(new ContactsUI(),"  * contact Master *");
     System.gc();
     }
