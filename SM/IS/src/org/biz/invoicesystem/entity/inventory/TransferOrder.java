@@ -27,10 +27,6 @@ public class TransferOrder extends DocumentFacade<TransferOrderLineItem> {
     private Warehouse wareHouseFrom;
     @OneToOne
     private Warehouse wareHouseTo;
-    @OneToOne
-    private Item item;
-    private String itemMark;
-    private Double qty;
     @JoinColumn(name = "transfer_order_id")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch= FetchType.LAZY)
     private List<TransferOrderLineItem> lineItem;
@@ -41,29 +37,6 @@ public class TransferOrder extends DocumentFacade<TransferOrderLineItem> {
 
 
 
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public String getItemMark() {
-        return itemMark;
-    }
-
-    public void setItemMark(String itemMark) {
-        this.itemMark = itemMark;
-    }
-
-    public Double getQty() {
-        return qty;
-    }
-
-    public void setQty(Double qty) {
-        this.qty = qty;
-    }
 
     public Shop getShopFrom() {
         return shopFrom;

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
+import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 
 /**
@@ -26,8 +27,12 @@ public class TransferOrderLineItem extends DocumentLineItemFacade {
     private Warehouse wareHouseTo;
     @OneToOne
     private Item item;
+    @OneToOne
+    private UOM uom;
+
     private String itemMark;
     private Double qty;
+
     
     public Item getItem() {
         return item;
@@ -85,6 +90,16 @@ public class TransferOrderLineItem extends DocumentLineItemFacade {
         this.wareHouseTo = wareHouseTo;
     }
 
+    public UOM getUom() {
+        return uom;
+    }
+
+    public void setUom(UOM uom) {
+        this.uom = uom;
+    }
+
+    
+
 
     @Override
     public int hashCode() {
@@ -112,3 +127,4 @@ public class TransferOrderLineItem extends DocumentLineItemFacade {
     }
     
 }
+//happily we can remove shops, WHs from the line item

@@ -11,12 +11,7 @@ package invoicingsystem;
  * Created on Dec 13, 2010, 10:16:22 PM
  */
 import app.AppMainWindow;
-import checkchequingsystem.BankBranchDetailUI;
-import checkchequingsystem.BankDetailUI;
-import checkchequingsystem.ChequeDetailUI;
 import java.awt.event.ActionEvent;
-import org.biz.erp.ui.transactions.posted.PostedInvoicesListUI;
-import org.biz.invoicesystem.ui.transactions.InvoiceMasterUI2;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
@@ -154,7 +149,7 @@ public class MainAppWindow extends AppMainWindow {
         addToTabpanelToUI(new CustomerStatementUI(), "customer statement");
         addToTabpanelToUI(new ShopUI(), "shop statement");
         addToTabpanelToUI(new WareHouseUI(), "ware house");
-        addToTabpanelToUI(new TransferOrderUI(), "transfer order");
+        addToTabpanelToUI(new SingleTransferOrderUI(), "transfer order");
         events();
         
         addToTabpanelToUI(new InvoiceMasterUIV3(),"  * Invoice Master v3 *");

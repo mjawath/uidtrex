@@ -32,25 +32,46 @@ public class TransferOrderService extends Service{
 
     public void createInventoryJournal(TransferOrder invoice){
        invoice.setId(EntityService.getKeys());
-        //inventory journal
-        InventoryJournal ij=new InventoryJournal();
-        ij.setId(   EntityService.getKeys()) ;
-        for (TransferOrderLineItem sl : invoice.getLineItemList()) {
+        //inventory journal for out
+        InventoryJournal ijOut=new InventoryJournal();
+        ijOut.setId(   EntityService.getKeys()) ;
+        for (TransferOrderLineItem toli : invoice.getLineItemList()) {
             InventoryJournalLine ijl=new InventoryJournalLine();
-            ijl.setId(sl.getId());
-            ijl.setDescription(sl.getId());
-            ijl.setItem(sl.getItem());
-            ijl.setQty(sl.getQty());
-//            ijl.setShop(sl.getShop());
-            ijl.setItemMark(sl.getItemMark());
-//            ijl.setWarehouse(sl.getWarehouse());
+            ijl.setId(toli.getId());
+            ijl.setDescription(toli.getId());
+            ijl.setItem(toli.getItem());
+            ijl.setQty(toli.getQty());
+            ijl.setShop(invoice.getShopFrom());
+            ijl.setItemMark(toli.getItemMark());
+            ijl.setWarehouse(toli.getWareHouseFrom());
+            ijl.setUom(toli.getUom());
 
-            ij.addIJLine(ijl);
+            ijOut.addIJLine(ijl);
 //            ijl.setShop(invoice.gets);
 //            jt
                     //shop ware houses
 //            ijl.setUom(sl.getQty());
         }
-        dao.save(invoice,ij);
+        //inventory journal for in
+InventoryJournal ijIn=new InventoryJournal();
+        ijOut.setId(   EntityService.getKeys()) ;
+        for (TransferOrderLineItem toli : invoice.getLineItemList()) {
+            InventoryJournalLine ijl=new InventoryJournalLine();
+            ijl.setId(toli.getId());
+            ijl.setDescription(toli.getId());
+            ijl.setItem(toli.getItem());
+            ijl.setQty(toli.getQty());
+            ijl.setShop(toli.getShopTo());
+            ijl.setItemMark(toli.getItemMark());
+            ijl.setWarehouse(toli.getWareHouseTo());
+            ijl.setUom(toli.getUom());
+
+            ijIn.addIJLine(ijl);
+//            ijl.setShop(invoice.gets);
+//            jt
+                    //shop ware houses
+//            ijl.setUom(sl.getQty());
+        }
+        dao.save(invoice,ijOut,ijIn);
     }
 }
