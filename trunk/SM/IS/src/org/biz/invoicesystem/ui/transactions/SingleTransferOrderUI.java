@@ -7,11 +7,9 @@
 package org.biz.invoicesystem.ui.transactions;
 
 import com.components.custom.ActionTask;
-import com.components.custom.PagedPopUpPanel;
 import java.util.ArrayList;
 import java.util.List;
 import org.biz.app.ui.util.uiEty;
-import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.inventory.TransferOrder;
 import org.biz.invoicesystem.entity.inventory.TransferOrderLineItem;
 import org.biz.invoicesystem.entity.master.Item;
@@ -28,7 +26,7 @@ import org.components.windows.TabPanelUI;
  *
  * @author nnjj
  */
-public class TransferOrderUI extends TabPanelUI {
+public class SingleTransferOrderUI extends TabPanelUI {
 
     ShopService shopService;
     TransferOrderService orderService;
@@ -44,7 +42,7 @@ public class TransferOrderUI extends TabPanelUI {
     /**
      * Creates new form TransferOrderUI
      */
-    public TransferOrderUI() {
+    public SingleTransferOrderUI() {
         initComponents();
         init();
     }
@@ -185,7 +183,20 @@ public class TransferOrderUI extends TabPanelUI {
 //        TransferOrderLineItem to = new TransferOrderLineItem();
         to.setItem(titem.getSelectedObject());
         to.setItemMark(uiEty.tcToStr(titemmark));
+        // TODO : add uom support
+        to.setUom(tunit.getSelectedModel());
         to.setQty(uiEty.tcToDouble(tqty));
+        //we dont need  this 
+//        to.setShopFrom(tfromshop.getSelectedObject());
+//        to.setShopTo(ttoshop.getSelectedObject());
+//        to.setWareHouseFrom(tfromware.getSelectedObject());
+//        to.setWareHouseTo(ttowarehouse.getSelectedObject());
+        return to;
+    }
+
+    TransferOrder uiety(TransferOrder to) {
+//        TransferOrderLineItem to = new TransferOrderLineItem();
+  
         to.setShopFrom(tfromshop.getSelectedObject());
         to.setShopTo(ttoshop.getSelectedObject());
         to.setWareHouseFrom(tfromware.getSelectedObject());
@@ -197,7 +208,9 @@ public class TransferOrderUI extends TabPanelUI {
     public void save() {
         //must not be empty or null
         if (transferOrder.getLastItem() != null || !transferOrder.getLineItemList().isEmpty()) {
-            orderService.getDao().save(transferOrder);
+        
+            uiety(transferOrder);
+            orderService.createInventoryJournal(transferOrder);
         }
         clear();
 
@@ -211,6 +224,8 @@ public class TransferOrderUI extends TabPanelUI {
     @Override
     public void clear() {
 
+        transferOrder= new TransferOrder();
+        transferOrder.initialiseList();
         tfromshop.setText("");
         tfromware.setText("");
         titem.setText("");
@@ -219,6 +234,7 @@ public class TransferOrderUI extends TabPanelUI {
         ttoshop.setText("");
         ttowarehouse.setText("");
         ttowarehouse.setText("");
+        tblTransfer.clear();
         super.clear();
     }
 
@@ -250,41 +266,41 @@ public class TransferOrderUI extends TabPanelUI {
 
         cLabel1.setText("From warehouse");
         add(cLabel1);
-        cLabel1.setBounds(20, 90, 130, 25);
+        cLabel1.setBounds(20, 80, 130, 25);
 
         cLabel2.setText("To shop");
         add(cLabel2);
-        cLabel2.setBounds(180, 37, 104, 25);
+        cLabel2.setBounds(190, 30, 104, 25);
 
         cLabel3.setText("Item");
         add(cLabel3);
-        cLabel3.setBounds(320, 30, 104, 25);
+        cLabel3.setBounds(40, 170, 104, 25);
         add(tqty);
-        tqty.setBounds(80, 200, 140, 30);
+        tqty.setBounds(160, 200, 140, 30);
 
         cLabel4.setText("Qty");
         add(cLabel4);
-        cLabel4.setBounds(80, 160, 104, 30);
+        cLabel4.setBounds(160, 160, 104, 30);
 
         cLabel5.setText("Unit");
         add(cLabel5);
-        cLabel5.setBounds(250, 150, 80, 30);
+        cLabel5.setBounds(330, 150, 80, 30);
         add(titemmark);
-        titemmark.setBounds(400, 200, 136, 30);
+        titemmark.setBounds(480, 200, 136, 30);
 
         cLabel6.setText("Item Mark");
         add(cLabel6);
-        cLabel6.setBounds(360, 150, 104, 30);
+        cLabel6.setBounds(440, 150, 104, 30);
 
         cLabel7.setText("From Shop");
         add(cLabel7);
-        cLabel7.setBounds(10, 37, 104, 25);
+        cLabel7.setBounds(10, 10, 104, 25);
 
         cLabel8.setText("To warehouse");
         add(cLabel8);
-        cLabel8.setBounds(170, 90, 104, 25);
+        cLabel8.setBounds(180, 80, 104, 25);
         add(tunit);
-        tunit.setBounds(230, 200, 160, 30);
+        tunit.setBounds(310, 200, 160, 30);
         add(controlPanel1);
         controlPanel1.setBounds(430, 10, 340, 30);
 
@@ -315,7 +331,7 @@ public class TransferOrderUI extends TabPanelUI {
             }
         });
         add(tfromshop);
-        tfromshop.setBounds(30, 60, 130, 25);
+        tfromshop.setBounds(30, 30, 130, 25);
 
         ttoshop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,7 +339,7 @@ public class TransferOrderUI extends TabPanelUI {
             }
         });
         add(ttoshop);
-        ttoshop.setBounds(180, 60, 130, 25);
+        ttoshop.setBounds(190, 50, 130, 25);
 
         titem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,7 +347,7 @@ public class TransferOrderUI extends TabPanelUI {
             }
         });
         add(titem);
-        titem.setBounds(350, 60, 130, 25);
+        titem.setBounds(30, 200, 130, 30);
 
         ttowarehouse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,7 +355,7 @@ public class TransferOrderUI extends TabPanelUI {
             }
         });
         add(ttowarehouse);
-        ttowarehouse.setBounds(190, 120, 130, 25);
+        ttowarehouse.setBounds(200, 100, 130, 25);
 
         tfromware.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,7 +363,7 @@ public class TransferOrderUI extends TabPanelUI {
             }
         });
         add(tfromware);
-        tfromware.setBounds(40, 120, 130, 25);
+        tfromware.setBounds(40, 110, 130, 25);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfromshopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfromshopActionPerformed
@@ -404,8 +420,6 @@ public class TransferOrderUI extends TabPanelUI {
      * keys
      */
 }
-//added support for generic method behaviour
-//sub classed the documents to be used as generic implementation
 
 
 
