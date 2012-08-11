@@ -324,20 +324,8 @@ public class SingleTransferOrderUI extends TabPanelUI {
 
         add(jScrollPane1);
         jScrollPane1.setBounds(30, 242, 600, 270);
-
-        tfromshop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfromshopActionPerformed(evt);
-            }
-        });
         add(tfromshop);
         tfromshop.setBounds(30, 30, 130, 25);
-
-        ttoshop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ttoshopActionPerformed(evt);
-            }
-        });
         add(ttoshop);
         ttoshop.setBounds(190, 50, 130, 25);
 
@@ -348,43 +336,16 @@ public class SingleTransferOrderUI extends TabPanelUI {
         });
         add(titem);
         titem.setBounds(30, 200, 130, 30);
-
-        ttowarehouse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ttowarehouseActionPerformed(evt);
-            }
-        });
         add(ttowarehouse);
         ttowarehouse.setBounds(200, 100, 130, 25);
-
-        tfromware.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfromwareActionPerformed(evt);
-            }
-        });
         add(tfromware);
         tfromware.setBounds(40, 110, 130, 25);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tfromshopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfromshopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfromshopActionPerformed
-
-    private void ttoshopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttoshopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ttoshopActionPerformed
 
     private void titemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_titemActionPerformed
 
-    private void ttowarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttowarehouseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ttowarehouseActionPerformed
-
-    private void tfromwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfromwareActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfromwareActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel1;
     private org.components.controls.CLabel cLabel2;

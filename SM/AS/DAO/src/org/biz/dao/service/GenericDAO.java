@@ -358,3 +358,8 @@ System.out.println("size "+cpageno);
     GenericDAOUtil.createEMFWithCustomProperties();
     }
 }
+
+/*
+ * scnario : multi database or multi connection environment
+ * simply create the instens of this class by passing the desired connection parameteres 
+ */

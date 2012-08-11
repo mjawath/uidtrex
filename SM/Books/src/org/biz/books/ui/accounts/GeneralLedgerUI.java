@@ -13,7 +13,7 @@ package org.biz.books.ui.accounts;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
-import org.biz.books.entity.accounts.ledger.JounelEntry;
+import org.biz.books.entity.accounts.ledger.JournelEntry;
 import org.biz.books.entity.accounts.ledger.TransactionEvent;
 import org.biz.books.service.accounts.ledger.JournelEntryService;
 import org.biz.books.service.accounts.ledger.TransactionEventService;
@@ -27,7 +27,7 @@ public class GeneralLedgerUI extends TabPanelUI {
 
     TransactionEvent entry;
     List<TransactionEvent> entrys;
-    JounelEntry jounelEntry;
+    JournelEntry jounelEntry;
     TransactionEventService transService;
     JournelEntryService jouService;
 
@@ -42,7 +42,7 @@ public class GeneralLedgerUI extends TabPanelUI {
         entry = new TransactionEvent();
         entrys = new ArrayList<TransactionEvent>();
         jouService = new JournelEntryService();
-        jounelEntry = new JounelEntry();
+        jounelEntry = new JournelEntry();
 
 
     }
@@ -50,6 +50,18 @@ public class GeneralLedgerUI extends TabPanelUI {
     @Override
     public void events() {
     }
+
+    @Override
+    public void save() {
+
+                jouService.getDao().save(jounelEntry);
+        jounelEntry = new JournelEntry();
+        super.save();
+    }
+
+
+
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -66,6 +78,7 @@ public class GeneralLedgerUI extends TabPanelUI {
         cTextField6 = new org.components.controls.CTextField();
         cTextField7 = new org.components.controls.CTextField();
         cTextField8 = new org.components.controls.CTextField();
+        controlPanel1 = new com.components.custom.ControlPanel();
 
         cButton1.setText("Post");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -133,11 +146,17 @@ public class GeneralLedgerUI extends TabPanelUI {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
                         .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(44, 44, 44)
+                .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,7 +177,7 @@ public class GeneralLedgerUI extends TabPanelUI {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -166,7 +185,6 @@ public class GeneralLedgerUI extends TabPanelUI {
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
 
         
-        jouService.getDao().save(jounelEntry);
         
         
     }//GEN-LAST:event_cButton1ActionPerformed
@@ -190,6 +208,7 @@ public class GeneralLedgerUI extends TabPanelUI {
     private org.components.controls.CTextField cTextField6;
     private org.components.controls.CTextField cTextField7;
     private org.components.controls.CTextField cTextField8;
+    private com.components.custom.ControlPanel controlPanel1;
     private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

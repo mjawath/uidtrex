@@ -14,17 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import org.biz.entity.BusObj;
 
 /**
  *
  * @author nano
  */
 @Entity
-public class TransactionEvent implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class TransactionEvent extends BusObj {
+
     @OneToOne
     private Accounts accounts;   
     private BigDecimal cr;
@@ -35,16 +33,9 @@ public class TransactionEvent implements Serializable {
     private String referceDoc;
 
     @OneToOne
-    JounelEntry transactionEvent;
+    JournelEntry transactionEvent;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

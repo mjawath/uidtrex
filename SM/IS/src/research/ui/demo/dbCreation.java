@@ -13,7 +13,6 @@ import javax.persistence.Persistence;
 import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.*;
-import org.dao.util.JPAUtil;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 /**
