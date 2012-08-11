@@ -22,6 +22,14 @@ public class Service {
         es = EntityService.getEntityService();
     }
 
+    /**
+     *
+     */
+    public Service(String dbname) {
+        es = EntityService.getEntityService();
+    }
+
+
     public GenericDAO getDao() {
 
         if (dao == null) {

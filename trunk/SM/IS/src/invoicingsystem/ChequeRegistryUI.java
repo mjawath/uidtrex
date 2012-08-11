@@ -101,4 +101,24 @@ public class ChequeRegistryUI extends javax.swing.JPanel {
 /*
 user can regiser  cheques for a perticular bank
 
+*
+* when customer gives a cheque
+*     cheque AC DR
+*           customer AC CR
+*
+* when we deposit
+*  bank AC DR
+*       cheque  AC CR
+* 
+*
+* when return
+*   bank AC DR
+*       cheque AC CR
+*
+* when cashed
+*   custoemr AC DR
+*       Cheque AC CR
+*
+*
+*
  */

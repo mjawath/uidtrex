@@ -5,6 +5,7 @@
 package org.biz.invoicesystem.ui.transactions;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JFrame;
 import org.biz.app.ui.util.TableUtil;
@@ -170,26 +171,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         return null;
     }
 
-    private SalesInvoiceLineItem addsales(SalesInvoiceLineItem lineItem) {
-        SalesInvoiceLineItem sl = null;
-        int sx = -1;
-        int x = -1;
-        for (SalesInvoiceLineItem sil : lineItems) {
-            x++;
-            if ((lineItem.getId() == null && sil.getId() == null) || lineItem.getId() != null
-                    && sil.getId() != null && lineItem.getId().equals(sil.getId())) {
-                sx = x;
-                sl = sil;
-                break;
-            }
-        }
-        if (sx > -1) {
-            lineItems.remove(sx);
-            lineItems.add(sx, lineItem);
-        }
-        return sl;
-    }
-
+    
     public SalesInvoiceLineItem rowToEty() {
 
         String bt = uiEty.colToStrE(tblInvoice, 0);
@@ -247,9 +229,6 @@ public class PosInvoiceV3 extends TabPanelUI {
         lineItems.add(si);
     }
 
-
-
-
     public void addToTable(List<SalesInvoiceLineItem> items) {
 
         tblInvoice.modelToTable(items);
@@ -257,6 +236,22 @@ public class PosInvoiceV3 extends TabPanelUI {
     }
 
 
+       public void save() {
+        for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+            SalesInvoiceLineItem si = it.next();
+            if (si.getId() == null) {
+                it.remove();
+            }
+        }
+
+//do we have worry about journal posting
+        servicedao.createInventoryJournal(invoice);
+        invoice = SalesInvoice.createNewInvoice();
+        lineItems = invoice.getLineItems();
+        addToTable(lineItems);
+
+        clear();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

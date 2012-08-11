@@ -4,18 +4,18 @@
  */
 package org.biz.books.entity.accounts.ledger;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.biz.entity.BusObj;
 
 /**
  *
  * @author mjawath
  */
 @Entity
-public class Accounts implements Serializable {
+public class Accounts extends  BusObj{
 
     private static final long serialVersionUID = 1L;
     private static final String assests = "assests";
@@ -23,21 +23,10 @@ public class Accounts implements Serializable {
     private static final String equity = "equity";
     private static final String expence = "expence";
     private static final String income = "income";
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
     String primaryAccounts;//assest = liability+equity
     String subAccounts;//assest+expence = liability+equity+income
     String accountsName;
     String accountsNo;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     
     public String getAccountsName() {

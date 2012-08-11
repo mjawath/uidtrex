@@ -32,6 +32,7 @@ public class InventoryJournalLine  extends BusObj implements Serializable {
     @OneToOne
     private Warehouse warehouse;
     private String itemMark;
+
     
     @OneToOne
     private UOM uom;

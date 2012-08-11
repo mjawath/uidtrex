@@ -372,25 +372,7 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
     public void getSelectedEty() {
     }
 
-    private SalesInvoiceLineItem addsales(SalesInvoiceLineItem lineItem) {
-        SalesInvoiceLineItem sl = null;
-        int sx = -1;
-        int x = -1;
-        for (SalesInvoiceLineItem sil : lineItems) {
-            x++;
-            if ((lineItem.getId() == null && sil.getId() == null) || lineItem.getId() != null && sil.getId() != null && lineItem.getId().equals(sil.getId())) {
-                sx = x;
-                sl = sil;
-                break;
-            }
-        }
-        if (sx > -1) {
-            lineItems.remove(sx);
-            lineItems.add(sx, lineItem);
-        }
-        return sl;
-    }
-
+   
     public void setnewrow() {
         TableUtil.addrow(tblInvoice, new Object[]{});
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();

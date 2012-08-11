@@ -207,9 +207,6 @@
       </SubComponents>
     </Container>
     <Component class="com.components.custom.TextFieldWithPopUP" name="tfromshop">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfromshopActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Shop&gt;"/>
       </AuxValues>
@@ -220,9 +217,6 @@
       </Constraints>
     </Component>
     <Component class="com.components.custom.TextFieldWithPopUP" name="ttoshop">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ttoshopActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Shop&gt;"/>
       </AuxValues>
@@ -246,9 +240,6 @@
       </Constraints>
     </Component>
     <Component class="com.components.custom.TextFieldWithPopUP" name="ttowarehouse">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ttowarehouseActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Warehouse&gt;"/>
       </AuxValues>
@@ -259,9 +250,6 @@
       </Constraints>
     </Component>
     <Component class="com.components.custom.TextFieldWithPopUP" name="tfromware">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfromwareActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Warehouse&gt;"/>
       </AuxValues>

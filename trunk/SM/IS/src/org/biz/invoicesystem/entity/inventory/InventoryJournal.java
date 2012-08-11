@@ -219,6 +219,8 @@ public class InventoryJournal  extends BusObj implements Serializable {
  * as a journal so that data mining can be eased 
 
 
+* item mark is used to represents the
+* sku for perticular item
  */
 
 

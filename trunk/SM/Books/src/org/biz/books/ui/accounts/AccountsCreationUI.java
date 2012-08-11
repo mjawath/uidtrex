@@ -1,13 +1,12 @@
-
-
 /*
  * AcountsCreationUI.java
  *
  * Created on 01-Apr-2011, 13:28:11
  */
-
 package org.biz.books.ui.accounts;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
@@ -15,7 +14,6 @@ import org.biz.app.ui.util.uiEty;
 import org.biz.books.entity.accounts.ledger.Accounts;
 import org.biz.books.service.accounts.ledger.AccountsService;
 import org.biz.dao.util.EntityService;
-import org.biz.invoicesystem.entity.master.Item;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -28,9 +26,10 @@ public class AccountsCreationUI extends TabPanelUI {
     List<Accounts> listaccounts;
     AccountsService accountsService;
     EntityService es;
-            
-    
-    /** Creates new form AcountsCreationUI */
+
+    /**
+     * Creates new form AcountsCreationUI
+     */
     public AccountsCreationUI() {
         initComponents();
         init();
@@ -40,13 +39,35 @@ public class AccountsCreationUI extends TabPanelUI {
     public void init() {
         accounts = new Accounts();
         accountsService = new AccountsService();
-        es=EntityService.getEntityService();
+        es = EntityService.getEntityService();
+        controlPanel1.setCrudController(this);
+
+    }
+
+    @Override
+    public void events() {
+        tacctype.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            accounts = uiToEty(accounts);
+            accountsService.getDao().save(accounts);
+            accounts=new Accounts();
+            }
+        });
+
+    }
+
+    public Accounts uiToEty(Accounts obj) {
+        obj.setAccountsNo(uiEty.tcToStr(taccno));
+        obj.setAccountsName(uiEty.tcToStr(taccname));
+        obj.setPrimaryAccounts(uiEty.cmbtostr(tprimacctype));
+        obj.setSubAccounts(uiEty.cmbtostr(tacctype));
+        return obj;
     }
 
     public static void main(String[] args) {
-     
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,6 +80,7 @@ public class AccountsCreationUI extends TabPanelUI {
         cxTable1 = new org.components.controls.CxTable();
         taccno = new org.components.controls.CTextField();
         tacctype = new org.components.controls.CComboBox();
+        controlPanel1 = new com.components.custom.ControlPanel();
 
         cButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,29 +98,41 @@ public class AccountsCreationUI extends TabPanelUI {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tprimacctype, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                            .addComponent(taccname, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                            .addComponent(taccno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tacctype, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
-                        .addGap(84, 84, 84))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(117, 117, 117))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tprimacctype, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(taccname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(taccno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tacctype, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(84, 84, 84))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(223, 223, 223)
+                                        .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(89, 89, 89)
+                                        .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(cLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -113,41 +147,37 @@ public class AccountsCreationUI extends TabPanelUI {
                 .addGap(143, 143, 143)
                 .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(91, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(338, 338, 338))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
-     
+
         accounts.setId(es.getKey());
         accounts.setAccountsNo(uiEty.tcToStr(taccno));
         accounts.setAccountsName(uiEty.tcToStr(taccname));
         accounts.setSubAccounts(uiEty.cmbtostr(tacctype));
         accounts.setPrimaryAccounts(uiEty.cmbtostr(tprimacctype));
         accountsService.getDao().save(accounts);
-        listaccounts =accountsService.getDao().getAll();
-        addToTable(listaccounts);         
-        accounts= new Accounts();
+        listaccounts = accountsService.getDao().getAll();
+        addToTable(listaccounts);
+        accounts = new Accounts();
         System.out.println("saved");
-        
-        
-        
+
+
+
     }//GEN-LAST:event_cButton1ActionPerformed
- public void addToTable(List<Accounts> items) {
+    public void addToTable(List<Accounts> items) {
         TableUtil.cleardata(cxTable1);
         for (Accounts item : items) {
             addToTable(item);
         }
         TableUtil.addrow(cxTable1, new Object[]{TableUtil.newRowID, ""});
     }
- 
- public void addToTable(Accounts accounts){
- TableUtil.addrow(cxTable1, new Object[]{accounts.getId(), accounts.getAccountsNo(),accounts.getAccountsName()
-         ,accounts.getPrimaryAccounts()});
- }
+
+    public void addToTable(Accounts accounts) {
+        TableUtil.addrow(cxTable1, new Object[]{accounts.getId(), accounts.getAccountsNo(), accounts.getAccountsName(), accounts.getPrimaryAccounts()});
+    }
+
     @Override
     public String getTabName() {
         return "accounts creation ";
@@ -155,13 +185,12 @@ public class AccountsCreationUI extends TabPanelUI {
 
     @Override
     public JPanel getJPanel() {
-    return this;
+        return this;
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
     private org.components.controls.CLabel cLabel1;
+    private com.components.custom.ControlPanel controlPanel1;
     private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CTextField taccname;
@@ -169,5 +198,4 @@ public class AccountsCreationUI extends TabPanelUI {
     private org.components.controls.CComboBox tacctype;
     private org.components.controls.CComboBox tprimacctype;
     // End of variables declaration//GEN-END:variables
-
 }
