@@ -10,16 +10,25 @@
  */
 package invoicingsystem;
 
+import org.components.windows.TabPanelUI;
+
 /**
  *
  * @author d
  */
-public class ChequeRegistryUI extends javax.swing.JPanel {
+public class ChequeRegistryUI extends TabPanelUI {
 
     /** Creates new form ChequeRegistryUI */
     public ChequeRegistryUI() {
         initComponents();
     }
+
+    @Override
+    public void init() {
+    
+
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,9 +86,9 @@ public class ChequeRegistryUI extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tcheckno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(tcheckno1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
+                        .addGap(37, 37, 37)
                         .addComponent(tbank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
                         .addComponent(tcustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,6 +106,11 @@ public class ChequeRegistryUI extends javax.swing.JPanel {
     private org.components.controls.CTextField tcustomer;
     private org.components.controls.CTextField tcustomer1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public String getTabName() {
+      return " Cheque rejistry  ";// throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 /*
 user can regiser  cheques for a perticular bank

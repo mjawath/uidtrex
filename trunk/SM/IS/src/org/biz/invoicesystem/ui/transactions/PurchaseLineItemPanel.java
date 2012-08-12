@@ -21,7 +21,7 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.PurchaseInvoiceLineItem;
 import org.components.controls.CTextField;
@@ -243,11 +243,11 @@ public class PurchaseLineItemPanel extends LineItemPanel {
     public PurchaseInvoiceLineItem panelToEty() {
 
 
-        salesline.setQty(uiEty.tcToDouble(tqty));
+        salesline.setQty(UIEty.tcToDouble(tqty));
         salesline.setUnit(tunit.getValue());
-        salesline.setDescription(uiEty.tcToStr(tdescription));
-        salesline.setPrice(uiEty.tcToDouble(tprice));
-        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
+        salesline.setDescription(UIEty.tcToStr(tdescription));
+        salesline.setPrice(UIEty.tcToDouble(tprice));
+        salesline.setLineAmount(UIEty.tcToDouble(tlinetotal));
         //ui to ety ..
         return salesline;
     }
@@ -261,16 +261,16 @@ public class PurchaseLineItemPanel extends LineItemPanel {
     public void etyToPanel() {
         Item it = salesline.getItem();
         if (it != null) {
-            uiEty.objToUi(titemcode, it.getCode());
+            UIEty.objToUi(titemcode, it.getCode());
 
         } else {
-            uiEty.objToUi(titemcode, "");
+            UIEty.objToUi(titemcode, "");
         }
-        uiEty.objToUi(tqty, salesline.getQty());
-        uiEty.objToUi(tdescription, salesline.getDescription());
-        uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tunit.getTextField(), salesline.getUnit());
-        uiEty.objToUi(tprice, salesline.getPrice());
+        UIEty.objToUi(tqty, salesline.getQty());
+        UIEty.objToUi(tdescription, salesline.getDescription());
+        UIEty.objToUi(tlinetotal, salesline.getLineAmount());
+        UIEty.objToUi(tunit.getTextField(), salesline.getUnit());
+        UIEty.objToUi(tprice, salesline.getPrice());
 
     }
 

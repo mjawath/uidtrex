@@ -9,7 +9,7 @@ package org.biz.invoicesystem.ui.transactions;
 import com.components.custom.ActionTask;
 import java.util.ArrayList;
 import java.util.List;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.inventory.TransferOrder;
 import org.biz.invoicesystem.entity.inventory.TransferOrderLineItem;
 import org.biz.invoicesystem.entity.master.Item;
@@ -182,10 +182,10 @@ public class SingleTransferOrderUI extends TabPanelUI {
     TransferOrderLineItem uiety(TransferOrderLineItem to) {
 //        TransferOrderLineItem to = new TransferOrderLineItem();
         to.setItem(titem.getSelectedObject());
-        to.setItemMark(uiEty.tcToStr(titemmark));
+        to.setItemMark(UIEty.tcToStr(titemmark));
         // TODO : add uom support
         to.setUom(tunit.getSelectedModel());
-        to.setQty(uiEty.tcToDouble(tqty));
+        to.setQty(UIEty.tcToDouble(tqty));
         //we dont need  this 
 //        to.setShopFrom(tfromshop.getSelectedObject());
 //        to.setShopTo(ttoshop.getSelectedObject());

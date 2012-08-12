@@ -24,7 +24,7 @@ public class JournelEntry extends BusObj {
     
     @JoinColumn(name = "jour_id")
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)//atleast two events needed for a perticular transection events
-    List<TransactionEvent> transactionEntrys;
+    List<TransactionEvent> transactionEntrys;//this is the journal line item
     String explanation;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     Date dateTrxEvent;

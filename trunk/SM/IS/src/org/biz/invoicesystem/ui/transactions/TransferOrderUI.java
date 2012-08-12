@@ -10,7 +10,7 @@ import com.components.custom.ActionTask;
 import com.components.custom.PagedPopUpPanel;
 import java.util.ArrayList;
 import java.util.List;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.inventory.TransferOrder;
 import org.biz.invoicesystem.entity.inventory.TransferOrderLineItem;
@@ -184,8 +184,8 @@ public class TransferOrderUI extends TabPanelUI {
     TransferOrderLineItem uiety(TransferOrderLineItem to) {
 //        TransferOrderLineItem to = new TransferOrderLineItem();
         to.setItem(titem.getSelectedObject());
-        to.setItemMark(uiEty.tcToStr(titemmark));
-        to.setQty(uiEty.tcToDouble(tqty));
+        to.setItemMark(UIEty.tcToStr(titemmark));
+        to.setQty(UIEty.tcToDouble(tqty));
         to.setShopFrom(tfromshop.getSelectedObject());
         to.setShopTo(ttoshop.getSelectedObject());
         to.setWareHouseFrom(tfromware.getSelectedObject());

@@ -8,7 +8,7 @@ import java.util.TreeSet;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.MessageBoxes;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.service.master.SupplierService;
@@ -55,8 +55,8 @@ public void loadComboBoxData(){
                String title=(String) ss[1];
                titles.add(title);
             }
-       uiEty.loadcombo(tSuppType, types); 
-      uiEty.loadcombo(tSuppTitle, titles); 
+       UIEty.loadcombo(tSuppType, types);
+      UIEty.loadcombo(tSuppTitle, titles);
 //     
       
     } catch (Exception e) {
@@ -70,24 +70,24 @@ public Supplier uiToEntity(Supplier s)throws Exception{
 
 
   s.setId(EntityService.getEntityService().getKey());     
-  s.setCode(uiEty.tcToStr(tSuppId));
-  s.setTitle(uiEty.cmbtostr(tSuppTitle));
-  s.setName(uiEty.tcToStr(tSuppName));
+  s.setCode(UIEty.tcToStr(tSuppId));
+  s.setTitle(UIEty.cmbtostr(tSuppTitle));
+  s.setName(UIEty.tcToStr(tSuppName));
   s.setDob(cSuppDob.getDate());
   s.setCurDate(new Date());
-  s.setCompany(uiEty.tcToStr(tSuppCompanyName));
+  s.setCompany(UIEty.tcToStr(tSuppCompanyName));
   s.setReligion(tSuppReligion.getSelectedItem()==null?"":tSuppReligion.getSelectedItem().toString());
-  s.setType(uiEty.cmbtostr(tSuppType));
+  s.setType(UIEty.cmbtostr(tSuppType));
 
-  s.setAddress1(uiEty.tcToStr(tSuppAddress1));
-  s.setAddress2(uiEty.tcToStr(tSuppAddress2));
-  s.setCity(uiEty.tcToStr(tSuppCity));
+  s.setAddress1(UIEty.tcToStr(tSuppAddress1));
+  s.setAddress2(UIEty.tcToStr(tSuppAddress2));
+  s.setCity(UIEty.tcToStr(tSuppCity));
   
-  s.setPhone(uiEty.tcToStr(tSuppPhone));
-  s.setMobilePhone(uiEty.tcToStr(tSuppMobile));
+  s.setPhone(UIEty.tcToStr(tSuppPhone));
+  s.setMobilePhone(UIEty.tcToStr(tSuppMobile));
   
   
-  s.setEmail(uiEty.tcToStr(tSuppEmail));
+  s.setEmail(UIEty.tcToStr(tSuppEmail));
     
 
         
@@ -102,24 +102,24 @@ public Supplier uiToEntity(Supplier s)throws Exception{
 public void entityToUi(Supplier s)throws Exception{
 try{
 //   s.setId(EntityService.getEntityService().getKey(""));     
-uiEty.objToUi(tSuppId, s.getCode());//  s.setCode(uiEty.tcToStr(tSuppId));
-uiEty.objToUi(tSuppTitle, s.getTitle());    //  s.setTitle(uiEty.cmbtostr(tSuppTitle));
-uiEty.objToUi(tSuppTitle, s.getTitle());//  s.setName(uiEty.tcToStr(tSuppName));
+UIEty.objToUi(tSuppId, s.getCode());//  s.setCode(uiEty.tcToStr(tSuppId));
+UIEty.objToUi(tSuppTitle, s.getTitle());    //  s.setTitle(uiEty.cmbtostr(tSuppTitle));
+UIEty.objToUi(tSuppTitle, s.getTitle());//  s.setName(uiEty.tcToStr(tSuppName));
 cSuppDob.setDate(s.getDob());//  s.setDob(cSuppDob.getDate());
 //  s.setCurDate(new Date());
-uiEty.objToUi(tSuppCompanyName, s.getCompany());//  s.setCompany(uiEty.tcToStr(tSuppCompanyName));
-uiEty.objToUi(tSuppReligion, s.getReligion());//  s.setReligion(tSuppReligion.getSelectedItem()==null?"":tSuppReligion.getSelectedItem().toString());
-uiEty.objToUi(tSuppType, s.getType());//  s.setType(uiEty.cmbtostr(tSuppType));
+UIEty.objToUi(tSuppCompanyName, s.getCompany());//  s.setCompany(uiEty.tcToStr(tSuppCompanyName));
+UIEty.objToUi(tSuppReligion, s.getReligion());//  s.setReligion(tSuppReligion.getSelectedItem()==null?"":tSuppReligion.getSelectedItem().toString());
+UIEty.objToUi(tSuppType, s.getType());//  s.setType(uiEty.cmbtostr(tSuppType));
 //
-uiEty.objToUi(tSuppAddress1, s.getAddress1());//  s.setAddress1(uiEty.tcToStr(tSuppAddress1));
-uiEty.objToUi(tSuppAddress2, s.getAddress2());//  s.setAddress2(uiEty.tcToStr(tSuppAddress2));
-uiEty.objToUi(tSuppCity, s.getCity());//  s.setCity(uiEty.tcToStr(tSuppCity));
+UIEty.objToUi(tSuppAddress1, s.getAddress1());//  s.setAddress1(uiEty.tcToStr(tSuppAddress1));
+UIEty.objToUi(tSuppAddress2, s.getAddress2());//  s.setAddress2(uiEty.tcToStr(tSuppAddress2));
+UIEty.objToUi(tSuppCity, s.getCity());//  s.setCity(uiEty.tcToStr(tSuppCity));
 //  
-uiEty.objToUi(tSuppPhone, s.getPhone());//  s.setPhone(uiEty.tcToStr(tSuppPhone));
-uiEty.objToUi(tSuppMobile, s.getMobilePhone());//  s.setMobilePhone(uiEty.tcToStr(tSuppMobile));
+UIEty.objToUi(tSuppPhone, s.getPhone());//  s.setPhone(uiEty.tcToStr(tSuppPhone));
+UIEty.objToUi(tSuppMobile, s.getMobilePhone());//  s.setMobilePhone(uiEty.tcToStr(tSuppMobile));
 //  
 //  
-uiEty.objToUi(tSuppEmail, s.getEmail());//  s.setEmail(uiEty.tcToStr(tSuppEmail));
+UIEty.objToUi(tSuppEmail, s.getEmail());//  s.setEmail(uiEty.tcToStr(tSuppEmail));
 //    
   
 } catch (Exception e) {
@@ -349,7 +349,7 @@ public void clear(){
 
     private void cSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cSaveActionPerformed
        try {
-            if(uiEty.tcToStr(tSuppId)==null || uiEty.tcToStr(tSuppId).equals("")){
+            if(UIEty.tcToStr(tSuppId)==null || UIEty.tcToStr(tSuppId).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Customer Code","Empty Customer Code");                 
                 return;
             }       
@@ -420,7 +420,7 @@ public void clear(){
     private void cDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDeleteActionPerformed
        try {
        
-       if(uiEty.tcToStr(tSuppId)==null || uiEty.tcToStr(tSuppId).equals("")){
+       if(UIEty.tcToStr(tSuppId)==null || UIEty.tcToStr(tSuppId).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Customer Code","Empty Customer Code");                 
                 return;
            }       

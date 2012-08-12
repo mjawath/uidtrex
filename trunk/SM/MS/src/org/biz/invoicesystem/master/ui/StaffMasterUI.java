@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.MessageBoxes;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.service.master.StaffService;
@@ -54,8 +54,8 @@ public class StaffMasterUI extends TabPanelUI  {
        initialz.add(initial);
              
     }
-    uiEty.loadcombo(tInitial, initialz); 
-    uiEty.loadcombo(tSecRole, secRoles); 
+    UIEty.loadcombo(tInitial, initialz);
+    UIEty.loadcombo(tSecRole, secRoles);
                   
              
              
@@ -84,28 +84,28 @@ public class StaffMasterUI extends TabPanelUI  {
    
        try {
     s.setId(EntityService.getEntityService().getKey());             
-    s.setCode(uiEty.tcToStr(tCode));                  
-    s.setName(uiEty.tcToStr(tName));                 
+    s.setCode(UIEty.tcToStr(tCode));
+    s.setName(UIEty.tcToStr(tName));
     s.setGender(tGender.getSelectedItem()==null?"":tGender.getSelectedItem().toString());                  
-   s.setInitial(uiEty.cmbtostr(tInitial));
+   s.setInitial(UIEty.cmbtostr(tInitial));
    s.setReigion(tReligion.getSelectedItem()==null?"":tReligion.getSelectedItem().toString());             
-   s.setSecurityRole(uiEty.cmbtostr(tSecRole));               
+   s.setSecurityRole(UIEty.cmbtostr(tSecRole));
      
    s.setShopName("Not yet implemented..");
-   s.setUsername(uiEty.tcToStr(tUsername));
-   s.setPassword(uiEty.tcToStr(tPassword));
-   s.setRetypePasswod(uiEty.tcToStr(tRetypePassword));
+   s.setUsername(UIEty.tcToStr(tUsername));
+   s.setPassword(UIEty.tcToStr(tPassword));
+   s.setRetypePasswod(UIEty.tcToStr(tRetypePassword));
    
    s.setDob(tDob.getDate());
    s.setJoinedDate(tWorkStarted.getDate());
    
-   s.setAddress1(uiEty.tcToStr(tAddress1));
-   s.setAddress2(uiEty.tcToStr(tAddress2));
-   s.setCity(uiEty.tcToStr(tCity));
+   s.setAddress1(UIEty.tcToStr(tAddress1));
+   s.setAddress2(UIEty.tcToStr(tAddress2));
+   s.setCity(UIEty.tcToStr(tCity));
    
-   s.setPhone(uiEty.tcToStr(tPhone));
-   s.setMobile(uiEty.tcToStr(tMobile));
-   s.setEmail(uiEty.tcToStr(tEmail));
+   s.setPhone(UIEty.tcToStr(tPhone));
+   s.setMobile(UIEty.tcToStr(tMobile));
+   s.setEmail(UIEty.tcToStr(tEmail));
    
        } catch (Exception e) {
      e.printStackTrace();  }
@@ -120,28 +120,28 @@ public class StaffMasterUI extends TabPanelUI  {
 ///////////////////////////////////////////////////////
       public void entity2Ui(Staff s)throws Exception{
       try {
- uiEty.objToUi(tCode,s.getId());//    s.setCode(uiEty.tcToStr(tId));                  
-uiEty.objToUi(tName,s.getName());//    s.setName(uiEty.tcToStr(tName));                 
+ UIEty.objToUi(tCode,s.getId());//    s.setCode(uiEty.tcToStr(tId));
+UIEty.objToUi(tName,s.getName());//    s.setName(uiEty.tcToStr(tName));
 tGender.setSelectedItem(s.getGender());//    s.setGender(tGender.getSelectedItem()==null?"":tGender.getSelectedItem().toString());                  
-uiEty.objToUi(tInitial,s.getInitial());//   s.setInitial(uiEty.cmbtostr(tInitial));
+UIEty.objToUi(tInitial,s.getInitial());//   s.setInitial(uiEty.cmbtostr(tInitial));
 tReligion.setSelectedItem(s.getReigion());//   s.setReigion(tReligion.getSelectedItem()==null?"":tReligion.getSelectedItem().toString());             
-uiEty.objToUi(tSecRole,s.getSecurityRole());//   s.setSecurityRole(uiEty.cmbtostr(tSecRole));               
+UIEty.objToUi(tSecRole,s.getSecurityRole());//   s.setSecurityRole(uiEty.cmbtostr(tSecRole));
 //     
  //   s.setShopName("Not yet implemented..");
-uiEty.objToUi(tUsername,s.getUsername());//   s.setUsername(uiEty.tcToStr(tUsername));
-uiEty.objToUi(tPassword,s.getPassword());//   s.setPassword(uiEty.tcToStr(tPassword));
-uiEty.objToUi(tRetypePassword,s.getRetypePasswod());//   s.setRetypePasswod(uiEty.tcToStr(tRetypePassword));
+UIEty.objToUi(tUsername,s.getUsername());//   s.setUsername(uiEty.tcToStr(tUsername));
+UIEty.objToUi(tPassword,s.getPassword());//   s.setPassword(uiEty.tcToStr(tPassword));
+UIEty.objToUi(tRetypePassword,s.getRetypePasswod());//   s.setRetypePasswod(uiEty.tcToStr(tRetypePassword));
 //   
 //   s.setDob(tDob.getDate());
 //   s.setJoinedDate(tWorkStarted.getDate());
 //   
-uiEty.objToUi(tAddress1,s.getAddress1());//   s.setAddress1(uiEty.tcToStr(tAddress1));
-uiEty.objToUi(tAddress2,s.getAddress2());//   s.setAddress2(uiEty.tcToStr(tAddress2));
-uiEty.objToUi(tCity,s.getCity());//   s.setCity(uiEty.tcToStr(tCity));
+UIEty.objToUi(tAddress1,s.getAddress1());//   s.setAddress1(uiEty.tcToStr(tAddress1));
+UIEty.objToUi(tAddress2,s.getAddress2());//   s.setAddress2(uiEty.tcToStr(tAddress2));
+UIEty.objToUi(tCity,s.getCity());//   s.setCity(uiEty.tcToStr(tCity));
 //   
-uiEty.objToUi(tPhone,s.getPhone());//   s.setPhone(uiEty.tcToStr(tPhone));
-uiEty.objToUi(tMobile,s.getMobile());//   s.setMobile(uiEty.tcToStr(tMobile));
-uiEty.objToUi(tEmail,s.getEmail());//   s.setEmail(uiEty.tcToStr(tEmail));   
+UIEty.objToUi(tPhone,s.getPhone());//   s.setPhone(uiEty.tcToStr(tPhone));
+UIEty.objToUi(tMobile,s.getMobile());//   s.setMobile(uiEty.tcToStr(tMobile));
+UIEty.objToUi(tEmail,s.getEmail());//   s.setEmail(uiEty.tcToStr(tEmail));
        } catch (Exception e) {
      e.printStackTrace();  }
     
@@ -415,22 +415,22 @@ uiEty.objToUi(tEmail,s.getEmail());//   s.setEmail(uiEty.tcToStr(tEmail));
 
     private void cSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cSaveActionPerformed
            try {
-     if(uiEty.tcToStr(tCode)==null || uiEty.tcToStr(tCode).equals("")){
+     if(UIEty.tcToStr(tCode)==null || UIEty.tcToStr(tCode).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Staff Code","Empty Staff Code");                 
                 return;
             }  
-     if(uiEty.cmbtostr(tSecRole)==null || uiEty.cmbtostr(tSecRole).equals("")){
+     if(UIEty.cmbtostr(tSecRole)==null || UIEty.cmbtostr(tSecRole).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Security Role","Empty");                 
                 return;
             }  
      
-       if(uiEty.tcToStr(tUsername)==null || uiEty.tcToStr(tUsername).equals("")){
+       if(UIEty.tcToStr(tUsername)==null || UIEty.tcToStr(tUsername).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Username ","Empty");                 
                 return;
             }
        
-        if(uiEty.tcToStr(tPassword)==null ||uiEty.tcToStr(tRetypePassword)==null ||
-          !uiEty.tcToStr(tPassword).equals(uiEty.tcToStr(tRetypePassword)) 
+        if(UIEty.tcToStr(tPassword)==null ||UIEty.tcToStr(tRetypePassword)==null ||
+          !UIEty.tcToStr(tPassword).equals(UIEty.tcToStr(tRetypePassword))
             ){
         
       MessageBoxes.errormsg(null, "Passwords Does not Match Or ", "Wrong ");            
@@ -438,9 +438,9 @@ uiEty.objToUi(tEmail,s.getEmail());//   s.setEmail(uiEty.tcToStr(tEmail));
     }
      
     //check username  and pwd...
-    Staff usernameChk=sService.getDao().findStaffByUsername(uiEty.tcToStr(tUsername),"");
+    Staff usernameChk=sService.getDao().findStaffByUsername(UIEty.tcToStr(tUsername),"");
     
-    Staff exist=sService.getDao().findStaffByCode(uiEty.tcToStr(tCode));
+    Staff exist=sService.getDao().findStaffByCode(UIEty.tcToStr(tCode));
    
     if(usernameChk!=null){
   if(exist==null){
@@ -523,14 +523,14 @@ uiEty.objToUi(tEmail,s.getEmail());//   s.setEmail(uiEty.tcToStr(tEmail));
 
     private void cDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDeleteActionPerformed
           try {
-      if(uiEty.tcToStr(tCode)==null || uiEty.tcToStr(tCode).equals("")){
+      if(UIEty.tcToStr(tCode)==null || UIEty.tcToStr(tCode).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Staff Code","Empty Staff Code");                 
                 return;
         }  
       
       Staff s=uiToEntity(new Staff());
       
-       Staff exist=sService.getDao().findStaffByCode(uiEty.tcToStr(tCode));
+       Staff exist=sService.getDao().findStaffByCode(UIEty.tcToStr(tCode));
      
      if(exist!=null){
      sService.getDao().delete(exist);

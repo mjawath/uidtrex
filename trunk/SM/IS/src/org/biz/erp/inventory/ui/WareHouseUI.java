@@ -12,7 +12,7 @@ package org.biz.erp.inventory.ui;
 
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.master.Warehouse;
 import org.biz.invoicesystem.service.master.WareHouseService;
@@ -56,7 +56,7 @@ public class WareHouseUI extends TabPanelUI {
     }
 
     public  void uiety(){
-    warehouse.setCode(uiEty.tcToStrE(cTextField1));
+    warehouse.setCode(UIEty.tcToStrE(cTextField1));
     }
     
     @SuppressWarnings("unchecked")

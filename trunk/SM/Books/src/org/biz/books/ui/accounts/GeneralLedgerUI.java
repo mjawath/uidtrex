@@ -10,9 +10,12 @@
  */
 package org.biz.books.ui.accounts;
 
+import com.components.custom.ActionTask;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import org.biz.app.ui.util.UIEty;
+import org.biz.books.entity.accounts.ledger.Accounts;
 import org.biz.books.entity.accounts.ledger.JournelEntry;
 import org.biz.books.entity.accounts.ledger.TransactionEvent;
 import org.biz.books.service.accounts.ledger.JournelEntryService;
@@ -30,6 +33,7 @@ public class GeneralLedgerUI extends TabPanelUI {
     JournelEntry jounelEntry;
     TransactionEventService transService;
     JournelEntryService jouService;
+    List<Accounts> accountses;
 
     public GeneralLedgerUI() {
         initComponents();
@@ -43,18 +47,63 @@ public class GeneralLedgerUI extends TabPanelUI {
         entrys = new ArrayList<TransactionEvent>();
         jouService = new JournelEntryService();
         jounelEntry = new JournelEntry();
+        accountses=new ArrayList<Accounts>();
 
 
     }
 
     @Override
     public void events() {
+
+
+        taccno.setActionActionTask(new ActionTask() {
+
+            @Override
+            public void actionCall() {
+
+                String ob = taccno.getSelectedID();
+                Accounts cus = null;
+                //find Item
+                for (Accounts it : accountses) {
+                    if (ob.equals(it.getId())) {
+                        taccno.setSelectedObject(it);
+//                        cus = it;
+//                        invoice.setCustomer(cus);
+//                        uiEty.objToUi(taddress, cus.getAddress());
+//                        int row = tblInvoice.getRowCount();
+//                        tblInvoice.getSelectionModel().setSelectionInterval(row - 1, row - 1);
+                        return;
+                    }
+                }
+
+            }
+        });
+
+        taccno.setSearchActionTask(new ActionTask() {
+
+            @Override
+            public void actionCall(Object qry) {
+                try {
+                    // get the db results
+                    //update the ui later
+
+//                    listCust = custService.getDao().byCode(qry.toString());
+//                    cuspop.setObjectToTable(listCust);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        taccno.setObjectToTable(accountses);
+        taccno.setPropertiesEL(new String[]{"id", "code", "customerName"});
+        taccno.setTitle(new String[]{"id", "Code", "Customer Name "});
+        taccno.setSelectedProperty("code");
     }
 
     @Override
     public void save() {
 
-                jouService.getDao().save(jounelEntry);
+        jouService.getDao().save(jounelEntry);
         jounelEntry = new JournelEntry();
         super.save();
     }
@@ -68,17 +117,19 @@ public class GeneralLedgerUI extends TabPanelUI {
     private void initComponents() {
 
         cButton1 = new org.components.controls.CButton();
-        cTextField1 = new org.components.controls.CTextField();
+        taccname = new org.components.controls.CTextField();
         cTextField2 = new org.components.controls.CTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         cxTable1 = new org.components.controls.CxTable();
         cTextField3 = new org.components.controls.CTextField();
-        cTextField4 = new org.components.controls.CTextField();
-        cTextField5 = new org.components.controls.CTextField();
+        tdesc = new org.components.controls.CTextField();
+        tdr = new org.components.controls.CTextField();
         cTextField6 = new org.components.controls.CTextField();
         cTextField7 = new org.components.controls.CTextField();
-        cTextField8 = new org.components.controls.CTextField();
         controlPanel1 = new com.components.custom.ControlPanel();
+        taccno = new com.components.custom.TextFieldWithPopUP<Accounts>();
+        tcr = new org.components.controls.CTextField();
+        cTextField9 = new org.components.controls.CTextField();
 
         cButton1.setText("Post");
         cButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,25 +177,32 @@ public class GeneralLedgerUI extends TabPanelUI {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(taccno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                            .addComponent(taccname, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                            .addComponent(cTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                            .addComponent(cTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(cTextField6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tdr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tcr, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(143, 143, 143))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -156,28 +214,30 @@ public class GeneralLedgerUI extends TabPanelUI {
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(controlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(taccname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(taccno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tdr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tcr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(36, 36, 36)
                         .addComponent(cTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -188,6 +248,17 @@ public class GeneralLedgerUI extends TabPanelUI {
         
         
     }//GEN-LAST:event_cButton1ActionPerformed
+
+    public TransactionEvent uiEty(TransactionEvent trans){
+
+        trans.setDescription(UIEty.tcToStr(tdesc));
+        trans.setAccounts(taccno.getSelectedObject());
+        trans.setCr(UIEty.tcToStrtaccno.getSelectedObject());
+
+        return
+    }
+
+    public void etyUI(){}
 
     @Override
     public String getTabName() {
@@ -200,16 +271,18 @@ public class GeneralLedgerUI extends TabPanelUI {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CButton cButton1;
-    private org.components.controls.CTextField cTextField1;
     private org.components.controls.CTextField cTextField2;
     private org.components.controls.CTextField cTextField3;
-    private org.components.controls.CTextField cTextField4;
-    private org.components.controls.CTextField cTextField5;
     private org.components.controls.CTextField cTextField6;
     private org.components.controls.CTextField cTextField7;
-    private org.components.controls.CTextField cTextField8;
+    private org.components.controls.CTextField cTextField9;
     private com.components.custom.ControlPanel controlPanel1;
     private org.components.controls.CxTable cxTable1;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.components.controls.CTextField taccname;
+    private com.components.custom.TextFieldWithPopUP<Accounts> taccno;
+    private org.components.controls.CTextField tcr;
+    private org.components.controls.CTextField tdesc;
+    private org.components.controls.CTextField tdr;
     // End of variables declaration//GEN-END:variables
 }

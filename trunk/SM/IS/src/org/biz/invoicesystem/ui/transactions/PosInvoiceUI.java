@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
@@ -177,7 +177,7 @@ JTable kk=new JTable(){
         itemSelectionPopup.setTitle(new String[]{"id", "Code", "Description"});
 
 
-        uiEty.setKeyAction(tblInvoice, new AbstractAction() {
+        UIEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("delete action .......");
@@ -227,7 +227,7 @@ JTable kk=new JTable(){
 
     public SalesInvoiceLineItem getSelectedLine() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
 
         for (SalesInvoiceLineItem sli : lineItems) {
@@ -271,15 +271,15 @@ JTable kk=new JTable(){
 
     public SalesInvoiceLineItem rowToEty() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
-        lineItem.setId(uiEty.colToStrE(tblInvoice, 0));
+        lineItem.setId(UIEty.colToStrE(tblInvoice, 0));
 //        lineItem.setItem(currentItem);
-        lineItem.setDescription(uiEty.colToStrE(tblInvoice, 2));
-        lineItem.setUnit(uiEty.colToStr(tblInvoice, 4));
-        lineItem.setQty(uiEty.colToDbl(tblInvoice, 3));
-        lineItem.setPrice(uiEty.colToDbl(tblInvoice, 5));
-        lineItem.setLineAmount(uiEty.colToDbl(tblInvoice, 6));
+        lineItem.setDescription(UIEty.colToStrE(tblInvoice, 2));
+        lineItem.setUnit(UIEty.colToStr(tblInvoice, 4));
+        lineItem.setQty(UIEty.colToDbl(tblInvoice, 3));
+        lineItem.setPrice(UIEty.colToDbl(tblInvoice, 5));
+        lineItem.setLineAmount(UIEty.colToDbl(tblInvoice, 6));
         for (SalesInvoiceLineItem sli : lineItems) {
             if (bt.equals(sli.getId())) {
                 lineItem.setItem(sli.getItem());
@@ -298,10 +298,10 @@ JTable kk=new JTable(){
 //        invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
         invoice.setShop(Shop.getDefaultShop());
 //        invoice.setDocRefNo(uiEty.tcToStr(tdocref));
-        invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
-        invoice.setTexAmount(uiEty.tcToDouble(ttax));
-        invoice.setDiscount(uiEty.tcToDouble(tdis));
-        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
+        invoice.setSubTotal(UIEty.tcToDouble(tsubtotal));
+        invoice.setTexAmount(UIEty.tcToDouble(ttax));
+        invoice.setDiscount(UIEty.tcToDouble(tdis));
+        invoice.setCashRecieveds(UIEty.tcToDouble(tcashrecieved));
 //        invoice.setRemarks(uiEty.tcToStr(tremark));
         invoice.setEditeddate(SystemEntityUtil.getSystemDate());
         invoice.setSaveddate(SystemEntityUtil.getSystemDate());
@@ -310,8 +310,8 @@ JTable kk=new JTable(){
     }
 
     public void sTotalToUI() {
-        uiEty.objToUi(tsubtotal, invoice.getSubTotal());
-        uiEty.objToUi(tfinaltotle, invoice.getTotal());
+        UIEty.objToUi(tsubtotal, invoice.getSubTotal());
+        UIEty.objToUi(tfinaltotle, invoice.getTotal());
 //        uiEty.objToUi(tbal, invoice.setTotal());
     }
 

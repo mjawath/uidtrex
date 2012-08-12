@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.chequeChequing.entity.accounts.bank.Bank;
 import org.biz.chequeChequing.entity.service.bank.BankService;
 import org.biz.dao.util.EntityService;
@@ -144,7 +144,7 @@ public class BankDetailUI extends TabPanelUI {
 //        ipu.populateTable(banks);
     }//GEN-LAST:event_cButton1ActionPerformed
     public void etyToUI(Bank item) {
-        uiEty.objToUi(tcode, item.getCode());
+        UIEty.objToUi(tcode, item.getCode());
 
     }
 
@@ -167,7 +167,7 @@ public class BankDetailUI extends TabPanelUI {
     }
 
     public void uiToEty(Bank item) {
-        item.setCode(uiEty.tcToStr(tcode));
+        item.setCode(UIEty.tcToStr(tcode));
 
     }
 
