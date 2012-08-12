@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 import org.biz.app.ui.util.MessageBoxes;
 import org.biz.app.ui.util.PagedListUI;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.dao.master.ItemDAO;
 import org.biz.invoicesystem.entity.master.Item;
@@ -65,11 +65,11 @@ public class ItemListUi extends TabPanelUI implements PagedListUI {
     public String getDynamicQuery() {
         String qq = "";
 
-        if (uiEty.tcToStr(cItmDescription) == null || uiEty.tcToStr(cItmDescription).trim().equals("")) {
+        if (UIEty.tcToStr(cItmDescription) == null || UIEty.tcToStr(cItmDescription).trim().equals("")) {
 
             qq = "SELECT e FROM Item e  order by e.id asc";
         } else {
-            qq = "SELECT e FROM Item e Where e.description LIKE '%" + uiEty.tcToStr(cItmDescription) + "%'  order by e.id asc";
+            qq = "SELECT e FROM Item e Where e.description LIKE '%" + UIEty.tcToStr(cItmDescription) + "%'  order by e.id asc";
         }
 
 

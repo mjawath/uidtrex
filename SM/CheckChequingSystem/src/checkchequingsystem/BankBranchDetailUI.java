@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.chequeChequing.entity.accounts.bank.Bank;
 import org.biz.chequeChequing.entity.accounts.bank.BankBranch;
 import org.biz.chequeChequing.entity.service.bank.BankBranchService;
@@ -207,12 +207,12 @@ public class BankBranchDetailUI extends TabPanelUI {
     }
     
     public void etyToUI(BankBranch item) {
-        uiEty.objToUi(tcode, item.getCode());
+        UIEty.objToUi(tcode, item.getCode());
 
     }
 
     public void uiToEty(BankBranch item) {
-        item.setCode(uiEty.tcToStr(tcode));
+        item.setCode(UIEty.tcToStr(tcode));
 
     }
 

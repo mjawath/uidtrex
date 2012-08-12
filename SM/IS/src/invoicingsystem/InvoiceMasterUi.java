@@ -21,7 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.service.GenericDAO;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
@@ -108,7 +108,7 @@ public class InvoiceMasterUi extends TabPanelUI {
             
         TablePopUpCellEditor ed;
 
-        uiEty.setKeyAction(tblInvoice,new AbstractAction() {
+        UIEty.setKeyAction(tblInvoice,new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("delete action .......");
                 int sr = tblInvoice.getSelectedRow();
@@ -278,7 +278,7 @@ public class InvoiceMasterUi extends TabPanelUI {
                         cuspop.setSelectedObject(it);
                         item = it;
                         invoice.setCustomer(item);
-                        uiEty.objToUi(cTextArea2, item.getAddress());
+                        UIEty.objToUi(cTextArea2, item.getAddress());
                         break;
                     }
                 }
@@ -391,7 +391,7 @@ public class InvoiceMasterUi extends TabPanelUI {
         Double qty=seil.getQty()==null?0:seil.getQty();
         Double price=seil.getPrice()==null? 0:seil.getPrice();
         seil.setLineAmount(qty* price);        
-        tblInvoice.setValueAt(uiEty.getPlainDouble(seil.getLineAmount()) , sr, 6);
+        tblInvoice.setValueAt(UIEty.getPlainDouble(seil.getLineAmount()) , sr, 6);
         tblInvoice.setValueAt(seil.getPrice(), sr, 5);
         for (SalesInvoiceLineItem Item : lineItems) {
             Item it = Item.getItem();
@@ -421,15 +421,15 @@ public class InvoiceMasterUi extends TabPanelUI {
 
     public SalesInvoiceLineItem rowToEty() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
-        lineItem.setId(uiEty.colToStrE(tblInvoice, 0));
+        lineItem.setId(UIEty.colToStrE(tblInvoice, 0));
 //        lineItem.setItem(currentItem);
-        lineItem.setDescription(uiEty.colToStrE(tblInvoice, 2));
-        lineItem.setUnit(uiEty.colToStr(tblInvoice, 4));
-        lineItem.setQty(uiEty.colToDbl(tblInvoice, 3));
-        lineItem.setPrice(uiEty.colToDbl(tblInvoice, 5));
-        lineItem.setLineAmount(uiEty.colToDbl(tblInvoice, 6));
+        lineItem.setDescription(UIEty.colToStrE(tblInvoice, 2));
+        lineItem.setUnit(UIEty.colToStr(tblInvoice, 4));
+        lineItem.setQty(UIEty.colToDbl(tblInvoice, 3));
+        lineItem.setPrice(UIEty.colToDbl(tblInvoice, 5));
+        lineItem.setLineAmount(UIEty.colToDbl(tblInvoice, 6));
         for (SalesInvoiceLineItem sli : lineItems) {
             if (bt.equals(sli.getId())) {
                 lineItem.setItem(sli.getItem());
@@ -447,7 +447,7 @@ public class InvoiceMasterUi extends TabPanelUI {
          String st=it.getUnitOne();
          String st2=it.getUnitOne();
          String [] stx= st2==null?new String[]{st}:new String[]{st,st2};         
-         uiEty.setcombomodel(stx, (JComboBox)ce.getComponent());
+         UIEty.setcombomodel(stx, (JComboBox)ce.getComponent());
         
     }
     

@@ -18,7 +18,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.UOM;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
@@ -198,11 +198,11 @@ public class SalesLineItemPanel extends LineItemPanel {
     public SalesInvoiceLineItem panelToEty() {
 
 
-        salesline.setQty(uiEty.tcToDouble(tqty));
-        salesline.setUnit(uiEty.tcToStr(tunit.getTextField()));
-        salesline.setDescription(uiEty.tcToStr(tdescription));
-        salesline.setPrice(uiEty.tcToDouble(tprice));
-        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
+        salesline.setQty(UIEty.tcToDouble(tqty));
+        salesline.setUnit(UIEty.tcToStr(tunit.getTextField()));
+        salesline.setDescription(UIEty.tcToStr(tdescription));
+        salesline.setPrice(UIEty.tcToDouble(tprice));
+        salesline.setLineAmount(UIEty.tcToDouble(tlinetotal));
         //get the uom//         salesline.getItem()
         UOM uom = tunit.getSelectedModel();
         salesline.setUom(uom);
@@ -219,16 +219,16 @@ public class SalesLineItemPanel extends LineItemPanel {
     public void etyToPanel() {
         Item it = salesline.getItem();
         if (it != null) {
-            uiEty.objToUi(titemcode, it.getCode());
+            UIEty.objToUi(titemcode, it.getCode());
 
         } else {
-            uiEty.objToUi(titemcode, "");
+            UIEty.objToUi(titemcode, "");
         }
-        uiEty.objToUi(tqty, salesline.getQty());
-        uiEty.objToUi(tdescription, salesline.getDescription());
-        uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tunit.getTextField(), salesline.getUnit());
-        uiEty.objToUi(tprice, salesline.getPrice());
+        UIEty.objToUi(tqty, salesline.getQty());
+        UIEty.objToUi(tdescription, salesline.getDescription());
+        UIEty.objToUi(tlinetotal, salesline.getLineAmount());
+        UIEty.objToUi(tunit.getTextField(), salesline.getUnit());
+        UIEty.objToUi(tprice, salesline.getPrice());
 
     }
 

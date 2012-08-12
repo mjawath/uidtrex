@@ -32,7 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.parent.controls.PxTable;
 
@@ -117,21 +117,21 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
 //                };
 //            }
 //        }, AWTEvent.KEY_EVENT_MASK);
-        uiEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 LineItemPanel.this.setVisible(false);
 //                ((KeyEvent)e).consume();
             }
         }, KeyEvent.VK_ESCAPE);
-        uiEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 TableUtil.selectNextRow(jt, KeyEvent.VK_UP);
             }
         }, KeyEvent.VK_UP);
 
-        uiEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
 

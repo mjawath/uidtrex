@@ -31,7 +31,7 @@ import org.biz.app.ui.util.BizException;
 import org.biz.app.ui.util.ComponentFactory;
 import org.biz.app.ui.util.ReflectionUtility;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.components.controls.CPopupMenu;
 import org.components.controls.CTextField;
 import org.components.parent.controls.editors.TablePopUpCellEditor;
@@ -460,7 +460,7 @@ public abstract class PagedPopUpPanel<T> extends javax.swing.JPanel {
                     //compare property with Object property ob.equals(object);
                     if (ob.equals(ReflectionUtility.getProperty(object, "id"))) {
                         selectedObject = (T) object;//selected object can i make it generic
-                        uiEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, getSelectedProperty()));
+                        UIEty.objToUi(textField, ReflectionUtility.getProperty(selectedObject, getSelectedProperty()));
 
                     }
                 }

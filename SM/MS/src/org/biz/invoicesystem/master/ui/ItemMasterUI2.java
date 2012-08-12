@@ -29,7 +29,7 @@ import javax.swing.filechooser.FileFilter;
 import org.biz.app.ui.util.MessageBoxes;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.Validator;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.dao.master.SupplierDAO;
 import org.biz.invoicesystem.entity.master.ExtraSalesPrice;
@@ -83,7 +83,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                 locz.add(location);
 
             }
-            uiEty.loadcombo(tItemCategory, catz);
+            UIEty.loadcombo(tItemCategory, catz);
 
 
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                     if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
                         try {
-                            Item item = itemService.getDao().findItemByCode(uiEty.tcToStr(tItemcode));
+                            Item item = itemService.getDao().findItemByCode(UIEty.tcToStr(tItemcode));
                             if (item != null) {
                                 etyToUI(item);
 
@@ -192,8 +192,8 @@ public class ItemMasterUI2 extends TabPanelUI {
                         // TableUtil.cleardata(tblVariation);
                         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
-                            String type = uiEty.tcToStr(titemmark);
-                            String barcode = uiEty.tcToStr(tItemBarcode);
+                            String type = UIEty.tcToStr(titemmark);
+                            String barcode = UIEty.tcToStr(tItemBarcode);
                             ItemBarcode itemBarcode = new ItemBarcode(type, barcode);
                             //validate 
                             selectedItem.addItemBarCode(itemBarcode);
@@ -239,9 +239,9 @@ public class ItemMasterUI2 extends TabPanelUI {
                     for (UOM uom : selectedItem.getUoms()) {
                         if (uom.getId().equals(id)) {
                             //set uom to UI
-                            uiEty.objToUi(tunitprice, uom.getSalesPrice());
-                            uiEty.objToUi(tContainsQty, uom.getMulti());
-                            uiEty.objToUi(tunitsymbot, uom.getSimbol());
+                            UIEty.objToUi(tunitprice, uom.getSalesPrice());
+                            UIEty.objToUi(tContainsQty, uom.getMulti());
+                            UIEty.objToUi(tunitsymbot, uom.getSimbol());
                             return;
 
                         }
@@ -837,30 +837,30 @@ public class ItemMasterUI2 extends TabPanelUI {
     public Item uiToEty(Item i) throws Exception {
         try {
             i.setId(EntityService.getEntityService().getKey(""));
-            i.setCode(uiEty.tcToStr(tItemcode));
-            i.setDescription(uiEty.tcToStr(tItemDescription));
-            i.setCategory(uiEty.cmbtostr(tItemCategory)); //    combo 
-            i.setSupplierId(uiEty.cmbtostr(tSupplierItem)); //    combo 
-            i.setCost(uiEty.tcToDble0(tItemCostPrice));//tItemCostPrice
-            i.setLandCost(uiEty.tcToDble0(tItemLandingCost)); //tItemLandingCost     
-            i.setMinSalesPrice(uiEty.tcToDble0(tItemMinimumPrice)); //tItemMinimumPrice
-            i.setDiscount(uiEty.tcToDble0(tItemdiscount));//tItemdiscount        
-            i.setDiscountValue(uiEty.tcToDble0(tItemdiscValue));
-            i.setCommission(uiEty.tcToDble0(tItemCommission));//tItemCommission
-            i.setCommissionValue(uiEty.tcToDble0(tItemCommissionValue));//tItemCommission
-            i.setLocation(uiEty.cmbtostr(tItemLocation));//tItemLocation   combo   
-            i.setMinStock(uiEty.tcToDble0(tItemMinimumStock));//tItemMinimumStock   
-            i.setReOrder(uiEty.tcToDble0(tItemReOrder)); //tItemReOrder
+            i.setCode(UIEty.tcToStr(tItemcode));
+            i.setDescription(UIEty.tcToStr(tItemDescription));
+            i.setCategory(UIEty.cmbtostr(tItemCategory)); //    combo
+            i.setSupplierId(UIEty.cmbtostr(tSupplierItem)); //    combo
+            i.setCost(UIEty.tcToDble0(tItemCostPrice));//tItemCostPrice
+            i.setLandCost(UIEty.tcToDble0(tItemLandingCost)); //tItemLandingCost
+            i.setMinSalesPrice(UIEty.tcToDble0(tItemMinimumPrice)); //tItemMinimumPrice
+            i.setDiscount(UIEty.tcToDble0(tItemdiscount));//tItemdiscount
+            i.setDiscountValue(UIEty.tcToDble0(tItemdiscValue));
+            i.setCommission(UIEty.tcToDble0(tItemCommission));//tItemCommission
+            i.setCommissionValue(UIEty.tcToDble0(tItemCommissionValue));//tItemCommission
+            i.setLocation(UIEty.cmbtostr(tItemLocation));//tItemLocation   combo
+            i.setMinStock(UIEty.tcToDble0(tItemMinimumStock));//tItemMinimumStock
+            i.setReOrder(UIEty.tcToDble0(tItemReOrder)); //tItemReOrder
             i.setTrackSerial(tItemTrakSerial.isSelected());  //tItemTrakSerial chk
             i.setTrackExpiry(tItemTrakExpiry.isSelected());  //tItemTrakExpiry chk
             i.setNonStockItems(tItemTrakNonStockItem.isSelected());//tItemTrakNonStockItem chk
             i.setManufactItem(tItemTrakManfctringItem.isSelected());//tItemTrakManfctringItem chk      
             i.setInactive(tItemTrakInactive.isSelected());//tItemTrakInactive chk      
-            i.setWholesalePrice(uiEty.tcToDble0(tWholesalePrice));//tWholesalePrice      
+            i.setWholesalePrice(UIEty.tcToDble0(tWholesalePrice));//tWholesalePrice
             i.setMetaInfo(tMetaInfo.getText());  //tMetaInfo
             i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges, i.getId()));
-            i.setModel(uiEty.tcToStr(tmodel));
-            i.setType(uiEty.tcToStr(ttype));
+            i.setModel(UIEty.tcToStr(tmodel));
+            i.setType(UIEty.tcToStr(ttype));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -955,27 +955,27 @@ public class ItemMasterUI2 extends TabPanelUI {
         try {
 
 
-            uiEty.objToUi(tItemcode, i.getCode());
-            uiEty.objToUi(tItemDescription, i.getDescription());
-            uiEty.objToUi(tItemCategory, i.getCategory());
-            uiEty.objToUi(tSupplierItem, i.getSupplierId());
-            uiEty.objToUi(tItemCostPrice, i.getCost());
-            uiEty.objToUi(tItemLandingCost, i.getLandCost());
-            uiEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());
-            uiEty.objToUi(tItemdiscount, i.getDiscount());
-            uiEty.objToUi(tItemdiscValue, i.getDiscountValue());
-            uiEty.objToUi(tItemCommission, i.getCommission());
-            uiEty.objToUi(tItemCommissionValue, i.getCommission());
-            uiEty.objToUi(tItemLocation, i.getLocation());
-            uiEty.objToUi(tItemMinimumStock, i.getMinStock());
-            uiEty.objToUi(tItemReOrder, i.getReOrder());
-            uiEty.objToUi(tItemTrakSerial, i.getTrackSerial());
-            uiEty.objToUi(tItemTrakExpiry, i.getTrackExpiry());
-            uiEty.objToUi(tItemTrakNonStockItem, i.getNonStockItems());
-            uiEty.objToUi(tItemTrakManfctringItem, i.getManufactItem());
-            uiEty.objToUi(tItemTrakInactive, i.getInactive());
-            uiEty.objToUi(tWholesalePrice, i.getWholesalePrice());
-            uiEty.objToUi(tMetaInfo, i.getMetaInfo());
+            UIEty.objToUi(tItemcode, i.getCode());
+            UIEty.objToUi(tItemDescription, i.getDescription());
+            UIEty.objToUi(tItemCategory, i.getCategory());
+            UIEty.objToUi(tSupplierItem, i.getSupplierId());
+            UIEty.objToUi(tItemCostPrice, i.getCost());
+            UIEty.objToUi(tItemLandingCost, i.getLandCost());
+            UIEty.objToUi(tItemMinimumPrice, i.getMinSalesPrice());
+            UIEty.objToUi(tItemdiscount, i.getDiscount());
+            UIEty.objToUi(tItemdiscValue, i.getDiscountValue());
+            UIEty.objToUi(tItemCommission, i.getCommission());
+            UIEty.objToUi(tItemCommissionValue, i.getCommission());
+            UIEty.objToUi(tItemLocation, i.getLocation());
+            UIEty.objToUi(tItemMinimumStock, i.getMinStock());
+            UIEty.objToUi(tItemReOrder, i.getReOrder());
+            UIEty.objToUi(tItemTrakSerial, i.getTrackSerial());
+            UIEty.objToUi(tItemTrakExpiry, i.getTrackExpiry());
+            UIEty.objToUi(tItemTrakNonStockItem, i.getNonStockItems());
+            UIEty.objToUi(tItemTrakManfctringItem, i.getManufactItem());
+            UIEty.objToUi(tItemTrakInactive, i.getInactive());
+            UIEty.objToUi(tWholesalePrice, i.getWholesalePrice());
+            UIEty.objToUi(tMetaInfo, i.getMetaInfo());
             itemVariation2Ui(i.getVariations());
             extraSalesPrice2Ui(i.getExtrasalespriceCollection());
 
@@ -1052,7 +1052,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             //description
             //salesprice
 
-            if (uiEty.isTxtFieldNullOrEmpty(tItemcode)) {
+            if (UIEty.isTxtFieldNullOrEmpty(tItemcode)) {
                 MessageBoxes.wrnmsg(null, "Please Type Item Code", "Empty Item Code");
                 tItemcode.requestFocus();
                 return;
@@ -1261,7 +1261,7 @@ public class ItemMasterUI2 extends TabPanelUI {
     public void delete() {
         try {
 
-            if (uiEty.tcToStr(tItemcode) == null || uiEty.tcToStr(tItemcode).equals("")) {
+            if (UIEty.tcToStr(tItemcode) == null || UIEty.tcToStr(tItemcode).equals("")) {
                 MessageBoxes.wrnmsg(null, "Please Type Item Code", "Empty Item Code");
                 return;
             }

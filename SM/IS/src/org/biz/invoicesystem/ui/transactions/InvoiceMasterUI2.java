@@ -18,7 +18,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
@@ -246,7 +246,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
                         cuspop.setSelectedObject(it);
                         cus = it;
                         invoice.setCustomer(cus);
-                        uiEty.objToUi(taddress, cus.getAddress());
+                        UIEty.objToUi(taddress, cus.getAddress());
                         int row = tblInvoice.getRowCount();
                         tblInvoice.getSelectionModel().setSelectionInterval(row - 1, row - 1);
                         return;
@@ -342,7 +342,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
 
 
-        uiEty.setKeyAction(tblInvoice, new AbstractAction() {
+        UIEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("delete action .......");
@@ -449,7 +449,7 @@ public class InvoiceMasterUI2 extends TabPanelUI {
 
     public SalesInvoiceLineItem getSelectedLine() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
 
         for (SalesInvoiceLineItem sli : lineItems) {
@@ -496,14 +496,14 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     public void uiety() {
 
         invoice.setDocdate(tdate.getDate());
-        invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
+        invoice.setInvNo(UIEty.tcToStr(tinvoiceManualNo));
         invoice.setShop(Shop.getDefaultShop());
-        invoice.setDocRefNo(uiEty.tcToStr(tdocref));
-        invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
-        invoice.setTexAmount(uiEty.tcToDouble(ttax));
-        invoice.setDiscount(uiEty.tcToDouble(tdis));
-        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
-        invoice.setRemarks(uiEty.tcToStr(tremark));
+        invoice.setDocRefNo(UIEty.tcToStr(tdocref));
+        invoice.setSubTotal(UIEty.tcToDouble(tsubtotal));
+        invoice.setTexAmount(UIEty.tcToDouble(ttax));
+        invoice.setDiscount(UIEty.tcToDouble(tdis));
+        invoice.setCashRecieveds(UIEty.tcToDouble(tcashrecieved));
+        invoice.setRemarks(UIEty.tcToStr(tremark));
         invoice.setEditeddate(SystemEntityUtil.getSystemDate());
         invoice.setSaveddate(SystemEntityUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
@@ -511,9 +511,9 @@ public class InvoiceMasterUI2 extends TabPanelUI {
     }
 
     public void sTotalToUI() {
-        uiEty.objToUi(tsubtotal, invoice.getSubTotal());
-        uiEty.objToUi(tfinaltotle, invoice.getTotal());
-        uiEty.objToUi(tbal, invoice.setTotal());
+        UIEty.objToUi(tsubtotal, invoice.getSubTotal());
+        UIEty.objToUi(tfinaltotle, invoice.getTotal());
+        UIEty.objToUi(tbal, invoice.setTotal());
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

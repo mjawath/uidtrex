@@ -6,7 +6,7 @@ import java.util.TreeSet;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.MessageBoxes;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.service.master.RolesService;
 import org.components.windows.TabPanelUI;
 

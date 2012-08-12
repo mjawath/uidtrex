@@ -5,20 +5,19 @@
 
 package org.biz.books.entity.accounts.ledger;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.biz.entity.BusObj;
 
 /**
  *
+ *
  * @author nano
+ *
+ * this class represents the journal line item 
  */
 @Entity
 public class TransactionEvent extends BusObj {
@@ -33,7 +32,7 @@ public class TransactionEvent extends BusObj {
     private String referceDoc;
 
     @OneToOne
-    JournelEntry transactionEvent;
+    JournelEntry journelEntry;
 
     
     @Override
@@ -59,6 +58,62 @@ public class TransactionEvent extends BusObj {
     @Override
     public String toString() {
         return "Entity.Accounts.TransactionEntry[id=" + id + "]";
+    }
+
+    public Accounts getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Accounts accounts) {
+        this.accounts = accounts;
+    }
+
+    public BigDecimal getCr() {
+        return cr;
+    }
+
+    public void setCr(BigDecimal cr) {
+        this.cr = cr;
+    }
+
+    public BigDecimal getDr() {
+        return dr;
+    }
+
+    public void setDr(BigDecimal dr) {
+        this.dr = dr;
+    }
+
+    public Date getDateTrx() {
+        return dateTrx;
+    }
+
+    public void setDateTrx(Date dateTrx) {
+        this.dateTrx = dateTrx;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getReferceDoc() {
+        return referceDoc;
+    }
+
+    public void setReferceDoc(String referceDoc) {
+        this.referceDoc = referceDoc;
+    }
+
+    public JournelEntry getJournelEntry() {
+        return journelEntry;
+    }
+
+    public void setJournelEntry(JournelEntry journelEntry) {
+        this.journelEntry = journelEntry;
     }
   
 }

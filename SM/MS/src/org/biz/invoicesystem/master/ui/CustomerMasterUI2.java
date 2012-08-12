@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.MessageBoxes;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.entity.master.Customer;
 import org.biz.invoicesystem.service.master.CustomerService;
@@ -102,8 +102,8 @@ import org.components.windows.TabPanelUI;
                String title=(String) ss[0];
                titles.add(title);
             }
-       uiEty.loadcombo(tCusType, types); 
-      uiEty.loadcombo(tCusTitle, titles); 
+       UIEty.loadcombo(tCusType, types);
+      UIEty.loadcombo(tCusTitle, titles);
 //     
         } catch (Exception e) {
     e.printStackTrace();
@@ -120,24 +120,24 @@ import org.components.windows.TabPanelUI;
         try {
     c.setId(EntityService.getEntityService().getKey(""));              
        
-    c.setCode(uiEty.tcToStr(tCusCode));
-    c.setTitle(uiEty.cmbtostr(tCusTitle));             
-    c.setCustomerName(uiEty.tcToStr(tCusName));            
+    c.setCode(UIEty.tcToStr(tCusCode));
+    c.setTitle(UIEty.cmbtostr(tCusTitle));
+    c.setCustomerName(UIEty.tcToStr(tCusName));
     c.setDob(tCusDOB.getDate());
-    c.setCompanyName(uiEty.tcToStr(tCusCompany));
-    c.setReligion(uiEty.cmbtostr(tCusReligion));                   
-    c.setType(uiEty.cmbtostr(tCusType));
-    c.setDiscount(uiEty.tcToDble0(tCusDiscount));
-    c.setCreditLimit(uiEty.tcToDble0(tCusCreditLimit));
-    c.setSalesRep(uiEty.cmbtostr(tCusSalesRep));
-    c.setLoyaltyCardNo(uiEty.tcToStr(tCusLoyalty));
-    c.setNicno(uiEty.tcToStr(tCusNIC));
-    c.setAddress(uiEty.tcToStr(tCusAdd1));
-    c.setAddress2(uiEty.tcToStr(tCusAdd2));
-    c.setCity(uiEty.tcToStr(tCusCity));
-    c.setPhone(uiEty.tcToStr(tCusPhone));
-    c.setMobile(uiEty.tcToStr(tCusMobile));             
-    c.setEmail(uiEty.tcToStr(tCusEmail));
+    c.setCompanyName(UIEty.tcToStr(tCusCompany));
+    c.setReligion(UIEty.cmbtostr(tCusReligion));
+    c.setType(UIEty.cmbtostr(tCusType));
+    c.setDiscount(UIEty.tcToDble0(tCusDiscount));
+    c.setCreditLimit(UIEty.tcToDble0(tCusCreditLimit));
+    c.setSalesRep(UIEty.cmbtostr(tCusSalesRep));
+    c.setLoyaltyCardNo(UIEty.tcToStr(tCusLoyalty));
+    c.setNicno(UIEty.tcToStr(tCusNIC));
+    c.setAddress(UIEty.tcToStr(tCusAdd1));
+    c.setAddress2(UIEty.tcToStr(tCusAdd2));
+    c.setCity(UIEty.tcToStr(tCusCity));
+    c.setPhone(UIEty.tcToStr(tCusPhone));
+    c.setMobile(UIEty.tcToStr(tCusMobile));
+    c.setEmail(UIEty.tcToStr(tCusEmail));
     
         } catch (Exception e) {
     e.printStackTrace();
@@ -148,24 +148,24 @@ import org.components.windows.TabPanelUI;
     
         public void entity2Ui(Customer c)throws Exception{
             try {
-uiEty.objToUi(tCusCode, c.getCustomerID());//    c.setCode(uiEty.tcToStr(tCusId));
-uiEty.objToUi(tCusTitle,c.getTitle());//    c.setTitle(uiEty.cmbtostr(tCusTitle));             
-uiEty.objToUi(tCusName, c.getCustomerName());//    c.setCustomerName(uiEty.tcToStr(tCusName));            
+UIEty.objToUi(tCusCode, c.getCustomerID());//    c.setCode(uiEty.tcToStr(tCusId));
+UIEty.objToUi(tCusTitle,c.getTitle());//    c.setTitle(uiEty.cmbtostr(tCusTitle));
+UIEty.objToUi(tCusName, c.getCustomerName());//    c.setCustomerName(uiEty.tcToStr(tCusName));
 tCusDOB.setDate(c.getDob());
-uiEty.objToUi(tCusCompany, c.getCompanyName());//    c.setCompanyName(uiEty.tcToStr(tCusCompany));
-uiEty.objToUi(tCusReligion, c.getReligion());//    c.setReligion(uiEty.cmbtostr(tCusReligion));                   
-uiEty.objToUi(tCusType, c.getType());//    c.setType(uiEty.cmbtostr(tCusType));
-uiEty.objToUi(tCusDiscount, c.getDiscount());//    c.setDiscount(uiEty.tcToDble0(tCusDiscount));
-uiEty.objToUi(tCusCreditLimit, c.getCreditLimit());//    c.setCreditLimit(uiEty.tcToDble0(tCusCreditLimit));
-uiEty.objToUi(tCusSalesRep, c.getSalesRep());//    c.setSalesRep(uiEty.cmbtostr(tCusSalesRep));
-uiEty.objToUi(tCusLoyalty, c.getLoyaltyCardNo());//    c.setLoyaltyCardNo(uiEty.tcToStr(tCusLoyalty));
-uiEty.objToUi(tCusNIC, c.getNicno());//    c.setNicno(uiEty.tcToStr(tCusNIC));
-uiEty.objToUi(tCusAdd1, c.getAddress());//    c.setAddress(uiEty.tcToStr(tCusAdd1));
-uiEty.objToUi(tCusAdd2, c.getAddress2());//    c.setAddress2(uiEty.tcToStr(tCusAdd2));
-uiEty.objToUi(tCusCity, c.getCity());//    c.setCity(uiEty.tcToStr(tCusCity));
-uiEty.objToUi(tCusPhone, c.getPicLocation());//    c.setPhone(uiEty.tcToStr(tCusPhone));
-uiEty.objToUi(tCusMobile, c.getMobile());//    c.setMobile(uiEty.tcToStr(tCusMobile));             
-uiEty.objToUi(tCusEmail, c.getEmail());//    c.setEmail(uiEty.tcToStr(tCusEmail));
+UIEty.objToUi(tCusCompany, c.getCompanyName());//    c.setCompanyName(uiEty.tcToStr(tCusCompany));
+UIEty.objToUi(tCusReligion, c.getReligion());//    c.setReligion(uiEty.cmbtostr(tCusReligion));
+UIEty.objToUi(tCusType, c.getType());//    c.setType(uiEty.cmbtostr(tCusType));
+UIEty.objToUi(tCusDiscount, c.getDiscount());//    c.setDiscount(uiEty.tcToDble0(tCusDiscount));
+UIEty.objToUi(tCusCreditLimit, c.getCreditLimit());//    c.setCreditLimit(uiEty.tcToDble0(tCusCreditLimit));
+UIEty.objToUi(tCusSalesRep, c.getSalesRep());//    c.setSalesRep(uiEty.cmbtostr(tCusSalesRep));
+UIEty.objToUi(tCusLoyalty, c.getLoyaltyCardNo());//    c.setLoyaltyCardNo(uiEty.tcToStr(tCusLoyalty));
+UIEty.objToUi(tCusNIC, c.getNicno());//    c.setNicno(uiEty.tcToStr(tCusNIC));
+UIEty.objToUi(tCusAdd1, c.getAddress());//    c.setAddress(uiEty.tcToStr(tCusAdd1));
+UIEty.objToUi(tCusAdd2, c.getAddress2());//    c.setAddress2(uiEty.tcToStr(tCusAdd2));
+UIEty.objToUi(tCusCity, c.getCity());//    c.setCity(uiEty.tcToStr(tCusCity));
+UIEty.objToUi(tCusPhone, c.getPicLocation());//    c.setPhone(uiEty.tcToStr(tCusPhone));
+UIEty.objToUi(tCusMobile, c.getMobile());//    c.setMobile(uiEty.tcToStr(tCusMobile));
+UIEty.objToUi(tCusEmail, c.getEmail());//    c.setEmail(uiEty.tcToStr(tCusEmail));
           
                 
             } catch (Exception e) {
@@ -460,7 +460,7 @@ uiEty.objToUi(tCusEmail, c.getEmail());//    c.setEmail(uiEty.tcToStr(tCusEmail)
 
     private void cSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cSaveActionPerformed
          try {
-            if(uiEty.tcToStr(tCusCode)==null || uiEty.tcToStr(tCusCode).equals("")){
+            if(UIEty.tcToStr(tCusCode)==null || UIEty.tcToStr(tCusCode).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Customer Code","Empty Customer Code");                 
                 return;
             }       
@@ -544,7 +544,7 @@ uiEty.objToUi(tCusEmail, c.getEmail());//    c.setEmail(uiEty.tcToStr(tCusEmail)
 
     private void dDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dDeleteActionPerformed
        try {
-       if(uiEty.tcToStr(tCusCode)==null || uiEty.tcToStr(tCusCode).equals("")){
+       if(UIEty.tcToStr(tCusCode)==null || UIEty.tcToStr(tCusCode).equals("")){
            MessageBoxes.wrnmsg(null,"Please Type Customer Code","Empty Customer Code");                 
                 return;
             }            

@@ -23,7 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Supplier;
@@ -86,7 +86,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 
         
 
-        uiEty.setKeyAction(tblInvoice, new AbstractAction() {
+        UIEty.setKeyAction(tblInvoice, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("delete action .......");
@@ -212,7 +212,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
                         suplierPopUpPanel.setSelectedObject(it);
                         item = it;
                         invoice.setSupplier(item);
-                        uiEty.objToUi(cTextArea2, item.getAddress1());
+                        UIEty.objToUi(cTextArea2, item.getAddress1());
                         
                         return;
                     }
@@ -270,7 +270,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 //        invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
         invoice.setShop(Shop.getDefaultShop());
 //        invoice.setDocRefNo(uiEty.tcToStr(tdocref));
-        invoice.setSubTotal(uiEty.tcToDouble(tsubtotal));
+        invoice.setSubTotal(UIEty.tcToDouble(tsubtotal));
 //        invoice.setTexAmount(uiEty.tcToDouble(ttax));
 //        invoice.setDiscount(uiEty.tcToDouble(tdis));
 //        invoice.setCashRecieveds(uiEty.tcToDouble(tcashrecieved));
@@ -282,7 +282,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
     }
     public PurchaseInvoiceLineItem getSelectedLine() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
 
         for (PurchaseInvoiceLineItem sli : lineItems) {
@@ -306,7 +306,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
         String st = it.getUnitOne();
         String st2 = it.getUnitTwo();
         String[] stx = new String[]{st, st2, "d", "Y"};
-        uiEty.cmbModelWithoutNull(stx, (JComboBox) ce.getComponent());
+        UIEty.cmbModelWithoutNull(stx, (JComboBox) ce.getComponent());
 
     }
 
@@ -331,15 +331,15 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
 
     public PurchaseInvoiceLineItem rowToEty() {
 
-        String bt = uiEty.colToStrE(tblInvoice, 0);
+        String bt = UIEty.colToStrE(tblInvoice, 0);
         PurchaseInvoiceLineItem lineItem = new PurchaseInvoiceLineItem();
-        lineItem.setId(uiEty.colToStrE(tblInvoice, 0));
+        lineItem.setId(UIEty.colToStrE(tblInvoice, 0));
 //        lineItem.setItem(currentItem);
-        lineItem.setDescription(uiEty.colToStrE(tblInvoice, 2));
-        lineItem.setUnit(uiEty.colToStr(tblInvoice, 4));
-        lineItem.setQty(uiEty.colToDbl(tblInvoice, 3));
-        lineItem.setPrice(uiEty.colToDbl(tblInvoice, 5));
-        lineItem.setLineAmount(uiEty.colToDbl(tblInvoice, 6));
+        lineItem.setDescription(UIEty.colToStrE(tblInvoice, 2));
+        lineItem.setUnit(UIEty.colToStr(tblInvoice, 4));
+        lineItem.setQty(UIEty.colToDbl(tblInvoice, 3));
+        lineItem.setPrice(UIEty.colToDbl(tblInvoice, 5));
+        lineItem.setLineAmount(UIEty.colToDbl(tblInvoice, 6));
         for (PurchaseInvoiceLineItem sli : lineItems) {
             if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null && bt.equals(sli.getId()))) {
                 lineItem.setItem(sli.getItem());
@@ -351,9 +351,9 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
     }
 
     public void sTotalToUI() {
-        uiEty.objToUi(tsubtotal, invoice.getSubTotal());
-        uiEty.objToUi(tfinaltotle, invoice.getFinalTotal());
-        uiEty.objToUi(tbal, invoice.setTotal());
+        UIEty.objToUi(tsubtotal, invoice.getSubTotal());
+        UIEty.objToUi(tfinaltotle, invoice.getFinalTotal());
+        UIEty.objToUi(tbal, invoice.setTotal());
     }
     
     

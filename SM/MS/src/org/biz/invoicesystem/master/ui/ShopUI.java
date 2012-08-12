@@ -12,7 +12,7 @@ package org.biz.invoicesystem.master.ui;
 
 import java.util.List;
 import javax.swing.JPanel;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.service.master.ShopService;
 import org.biz.invoicesystem.system.SystemUtil;
@@ -56,7 +56,7 @@ public class ShopUI extends TabPanelUI {
     }
 
     private void uiToety() {
-        shop.setCode(uiEty.tcToStr(tshopcode));
+        shop.setCode(UIEty.tcToStr(tshopcode));
 
     }
 

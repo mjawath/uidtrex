@@ -19,7 +19,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 import org.components.controls.CTextField;
@@ -225,10 +225,10 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
     public SalesInvoiceLineItem panelToEty(SalesInvoiceLineItem salesline) {
 
 
-        salesline.setQty(uiEty.tcToDouble(tqty));
-        salesline.setDescription(uiEty.tcToStr(tdescription));
-        salesline.setPrice(uiEty.tcToDouble(tprice));
-        salesline.setLineAmount(uiEty.tcToDouble(tlinetotal));
+        salesline.setQty(UIEty.tcToDouble(tqty));
+        salesline.setDescription(UIEty.tcToStr(tdescription));
+        salesline.setPrice(UIEty.tcToDouble(tprice));
+        salesline.setLineAmount(UIEty.tcToDouble(tlinetotal));
 
         //get the uom//         salesline.getItem()
 
@@ -246,24 +246,24 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
         Item it = salesline.getItem();
         if (it != null) {
             titemcode.setTextItem(it.getCode());
-            uiEty.objToUi(tdescription, salesline.getDescription());
+            UIEty.objToUi(tdescription, salesline.getDescription());
 //
         } else {
             titemcode.setTextItem("");
-            uiEty.objToUi(tdescription, "");
+            UIEty.objToUi(tdescription, "");
         }
 
         if (!tqty.hasFocus()) {
-            uiEty.objToUi(tqty, salesline.getQty());
+            UIEty.objToUi(tqty, salesline.getQty());
         }
         if (!tdescription.hasFocus()) {
-            uiEty.objToUi(tdescription, salesline.getDescription());
+            UIEty.objToUi(tdescription, salesline.getDescription());
         }
         if (!tlinetotal.hasFocus()) {
-            uiEty.objToUi(tlinetotal, salesline.getLineAmount());
+            UIEty.objToUi(tlinetotal, salesline.getLineAmount());
         }
         if (!tprice.hasFocus()) {
-            uiEty.objToUi(tprice, salesline.getPrice());
+            UIEty.objToUi(tprice, salesline.getPrice());
         }
 
     }
@@ -288,10 +288,10 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
         } else {
             titemcode.setTextItem("");
         }
-        uiEty.objToUi(tqty, salesline.getQty());
-        uiEty.objToUi(tdescription, salesline.getDescription());
-        uiEty.objToUi(tlinetotal, salesline.getLineAmount());
-        uiEty.objToUi(tprice, salesline.getPrice());
+        UIEty.objToUi(tqty, salesline.getQty());
+        UIEty.objToUi(tdescription, salesline.getDescription());
+        UIEty.objToUi(tlinetotal, salesline.getLineAmount());
+        UIEty.objToUi(tprice, salesline.getPrice());
 
     }
 

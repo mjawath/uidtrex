@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JPanel;
 import org.biz.app.ui.util.TableUtil;
-import org.biz.app.ui.util.uiEty;
+import org.biz.app.ui.util.UIEty;
 import org.biz.books.entity.accounts.ledger.Accounts;
 import org.biz.books.service.accounts.ledger.AccountsService;
 import org.biz.dao.util.EntityService;
@@ -58,10 +58,10 @@ public class AccountsCreationUI extends TabPanelUI {
     }
 
     public Accounts uiToEty(Accounts obj) {
-        obj.setAccountsNo(uiEty.tcToStr(taccno));
-        obj.setAccountsName(uiEty.tcToStr(taccname));
-        obj.setPrimaryAccounts(uiEty.cmbtostr(tprimacctype));
-        obj.setSubAccounts(uiEty.cmbtostr(tacctype));
+        obj.setAccountsNo(UIEty.tcToStr(taccno));
+        obj.setAccountsName(UIEty.tcToStr(taccname));
+        obj.setPrimaryAccounts(UIEty.cmbtostr(tprimacctype));
+        obj.setSubAccounts(UIEty.cmbtostr(tacctype));
         return obj;
     }
 
@@ -153,10 +153,10 @@ public class AccountsCreationUI extends TabPanelUI {
     private void cButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cButton1ActionPerformed
 
         accounts.setId(es.getKey());
-        accounts.setAccountsNo(uiEty.tcToStr(taccno));
-        accounts.setAccountsName(uiEty.tcToStr(taccname));
-        accounts.setSubAccounts(uiEty.cmbtostr(tacctype));
-        accounts.setPrimaryAccounts(uiEty.cmbtostr(tprimacctype));
+        accounts.setAccountsNo(UIEty.tcToStr(taccno));
+        accounts.setAccountsName(UIEty.tcToStr(taccname));
+        accounts.setSubAccounts(UIEty.cmbtostr(tacctype));
+        accounts.setPrimaryAccounts(UIEty.cmbtostr(tprimacctype));
         accountsService.getDao().save(accounts);
         listaccounts = accountsService.getDao().getAll();
         addToTable(listaccounts);
@@ -166,6 +166,7 @@ public class AccountsCreationUI extends TabPanelUI {
 
 
     }//GEN-LAST:event_cButton1ActionPerformed
+
     public void addToTable(List<Accounts> items) {
         TableUtil.cleardata(cxTable1);
         for (Accounts item : items) {

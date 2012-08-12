@@ -26,7 +26,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author nano
  */
-public class uiEty {
+public class UIEty {
 
     public static void setcombomodel(String[] str, JComboBox box) {
         box.setModel(new DefaultComboBoxModel(str));
