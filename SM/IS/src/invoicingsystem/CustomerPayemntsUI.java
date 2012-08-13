@@ -58,7 +58,7 @@ public class CustomerPayemntsUI extends TabPanelUI {
 
         controlPanel1 = new com.components.custom.ControlPanel();
         cTextField1 = new org.components.controls.CTextField();
-        Cheque = new org.components.controls.cTabPane();
+        Cheque = new org.components.controls.CTabPane();
         cPanel1 = new org.components.containers.CPanel();
         chequeRecievedUI1 = new invoicingsystem.ChequeRecievedUI();
         cPanel2 = new org.components.containers.CPanel();
@@ -154,7 +154,7 @@ public class CustomerPayemntsUI extends TabPanelUI {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.components.controls.cTabPane Cheque;
+    private org.components.controls.CTabPane Cheque;
     private org.components.containers.CPanel cPanel1;
     private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
