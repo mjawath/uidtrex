@@ -11,6 +11,7 @@
 package org.biz.books.ui.accounts;
 
 import com.components.custom.ActionTask;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -253,9 +254,10 @@ public class GeneralLedgerUI extends TabPanelUI {
 
         trans.setDescription(UIEty.tcToStr(tdesc));
         trans.setAccounts(taccno.getSelectedObject());
-        trans.setCr(UIEty.tcToStrtaccno.getSelectedObject());
+        trans.setCr(new BigDecimal(UIEty.tcToDouble(tcr)));
+        trans.setDr(new BigDecimal(UIEty.tcToDouble(tdr)));
 
-        return
+        return trans;
     }
 
     public void etyUI(){}
