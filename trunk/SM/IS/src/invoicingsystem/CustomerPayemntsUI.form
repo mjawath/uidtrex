@@ -53,7 +53,7 @@
         <Property name="text" type="java.lang.String" value="cTextField1"/>
       </Properties>
     </Component>
-    <Container class="org.components.controls.cTabPane" name="Cheque">
+    <Container class="org.components.controls.CTabPane" name="Cheque">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
