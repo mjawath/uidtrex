@@ -13,10 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 //import org.apache.commons.beanutils.BeanUtils;
-import org.components.controls.CxTable;
 import org.components.parent.controls.PxTable;
 import org.components.parent.controls.editors.CellEditor;
-import org.jdesktop.swingx.JXTable;
 
 /**
  *
@@ -544,6 +542,12 @@ public class TableUtil {
        Object ob=  TableUtil.getSelectedID(tbl);
        return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
    }
+
+    // dynamic table model modification
+    public static void setColumn(JTable tb){
+//    tb.getColumnModel().set
+
+    }
 }
 /*
  todo addModelToTable()
