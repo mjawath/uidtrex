@@ -18,11 +18,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
-import org.components.controls.CTextField;
 
 /**
  *
@@ -310,6 +308,7 @@ public class PosSalesLineItemPanelV3 extends LineItemPanel {
         tlinetotal.setText("");
         tprice.setText("");
         tqty.setText("");
+        setSalesline(new SalesInvoiceLineItem());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CTextField tdescription;

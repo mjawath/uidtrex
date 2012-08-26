@@ -289,19 +289,12 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                               <Component id="cPanel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="190" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="157" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane5" alignment="1" max="32767" attributes="0"/>
                           <Component id="jScrollPane3" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                          <Component id="cPanel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="190" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -309,19 +302,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cPanel3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cPanel3" min="-2" pref="106" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" pref="151" max="-2" attributes="0"/>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
                       <Component id="jScrollPane5" min="-2" pref="157" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
-                          <Component id="cPanel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="197" max="32767" attributes="0"/>
-                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -334,7 +320,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="org.components.controls.CTableMaster" name="cTableMaster3">
+                <Component class="org.components.controls.CTableMaster" name="tchequeDated">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="0">
@@ -387,116 +373,22 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="org.components.containers.CPanel" name="cPanel2">
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="cTextFieldPopUp5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="cTextFieldPopUp6" min="-2" pref="112" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="cLabel7" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="cLabel8" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cDatePicker2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="cLabel9" min="-2" pref="274" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace pref="151" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cLabel9" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cTextFieldPopUp5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cTextFieldPopUp6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cDatePicker2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Component class="org.components.controls.CTextFieldPopUp" name="cTextFieldPopUp5">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="cTextFieldPopUp1"/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CLabel" name="cLabel7">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Bank"/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CLabel" name="cLabel8">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Customer"/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CTextFieldPopUp" name="cTextFieldPopUp6">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="cTextFieldPopUp1"/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CLabel" name="cLabel9">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Filter by....."/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CLabel" name="cLabel10">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Date"/>
-                  </Properties>
-                </Component>
-                <Component class="org.components.controls.CDatePicker" name="cDatePicker2">
-                </Component>
-              </SubComponents>
-            </Container>
             <Container class="org.components.containers.CPanel" name="cPanel3">
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="cTextFieldPopUp7" max="32767" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                  <Component id="cLabel13" min="-2" pref="274" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="cLabel11" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tbankdetail" min="-2" pref="101" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -506,16 +398,11 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="cLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cDatePicker3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tdateBank" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="cLabel13" min="-2" pref="274" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                              </Group>
                           </Group>
-                          <EmptySpace pref="151" max="32767" attributes="0"/>
+                          <EmptySpace pref="162" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -532,9 +419,9 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cTextFieldPopUp7" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cTextFieldPopUp8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cDatePicker3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tdateBank" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tbankdetail" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -542,8 +429,6 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="org.components.controls.CTextFieldPopUp" name="cTextFieldPopUp7">
-                </Component>
                 <Component class="org.components.controls.CLabel" name="cLabel11">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Bank"/>
@@ -566,7 +451,9 @@
                     <Property name="text" type="java.lang.String" value="Date"/>
                   </Properties>
                 </Component>
-                <Component class="org.components.controls.CDatePicker" name="cDatePicker3">
+                <Component class="org.components.controls.CDatePicker" name="tdateBank">
+                </Component>
+                <Component class="com.components.custom.TextFieldWithPopUP" name="tbankdetail">
                 </Component>
               </SubComponents>
             </Container>
@@ -577,7 +464,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="org.components.controls.CTableMaster" name="cTableMaster5">
+                <Component class="org.components.controls.CTableMaster" name="tchequeToBeBanked">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="6" rowCount="0">
