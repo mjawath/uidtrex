@@ -32,12 +32,14 @@ import org.biz.app.ui.util.Validator;
 import org.biz.app.ui.util.UIEty;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.dao.master.SupplierDAO;
+import org.biz.invoicesystem.entity.master.Category;
 import org.biz.invoicesystem.entity.master.ExtraSalesPrice;
 import org.biz.invoicesystem.entity.master.Item;
 import org.biz.invoicesystem.entity.master.ItemBarcode;
 import org.biz.invoicesystem.entity.master.ItemVariation;
 import org.biz.invoicesystem.entity.master.Supplier;
 import org.biz.invoicesystem.entity.master.UOM;
+import org.biz.invoicesystem.service.master.CategoryService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.components.windows.TabPanelUI;
 import org.biz.invoicesystem.ui.list.master.ItemListUi;
@@ -45,8 +47,12 @@ import org.biz.invoicesystem.ui.list.master.ItemListUi;
 public class ItemMasterUI2 extends TabPanelUI {
 
     List<Item> items;
+    List<Category> categorys;
+
     ItemService itemService;
+    CategoryService categoryService;
     EntityService es;
+
     ItemPopUp ipu;
     private Item selectedItem;
     private ItemMasterTab mastertab;
@@ -91,7 +97,68 @@ public class ItemMasterUI2 extends TabPanelUI {
         }
     }
 
+     public void init() {
+
+        try {
+            selectedItem = new Item();
+            es = EntityService.getEntityService();
+            itemService = new ItemService();
+            categoryService =new CategoryService();
+
+            items = itemService.getDao().getAll();
+            categorys = categoryService.getDao().getAll();
+
+            crudcontrolPanel.setCrudController(this);
+            ///init filechooser and set filter
+            ///////////////////////
+            chooser = new JFileChooser(new File("."));
+            chooser.setMultiSelectionEnabled(true);
+            chooser.setFileFilter(new FileFilter() {
+
+                @Override
+                public boolean accept(File f) {
+
+                    if (f.isDirectory()) {
+                        return true;
+                    }
+                    String s = f.getName();
+                    int i = s.lastIndexOf('.');
+
+                    if (i > 0 && i < s.length() - 1) {
+                        if (s.substring(i + 1).toLowerCase().equals("jpg") || s.substring(i + 1).toLowerCase().equals("png") || s.substring(i + 1).toLowerCase().equals("gif") || s.substring(i + 1).toLowerCase().equals("png")) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Images Only";
+                }
+            });
+            chooser.setCurrentDirectory(null);
+            UOM.setUOMType(tunittype);
+
+//            tunittype.setModel(new DefaultComboBoxModel(new String[]{"3","4"}));
+            events();
+            ////////////////////////////////////////
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        crudcontrolPanel.set
+        tblunitprices.setPropertiesEL(new String[]{"id", "simbol", "salesPrice", "multi"});
+
+        cPanel6.addToFocus(tunitsymbot);
+        cPanel6.addToFocus(tContainsQty);
+        cPanel6.addToFocus(tunittype);
+        cPanel6.addToFocus(tunitprice);
+
+    }
+
     ////////////////////////////
+
     public void events() {
 
 
@@ -167,7 +234,7 @@ public class ItemMasterUI2 extends TabPanelUI {
                                 MessageBoxes.wrnmsg(ItemMasterUI2.this, "unit already exists ", "duplicate uom");
                                 return;
                             }
-                            selectedItem.addUOMorUpdate(uom);
+                            selectedItem.addUOMorUpdate(uom);//should change to keep list of uoms
 //we can skip current primary uom setting becas we r using only one primary key
                             // we cannnot give only primary key
                             // 
@@ -260,62 +327,7 @@ public class ItemMasterUI2 extends TabPanelUI {
 
     }
 
-    public void init() {
-
-        try {
-            selectedItem = new Item();
-            es = EntityService.getEntityService();
-            itemService = new ItemService();
-            items = itemService.getDao().getAll();
-            crudcontrolPanel.setCrudController(this);
-            ///init filechooser and set filter
-            ///////////////////////  
-            chooser = new JFileChooser(new File("."));
-            chooser.setMultiSelectionEnabled(true);
-            chooser.setFileFilter(new FileFilter() {
-
-                @Override
-                public boolean accept(File f) {
-
-                    if (f.isDirectory()) {
-                        return true;
-                    }
-                    String s = f.getName();
-                    int i = s.lastIndexOf('.');
-
-                    if (i > 0 && i < s.length() - 1) {
-                        if (s.substring(i + 1).toLowerCase().equals("jpg") || s.substring(i + 1).toLowerCase().equals("png") || s.substring(i + 1).toLowerCase().equals("gif") || s.substring(i + 1).toLowerCase().equals("png")) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-
-                @Override
-                public String getDescription() {
-                    return "Images Only";
-                }
-            });
-            chooser.setCurrentDirectory(null);
-            UOM.setUOMType(tunittype);
-
-//            tunittype.setModel(new DefaultComboBoxModel(new String[]{"3","4"}));
-            events();
-            ////////////////////////////////////////
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        crudcontrolPanel.set
-        tblunitprices.setPropertiesEL(new String[]{"id", "simbol", "salesPrice", "multi"});
-
-        cPanel6.addToFocus(tunitsymbot);
-        cPanel6.addToFocus(tContainsQty);
-        cPanel6.addToFocus(tunittype);
-        cPanel6.addToFocus(tunitprice);
-
-    }
-
+   
     public void clear() {
         try {
 
@@ -839,7 +851,7 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setId(EntityService.getEntityService().getKey(""));
             i.setCode(UIEty.tcToStr(tItemcode));
             i.setDescription(UIEty.tcToStr(tItemDescription));
-            i.setCategory(UIEty.cmbtostr(tItemCategory)); //    combo
+//            i.setCategory(UIEty.cmbtostr(tItemCategory)); //    combo
             i.setSupplierId(UIEty.cmbtostr(tSupplierItem)); //    combo
             i.setCost(UIEty.tcToDble0(tItemCostPrice));//tItemCostPrice
             i.setLandCost(UIEty.tcToDble0(tItemLandingCost)); //tItemLandingCost
@@ -861,6 +873,8 @@ public class ItemMasterUI2 extends TabPanelUI {
             i.setExtrasalespriceCollection(ui2ExtraSalesPrice(tblPriceRanges, i.getId()));
             i.setModel(UIEty.tcToStr(tmodel));
             i.setType(UIEty.tcToStr(ttype));
+            
+            i.setCategory(null);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -1674,6 +1688,9 @@ public class ItemMasterUI2 extends TabPanelUI {
  *
  *
  * //enhancements
+ *
+ * using the number for the data ca n simplyfy the dataentry
+ * 
  *
  *
  */
