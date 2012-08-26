@@ -9,9 +9,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import org.biz.books.entity.accounts.ledger.Accounts;
 import org.biz.chequeChequing.entity.accounts.bank.Cheques;
 import org.biz.entity.BusObj;
-import org.biz.invoicesystem.entity.master.Persons;
 
 /**
  *
@@ -24,7 +24,7 @@ public class ChequeRegistry extends BusObj {
     private Cheques cheques;
     @OneToOne
 //    private Customer customer;//may be use persons
-    private Persons persons;
+    private Accounts accounts;
     private String remarks;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date processedDate;

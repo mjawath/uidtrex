@@ -76,6 +76,7 @@ public class PosInvoiceV3 extends TabPanelUI {
 
                 try {
                     //how about searching the pos invnetory for the items
+                    //pos warehouse only
                 return    itemService.getDao().byCode(qry);
                 } catch (Exception e) {
 
@@ -227,6 +228,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         TableUtil.addrow(tblInvoice, new Object[]{});
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();
         lineItems.add(si);
+        lineItemPanel.clear();//setSalesline(new SalesInvoiceLineItem());
     }
 
     public void addToTable(List<SalesInvoiceLineItem> items) {
@@ -235,8 +237,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         tblInvoice.addrow(new Object[]{});
     }
 
-
-       public void save() {
+    public void save() {
         for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
             if (si.getId() == null) {
@@ -244,7 +245,7 @@ public class PosInvoiceV3 extends TabPanelUI {
             }
         }
 
-//do we have worry about journal posting
+        //do we have worry about journal posting
         servicedao.createInventoryJournal(invoice);
         invoice = SalesInvoice.createNewInvoice();
         lineItems = invoice.getLineItems();
@@ -384,3 +385,22 @@ public class PosInvoiceV3 extends TabPanelUI {
         return "Pos invoice V3";
     }
 }
+/**
+ pos inventory where we keep the pos related items
+ * from warehouse to pos inventory 
+managing the pos inventory -with a pos journal / pos inventory warehouse to keep track the inventory
+* so thet we can maintain a barcode system to track the age of the inventory
+*
+*
+* we posting a there will be two entries to make sure the accuracy of the inventory
+* 1 - journal
+* 2- pos inventory (ware house)
+
+* client may choose between item selection and barcoded  item mark selection
+* when user selects a item selection method pos should [ersost this as a default entry in the
+* inventory space ie the pos inventory
+*
+*
+*
+* what is the conflict when we implement this technology 
+ */

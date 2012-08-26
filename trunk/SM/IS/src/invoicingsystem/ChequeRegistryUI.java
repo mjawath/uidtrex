@@ -10,11 +10,14 @@
  */
 package invoicingsystem;
 
+import com.components.custom.ActionTask;
+import java.util.Date;
 import java.util.List;
 import org.biz.chequeChequing.entity.service.bank.BankService;
 import org.biz.chequeChequing.entity.service.bank.ChequeService;
 import org.biz.invoicesystem.entity.transactions.ChequeRegistry;
 import org.biz.invoicesystem.service.master.CustomerService;
+import org.biz.invoicesystem.service.transactions.ChequeRegistryService;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -26,6 +29,7 @@ public class ChequeRegistryUI extends TabPanelUI {
     CustomerService customerService;
     ChequeService chequeService;
     ChequeRegistry chequeRegistry;
+    ChequeRegistryService registryService;
     //get the bank service
     BankService bankService;
     List<ChequeRegistry> listChequeMarkedToDeposit;
@@ -39,10 +43,58 @@ public class ChequeRegistryUI extends TabPanelUI {
     @Override
     public void init() {
     chequeService = new ChequeService();
-    
+    registryService = new ChequeRegistryService();
+
+
+    tchequeDated.setPropertiesEL(new String[]{"deposited"});
+    tchequeDated.setColumnHeader(new String[]{"deposited"});
+    tchequeDated.setModelCollection(listChequeOnHandToDeposit);
+
+    tchequeToBeBanked.setPropertiesEL(new String[]{"deposited"});
+    tchequeToBeBanked.setColumnHeader(new String[]{"deposited"});
+    tchequeToBeBanked.setModelCollection(listChequeOnHandToDeposit);
+
 
     }
 
+    @Override
+    public void events() {
+
+        //filter out the banks which are currently active
+        tbankdetail.setActionActionTask(new ActionTask() {
+            @Override
+            public void actionCall() {
+                super.actionCall();
+            }
+        });
+        tbankdetail.setActionActionTask(new ActionTask() {
+            @Override
+            public void actionCall(Object obj) {
+                super.actionCall(obj);
+            }
+        });
+
+        
+
+    }
+    public void dateChanged(){
+    Date date= tdateBank.getDate();
+    //get the dates cheques in hand
+    // get the cheque which as the state
+    // a cheques state can be inhand 0 or banked 1 or return 2
+    // max date of the ceque should be cheques for  the cheque to be
+    //identified as the
+    ///---------**************
+    ///  we can use the date not null to filter onhand for
+    // we are only filtering the transaction which is not complete yet
+    // and date is the above date
+
+    }
+
+
+    public List<ChequeRegistry>  getFilterChequesBy(){
+    return null;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,25 +115,17 @@ public class ChequeRegistryUI extends TabPanelUI {
         cTableMaster2 = new org.components.controls.CTableMaster();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        cTableMaster3 = new org.components.controls.CTableMaster();
-        cPanel2 = new org.components.containers.CPanel();
-        cTextFieldPopUp5 = new org.components.controls.CTextFieldPopUp();
-        cLabel7 = new org.components.controls.CLabel();
-        cLabel8 = new org.components.controls.CLabel();
-        cTextFieldPopUp6 = new org.components.controls.CTextFieldPopUp();
-        cLabel9 = new org.components.controls.CLabel();
-        cLabel10 = new org.components.controls.CLabel();
-        cDatePicker2 = new org.components.controls.CDatePicker();
+        tchequeDated = new org.components.controls.CTableMaster();
         cPanel3 = new org.components.containers.CPanel();
-        cTextFieldPopUp7 = new org.components.controls.CTextFieldPopUp();
         cLabel11 = new org.components.controls.CLabel();
         cLabel12 = new org.components.controls.CLabel();
         cTextFieldPopUp8 = new org.components.controls.CTextFieldPopUp();
         cLabel13 = new org.components.controls.CLabel();
         cLabel14 = new org.components.controls.CLabel();
-        cDatePicker3 = new org.components.controls.CDatePicker();
+        tdateBank = new org.components.controls.CDatePicker();
+        tbankdetail = new com.components.custom.TextFieldWithPopUP();
         jScrollPane5 = new javax.swing.JScrollPane();
-        cTableMaster5 = new org.components.controls.CTableMaster();
+        tchequeToBeBanked = new org.components.controls.CTableMaster();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         cTableMaster4 = new org.components.controls.CTableMaster();
@@ -201,7 +245,7 @@ public class ChequeRegistryUI extends TabPanelUI {
 
         jTabbedPane1.addTab("Bank Deposit", jPanel2);
 
-        cTableMaster3.setModel(new javax.swing.table.DefaultTableModel(
+        tchequeDated.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -217,65 +261,7 @@ public class ChequeRegistryUI extends TabPanelUI {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(cTableMaster3);
-
-        cTextFieldPopUp5.setText("cTextFieldPopUp1");
-
-        cLabel7.setText("Bank");
-
-        cLabel8.setText("Customer");
-
-        cTextFieldPopUp6.setText("cTextFieldPopUp1");
-
-        cLabel9.setText("Filter by.....");
-
-        cLabel10.setText("Date");
-
-        javax.swing.GroupLayout cPanel2Layout = new javax.swing.GroupLayout(cPanel2);
-        cPanel2.setLayout(cPanel2Layout);
-        cPanel2Layout.setHorizontalGroup(
-            cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(cPanel2Layout.createSequentialGroup()
-                        .addGroup(cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(cPanel2Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(cTextFieldPopUp5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cTextFieldPopUp6, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(cPanel2Layout.createSequentialGroup()
-                                .addComponent(cLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cPanel2Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(cLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80)))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        cPanel2Layout.setVerticalGroup(
-            cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cTextFieldPopUp5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cTextFieldPopUp6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jScrollPane3.setViewportView(tchequeDated);
 
         cLabel11.setText("Bank");
 
@@ -290,14 +276,15 @@ public class ChequeRegistryUI extends TabPanelUI {
         cPanel3Layout.setHorizontalGroup(
             cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cPanel3Layout.createSequentialGroup()
-                        .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(cPanel3Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(cTextFieldPopUp7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(cLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addComponent(cLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(cPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tbankdetail, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,12 +292,8 @@ public class ChequeRegistryUI extends TabPanelUI {
                         .addGap(18, 18, 18)
                         .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cPanel3Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(cLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80)))
-                .addContainerGap(151, Short.MAX_VALUE))
+                            .addComponent(tdateBank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         cPanel3Layout.setVerticalGroup(
             cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,13 +307,13 @@ public class ChequeRegistryUI extends TabPanelUI {
                     .addComponent(cLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cTextFieldPopUp7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cTextFieldPopUp8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tdateBank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tbankdetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        cTableMaster5.setModel(new javax.swing.table.DefaultTableModel(
+        tchequeToBeBanked.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -346,7 +329,7 @@ public class ChequeRegistryUI extends TabPanelUI {
                 return types [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(cTableMaster5);
+        jScrollPane5.setViewportView(tchequeToBeBanked);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -357,31 +340,21 @@ public class ChequeRegistryUI extends TabPanelUI {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(cPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 190, Short.MAX_VALUE))
+                        .addGap(0, 153, Short.MAX_VALUE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(56, 56, 56)
-                    .addComponent(cPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(190, Short.MAX_VALUE)))
+                .addGap(47, 47, 47))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(155, 155, 155)
-                    .addComponent(cPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(197, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Bank Deposited Bank Cheque", jPanel3);
@@ -502,10 +475,7 @@ public class ChequeRegistryUI extends TabPanelUI {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CDatePicker cDatePicker1;
-    private org.components.controls.CDatePicker cDatePicker2;
-    private org.components.controls.CDatePicker cDatePicker3;
     private org.components.controls.CLabel cLabel1;
-    private org.components.controls.CLabel cLabel10;
     private org.components.controls.CLabel cLabel11;
     private org.components.controls.CLabel cLabel12;
     private org.components.controls.CLabel cLabel13;
@@ -514,23 +484,14 @@ public class ChequeRegistryUI extends TabPanelUI {
     private org.components.controls.CLabel cLabel4;
     private org.components.controls.CLabel cLabel5;
     private org.components.controls.CLabel cLabel6;
-    private org.components.controls.CLabel cLabel7;
-    private org.components.controls.CLabel cLabel8;
-    private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
-    private org.components.containers.CPanel cPanel2;
     private org.components.containers.CPanel cPanel3;
     private org.components.controls.CTableMaster cTableMaster1;
     private org.components.controls.CTableMaster cTableMaster2;
-    private org.components.controls.CTableMaster cTableMaster3;
     private org.components.controls.CTableMaster cTableMaster4;
-    private org.components.controls.CTableMaster cTableMaster5;
     private org.components.controls.CTextFieldPopUp cTextFieldPopUp1;
     private org.components.controls.CTextFieldPopUp cTextFieldPopUp3;
     private org.components.controls.CTextFieldPopUp cTextFieldPopUp4;
-    private org.components.controls.CTextFieldPopUp cTextFieldPopUp5;
-    private org.components.controls.CTextFieldPopUp cTextFieldPopUp6;
-    private org.components.controls.CTextFieldPopUp cTextFieldPopUp7;
     private org.components.controls.CTextFieldPopUp cTextFieldPopUp8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -543,10 +504,14 @@ public class ChequeRegistryUI extends TabPanelUI {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private org.components.controls.CTextField tbank;
+    private com.components.custom.TextFieldWithPopUP tbankdetail;
     private org.components.controls.CTextField tcheckno;
     private org.components.controls.CTextField tcheckno1;
+    private org.components.controls.CTableMaster tchequeDated;
+    private org.components.controls.CTableMaster tchequeToBeBanked;
     private org.components.controls.CTextField tcustomer;
     private org.components.controls.CTextField tcustomer1;
+    private org.components.controls.CDatePicker tdateBank;
     // End of variables declaration//GEN-END:variables
 
     @Override

@@ -25,6 +25,7 @@ import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
+import org.biz.invoicesystem.master.ui.SystemStatic;
 import org.biz.invoicesystem.service.master.CustomerService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
@@ -114,7 +115,7 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
     }
 
     public void initPopups() {
-        JFrame jf = (JFrame) Sessions.getObj("mainui");
+        JFrame jf = SystemStatic.getMainWindow();
 //       JDialog jd = new JDialog(jf,false); 
 ////       jd.setModal(false);
 //       jd.setSize(300,300);
