@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.biz.invoicesystem.system.SystemUtil;
 
@@ -27,7 +28,11 @@ public class Item implements Serializable {
 //    private Product product;
     private String description; //item description ....
     // private String inventoryType;
-    private String category;
+//    private String category;
+    //making category a boject
+    @OneToOne
+    private Category category;
+
     private String model;
 
     public String getManufacturer() {
@@ -173,13 +178,14 @@ public class Item implements Serializable {
 //        this.active = active;
 //    }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
+
 
     public Double getCost() {
         return cost;
