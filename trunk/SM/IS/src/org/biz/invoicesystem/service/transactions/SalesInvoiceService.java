@@ -17,7 +17,7 @@ import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
  *
  * @author mjawath
  */
-public class SalesInvoiceService extends Service {
+public class SalesInvoiceService {
     SalesInvoiceDAO dao;
 
     public SalesInvoiceService() {

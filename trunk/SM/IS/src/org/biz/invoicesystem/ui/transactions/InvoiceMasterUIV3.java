@@ -56,7 +56,6 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
     List<Staff> listStaff;
     StaffService staffService;
     Item currentItem;
-    SalesInvoiceLineItem seil;
     TextFieldWithPopUP itemFiled;
 
     /**
@@ -80,7 +79,6 @@ public class InvoiceMasterUIV3 extends TabPanelUI {
 //                //ADD this list to popupd
         listStaff = new ArrayList<Staff>();
 
-        seil = new SalesInvoiceLineItem();
         tblInvoice.setModelCollection(lineItems);
 
         setnewrow();

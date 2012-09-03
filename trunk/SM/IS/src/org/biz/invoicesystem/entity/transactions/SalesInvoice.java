@@ -31,12 +31,12 @@ import org.biz.invoicesystem.entity.master.Shop;
 public class SalesInvoice extends BusObj implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Staff staff;
     @JoinColumn(name = "sales_invoice_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch= FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SalesInvoiceLineItem> lineItems;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date docdate;
@@ -60,6 +60,10 @@ public class SalesInvoice extends BusObj implements Serializable {
     private Double texAmount;
     private Double cashRecieveds;
     private byte status;
+
+    public SalesInvoice() {
+        setLineItems(new ArrayList<SalesInvoiceLineItem>());
+    }
 
     public byte getStatus() {
         return status;
@@ -235,21 +239,27 @@ public class SalesInvoice extends BusObj implements Serializable {
         return sl;
     }
 
+    public SalesInvoice createNewInvoicex() {
+        SalesInvoice sl = new SalesInvoice();
+        setLineItems(new ArrayList<SalesInvoiceLineItem>());
+        return sl;
+    }
+
     public Double setTotal() {
         Double db = 0d;
         for (SalesInvoiceLineItem sl : lineItems) {
-            db= MathUtil.add(db, sl.getLineAmount());
+            db = MathUtil.add(db, sl.getLineAmount());
         }
         setSubTotal(db);
 
-        
-        db=MathUtil.sub(db, getTexAmount());        
-        db=MathUtil.sub(db, getDiscount());
-        
-        
+
+        db = MathUtil.sub(db, getTexAmount());
+        db = MathUtil.sub(db, getDiscount());
+
+
         setTotal(db);
-        Double bal=db;
-        bal=MathUtil.sub(bal, getCashRecieveds());        
+        Double bal = db;
+        bal = MathUtil.sub(bal, getCashRecieveds());
         System.out.println("totel  " + bal);
         return bal;
 

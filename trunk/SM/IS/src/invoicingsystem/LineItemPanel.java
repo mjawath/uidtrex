@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -15,40 +16,65 @@ import com.components.custom.IContainer;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
+import org.components.containers.CPanel;
 import org.components.parent.controls.PxTable;
 
 /**
  *
  * @author nnjj
  */
-public abstract class LineItemPanel extends javax.swing.JDialog implements IContainer {
+public abstract class LineItemPanel extends CPanel implements IContainer {
 
     protected Object salesline;
     protected PxTable jt;
+    private JLayeredPane layeredPane;
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        setLayout(null);
+    }// </editor-fold>//GEN-END:initComponents
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+
 
     public LineItemPanel(JFrame jf) {
-        super(jf, true);
-      
+//        super(jf, true);
+        super();
         init();
+    }
+
+    public void setLayer(JLayeredPane layeredPane) {
+        this.layeredPane = layeredPane;
+        if (layeredPane != null) {
+          
+            layeredPane.add(getPanel(), new Integer(1000));
+        }
     }
 
     /** Creates new form LineItemPanel */
@@ -59,79 +85,77 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
     }
 
     private void init() {
-       focus = new ArrayList<IComponent>();
-        setModal(true);
-
-        this.setModalityType(ModalityType.MODELESS);
-        setFocusableWindowState(false);
-        setUndecorated(true);
-//        setLocationRelativeTo(fr);
-//        initComponents();
-        getRootPane().setOpaque(false);
-//        AWTUtilities.setWindowOpacity(this, 0.8f);
-        setFocusableWindowState(true);
+        focus = new ArrayList<IComponent>();
         setSize(900, 100);
         setPreferredSize(new Dimension(900, 100));
         initComponents();
+
+   
+
+    }
+
+    public JPanel getPanel(){
+    return this;
+    }
+    
+    private void movepanel() {
+
+
+        int sr = jt.getSelectedRow();
+//    int rowhieht=252 +30;
+        int srh = jt.getRowHeight(sr);
+
+
+        Point point = SwingUtilities.convertPoint(jt, jt.getCellRect(sr, 0, true).getLocation(), layeredPane);
+
+        this.setBounds((int) (point.getX()), (int) point.getY() , jt.getWidth(), srh);
+        this.revalidate();
+        this.repaint();
+        if (!this.isVisible()) {
+            this.setVisible(true);
+        }
 
     }
 
     public void showLineItemPanel() {
 
 
-        int x = (int) jt.getLocationOnScreen().x;
-        int y = (int) jt.getLocationOnScreen().y;
-        int sr = jt.getSelectedRow();
-        int hight = (sr + 1) * jt.getRowHeight();
-        LineItemPanel.this.setLocation(x, y + hight);
-//                lineItemDialogPanel.setFocusable(false);
-//                LineItemPanel.this.showWithoutFocus();
-//                    LineItemPanel.this.
-        selectEty();
+        movepanel();
+        selectEty();///TODO : fuuuuu,,,, in here becas of the null pointer / null id set to table 
 
+    }
+    private JScrollPane pane;
+    
+    public void setScrollpane(JScrollPane scrollPane){
+        pane =scrollPane;
+        
+    pane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
-//        setFocusableWindowState(false);
-        this.setVisible(true);
-//        setFocusableWindowState(true);
-//        setFocus();
+      public void adjustmentValueChanged(AdjustmentEvent e) {
+      movepanel();
+      }
+    });
     }
 
     public void setTable(PxTable tbl) {
         this.jt = tbl;
-
-        ///press esc to close 
-//Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener(){
-//public void eventDispatched(AWTEvent event) {
-//if(((KeyEvent)event).getKeyCode()==KeyEvent.VK_ESCAPE && MyDialog.this.isFocused()){
-//MyDialog.this.setVisible(false);
-//};
-//}}, AWTEvent.KEY_EVENT_M
-//
-//Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-//
-//            public void eventDispatched(AWTEvent event) {
-//                if (((KeyEvent) event).getKeyCode() == KeyEvent.VK_ESCAPE && LineItemPanel.this.isShowing()) {
-//                    LineItemPanel.this.setVisible(false);
-//                    ((KeyEvent) event).consume();
-//                    System.out.println("line item escaped called");
-//                };
-//            }
-//        }, AWTEvent.KEY_EVENT_MASK);
-        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        
+             
+       UIEty.setKeyAction(this, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 LineItemPanel.this.setVisible(false);
 //                ((KeyEvent)e).consume();
             }
         }, KeyEvent.VK_ESCAPE);
-        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        UIEty.setKeyAction(this, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 TableUtil.selectNextRow(jt, KeyEvent.VK_UP);
             }
         }, KeyEvent.VK_UP);
 
-        UIEty.setKeyAction(this.getRootPane(), new AbstractAction() {
+        UIEty.setKeyAction(this, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
 
@@ -160,13 +184,13 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
 //                }
             }
         });
-        addWindowFocusListener(new WindowAdapter() {
-
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                LineItemPanel.this.setVisible(false);
-            }
-        });
+//        addWindowFocusListener(new WindowAdapter() {
+//
+//            @Override
+//            public void windowLostFocus(WindowEvent e) {
+////                LineItemPanel.this.setVisible(false);
+//            }
+//        });
         jt.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -174,33 +198,13 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
                 showLineItemPanel();
             }
         });
-//        addw
-//        cTextField1.addKeyListener(new KeyAdapter() {
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                System.out.println(e);
-//            }
-//        });
     }
 
     
-
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(251, 237, 163));
-        getContentPane().setLayout(null);
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
     public void setComponent(JComponent jc, int x, int y, int width, int hieht) {
         jc.setBounds(x, y, width, hieht);
-        this.getContentPane().add(jc);
-        pack();
+//        this.getContentPane().add(jc);
+//        pack();
     }
 
     public JTextField getTextField() {
@@ -210,10 +214,7 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
     public void dispatchEventx(KeyEvent event) {
         textField.requestFocus();
 
-        System.out.println(" text 111||| " + textField.getText());
-        System.out.println("selected text 111||| " + textField.getSelectedText());
         KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(textField, event);
-        System.out.println("selected text 222||| " + textField.getSelectedText());
 
 //        cTextField1.select(cTextField1.getText().length()-1, cTextField1.getText().length()-1);
 //        cTextField1.setCaretPosition(cTextField1.getText().length()-1);
@@ -224,42 +225,41 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
         this.textField = cTextField1;
     }
     protected JTextField textField;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
-
+    // Variables declaration - do not modify
+    private javax.swing.JPanel jPanel1;
+    // End of variables declaration
 
     public void selectEty() {
-        salesline=(SalesInvoiceLineItem) jt.getSelectedObject();
+        salesline = (SalesInvoiceLineItem) jt.getSelectedObject();
         clear();
         selectedEtyToPanel();
     }
+
     @Override
     public void gotoNextComponent() {
         //get current focused compnentt
-        Component jc=KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        Component jc = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 
         //find from compnent list
-        int x=0;
+        int x = 0;
         for (IComponent com : focus) {
-            if(  com==jc){
-            if(x>=0 && x< focus.size()-1){
-                IComponent yx=focus.get(x+1);
-            ((Component)yx).requestFocus();
-            return;
-            }
+            if (com == jc) {
+                if (x >= 0 && x < focus.size() - 1) {
+                    IComponent yx = focus.get(x + 1);
+                    ((Component) yx).requestFocus();
+                    return;
+                }
             }
             x++;
         }
 
     }
 
-
-    public void addToFocus(IComponent com){
-    focus.add(com);
-    com.setContainer(this);
+    public void addToFocus(IComponent com) {
+        focus.add(com);
+        com.setContainer(this);
 
     }
-
     private List<IComponent> focus;
 
     @Override
@@ -267,12 +267,10 @@ public abstract class LineItemPanel extends javax.swing.JDialog implements ICont
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void clear(){
-    
-
+    public void clear() {
     }
 
     private void selectedEtyToPanel() {
-        
     }
-    }
+}
+
