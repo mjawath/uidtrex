@@ -98,4 +98,12 @@ return        pagedPopUpPanel.getSelectedID();
 pagedPopUpPanel.setObjectToTable(listCust);
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+        setSelectedObject(null);
+    }
+
+
+
 }

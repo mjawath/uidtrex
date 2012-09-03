@@ -47,6 +47,12 @@ public class StringUtility {
     return! (str == null);
   }
 
+  public static boolean isEmptyString(Object str) {
+    if(str == null )return true;
+    return (isEmptyString(str.toString()));
+  }
+
+  
   /**
    * Returns true if the given string is empty or null
    * <br>return false if the given string is not empty
