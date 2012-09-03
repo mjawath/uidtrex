@@ -4,9 +4,9 @@
  */
 
 /*
- * LineItemPanel.java
+ * SalesLineItemPanelV3.java
  *
- * Created on Feb 23, 2012, 10:21:43 PM
+ * Created on Sep 3, 2012, 9:26:33 AM
  */
 package org.biz.invoicesystem.ui.transactions.components;
 
@@ -24,11 +24,17 @@ import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
 
 /**
  *
- * @author nnjj
+ * @author d
  */
-public class SalesLineItemPanelV3 extends LineItemPanel   {
+public class SalesLineItemPanelV3 extends LineItemPanel {
+
+    /** Creates new form SalesLineItemPanelV3 */
+    public SalesLineItemPanelV3() {
+        initComponents();
+    }
 
     protected SalesInvoiceLineItem salesline;
+    
     private ISalesLineItemController controller;
 
     public SalesLineItemPanelV3(JFrame jf) {
@@ -37,7 +43,6 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
         init();
 
     }
-
     public void init() {
       
 
@@ -104,66 +109,19 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
         addToFocus(tunit);
         addToFocus(tprice);
 
-
-
     }
-
-    /**
+ /**
      * Creates new form LineItemPanel
      */
-    public SalesLineItemPanelV3() {
-        super();
-        initComponents();
 
-
-
-    }
-
+    
     public void lineItemLogic() {
         panelToEty(salesline);
         salesline.calculateLineItem();
         etyToPanel(salesline);// TODO : change this according to the user seleection
         //provide tseparate method for line logic
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        tdescription = new org.components.controls.CTextField();
-        tqty = new org.components.controls.CTextField();
-        tprice = new org.components.controls.CTextField();
-        tlinetotal = new org.components.controls.CTextField();
-        titemcode = new com.components.custom.TextFieldWithPopUP<Item>();
-        tunit = new org.components.controls.CComboBox<UOM>();
-
-        setBackground(new java.awt.Color(247, 230, 130));
-        getContentPane().add(tdescription);
-        tdescription.setBounds(160, 30, 140, 25);
-        getContentPane().add(tqty);
-        tqty.setBounds(320, 30, 122, 25);
-        getContentPane().add(tprice);
-        tprice.setBounds(610, 30, 120, 25);
-        getContentPane().add(tlinetotal);
-        tlinetotal.setBounds(740, 30, 140, 25);
-        getContentPane().add(titemcode);
-        titemcode.setBounds(20, 30, 130, 25);
-
-        tunit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tunitActionPerformed(evt);
-            }
-        });
-        getContentPane().add(tunit);
-        tunit.setBounds(460, 30, 110, 23);
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void tunitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tunitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tunitActionPerformed
-
-    public SalesInvoiceLineItem getSalesline() {
+ public SalesInvoiceLineItem getSalesline() {
         return salesline;
     }
 
@@ -280,8 +238,82 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
 
     public void lineAddAction() {
     }
-    
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel2 = new javax.swing.JPanel();
+        tdescription = new org.components.controls.CTextField();
+        tqty = new org.components.controls.CTextField();
+        tprice = new org.components.controls.CTextField();
+        tlinetotal = new org.components.controls.CTextField();
+        titemcode = new com.components.custom.TextFieldWithPopUP<Item>();
+        tunit = new org.components.controls.CComboBox<UOM>();
+
+        tunit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tunitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titemcode, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(tdescription, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(tqty, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tunit, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tprice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(tlinetotal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(titemcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tdescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tqty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tunit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tlinetotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tunitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tunitActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_tunitActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
     private org.components.controls.CTextField tdescription;
     private com.components.custom.TextFieldWithPopUP<Item> titemcode;
     private org.components.controls.CTextField tlinetotal;
@@ -290,14 +322,3 @@ public class SalesLineItemPanelV3 extends LineItemPanel   {
     private org.components.controls.CComboBox<UOM> tunit;
     // End of variables declaration//GEN-END:variables
 }
-
-
-//
-/**
- 
- * 
- * 
- * 
- * 
- * 
- */

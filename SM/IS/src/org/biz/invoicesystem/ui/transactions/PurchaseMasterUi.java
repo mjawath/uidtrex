@@ -55,7 +55,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
     PagedPopUpPanel suplierPopUpPanel;
     PurchaseInvoiceLineItem seil;
     ComboBoxCellEditor ce;
-    PurchaseLineItemPanel lineItemPanel;
+//    PurchaseLineItemPanel lineItemPanel;
     PagedPopUpPanel itemSelectionPopup;
     List<Item> listItem;
 
@@ -121,7 +121,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
     public void initPopups() {
         JFrame jf = (JFrame) Sessions.getObj("mainui");
         
-        lineItemPanel = new PurchaseLineItemPanel(jf) {
+   /*     lineItemPanel = new PurchaseLineItemPanel(jf) {
 
             @Override
             public PurchaseInvoiceLineItem panelToEty() {
@@ -199,7 +199,7 @@ public class PurchaseMasterUi extends TabPanelUI implements CrudControl{
             }
         };
 
-        
+     */   
         suplierPopUpPanel = new PagedPopUpPanel(tsup) {
 
             @Override

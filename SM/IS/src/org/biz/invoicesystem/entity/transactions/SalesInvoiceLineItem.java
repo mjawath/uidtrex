@@ -36,6 +36,8 @@ public class SalesInvoiceLineItem extends BusObj implements Serializable  {
     Shop shop;
     @OneToOne
     UOM uom;
+    
+    
 
     public UOM getUom() {
         return uom;

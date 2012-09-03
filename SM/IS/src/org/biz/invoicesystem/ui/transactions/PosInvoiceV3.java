@@ -21,7 +21,7 @@ import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 import org.biz.invoicesystem.system.SystemEntityUtil;
-import org.biz.invoicesystem.ui.transactions.components.PosSalesLineItemPanelV3;
+import org.biz.invoicesystem.ui.transactions.components.PosSalesInvoiceLineItemV3;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -31,9 +31,9 @@ import org.components.windows.TabPanelUI;
 public class PosInvoiceV3 extends TabPanelUI {
 
     SalesInvoice invoice;
-    List<SalesInvoiceLineItem> lineItems;
+    
     SalesInvoiceService servicedao;
-    PosSalesLineItemPanelV3 lineItemPanel;
+    PosSalesInvoiceLineItemV3 lineItemPanel;
     private CustomerService custService;
     private ItemService itemService;
     List<Staff> listStaff;
@@ -54,52 +54,22 @@ public class PosInvoiceV3 extends TabPanelUI {
         JFrame jf = SystemStatic.getMainWindow();//get the main window from the statics
 
         crudcontrolPanel.setCrudController(this);
-        lineItemPanel = new PosSalesLineItemPanelV3(jf) {
-
-//            public SalesIfnvoiceLineItem panelToEty() {
-//                super.panelToEty(seil);
-//                addsales(seil);
-//                return seil;
-//            }
-////
-//            public void selectEty() {
-//                SalesInvoiceLineItem sl = PosInvoiceV3.this.getSelectedLine();
-//
-//                if (sl == null)  return;
-//                salesline = sl;
-//                clear();
-//                selectedEtyToPanel();
-//            }
-
+        lineItemPanel = new PosSalesInvoiceLineItemV3() {
             @Override
             public List itemSearch(String qry) {
 
                 try {
                     //how about searching the pos invnetory for the items
                     //pos warehouse only
-                return    itemService.getDao().byCode(qry);
+                    return itemService.getDao().byCode(qry);
                 } catch (Exception e) {
 
                     e.printStackTrace();
                 }
-            return null;
+                return null;
             }
 
             @Override
-//            public void itemAction() {
-
-//                SalesInvoiceLineItem sili = lineItemPanel.getSalesline();
-//                Item item = lineItemPanel.getItemcode().getSelectedObject();
-//                sili.setItem(item);
-//                sili.setDescription(item.getDescription());
-//                //get sales price for pos
-//                sili.setPrice(item.getSalesPrice());
-////                lineItemPanel.panelToEty(seil);
-//                lineItemPanel.etyToPanel(sili);
-//                addsales(sili);
-//                lineItemPanel.setSalesline(sili);
-//                lineItemPanel.lineItemLogic();
-//            }
 
             public void lineAddAction() {
                 panelToEty(salesline);
@@ -115,8 +85,8 @@ public class PosInvoiceV3 extends TabPanelUI {
 
                 //check lineittem id is null then if its need a new row insert a new row
                 //or move to next row
-            lineItemPanel.clear();
-            if (id == null) {
+                lineItemPanel.clear();
+                if (id == null) {
                     setnewrow();
                     int row = tblInvoice.getRowCount();
                     tblInvoice.getSelectionModel().setSelectionInterval(row - 1, row - 1);
@@ -127,8 +97,11 @@ public class PosInvoiceV3 extends TabPanelUI {
         };
 
         lineItemPanel.setTable(tblInvoice);
-
+        lineItemPanel.setScrollpane(jScrollPane1);
+        lineItemPanel.setLayer(jLayeredPane1);
+        tblInvoice.setColumnHeader(new String[]{"id", "Item Code", "Description", "Qty", "Price", "Line Amount"});
         tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "price", "lineAmount"});
+
 ////////////seeking 
         //1 apply u -fullly into it
         //2 primary activity(desire) wanted otherthen anything else
@@ -139,10 +112,10 @@ public class PosInvoiceV3 extends TabPanelUI {
         // 6 sacrifise
 
         invoice = new SalesInvoice();
-        lineItems = new ArrayList<SalesInvoiceLineItem>();
-        invoice.setLineItems(lineItems);
+//        invoice=invoice.createNewInvoice();
+        
         invoiceLine = new SalesInvoiceLineItem();
-        tblInvoice.setModelCollection(lineItems);
+        tblInvoice.setModelCollection(invoice.getLineItems());
         itemService = new ItemService();
 
         servicedao = new SalesInvoiceService();
@@ -155,24 +128,18 @@ public class PosInvoiceV3 extends TabPanelUI {
 
 
         setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
+        setnewrow();
 
     }
 
-    public SalesInvoiceLineItem getSelectedLine() {
-
-        String bt = UIEty.colToStrE(tblInvoice, 0);
-
-        for (SalesInvoiceLineItem sli : lineItems) {
-            //
-            if ((bt == null && sli.getId() == null) || (bt != null && sli.getId() != null) && bt.equals(sli.getId())) {
-                return sli;
-
-            }
-        }
-        return null;
-    }
-
-    
+   
     public SalesInvoiceLineItem rowToEty() {
 
         String bt = UIEty.colToStrE(tblInvoice, 0);
@@ -184,7 +151,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         lineItem.setQty(UIEty.colToDbl(tblInvoice, 3));
         lineItem.setPrice(UIEty.colToDbl(tblInvoice, 5));
         lineItem.setLineAmount(UIEty.colToDbl(tblInvoice, 6));
-        for (SalesInvoiceLineItem sli : lineItems) {
+        for (SalesInvoiceLineItem sli : invoice.getLineItems()) {
             if (bt.equals(sli.getId())) {
                 lineItem.setItem(sli.getItem());
                 break;
@@ -215,7 +182,7 @@ public class PosInvoiceV3 extends TabPanelUI {
 
     private void etyToRow(SalesInvoiceLineItem line) {
 
-        tblInvoice.replaceModel(line);
+        TableUtil.replaceModel(tblInvoice, line, tblInvoice.getSelectedRow());
     }
 
     public void sTotalToUI() {
@@ -225,20 +192,19 @@ public class PosInvoiceV3 extends TabPanelUI {
     }
 
     public void setnewrow() {
-        TableUtil.addrow(tblInvoice, new Object[]{});
+//        TableUtil.addrow(tblInvoice, new Object[]{});
         SalesInvoiceLineItem si = new SalesInvoiceLineItem();
-        lineItems.add(si);
-        lineItemPanel.clear();//setSalesline(new SalesInvoiceLineItem());
+//        invoice.getLineItems().add(si);
+//        addToTable(invoice.getLineItems());
+        tblInvoice.addModelToTable(si);
     }
 
     public void addToTable(List<SalesInvoiceLineItem> items) {
-
         tblInvoice.modelToTable(items);
-        tblInvoice.addrow(new Object[]{});
     }
 
     public void save() {
-        for (Iterator<SalesInvoiceLineItem> it = lineItems.iterator(); it.hasNext();) {
+        for (Iterator<SalesInvoiceLineItem> it = invoice.getLineItems().iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
             if (si.getId() == null) {
                 it.remove();
@@ -247,19 +213,35 @@ public class PosInvoiceV3 extends TabPanelUI {
 
         //do we have worry about journal posting
         servicedao.createInventoryJournal(invoice);
-        invoice = SalesInvoice.createNewInvoice();
-        lineItems = invoice.getLineItems();
-        addToTable(lineItems);
-
+        
         clear();
+    }
+
+
+    public void clear() {
+
+        tblInvoice.clear();
+        invoice=invoice .createNewInvoicex();
+//        invoice.setLineItems(tblInvoice.getModelCollection());
+        SalesInvoiceLineItem salesInvoiceLineItem = new SalesInvoiceLineItem();
+//        invoice.getLineItems().add(salesInvoiceLineItem);
+        tblInvoice.addModelToTable(salesInvoiceLineItem);
+//        addToTable(invoice.getLineItems());
+        tblInvoice.refreshModel();
+        ttax.setText("");
+        tsubtotal.setText("");
+        tcashrecieved.setText("");
+        tfinaltotle.setText("");
+        tdis.setText("");
+        
+//        lineItemPanel.getUnit().setModel(new String[]{});
+
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblInvoice = new org.components.controls.CTableMaster();
         cPanel1 = new org.components.containers.CPanel();
         cLabel5 = new org.components.controls.CLabel();
         cLabel7 = new org.components.controls.CLabel();
@@ -273,6 +255,68 @@ public class PosInvoiceV3 extends TabPanelUI {
         tcashrecieved = new org.components.controls.CTextField();
         cLabel15 = new org.components.controls.CLabel();
         crudcontrolPanel = new com.components.custom.ControlPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInvoice = new org.components.controls.CTableMaster();
+
+        setLayout(null);
+
+        cPanel1.setLayout(null);
+
+        cLabel5.setText("Salesman");
+        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel5);
+        cLabel5.setBounds(800, 70, 60, 25);
+
+        cLabel7.setText("Total");
+        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel7);
+        cLabel7.setBounds(10, 10, 70, 20);
+
+        cLabel8.setText("Tax");
+        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel8);
+        cLabel8.setBounds(10, 40, 70, 20);
+
+        cLabel9.setText("Discount");
+        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel9);
+        cLabel9.setBounds(10, 60, 70, 20);
+
+        cLabel10.setText("Final Total");
+        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel10);
+        cLabel10.setBounds(10, 90, 70, 20);
+
+        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tfinaltotle);
+        tfinaltotle.setBounds(90, 90, 150, 20);
+
+        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tsubtotal);
+        tsubtotal.setBounds(90, 10, 150, 20);
+
+        ttax.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(ttax);
+        ttax.setBounds(90, 40, 150, 20);
+
+        tdis.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tdis);
+        tdis.setBounds(90, 60, 150, 20);
+
+        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10));
+        cPanel1.add(tcashrecieved);
+        tcashrecieved.setBounds(90, 120, 150, 20);
+
+        cLabel15.setText("Recieved");
+        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cPanel1.add(cLabel15);
+        cLabel15.setBounds(10, 120, 70, 20);
+
+        add(cPanel1);
+        cPanel1.setBounds(670, 282, 260, 160);
+        add(crudcontrolPanel);
+        crudcontrolPanel.setBounds(10, 388, 340, 30);
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -282,85 +326,14 @@ public class PosInvoiceV3 extends TabPanelUI {
                 "id", "Item Code", "Description", "Qty", "Price", "Line Amount"
             }
         ));
+        tblInvoice.setRowHeight(50);
         jScrollPane1.setViewportView(tblInvoice);
 
-        cPanel1.setLayout(null);
+        jScrollPane1.setBounds(0, 10, 950, 220);
+        jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.POPUP_LAYER);
 
-        cLabel5.setText("Salesman");
-        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel5);
-        cLabel5.setBounds(800, 70, 60, 25);
-
-        cLabel7.setText("Total");
-        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel7);
-        cLabel7.setBounds(10, 10, 70, 20);
-
-        cLabel8.setText("Tax");
-        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel8);
-        cLabel8.setBounds(10, 40, 70, 20);
-
-        cLabel9.setText("Discount");
-        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel9);
-        cLabel9.setBounds(10, 60, 70, 20);
-
-        cLabel10.setText("Final Total");
-        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel10);
-        cLabel10.setBounds(10, 90, 70, 20);
-
-        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        cPanel1.add(tfinaltotle);
-        tfinaltotle.setBounds(90, 90, 150, 20);
-
-        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        cPanel1.add(tsubtotal);
-        tsubtotal.setBounds(90, 10, 150, 20);
-
-        ttax.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        cPanel1.add(ttax);
-        ttax.setBounds(90, 40, 150, 20);
-
-        tdis.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        cPanel1.add(tdis);
-        tdis.setBounds(90, 60, 150, 20);
-
-        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        cPanel1.add(tcashrecieved);
-        tcashrecieved.setBounds(90, 120, 150, 20);
-
-        cLabel15.setText("Recieved");
-        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cPanel1.add(cLabel15);
-        cLabel15.setBounds(10, 120, 70, 20);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 266, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(crudcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(306, 306, 306))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(crudcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))))
-        );
+        add(jLayeredPane1);
+        jLayeredPane1.setBounds(10, 10, 1030, 250);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel10;
@@ -371,6 +344,7 @@ public class PosInvoiceV3 extends TabPanelUI {
     private org.components.controls.CLabel cLabel9;
     private org.components.containers.CPanel cPanel1;
     private com.components.custom.ControlPanel crudcontrolPanel;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.components.controls.CTableMaster tblInvoice;
     private org.components.controls.CTextField tcashrecieved;
