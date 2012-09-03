@@ -11,7 +11,7 @@ package org.components.controls;
 public class CTabpaneContainer extends javax.swing.JTabbedPane {
 
     /**
-     * Creates new form CTabpaneContainer
+     * Creates new form CTabpane
      */
     public CTabpaneContainer() {
         initComponents();

@@ -17,6 +17,11 @@ public class BusObj implements Serializable{
 
     public BusObj() {
     }
+
+    public BusObj(String id) {
+        this.id = id;
+    }
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

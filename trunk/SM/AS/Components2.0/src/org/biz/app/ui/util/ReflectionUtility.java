@@ -151,6 +151,7 @@ public class ReflectionUtility {
         classfield.set(obj, value);
       }
       catch (Exception ex) {
+      ex.printStackTrace();
       }
     }
   }
@@ -658,7 +659,10 @@ public class ReflectionUtility {
        
    }
 
-   
+    public static void setProperty(Object object,String property,Object value){
+        ex.setProperty(object, property,value);
+       
+   }   
 
    public static <T> T findByID(List<T> list,Object idTofind){
         if(list==null || list.isEmpty() ) return null;

@@ -12,8 +12,10 @@ package org.components.parent.controls;
 
 import com.components.custom.IComponent;
 import com.components.custom.IContainer;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import java.util.List;
 import org.biz.app.ui.util.ReflectionUtility;
+import org.biz.app.ui.util.StringUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
 
@@ -27,6 +29,9 @@ public class PxTable extends JXTable implements IComponent {
     private  Class modelClass;
     private String[] propertiesEL;
     private List modelCollection;
+    private  String newRowId=newRowId_cons ;
+    private static final  String newRowId_cons="NewRow#";
+    private   int newRowId_SEED=1001;
 
 
 
@@ -66,7 +71,16 @@ public class PxTable extends JXTable implements IComponent {
     }
 
     public void setModelCollection(List modelCollection) {
+       clear();
         this.modelCollection = modelCollection;
+//        newRowId_SEED=10000;
+//        for (int i = 0; i < modelCollection.size(); i++) {
+//            Object object = modelCollection.get(i);
+//            if(ReflectionUtility.getValue(object, "id")==null || StringUtility.isEmptyString( ReflectionUtility.getValue(object, "id"))){                
+//                newRowId = newRowId_cons  +(++newRowId_SEED);                        
+//                ReflectionUtility.setProperty(object, "id", newRowId);                 
+//            }
+//        }
     }
 
     
@@ -78,33 +92,55 @@ public class PxTable extends JXTable implements IComponent {
     }
 
     public void clear() {
-        TableUtil.cleardata(this);
+    
+        if(modelCollection!=null){
+            TableUtil.cleardata(this);
+        modelCollection.clear();
+        }
+
     }
 
     public void addModelToTable(Object obj) {
+        modelCollection.add(obj);
         TableUtil.addModelToTable(obj, this);
     }
 
     public void modelToTable(List list) {
-        clear();
+//        clear();
         if (list == null || list.isEmpty()) {
             return;
         }
         for (Object row : list) {
+            modelCollection.add(row);
             TableUtil.addModelToTable(row, this);
         }
 
 
     }
 
+        public void refreshModel() {
+        TableUtil.cleardata(this);
+        if (modelCollection== null || modelCollection.isEmpty()) {
+            return;
+        }
+        for (Object row : modelCollection) {
+            TableUtil.addModelToTable(row, this);
+        }
+
+
+    }
+
+    
     public void replaceModel(Object obj) {
+        
         TableUtil.replaceSelectedModel(this, obj);
 
     }
 
 
     public Object getSelectedObject() {
-        //loop the collection//TODO : Set collection
+        //loop the collection//TODO : Set collection??TODO: all the way exception ...
+        /// have to modify the setting collection behaviour
     return  TableUtil.getSelectedTableObject(this);
 
     }
