@@ -12,12 +12,14 @@ package org.components.parent.controls;
 
 import com.components.custom.IComponent;
 import com.components.custom.IContainer;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.biz.app.ui.util.ReflectionUtility;
-import org.biz.app.ui.util.StringUtility;
 import org.biz.app.ui.util.TableUtil;
 import org.jdesktop.swingx.JXTable;
+import sun.reflect.misc.ReflectUtil;
 
 /**
  *
@@ -149,6 +151,37 @@ public class PxTable extends JXTable implements IComponent {
         TableUtil.addrow(this, row);
     }
 
+    public Object[][] getTableRows(){
+    return TableUtil.getDataObject(this);
+    }
+    /**
+     * get the list of object from the table
+     * @return 
+     */
+    public ArrayList getObjects(Class cls){
+        ArrayList objs= new ArrayList();
+        for (Object[] objects : getTableRows()) {
+            try {
+                // converts the table model into the list of ovjects using the 
+                //reflection utility
+                //set the properties
+                            Object obj=  cls.newInstance();
+
+                for (String prop : propertiesEL) {
+                            
+                    ReflectionUtility.setProperty(obj, prop, obj);//fucked off method to set the dynamic property
+                    objs.add(obj);
+                }
+            } catch (Exception ex) {
+               ex.printStackTrace();
+                System.out.println("DYNAMIC CREATION OF LIST FAILED -----------");
+            }
+            
+
+        }
+        return objs;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

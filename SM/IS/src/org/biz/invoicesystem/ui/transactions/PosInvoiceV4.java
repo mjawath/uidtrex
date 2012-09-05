@@ -21,19 +21,19 @@ import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 import org.biz.invoicesystem.system.SystemEntityUtil;
-import org.biz.invoicesystem.ui.transactions.components.PosSalesInvoiceLineItemV3;
+import org.biz.invoicesystem.ui.transactions.components.PosSalesInvoiceLineItemV31;
 import org.components.windows.TabPanelUI;
 
 /**
  *
  * @author d
  */
-public class PosInvoiceV3 extends TabPanelUI {
+public class PosInvoiceV4 extends TabPanelUI {
 
     SalesInvoice invoice;
     
     SalesInvoiceService servicedao;
-    PosSalesInvoiceLineItemV3 lineItemPanel;
+    PosSalesInvoiceLineItemV31 lineItemPanel;
     private CustomerService custService;
     private ItemService itemService;
     List<Staff> listStaff;
@@ -44,7 +44,7 @@ public class PosInvoiceV3 extends TabPanelUI {
     /**
      * Creates new form PosInvoiceV3
      */
-    public PosInvoiceV3() {
+    public PosInvoiceV4() {
         initComponents();
         init();
     }
@@ -54,7 +54,7 @@ public class PosInvoiceV3 extends TabPanelUI {
         JFrame jf = SystemStatic.getMainWindow();//get the main window from the statics
 
         crudcontrolPanel.setCrudController(this);
-        lineItemPanel = new PosSalesInvoiceLineItemV3() {
+        lineItemPanel = new PosSalesInvoiceLineItemV31() {
             @Override
             public List itemSearch(String qry) {
 
@@ -73,16 +73,18 @@ public class PosInvoiceV3 extends TabPanelUI {
 
             public void lineAddAction() {
 //                salesline=tblInvoice.getSelectedObject();
-                panelToEty(salesline);
+                panelToEty(salesline);//get the object from panel
                 Object id = salesline.getId();
                 if (id == null) {
                     salesline.setId(System.currentTimeMillis() + "tt");
                 }
-
+                //validate before committing the data
+//then add it to the table 
                 etyToRow(salesline);
+                //get the invoice object from the ui
                 uiety();//to set invoice properties
-                invoice.setTotal();
-                sTotalToUI();
+                invoice.setTotal();// do the calculation 
+                sTotalToUI();// set the value to the GUI
 
                 //check lineittem id is null then if its need a new row insert a new row
                 //or move to next row
@@ -178,7 +180,13 @@ public class PosInvoiceV3 extends TabPanelUI {
         invoice.setEditeddate(SystemEntityUtil.getSystemDate());
         invoice.setSaveddate(SystemEntityUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
+        //get the line items from  the table
+        
 
+    }
+    private  List<SalesInvoiceLineItem> getTheLineItemFromTable(){
+    return tblInvoice.getObjects(SalesInvoiceLineItem.class);
+        
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
