@@ -6,6 +6,8 @@ package org.biz.app.ui.util;
 
 import java.awt.event.KeyEvent;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTable;
@@ -258,7 +260,7 @@ public class TableUtil {
 
         int x = 0;
         for (Object row : rows) {
-            data[x] = ((Vector) row).toArray();
+            data[x++] = ((Vector) row).toArray();
         }
         return data;
 //           int x=0;
@@ -543,6 +545,30 @@ public class TableUtil {
        return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
    }
 
+    
+    public static <T> T getSelectedTableObject(PxTable tbl,Class cls){
+       Object ob=  TableUtil.getSelectedID(tbl);
+       return (T) generateObject(tbl,cls);
+//       return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
+   }
+    
+   public static Object generateObject(PxTable tbl,Class cls){
+        try {
+            Object obj = cls.newInstance();
+            int column=0;
+            for (String prop : tbl.getPropertiesEL()) {
+                            Object  row = getdtm(tbl).getValueAt(tbl.getSelectedRow(),column ); 
+
+                ReflectionUtility.setProperty(obj, prop, row);
+                column++;
+            }
+            return obj;
+        } catch (Exception ex) {
+           
+        }
+        return null;
+   }
+   
     // dynamic table model modification
     public static void setColumn(JTable tb){
 //    tb.getColumnModel().set

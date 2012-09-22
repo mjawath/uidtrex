@@ -660,7 +660,12 @@ public class ReflectionUtility {
    }
 
     public static void setProperty(Object object,String property,Object value){
-        ex.setProperty(object, property,value);
+        try {
+                ex.setProperty(object, property,value);
+    
+        } catch (Exception e) {
+        
+        }
        
    }   
 

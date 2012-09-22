@@ -189,11 +189,13 @@ public class PosSalesInvoiceLineItemV31 extends LineItemPanel {
     public void etyToPanel(SalesInvoiceLineItem salesline) {
         Item it = salesline.getItem();
         if (it != null) {
+            titemcode.setSelectedObject(it);
             titemcode.setTextItem(it.getCode());
             UIEty.objToUi(tdescription, salesline.getDescription());
 //
         } else {
-            titemcode.setTextItem("");
+                    titemcode.setSelectedObject(null);
+                    titemcode.setTextItem("");
             UIEty.objToUi(tdescription, "");
         }
 
@@ -226,11 +228,15 @@ public class PosSalesInvoiceLineItemV31 extends LineItemPanel {
         }
         Item it = salesline.getItem();
         if (it != null) {
+            titemcode.setSelectedObject(it);
             titemcode.setTextItem(it.getCode());
+            UIEty.objToUi(tdescription, salesline.getDescription());
 
 //
         } else {
-            titemcode.setTextItem("");
+                    titemcode.setSelectedObject(null);
+                    titemcode.setTextItem("");
+            UIEty.objToUi(tdescription, "");
         }
         UIEty.objToUi(tqty, salesline.getQty());
         UIEty.objToUi(tdescription, salesline.getDescription());
@@ -243,7 +249,7 @@ public class PosSalesInvoiceLineItemV31 extends LineItemPanel {
     }
 
     public void selectEty() {
-        salesline = (SalesInvoiceLineItem) jt.getSelectedObject();        
+        salesline = jt.getSelectedObject(SalesInvoiceLineItem.class);        
         selectedEtyToPanel();
     }
 
