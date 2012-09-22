@@ -7,7 +7,6 @@ package org.biz.invoicesystem.ui.transactions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.JFrame;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
@@ -15,7 +14,6 @@ import org.biz.invoicesystem.entity.master.Shop;
 import org.biz.invoicesystem.entity.master.Staff;
 import org.biz.invoicesystem.entity.transactions.SalesInvoice;
 import org.biz.invoicesystem.entity.transactions.SalesInvoiceLineItem;
-import org.biz.invoicesystem.master.ui.SystemStatic;
 import org.biz.invoicesystem.service.master.CustomerService;
 import org.biz.invoicesystem.service.master.ItemService;
 import org.biz.invoicesystem.service.master.StaffService;
@@ -51,7 +49,6 @@ public class PosInvoiceV4 extends TabPanelUI {
 
     @Override
     public void init() {
-        JFrame jf = SystemStatic.getMainWindow();//get the main window from the statics
 
         crudcontrolPanel.setCrudController(this);
         lineItemPanel = new PosSalesInvoiceLineItemV31() {
@@ -82,7 +79,7 @@ public class PosInvoiceV4 extends TabPanelUI {
 //then add it to the table 
                 etyToRow(salesline);
                 //get the invoice object from the ui
-                uiety();//to set invoice properties
+                uiety(invoice);//to set invoice properties
                 invoice.setTotal();// do the calculation 
                 sTotalToUI();// set the value to the GUI
 
@@ -102,8 +99,8 @@ public class PosInvoiceV4 extends TabPanelUI {
         lineItemPanel.setTable(tblInvoice);
         lineItemPanel.setScrollpane(jScrollPane1);
         lineItemPanel.setLayer(jLayeredPane1);
-        tblInvoice.setColumnHeader(new String[]{"id", "Item Code", "Description", "Qty", "Price", "Line Amount"});
-        tblInvoice.setPropertiesEL(new String[]{"id", "item.code", "description", "qty", "price", "lineAmount"});
+        tblInvoice.setColumnHeader(new String[]{"id","Item", "Item Code", "Description", "Qty", "Price", "Line Amount"});
+        tblInvoice.setPropertiesEL(new String[]{"id","item" ,"item.code", "description", "qty", "price", "lineAmount"});
 
 ////////////seeking 
         //1 apply u -fullly into it
@@ -143,30 +140,7 @@ public class PosInvoiceV4 extends TabPanelUI {
     }
 
    
-    public SalesInvoiceLineItem rowToEty() {
-
-        String bt = UIEty.colToStrE(tblInvoice, 0);
-        SalesInvoiceLineItem lineItem = new SalesInvoiceLineItem();
-        lineItem.setId(UIEty.colToStrE(tblInvoice, 0));
-//        lineItem.setItem(currentItem);
-        lineItem.setDescription(UIEty.colToStrE(tblInvoice, 2));
-        lineItem.setUnit(UIEty.colToStr(tblInvoice, 4));
-        lineItem.setQty(UIEty.colToDbl(tblInvoice, 3));
-        lineItem.setPrice(UIEty.colToDbl(tblInvoice, 5));
-        lineItem.setLineAmount(UIEty.colToDbl(tblInvoice, 6));
-        for (SalesInvoiceLineItem sli : invoice.getLineItems()) {
-            if (bt.equals(sli.getId())) {
-                lineItem.setItem(sli.getItem());
-                break;
-            }
-        }
-
-
-        return lineItem;
-
-    }
-
-    public void uiety() {
+    public void uiety(SalesInvoice invoice) {
 
 //        invoice.setDocdate(tdate.getDate());
 //        invoice.setInvNo(uiEty.tcToStr(tinvoiceManualNo));
@@ -181,12 +155,15 @@ public class PosInvoiceV4 extends TabPanelUI {
         invoice.setSaveddate(SystemEntityUtil.getSystemDate());
 //        invoice.setLineItems(lineItems);
         //get the line items from  the table
-        
 
+        List<SalesInvoiceLineItem>  list=populateBusFromTable();
+        invoice.setLineItems(list);
     }
-    private  List<SalesInvoiceLineItem> getTheLineItemFromTable(){
-    return tblInvoice.getObjects(SalesInvoiceLineItem.class);
+    
+    public List<SalesInvoiceLineItem> populateBusFromTable(){
+        List<SalesInvoiceLineItem> list= tblInvoice.getObjects(SalesInvoiceLineItem.class);
         
+        return list; 
     }
 
     private void etyToRow(SalesInvoiceLineItem line) {
@@ -213,6 +190,14 @@ public class PosInvoiceV4 extends TabPanelUI {
     }
 
     public void save() {
+        
+        uiety(invoice);
+        populateBusFromTable();
+        //init object
+        //validate ui when user enters values
+        //validate bus obj
+        //validate database
+        
         for (Iterator<SalesInvoiceLineItem> it = invoice.getLineItems().iterator(); it.hasNext();) {
             SalesInvoiceLineItem si = it.next();
             if (si.getId() == null) {
@@ -245,6 +230,17 @@ public class PosInvoiceV4 extends TabPanelUI {
         
 //        lineItemPanel.getUnit().setModel(new String[]{});
 
+    }
+    
+    public void print(){
+    printReport();//??
+    }
+
+    public void printReport(){
+    //jasper.print("reportName")
+    //if print dialog has to show ?
+        //or hidend print
+        //cofirmation
     }
 
     @SuppressWarnings("unchecked")

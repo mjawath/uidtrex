@@ -62,7 +62,6 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-
     public LineItemPanel(JFrame jf) {
 //        super(jf, true);
         super();
@@ -72,7 +71,7 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
     public void setLayer(JLayeredPane layeredPane) {
         this.layeredPane = layeredPane;
         if (layeredPane != null) {
-          
+
             layeredPane.add(getPanel(), new Integer(1000));
         }
     }
@@ -90,14 +89,14 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
         setPreferredSize(new Dimension(900, 100));
         initComponents();
 
-   
+
 
     }
 
-    public JPanel getPanel(){
-    return this;
+    public JPanel getPanel() {
+        return this;
     }
-    
+
     private void movepanel() {
 
 
@@ -108,7 +107,7 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
 
         Point point = SwingUtilities.convertPoint(jt, jt.getCellRect(sr, 0, true).getLocation(), layeredPane);
 
-        this.setBounds((int) (point.getX()), (int) point.getY() , jt.getWidth(), srh);
+        this.setBounds((int) (point.getX()), (int) point.getY(), jt.getWidth(), srh);
         this.revalidate();
         this.repaint();
         if (!this.isVisible()) {
@@ -117,31 +116,41 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
 
     }
 
+    /**
+     * shows the panel of the row detail on the table , set the focus to first component
+     * selects th rows model 
+     */
     public void showLineItemPanel() {
 
-
+        //prob : - event thrown two times becas of selection change and mouse event calls this mothod so duplicaton of calls
         movepanel();
+        //request focus to first componennt
+        Component com = (Component) focus.get(0);
+        com.requestFocus();
         selectEty();///TODO : fuuuuu,,,, in here becas of the null pointer / null id set to table 
 
     }
-    private JScrollPane pane;
-    
-    public void setScrollpane(JScrollPane scrollPane){
-        pane =scrollPane;
-        
-    pane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 
-      public void adjustmentValueChanged(AdjustmentEvent e) {
-      movepanel();
-      }
-    });
+    public void requestFocuseToFirst() {
+    }
+    private JScrollPane pane;
+
+    public void setScrollpane(JScrollPane scrollPane) {
+        pane = scrollPane;
+
+        pane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                movepanel();
+            }
+        });
     }
 
     public void setTable(PxTable tbl) {
         this.jt = tbl;
-        
-             
-       UIEty.setKeyAction(this, new AbstractAction() {
+
+
+        UIEty.setKeyAction(this, new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
                 LineItemPanel.this.setVisible(false);
@@ -200,7 +209,6 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
         });
     }
 
-    
     public void setComponent(JComponent jc, int x, int y, int width, int hieht) {
         jc.setBounds(x, y, width, hieht);
 //        this.getContentPane().add(jc);
@@ -230,7 +238,7 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
     // End of variables declaration
 
     public void selectEty() {
-        salesline = (SalesInvoiceLineItem) jt.getSelectedObject();
+        salesline = jt.getSelectedObject(SalesInvoiceLineItem.class);
         clear();
         selectedEtyToPanel();
     }
@@ -273,4 +281,3 @@ public abstract class LineItemPanel extends CPanel implements IContainer {
     private void selectedEtyToPanel() {
     }
 }
-

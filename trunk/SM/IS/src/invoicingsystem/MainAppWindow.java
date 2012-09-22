@@ -24,7 +24,6 @@ import javax.swing.plaf.FontUIResource;
 import org.biz.books.ui.accounts.AccountsCreationUI;
 import org.biz.books.ui.accounts.GeneralLedgerUI;
 import org.biz.erp.inventory.ui.WareHouseUI;
-import org.biz.invoicesystem.master.ui.ContactsUI;
 import org.biz.invoicesystem.master.ui.ItemMasterTab;
 import org.biz.invoicesystem.master.ui.ShopUI;
 import org.biz.invoicesystem.master.ui.SupplierMasterTab;
@@ -155,7 +154,7 @@ public class MainAppWindow extends AppMainWindow {
         events();
         
         addToTabpanelToUI(new InvoiceMasterUIV3(),"  * Invoice Master v3 *");
-        addToTabpanelToUI(new PosInvoiceV3(),"  * pos Invoice 3 Master *");
+        addToTabpanelToUI(new PosInvoiceV4(),"  * pos Invoice 4 Master *");
 //        addToTabpanelToUI(new PurchaseMasterUi(),"  * purcas Invoice Master *");
 //        addToTabpanelToUI(new PosInvoiceUIE(),"  * pos E Invoice Master *");
 //        addToTabpanelToUI(new ContactsUI(),"  * contact Master *");
