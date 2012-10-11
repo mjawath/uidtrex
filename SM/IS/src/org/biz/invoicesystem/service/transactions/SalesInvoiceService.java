@@ -5,7 +5,6 @@
 
 package org.biz.invoicesystem.service.transactions;
 
-import org.biz.dao.service.Service;
 import org.biz.dao.util.EntityService;
 import org.biz.invoicesystem.dao.transactions.SalesInvoiceDAO;
 import org.biz.invoicesystem.entity.inventory.InventoryJournal;

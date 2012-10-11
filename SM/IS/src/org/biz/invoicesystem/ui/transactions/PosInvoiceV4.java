@@ -361,7 +361,7 @@ public class PosInvoiceV4 extends TabPanelUI {
 
     @Override
     public String getTabName() {
-        return "Pos invoice V3";
+        return "Pos invoice V4";
     }
 }
 /**
