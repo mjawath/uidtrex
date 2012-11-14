@@ -4,6 +4,7 @@
  */
 package org.biz.app.ui.util;
 
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
@@ -481,4 +483,24 @@ public class UIEty {
         return Validator.isEmptyOrNull(txt.getText());
     }
 
+    
+    
+    public static void setKeyActionListner(JComponent component,Action escpli,int keycode){
+       if( component instanceof JTextField){
+           ((JTextField)component).addActionListener(escpli);
+       }
+    }
+
+    public static void setKeyAction(JComponent component,Action escpli,String keycode){
+        String xx="act"+ ++x;
+        component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke( keycode), xx);
+
+        component.getActionMap().put(xx, escpli);
+    }
+     
+    public static void setKeyActionListner(JComponent component,ActionListener escpli,int keycode){
+       if( component instanceof JTextField){
+           ((JTextField)component).addActionListener(escpli);
+       }
+    }
 }

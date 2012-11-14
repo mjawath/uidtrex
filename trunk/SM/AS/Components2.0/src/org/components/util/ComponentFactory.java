@@ -7,9 +7,12 @@ package org.components.util;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
+import javax.swing.Action;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import org.components.parent.Documents.DoubleDocument;
 import org.components.parent.Documents.NumberDocument;
 
@@ -115,4 +118,21 @@ public class ComponentFactory {
             }
         });
     }
+    static long x=new Random().nextLong();
+    
+    public static void setKeyAction(JComponent component,Action escpli,int keycode){
+
+        String xx="act"+ ++x;
+        component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( keycode,0), xx);
+
+        component.getActionMap().put(xx, escpli);
+    }
+
+    public static void setKeyAction(JComponent component,Action escpli,String keycode){
+        String xx="act"+ ++x;
+        component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( keycode), xx);
+
+        component.getActionMap().put(xx, escpli);
+    }
+
 }

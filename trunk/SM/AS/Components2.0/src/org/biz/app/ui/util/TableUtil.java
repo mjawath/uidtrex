@@ -58,7 +58,7 @@ public class TableUtil {
         jTable.setModel(dtm);
 
     }
-    
+
     public static void createTableModel(JTable jTable, String[] columns, final Class[] columntypes, final boolean editable) {
 
         DefaultTableModel dtm = new DefaultTableModel(
@@ -151,7 +151,7 @@ public class TableUtil {
         jTable.getColumnModel().getColumns().nextElement().getIdentifier();
 
         point = jTable.convertRowIndexToModel(point);
-        DefaultTableModel dt=getdtm(jTable);
+        DefaultTableModel dt = getdtm(jTable);
 
 //        dt.removeRow(point);
 //        dt.insertRow(point, row);
@@ -160,9 +160,9 @@ public class TableUtil {
             dt.setValueAt(row.get(i), point, i);
         }
 
-  /*   getdtm(jTable).setDataVector(row, jTable.getd(point);// todo data updation without selection change
+        /*   getdtm(jTable).setDataVector(row, jTable.getd(point);// todo data updation without selection change
         getdtm(jTable).insertRow(point, row); // temp solution:  loop through the columns to set the values
-*/
+         */
     }
 
     public static void replacerow(JTable jTable, Object[] row, int point) {
@@ -498,23 +498,24 @@ public class TableUtil {
 
     }
 
-
     public static void replaceModel(PxTable table, Object obj, int point) {
-        
+
         String[] prop = table.getPropertiesEL();
-       Vector row = new Vector();
+        Vector row = new Vector();
 
         for (String var : prop) {
             Object ob = ReflectionUtility.getProperty(obj, var);
             row.add(ob);
         }
 
-        replacerow(table, row,point);
+        replacerow(table, row, point);
 
     }
-    public static void replaceSelectedModel(PxTable table, Object obj){
-     if(table.getSelectedRow()>-1)
-        replaceModel(table, obj, table.getSelectedRow());
+
+    public static void replaceSelectedModel(PxTable table, Object obj) {
+        if (table.getSelectedRow() > -1) {
+            replaceModel(table, obj, table.getSelectedRow());
+        }
     }
 
     public static Object getSelectedID(PxTable jt) {
@@ -524,7 +525,7 @@ public class TableUtil {
             return null;
         } else {
             Object ob = jt.getValueAt(x, 0);
-            if (ob==null || newRowID.equals(ob)) {
+            if (ob == null || newRowID.equals(ob)) {
                 return null;
             } else {
                 return ob;
@@ -533,50 +534,48 @@ public class TableUtil {
 
 
     }
+
     /**
      * get the selected tables rows object or returns null
      *
      * @param tbl
      * @return
      */
-    public static Object getSelectedTableObject(PxTable tbl){
+    public static Object getSelectedTableObject(PxTable tbl) {
 
-       Object ob=  TableUtil.getSelectedID(tbl);
-       return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
-   }
+        Object ob = TableUtil.getSelectedID(tbl);
+        return (Object) ReflectionUtility.findByID(tbl.getModelCollection(), ob);
+    }
 
-    
-    public static <T> T getSelectedTableObject(PxTable tbl,Class cls){
-       Object ob=  TableUtil.getSelectedID(tbl);
-       return (T) generateObject(tbl,cls);
+    public static <T> T getSelectedTableObject(PxTable tbl, Class cls) {
+        Object ob = TableUtil.getSelectedID(tbl);
+        return (T) generateObject(tbl, cls);
 //       return (Object)ReflectionUtility.findByID(tbl.getModelCollection(), ob);
-   }
-    
-   public static Object generateObject(PxTable tbl,Class cls){
+    }
+
+    public static Object generateObject(PxTable tbl, Class cls) {
         try {
             Object obj = cls.newInstance();
-            int column=0;
+            int column = 0;
             for (String prop : tbl.getPropertiesEL()) {
-                            Object  row = getdtm(tbl).getValueAt(tbl.getSelectedRow(),column ); 
+                Object row = getdtm(tbl).getValueAt(tbl.getSelectedRow(), column);
 
                 ReflectionUtility.setProperty(obj, prop, row);
                 column++;
             }
             return obj;
         } catch (Exception ex) {
-           
         }
         return null;
-   }
-   
-    // dynamic table model modification
-    public static void setColumn(JTable tb){
-//    tb.getColumnModel().set
+    }
 
+    // dynamic table model modification
+    public static void setColumn(JTable tb) {
+//    tb.getColumnModel().set
     }
 }
 /*
- todo addModelToTable()
+todo addModelToTable()
  * should be able to parse a methods to evaluate
  * a custom property in the level of object -property as a method call
  *
