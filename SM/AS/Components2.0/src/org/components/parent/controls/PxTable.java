@@ -132,6 +132,12 @@ public class PxTable extends JXTable implements IComponent {
 
     }
 
+    public void removeSelectedRow() {
+        int sr=getSelectedRow();
+        TableUtil.removerow(this, sr);
+    }
+
+    
     public Object getSelectedObject() {
         //loop the collection//TODO : Set collection??TODO: all the way exception ...
         /// have to modify the setting collection behaviour
