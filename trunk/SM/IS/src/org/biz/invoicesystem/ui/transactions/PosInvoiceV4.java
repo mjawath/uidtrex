@@ -4,9 +4,14 @@
  */
 package org.biz.invoicesystem.ui.transactions;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import org.biz.app.ui.util.TableUtil;
 import org.biz.app.ui.util.UIEty;
 import org.biz.invoicesystem.entity.master.Item;
@@ -20,6 +25,7 @@ import org.biz.invoicesystem.service.master.StaffService;
 import org.biz.invoicesystem.service.transactions.SalesInvoiceService;
 import org.biz.invoicesystem.system.SystemEntityUtil;
 import org.biz.invoicesystem.ui.transactions.components.PosSalesInvoiceLineItemV31;
+import org.components.util.ComponentFactory;
 import org.components.windows.TabPanelUI;
 
 /**
@@ -54,11 +60,9 @@ public class PosInvoiceV4 extends TabPanelUI {
         lineItemPanel = new PosSalesInvoiceLineItemV31() {
             @Override
             public List itemSearch(String qry) {
-
                 try {
-                    //how about searching the pos invnetory for the items
-                    //pos warehouse only
-                    return itemService.getDao().byCode(qry);
+                    return itemService.getDao().byCode(qry);                    //how about searching the pos invnetory for the items
+                                        //pos warehouse only
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -76,7 +80,7 @@ public class PosInvoiceV4 extends TabPanelUI {
                     salesline.setId(System.currentTimeMillis() + "tt");
                 }
                 //validate before committing the data
-//then add it to the table 
+                //then add it to the table 
                 etyToRow(salesline);
                 //get the invoice object from the ui
                 uiety(invoice);//to set invoice properties
@@ -125,17 +129,21 @@ public class PosInvoiceV4 extends TabPanelUI {
 
         staffService = new StaffService();
         listStaff = new ArrayList<Staff>();
+        
+        Action act=new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+         deleteRow();
+            }
+        };
+                
+//        ComponentFactory.setKeyAction(lineItemPanel, act,KeyEvent.VK_DELETE );
 
 
         setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
-        setnewrow();
+        
+        
 
     }
 
@@ -211,6 +219,20 @@ public class PosInvoiceV4 extends TabPanelUI {
         clear();
     }
 
+    public void deleteRow(){
+    //get selected line id
+        //remove it fro the table 
+        // re calculate totel 
+        // 
+        //  move to next line
+        
+      tblInvoice.removeSelectedRow();
+      uiety(invoice);
+      invoice.setTotal();
+        sTotalToUI();
+
+    }
+    
 
     public void clear() {
 
@@ -269,52 +291,52 @@ public class PosInvoiceV4 extends TabPanelUI {
         cPanel1.setLayout(null);
 
         cLabel5.setText("Salesman");
-        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel5);
         cLabel5.setBounds(800, 70, 60, 25);
 
         cLabel7.setText("Total");
-        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel7);
         cLabel7.setBounds(10, 10, 70, 20);
 
         cLabel8.setText("Tax");
-        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel8);
         cLabel8.setBounds(10, 40, 70, 20);
 
         cLabel9.setText("Discount");
-        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel9);
         cLabel9.setBounds(10, 60, 70, 20);
 
         cLabel10.setText("Final Total");
-        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel10);
         cLabel10.setBounds(10, 90, 70, 20);
 
-        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tfinaltotle.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tfinaltotle);
         tfinaltotle.setBounds(90, 90, 150, 20);
 
-        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tsubtotal.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tsubtotal);
         tsubtotal.setBounds(90, 10, 150, 20);
 
-        ttax.setFont(new java.awt.Font("Tahoma", 0, 10));
+        ttax.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(ttax);
         ttax.setBounds(90, 40, 150, 20);
 
-        tdis.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tdis.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tdis);
         tdis.setBounds(90, 60, 150, 20);
 
-        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10));
+        tcashrecieved.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         cPanel1.add(tcashrecieved);
         tcashrecieved.setBounds(90, 120, 150, 20);
 
         cLabel15.setText("Recieved");
-        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12));
+        cLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cPanel1.add(cLabel15);
         cLabel15.setBounds(10, 120, 70, 20);
 
@@ -334,11 +356,11 @@ public class PosInvoiceV4 extends TabPanelUI {
         tblInvoice.setRowHeight(50);
         jScrollPane1.setViewportView(tblInvoice);
 
-        jScrollPane1.setBounds(0, 10, 950, 220);
+        jScrollPane1.setBounds(0, 10, 950, 240);
         jLayeredPane1.add(jScrollPane1, javax.swing.JLayeredPane.POPUP_LAYER);
 
         add(jLayeredPane1);
-        jLayeredPane1.setBounds(10, 10, 1030, 250);
+        jLayeredPane1.setBounds(10, 10, 1030, 270);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.components.controls.CLabel cLabel10;
@@ -382,4 +404,36 @@ managing the pos inventory -with a pos journal / pos inventory warehouse to keep
 *
 *
 * what is the conflict when we implement this technology 
+ */
+
+
+/*
+ what is the funtionality of this UI
+ *
+ * what are the actions on the level of top most compnent
+ * each child or sub component will have its own behaviour encapsulated in it
+ * user experiense 
+ *  print
+ *  save
+ *  delete
+ *  view as list
+ *  cancel
+ *  clear
+ *  
+ * 
+ * mothods 
+ * 
+ * variables
+ * 
+ * constructors
+ * 
+ * object representation and manuplation 
+ * invoice 
+ *      created 
+ *      modified
+ *      printed 
+ *      viewed 
+ *      state changed into another object
+ * 
+ * 
  */
