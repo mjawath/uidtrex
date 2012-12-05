@@ -211,6 +211,13 @@ public class ItemInventorySummary extends TabPanelUI {
             cLabel1.setIcon(new ImageIcon(canvas.getBufferedImage()));
             //Signal end of generation
             canvas.finish();
+
+          BitmapCanvasProvider provider = new BitmapCanvasProvider(
+              300, BufferedImage.TYPE_BYTE_GRAY, true, 0);
+          gen.generateBarcode(provider, msg);
+          provider.finish();
+          BufferedImage barcodeImage = provider.getBufferedImage();
+          http://barcode4j.sourceforge.net/2.1/embedding.html
         } catch (Exception e) {
         } finally {
             try {
